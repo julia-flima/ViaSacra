@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "data": "2026-11-25",
-  "gerado_em": "2026-11-19T18:24:26-03:00",
+  "gerado_em": "2026-11-19T19:00:08-03:00",
   "calendario": {
     "data": "2026-11-25",
     "dia_semana": "Quarta-feira",
@@ -53,8 +53,17 @@
   "audio": {
     "salmo_audio_url": null,
     "salmo_cifra_ou_melodia": null,
+    "salmo_video_id": "PO_TCgCnBlU",
+    "salmo_video_titulo": "Salmo 97 (98) | Como são grandes e admiráveis vossas obras, ó Senhor e nosso Deus onipotente.",
     "liturgia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-25.mp3",
     "creditos": [
+      {
+        "campo": "salmo_video_id",
+        "interprete": "salmodiahoje",
+        "canal": "Salmodia Hoje",
+        "url_fonte": "https://www.youtube.com/watch?v=PO_TCgCnBlU",
+        "licenca": "YouTube Embed Oficial (Termos de Serviço)"
+      },
       {
         "campo": "liturgia_audio_url",
         "canal": "Via Sacra — Voz Neural Kokoro (pf_dora, pt-BR)",

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "data": "2026-11-19",
-  "gerado_em": "2026-11-19T18:24:14-03:00",
+  "gerado_em": "2026-11-19T18:59:55-03:00",
   "calendario": {
     "data": "2026-11-19",
     "dia_semana": "Quinta-feira",
@@ -51,8 +51,17 @@
   "audio": {
     "salmo_audio_url": null,
     "salmo_cifra_ou_melodia": null,
+    "salmo_video_id": "NHUXSd2fdhI",
+    "salmo_video_titulo": "Salmo 149 - 19/11/2026: Fizestes de nós, para Deus, sacerdotes e povo de reis.",
     "liturgia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-19.mp3",
     "creditos": [
+      {
+        "campo": "salmo_video_id",
+        "interprete": "Salmos para rezar...",
+        "canal": "Salmos para rezar...",
+        "url_fonte": "https://www.youtube.com/watch?v=NHUXSd2fdhI",
+        "licenca": "YouTube Embed Oficial (Termos de Serviço)"
+      },
       {
         "campo": "liturgia_audio_url",
         "canal": "Via Sacra — Voz Neural Kokoro (pf_dora, pt-BR)",
