@@ -127929,7 +127929,7 @@ s.toString
 return A.ed(s,null,null)},
 $S:787}
 A.ald.prototype={
-adz(){var s=this.a.a.v3("SELECT * FROM bible_translations ORDER BY bundled DESC, language, name"),r=A.r(s).i("Z<aO.E,nJ>")
+adz(){var s=this.a.a.v3("SELECT * FROM bible_translations ORDER BY bundled DESC, CASE WHEN language LIKE 'pt%' THEN 0 ELSE 1 END, language, name"),r=A.r(s).i("Z<aO.E,nJ>")
 s=A.Y(new A.Z(s,A.bzV(),r),r.i("ar.E"))
 return s},
 y_(a){var s=A.f3(this.a.a.fi("SELECT * FROM bible_translations WHERE id = ?",[a]))
