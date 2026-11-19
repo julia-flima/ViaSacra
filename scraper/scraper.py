@@ -32,6 +32,7 @@ import ssl
 import sys
 import time
 import unicodedata
+import xml.etree.ElementTree as ET
 from collections.abc import Callable, Iterable
 from dataclasses import dataclass, field
 from datetime import date, datetime, timedelta
@@ -902,19 +903,116 @@ def selecionar_patristica(referencia_evangelho: str | None, tempo: str,
 # ---------------------------------------------------------------------------
 
 
-def resolver_audio(d: date, cal: calendario.DiaLiturgico, salmo_ref: str | None,
-                   config: dict[str, Any]) -> dict[str, Any]:
-    """Resolve URLs de áudio a partir de ``audio_sources.json``.
+_YT_FEED_CACHE: dict[str, list[dict[str, str]]] = {}
+_YT_ATOM_NS = {
+    "atom": "http://www.w3.org/2005/Atom",
+    "yt": "http://www.youtube.com/xml/schemas/2015",
+}
 
-    Apenas fontes pastorais **abertas/públicas e autorizadas** devem ser
-    cadastradas lá. Suporta dois tipos de provedor:
+
+def _normalizar_busca(texto: str) -> str:
+    sem_acento = "".join(c for c in unicodedata.normalize("NFD", texto) if unicodedata.category(c) != "Mn")
+    return re.sub(r"[^a-z0-9]+", " ", sem_acento.lower()).strip()
+
+
+def _extrair_numeros_salmo(salmo_ref: str | None) -> set[str]:
+    if not salmo_ref:
+        return set()
+    # Antes da vírgula ficam os números do salmo (ex.: "Sl 118(119), 103" → {"118", "119"}).
+    cabeca = salmo_ref.split(",", 1)[0]
+    nums = set(re.findall(r"\b\d{1,3}\b", cabeca))
+    return nums
+
+
+def _buscar_feed_youtube(channel_id: str, cliente: ClienteHttp | None) -> list[dict[str, str]]:
+    if channel_id in _YT_FEED_CACHE:
+        return _YT_FEED_CACHE[channel_id]
+    if cliente is None or cliente.offline_html:
+        return []
+    url = f"https://www.youtube.com/feeds/videos.xml?channel_id={channel_id}"
+    try:
+        resp = cliente._sessao.get(url, timeout=10)
+        resp.raise_for_status()
+        root = ET.fromstring(resp.content)
+    except Exception as exc:  # noqa: BLE001 — feed externo opcional
+        log.warning("Feed YouTube %s indisponível: %s", channel_id, exc)
+        _YT_FEED_CACHE[channel_id] = []
+        return []
+
+    entradas: list[dict[str, str]] = []
+    for entry in root.findall("atom:entry", _YT_ATOM_NS):
+        vid = (entry.findtext("yt:videoId", "", _YT_ATOM_NS) or "").strip()
+        titulo = (entry.findtext("atom:title", "", _YT_ATOM_NS) or "").strip()
+        autor = (entry.findtext("atom:author/atom:name", "", _YT_ATOM_NS) or "").strip()
+        if vid and titulo:
+            entradas.append({"video_id": vid, "title": titulo, "author": autor})
+    _YT_FEED_CACHE[channel_id] = entradas
+    return entradas
+
+
+def _casar_salmo_youtube(
+    d: date,
+    salmo_ref: str | None,
+    salmo_refrao: str | None,
+    entradas: list[dict[str, str]],
+) -> dict[str, str] | None:
+    """Encontra o vídeo do salmo responsorial do dia em um feed RSS do YouTube."""
+    if not entradas:
+        return None
+    padrao_data = re.compile(
+        rf"(?<!\d)0?{d.day}/0?{d.month}(?:/(?:{d.year}|{d.year % 100:02d}))?(?!\d)"
+    )
+    # 1. Casamento exato por data no título (ex.: "Salmo 149 - 19/11/2026: ...")
+    for e in entradas:
+        titulo_norm = _normalizar_busca(e["title"])
+        eh_salmo = bool(re.search(r"\b(salmo|sl)\b", titulo_norm))
+        if eh_salmo and padrao_data.search(e["title"]):
+            return e
+
+    # 2. Casamento por número do salmo + palavras significativas do refrão
+    nums = _extrair_numeros_salmo(salmo_ref)
+    if not nums or not salmo_refrao:
+        return None
+    palavras_refrao = {w for w in _normalizar_busca(salmo_refrao).split() if len(w) >= 4}
+    if not palavras_refrao:
+        return None
+    minimo = min(3, max(1, (len(palavras_refrao) + 1) // 2))
+    for e in entradas:
+        titulo_norm = _normalizar_busca(e["title"])
+        if not re.search(r"\b(salmo|sl)\b", titulo_norm):
+            continue
+        nums_titulo = set(re.findall(r"\b\d{1,3}\b", titulo_norm))
+        if not (nums & nums_titulo):
+            continue
+        palavras_titulo = set(titulo_norm.split())
+        if len(palavras_refrao & palavras_titulo) >= minimo:
+            return e
+    return None
+
+
+def resolver_audio(
+    d: date,
+    cal: calendario.DiaLiturgico,
+    salmo_ref: str | None,
+    config: dict[str, Any],
+    salmo_refrao: str | None = None,
+    cliente: ClienteHttp | None = None,
+) -> dict[str, Any]:
+    """Resolve URLs de áudio e embed oficial de salmo a partir de ``audio_sources.json``.
+
+    Apenas fontes pastorais **abertas/públicas e autorizadas** ou **YouTube RSS**
+    (embed oficial sem hospedar arquivos de terceiros) devem ser cadastradas lá.
+    Suporta três tipos de provedor:
     - ``por_data``: modelo de URL com {ano},{mes},{dia},{iso}
     - ``por_salmo``: mapa "Sl 23" → {url, cifra, interprete}
-    O app usa TTS local (pt-BR) quando os campos são nulos.
+    - ``youtube_rss``: feed Atom público do YouTube casado por data ou salmo+refrão
+    O app usa áudio neural / TTS local (pt-BR) quando os campos são nulos.
     """
     audio: dict[str, Any] = {
         "salmo_audio_url": None,
         "salmo_cifra_ou_melodia": None,
+        "salmo_video_id": None,
+        "salmo_video_titulo": None,
         "liturgia_audio_url": None,
         "creditos": [],
         "fallback": "tts_local_pt_BR",
@@ -923,13 +1021,14 @@ def resolver_audio(d: date, cal: calendario.DiaLiturgico, salmo_ref: str | None,
         if not prov.get("ativo", False):
             continue
         campo = prov.get("campo")
-        if prov.get("tipo") == "por_data" and campo in audio and audio[campo] is None:
+        tipo = prov.get("tipo")
+        if tipo == "por_data" and campo in audio and audio[campo] is None:
             audio[campo] = prov["modelo_url"].format(ano=d.year, mes=f"{d.month:02d}", dia=f"{d.day:02d}",
                                                      iso=d.isoformat(), ciclo=cal.ciclo_dominical)
             audio["creditos"].append({"campo": campo, "interprete": prov.get("interprete"),
                                       "canal": prov.get("canal"), "url_fonte": prov.get("url_fonte"),
                                       "licenca": prov.get("licenca")})
-        elif prov.get("tipo") == "por_salmo" and salmo_ref:
+        elif tipo == "por_salmo" and salmo_ref:
             chave = re.sub(r"[,(].*$", "", salmo_ref).strip()
             if (entrada := prov.get("salmos", {}).get(chave)) and audio["salmo_audio_url"] is None:
                 audio["salmo_audio_url"] = entrada.get("url")
@@ -937,6 +1036,18 @@ def resolver_audio(d: date, cal: calendario.DiaLiturgico, salmo_ref: str | None,
                 audio["creditos"].append({"campo": "salmo_audio_url", "interprete": entrada.get("interprete"),
                                           "canal": prov.get("canal"), "url_fonte": entrada.get("url_fonte"),
                                           "licenca": prov.get("licenca")})
+        elif tipo == "youtube_rss" and audio["salmo_video_id"] is None and prov.get("channel_id"):
+            entradas = _buscar_feed_youtube(prov["channel_id"], cliente)
+            if match := _casar_salmo_youtube(d, salmo_ref, salmo_refrao, entradas):
+                audio["salmo_video_id"] = match["video_id"]
+                audio["salmo_video_titulo"] = match["title"]
+                audio["creditos"].append({
+                    "campo": "salmo_video_id",
+                    "interprete": match.get("author") or prov.get("canal"),
+                    "canal": prov.get("canal"),
+                    "url_fonte": f"https://www.youtube.com/watch?v={match['video_id']}",
+                    "licenca": prov.get("licenca"),
+                })
     return audio
 
 
@@ -977,8 +1088,15 @@ def montar_dia(d: date, cliente: ClienteHttp, fontes: set[str]) -> dict[str, Any
     status["patristica"] = "ok" if patristica else "vazio"
 
     config_audio = carregar_json(BASE_DIR / "audio_sources.json")
-    salmo_ref = ((cnbb or {}).get("salmo") or {}).get("referencia")
-    audio = resolver_audio(d, cal, salmo_ref, config_audio)
+    salmo_obj = (cnbb or {}).get("salmo") or {}
+    audio = resolver_audio(
+        d,
+        cal,
+        salmo_obj.get("referencia"),
+        config_audio,
+        salmo_refrao=salmo_obj.get("refrao"),
+        cliente=cliente,
+    )
 
     calendario_dict = cal.to_dict()
     if cnbb and cnbb.get("cor"):

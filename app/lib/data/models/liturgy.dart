@@ -140,10 +140,19 @@ class AudioCredit {
 }
 
 class LiturgyAudio {
-  const LiturgyAudio({this.psalmAudioUrl, this.psalmChordsOrMelody, this.liturgyAudioUrl, this.credits = const []});
+  const LiturgyAudio({
+    this.psalmAudioUrl,
+    this.psalmChordsOrMelody,
+    this.psalmVideoId,
+    this.psalmVideoTitle,
+    this.liturgyAudioUrl,
+    this.credits = const [],
+  });
 
   final String? psalmAudioUrl;
   final String? psalmChordsOrMelody;
+  final String? psalmVideoId;
+  final String? psalmVideoTitle;
   final String? liturgyAudioUrl;
   final List<AudioCredit> credits;
 
@@ -152,6 +161,8 @@ class LiturgyAudio {
       : LiturgyAudio(
           psalmAudioUrl: _s(j['salmo_audio_url']),
           psalmChordsOrMelody: _s(j['salmo_cifra_ou_melodia']),
+          psalmVideoId: _s(j['salmo_video_id']),
+          psalmVideoTitle: _s(j['salmo_video_titulo']),
           liturgyAudioUrl: _s(j['liturgia_audio_url']),
           credits:
               (j['creditos'] as List?)?.whereType<Map<String, dynamic>>().map(AudioCredit.fromJson).toList() ??

@@ -172,3 +172,46 @@ def test_parse_cnbb_api():
     assert r["evangelho"]["texto"].startswith("Naquele tempo")
     assert "Palavra da Salvação" not in r["evangelho"]["texto"]
 
+
+def test_casar_salmo_youtube():
+    entradas = [
+        {"video_id": "aaa11111111", "title": "Cantos para Missa - 19/11/2026", "author": "Canal X"},
+        {
+            "video_id": "NHUXSd2fdhI",
+            "title": "Salmo 149 - 19/11/2026: Fizestes de nós, para Deus, sacerdotes e povo de reis.",
+            "author": "Salmos para rezar...",
+        },
+        {
+            "video_id": "IyrY6iezvQQ",
+            "title": "Salmo 118 (119) | Como é doce ao paladar vossa palavra, ó Senhor | Cifra",
+            "author": "Salmodia Hoje",
+        },
+    ]
+    # 1. Casa por data exata (ignorando vídeo que não é salmo)
+    m1 = scraper._casar_salmo_youtube(
+        date(2026, 11, 19),
+        "Sl 149,1-2",
+        "Fizestes de nós, para Deus, sacerdotes e povo de reis.",
+        entradas,
+    )
+    assert m1 is not None and m1["video_id"] == "NHUXSd2fdhI"
+
+    # 2. Casa por número do salmo + palavras do refrão (sem data no título)
+    m2 = scraper._casar_salmo_youtube(
+        date(2026, 11, 20),
+        "Sl 118(119), 103",
+        "Como é doce ao paladar vossa palavra, ó Senhor!",
+        entradas,
+    )
+    assert m2 is not None and m2["video_id"] == "IyrY6iezvQQ"
+
+    # 3. Não casa se nem data nem salmo+refrão baterem
+    m3 = scraper._casar_salmo_youtube(
+        date(2026, 11, 25),
+        "Sl 22(23)",
+        "O Senhor é o pastor que me conduz.",
+        entradas,
+    )
+    assert m3 is None
+
+

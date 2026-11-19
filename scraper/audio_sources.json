@@ -1,6 +1,33 @@
 {
-  "_comentario": "Cadastre APENAS fontes pastorais abertas/públicas cujo uso foi autorizado ou cuja licença permite redistribuição de links. Sempre informe intérprete, canal e link da fonte. Quando nenhum provedor estiver ativo, o app lê tudo via TTS local (pt-BR), offline.",
+  "_comentario": "Cadastre APENAS fontes pastorais abertas/públicas cujo uso foi autorizado ou que usem incorporação oficial (YouTube RSS + embed). Sempre informe intérprete, canal e link da fonte. Quando nenhum provedor estiver ativo, o app lê tudo via áudio neural / TTS local (pt-BR), offline.",
   "provedores": [
+    {
+      "id": "salmos-para-rezar-yt",
+      "ativo": true,
+      "tipo": "youtube_rss",
+      "channel_id": "UCs6PreSSBvmQT_4ktkte9dA",
+      "canal": "Salmos para rezar...",
+      "url_fonte": "https://www.youtube.com/channel/UCs6PreSSBvmQT_4ktkte9dA",
+      "licenca": "YouTube Embed Oficial (Termos de Serviço)"
+    },
+    {
+      "id": "salmodia-hoje-yt",
+      "ativo": true,
+      "tipo": "youtube_rss",
+      "channel_id": "UCnbphm3_XxfV-ZhGcLZKbBw",
+      "canal": "Salmodia Hoje",
+      "url_fonte": "https://www.youtube.com/channel/UCnbphm3_XxfV-ZhGcLZKbBw",
+      "licenca": "YouTube Embed Oficial (Termos de Serviço)"
+    },
+    {
+      "id": "edgar-borges-salmos-yt",
+      "ativo": true,
+      "tipo": "youtube_rss",
+      "channel_id": "UCXzBuUUI6s-WrchclompYYg",
+      "canal": "Edgar Borges (Salmos responsoriais)",
+      "url_fonte": "https://www.youtube.com/channel/UCXzBuUUI6s-WrchclompYYg",
+      "licenca": "YouTube Embed Oficial (Termos de Serviço)"
+    },
     {
       "id": "exemplo-liturgia-narrada",
       "ativo": false,

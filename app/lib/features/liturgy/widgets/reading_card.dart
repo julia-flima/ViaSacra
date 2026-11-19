@@ -1,10 +1,12 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../core/theme.dart';
 import '../../../data/models/liturgy.dart';
 import '../../../widgets/common.dart';
+import 'psalm_video_player.dart';
 
 /// Cartão de leitura (1ª Leitura, 2ª Leitura, Evangelho).
 class ReadingCard extends StatelessWidget {
@@ -98,11 +100,28 @@ class PsalmCard extends StatefulWidget {
 class _PsalmCardState extends State<PsalmCard> {
   AudioPlayer? _player;
   bool _playing = false;
+  bool _showVideo = false;
+
+  @override
+  void didUpdateWidget(covariant PsalmCard oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.audio.psalmVideoId != widget.audio.psalmVideoId) {
+      _showVideo = false;
+    }
+  }
 
   @override
   void dispose() {
     _player?.dispose();
     super.dispose();
+  }
+
+  Future<void> _searchPsalmOnYoutube() async {
+    final ref = widget.psalm.reference?.split(',').first.trim() ?? '';
+    final refrainWords = (widget.psalm.refrain ?? '').split(RegExp(r'\s+')).take(6).join(' ');
+    final query = ['Salmo Responsorial', ref, refrainWords].where((s) => s.isNotEmpty).join(' ');
+    final uri = Uri.https('www.youtube.com', '/results', {'search_query': query});
+    await launchUrl(uri, mode: LaunchMode.externalApplication);
   }
 
   Future<void> _toggleSung() async {
@@ -191,6 +210,27 @@ class _PsalmCardState extends State<PsalmCard> {
                   url: credit.sourceUrl,
                   license: credit.license,
                 ),
+            ] else if (widget.audio.psalmVideoId != null) ...[
+              const SizedBox(height: 10),
+              OutlinedButton.icon(
+                onPressed: () => setState(() => _showVideo = !_showVideo),
+                icon: Icon(_showVideo ? Icons.close_rounded : Icons.music_note_outlined),
+                label: Text(_showVideo ? 'Fechar Salmo Cantado' : 'Ouvir Salmo Cantado'),
+              ),
+              if (_showVideo)
+                PsalmVideoPlayer(
+                  key: ValueKey(widget.audio.psalmVideoId),
+                  videoId: widget.audio.psalmVideoId!,
+                  title: widget.audio.psalmVideoTitle,
+                  credit: widget.audio.creditFor('salmo_video_id'),
+                ),
+            ] else ...[
+              const SizedBox(height: 10),
+              OutlinedButton.icon(
+                onPressed: _searchPsalmOnYoutube,
+                icon: const Icon(Icons.music_note_outlined),
+                label: const Text('Buscar Salmo Cantado'),
+              ),
             ],
             if (widget.audio.psalmChordsOrMelody != null) ...[
               const SizedBox(height: 8),
