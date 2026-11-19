@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 
@@ -38,30 +39,33 @@ class SettingsScreen extends StatelessWidget {
         children: [
           // ------------------------------------------------ Notificações
           const _Section('Lembretes (100% locais)'),
-          SwitchListTile(
-            contentPadding: EdgeInsets.zero,
-            title: const Text('Ativar lembretes'),
-            subtitle: const Text('Agendados no próprio aparelho. Nenhum servidor envia notificações.'),
-            value: st.notificationsEnabled,
-            onChanged: (v) async {
-              if (v) {
-                final granted = await services.notifications?.requestPermission() ?? false;
-                if (!granted && context.mounted) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text(
-                        'Permissão de notificações não concedida. Você pode ativá-la nos ajustes do sistema.',
+          if (kIsWeb)
+            const _WebRemindersNotice()
+          else
+            SwitchListTile(
+              contentPadding: EdgeInsets.zero,
+              title: const Text('Ativar lembretes'),
+              subtitle: const Text('Agendados no próprio aparelho. Nenhum servidor envia notificações.'),
+              value: st.notificationsEnabled,
+              onChanged: (v) async {
+                if (v) {
+                  final granted = await services.notifications?.requestPermission() ?? false;
+                  if (!granted && context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text(
+                          'Permissão de notificações não concedida. Você pode ativá-la nos ajustes do sistema.',
+                        ),
                       ),
-                    ),
-                  );
-                  return;
+                    );
+                    return;
+                  }
                 }
-              }
-              st.notificationsEnabled = v;
-              await reschedule();
-            },
-          ),
-          if (st.notificationsEnabled) ...[
+                st.notificationsEnabled = v;
+                await reschedule();
+              },
+            ),
+          if (!kIsWeb && st.notificationsEnabled) ...[
             _ReminderTile(
               title: 'Liturgia Diária',
               example: NotificationService.liturgyMessage(DateTime.now(), services.liturgyRepository).$2,
@@ -296,6 +300,38 @@ class _ReminderTile extends StatelessWidget {
             Text('Exemplo: “$example”', style: t.bodySmall),
           ],
         ),
+      ),
+    );
+  }
+}
+
+/// Na versão Web, lembretes agendados não são confiáveis (o navegador não
+/// executa nada com o app fechado), então indicamos o app nativo.
+class _WebRemindersNotice extends StatelessWidget {
+  const _WebRemindersNotice();
+
+  @override
+  Widget build(BuildContext context) {
+    final t = Theme.of(context).textTheme;
+    return Container(
+      padding: const EdgeInsets.all(VsSpacing.md),
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.secondaryContainer,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(Icons.notifications_off_outlined, color: Theme.of(context).colorScheme.secondary),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Text(
+              'Você está usando a versão Web. Os lembretes agendados da Liturgia e do Terço estão '
+              'disponíveis no app para Android e iOS.',
+              style: t.bodyMedium,
+            ),
+          ),
+        ],
       ),
     );
   }

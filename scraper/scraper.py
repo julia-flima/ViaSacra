@@ -31,10 +31,11 @@ import re
 import sys
 import time
 import unicodedata
+from collections.abc import Callable, Iterable
 from dataclasses import dataclass, field
 from datetime import date, datetime, timedelta
 from pathlib import Path
-from typing import Any, Callable, Iterable
+from typing import Any
 from urllib import robotparser
 from urllib.parse import urljoin, urlparse
 from zoneinfo import ZoneInfo
@@ -366,7 +367,8 @@ def _blocos_por_titulo(soup: BeautifulSoup) -> list[tuple[str, str, str]]:
                 break
             if isinstance(irmao, Tag) and proximo is not None and proximo in irmao.descendants:
                 continue
-            if isinstance(irmao, NavigableString) and irmao.parent is not None and irmao.parent.name in {"script", "style"}:
+            pai = irmao.parent if isinstance(irmao, NavigableString) else None
+            if pai is not None and pai.name in {"script", "style"}:
                 continue
             if isinstance(irmao, NavigableString) and el not in irmao.parents:
                 partes.append(str(irmao))

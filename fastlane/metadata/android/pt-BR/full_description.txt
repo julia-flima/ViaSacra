@@ -9,6 +9,15 @@
 <li>Calendário e "Baixar Semana Offline".</li>
 </ul>
 
+<p><b>Bíblia Sagrada (73 livros, cânon católico)</b></p>
+<ul>
+<li>Antigo Testamento com os deuterocanônicos e Novo Testamento, 100% offline.</li>
+<li>Busca instantânea por referência ("Jo 3,16") ou palavra, leitura comparada versículo a versículo.</li>
+<li>Marcações em cores suaves, favoritos, anotações locais, compartilhamento e áudio do capítulo.</li>
+<li>Vulgata Clementina e Douay-Rheims embutidas (domínio público) e importação local de outros módulos de tradução.</li>
+<li>Na Liturgia, toque na referência de uma leitura para abrir o capítulo completo.</li>
+</ul>
+
 <p><b>Santo Terço &amp; Rosário</b></p>
 <ul>
 <li>Mistérios do dia selecionados automaticamente e Rosário completo (20 mistérios).</li>
@@ -17,7 +26,7 @@
 <li>Constância opcional e discreta, salva apenas no aparelho — sem gamificação agressiva.</li>
 </ul>
 
-<p><b>Catecismo da Igreja Católica</b> — índice completo, busca instantânea offline por número ou palavra, favoritos e anotações locais.</p>
+<p><b>Biblioteca: Catecismo da Igreja Católica</b> — índice completo, busca instantânea offline por número ou palavra, favoritos e anotações locais.</p>
 
 <p><b>Devocionário</b> — Orações fundamentais, eucarísticas, marianas e de proteção, com alternância Português ⇄ Latim.</p>
 

@@ -11,6 +11,11 @@ cobertos pela GPL. O projeto não tem fins lucrativos e atribui todas as fontes 
 | Arte sacra | Domínio público / CC0 | Somente obras de artistas falecidos há mais de 70 anos, com licença verificada automaticamente no Commons (`tool/fetch_sacred_art.py`). |
 | Catecismo (CIC) | © Libreria Editrice Vaticana | O repositório inclui apenas o **índice** (dado factual) e 5 trechos breves de exemplo (citação, Lei 9.610/98, art. 46, III). O texto integral só entra com autorização por escrito, via `tool/import_catechism.py`. |
 | Orações tradicionais | Domínio público | Textos litúrgicos tradicionais. |
+| Bíblia — Vulgata Clementina, Douay-Rheims | Domínio público | Embutidas (texto via github.com/mborders/vulgata, código MIT). |
+| Bíblia — Figueiredo | Domínio público | Pode ser embutida assim que houver texto-fonte digitalizado confiável. |
+| Bíblia — Matos Soares | © até 31/12/2027 (autor †1957) | Domínio público a partir de 01/01/2028. |
+| Bíblia — CNBB, Ave-Maria, Jerusalém, Pastoral | © das editoras | **Nunca** embutidas nem indicadas; apenas importação local pelo usuário. Pedidos de autorização em `docs/autorizacoes/`. Cópias não autorizadas encontradas na internet (por exemplo, repositórios com "Ave-Maria em JSON") **não** devem ser usadas. |
+| Fontes tipográficas | SIL OFL / Apache-2.0 / Bitstream Vera | Ver `app/assets/fonts/README.md`. |
 | Citações bíblicas nos mistérios | Tradução livre breve do projeto | — |
 
 ## Boas práticas do scraper

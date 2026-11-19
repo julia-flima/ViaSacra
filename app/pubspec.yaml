@@ -53,6 +53,7 @@ dependencies:
   intl: ^0.20.3 # BSD-3-Clause
   share_plus: ^13.3.1 # BSD-3-Clause
   url_launcher: ^6.3.3 # BSD-3-Clause
+  file_picker: ^13.4.0
 
 dev_dependencies:
   flutter_test:
@@ -67,17 +68,35 @@ flutter:
     - assets/art/
     - assets/db/
     - assets/legal/
-  # Tipografia: o app usa as fontes serifadas/sem serifa do sistema por padrão
-  # (Noto Serif / Roboto no Android, New York / SF no iOS), sem baixar nada da
-  # internet. Para empacotar EB Garamond e Inter (SIL OFL), rode
-  # `tool/fetch_fonts.sh` e descomente o bloco abaixo.
-  # fonts:
-  #   - family: EBGaramond
-  #     fonts:
-  #       - asset: assets/fonts/EBGaramond-Variable.ttf
-  #   - family: Inter
-  #     fonts:
-  #       - asset: assets/fonts/Inter-Variable.ttf
+    - assets/bible/
+  # Tipografia 100% embutida (nada é baixado da internet — vale também para a
+  # versão Web, que por padrão buscaria fontes no servidor do Google).
+  # Licenças em assets/fonts/README.md. Para usar EB Garamond/Inter (OFL):
+  # tool/fetch_fonts.sh e declare as famílias abaixo; elas ganham prioridade.
+  fonts:
+    - family: Merriweather
+      fonts:
+        - asset: assets/fonts/Merriweather-Light.ttf
+          weight: 300
+        - asset: assets/fonts/Merriweather-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Merriweather-Italic.ttf
+          style: italic
+        - asset: assets/fonts/Merriweather-BoldItalic.ttf
+          weight: 700
+          style: italic
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/Roboto-Regular.ttf
+        - asset: assets/fonts/Roboto-Italic.ttf
+          style: italic
+        - asset: assets/fonts/Roboto-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Roboto-Bold.ttf
+          weight: 700
+    - family: ViaSacraSymbols
+      fonts:
+        - asset: assets/fonts/ViaSacraSymbols.ttf
 
 # Builds reproduzíveis / F-Droid: compile o SQLite a partir do código-fonte
 # (amalgamation de domínio público) em vez de baixar binários pré-compilados.

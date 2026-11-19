@@ -1,13 +1,17 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 
 import 'core/liturgical_calendar.dart';
 import 'core/liturgical_color.dart';
+import 'data/bible/bible_repository.dart';
 import 'data/catechism_repository.dart';
 import 'data/content_repository.dart';
 import 'data/database.dart';
 import 'data/liturgy_repository.dart';
 import 'data/models/liturgy.dart';
 import 'data/user_data_repository.dart';
+import 'services/bible_service.dart';
 import 'services/notification_service.dart';
 import 'services/reading_audio_service.dart';
 import 'services/settings_service.dart';
@@ -23,6 +27,7 @@ class AppServices {
     required this.userData,
     required this.audio,
     required this.notifications,
+    required this.bible,
   });
 
   final SettingsService settings;
@@ -32,7 +37,10 @@ class AppServices {
   final CatechismRepository catechism;
   final UserDataRepository userData;
   final ReadingAudioController audio;
+
+  /// null na Web: lembretes agendados existem só no app nativo.
   final NotificationService? notifications;
+  final BibleService bible;
 
   static Future<AppServices> bootstrap() async {
     final settings = await SettingsService.load();
@@ -44,12 +52,17 @@ class AppServices {
     await audio.setSpeed(settings.ttsSpeed);
     if (settings.ttsVoiceName != null) await audio.setVoice(settings.ttsVoiceName, settings.ttsVoiceLocale);
     NotificationService? notifications;
-    try {
-      notifications = await NotificationService.create();
-      await notifications.reschedule(settings, liturgy);
-    } catch (e) {
-      debugPrint('Notificações indisponíveis: $e');
+    if (!kIsWeb) {
+      try {
+        notifications = await NotificationService.create();
+        await notifications.reschedule(settings, liturgy);
+      } catch (e) {
+        debugPrint('Notificações indisponíveis: $e');
+      }
     }
+    final bible = BibleService(BibleRepository(db));
+    // Instala as traduções embutidas em segundo plano (primeira execução).
+    unawaited(bible.ensureBundled().catchError((Object e) => debugPrint('Bíblia: $e')));
     return AppServices(
       settings: settings,
       database: db,
@@ -59,6 +72,7 @@ class AppServices {
       userData: UserDataRepository(db),
       audio: audio,
       notifications: notifications,
+      bible: bible,
     );
   }
 }

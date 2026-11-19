@@ -44,8 +44,8 @@ class VsSpacing {
 }
 
 class AppTheme {
-  static const _serifFallback = ['EBGaramond', 'Noto Serif', 'Georgia', 'Times New Roman', 'serif'];
-  static const _sansFallback = ['Inter', 'Roboto', '.SF Pro Text', 'Helvetica Neue', 'sans-serif'];
+  static const _serifFallback = ['EBGaramond', 'Merriweather', 'ViaSacraSymbols', 'Noto Serif', 'Georgia', 'serif'];
+  static const _sansFallback = ['Inter', 'Roboto', 'ViaSacraSymbols', '.SF Pro Text', 'Helvetica Neue', 'sans-serif'];
 
   static ThemeData build({
     required Brightness brightness,
@@ -125,7 +125,7 @@ class AppTheme {
       titleLarge: serif(base.titleLarge, size: 20, w: FontWeight.w500, h: 1.3),
       titleMedium: ui(base.titleMedium, w: FontWeight.w600),
       titleSmall: ui(base.titleSmall, c: muted, w: FontWeight.w600),
-      bodyLarge: body(base.bodyLarge, size: 18),
+      bodyLarge: body(base.bodyLarge, size: 17),
       bodyMedium: body(base.bodyMedium, size: 16),
       bodySmall: ui(base.bodySmall, c: muted),
       labelLarge: ui(base.labelLarge, ls: 0.3, w: FontWeight.w600),

@@ -12,7 +12,10 @@ import '../../widgets/common.dart';
 
 /// Aba 3 — Catecismo da Igreja Católica (busca instantânea offline, FTS5).
 class CatechismScreen extends StatefulWidget {
-  const CatechismScreen({super.key});
+  const CatechismScreen({super.key, this.embedded = false});
+
+  /// Dentro da aba Biblioteca (sem AppBar própria).
+  final bool embedded;
 
   @override
   State<CatechismScreen> createState() => _CatechismScreenState();
@@ -48,7 +51,7 @@ class _CatechismScreenState extends State<CatechismScreen> {
     final favorites = s.userData.favorites('catechism');
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Catecismo')),
+      appBar: widget.embedded ? null : AppBar(title: const Text('Catecismo')),
       body: ListView(
         padding: EdgeInsets.fromLTRB(pad, VsSpacing.sm, pad, VsSpacing.xxl),
         children: [

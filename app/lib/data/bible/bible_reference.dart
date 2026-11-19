@@ -50,6 +50,14 @@ class BibleRef {
   @override
   String toString() => label;
 
+  /// Chaves com acento preservado: distingue "Jó" (Job) de "Jo" (João).
+  static final Map<String, BibleBook> _exact = {
+    for (final b in bibleCanon)
+      for (final k in [b.abbreviation, b.name]) _compact(k): b,
+  };
+
+  static String _compact(String s) => s.toLowerCase().replaceAll(RegExp(r'[\s\.]'), '');
+
   static final Map<String, BibleBook> _index = () {
     final m = <String, BibleBook>{};
     for (final b in bibleCanon) {
@@ -81,7 +89,8 @@ class BibleRef {
   static BibleRef? parse(String input) {
     final m = _re.firstMatch(input);
     if (m == null) return null;
-    final book = _index[normalize(m.group(1)!)];
+    final raw = m.group(1)!;
+    final book = _exact[_compact(raw)] ?? _index[normalize(raw)];
     if (book == null) return null;
     final extras = RegExp(r'\d{1,3}').allMatches(m.group(6) ?? '').map((x) => int.parse(x.group(0)!)).toList();
     return BibleRef(

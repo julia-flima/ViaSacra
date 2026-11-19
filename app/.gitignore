@@ -51,3 +51,7 @@ app.*.map.json
 /third_party/sqlite/
 # Falhas de golden tests
 test/failures/
+
+# Baixado no build web (deploy-web.yml / tool/fetch_sqlite_wasm.sh)
+/web/sqlite3.wasm
+test/goldens/

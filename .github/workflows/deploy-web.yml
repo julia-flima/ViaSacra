@@ -1,0 +1,74 @@
+# Compila a versão Web (PWA) e publica no GitHub Pages (branch `gh-pages`) a cada
+# push na `main`. Endereço: https://<usuário>.github.io/<repositório>/
+#   → https://julia-flima.github.io/ViaSacra/
+# Ative uma vez: Settings → Pages → Build and deployment → "Deploy from a branch" → gh-pages / (root).
+name: Deploy Web (PWA)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "app/**"
+      - "tool/fetch_sqlite_wasm.sh"
+      - ".github/workflows/deploy-web.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: deploy-web
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.50.0"
+          channel: stable
+          cache: true
+
+      - name: Dependências
+        working-directory: app
+        run: flutter pub get
+
+      - name: SQLite WebAssembly (banco offline no navegador)
+        run: bash tool/fetch_sqlite_wasm.sh
+
+      - name: Build Web
+        working-directory: app
+        # O caminho base precisa ser igual ao nome do repositório (GitHub Pages
+        # diferencia maiúsculas): "/ViaSacra/". --no-web-resources-cdn serve o
+        # CanvasKit daqui mesmo, sem requisições ao Google.
+        run: |
+          flutter build web --release \
+            --no-web-resources-cdn \
+            --no-wasm-dry-run \
+            --base-href "/${{ github.event.repository.name }}/"
+
+      - name: Preparar publicação
+        working-directory: app/build/web
+        run: |
+          # Nova versão do cache offline a cada deploy
+          sed -i "s/const VERSION = 'dev';/const VERSION = '${GITHUB_SHA::12}';/" sw.js
+          # Remove o service worker legado do Flutter (substituído por sw.js)
+          rm -f flutter_service_worker.js
+          cp index.html 404.html
+          touch .nojekyll
+          du -sh .
+
+      - name: Publicar no GitHub Pages (branch gh-pages)
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: app/build/web
+          publish_branch: gh-pages
+          force_orphan: true
+          user_name: via-sacra-bot
+          user_email: 41898282+github-actions[bot]@users.noreply.github.com
+          commit_message: "web: deploy ${{ github.sha }}"

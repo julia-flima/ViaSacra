@@ -10,7 +10,10 @@ import '../../widgets/common.dart';
 
 /// Aba 4 — Devocionário & Orações (100% offline).
 class PrayersScreen extends StatefulWidget {
-  const PrayersScreen({super.key});
+  const PrayersScreen({super.key, this.embedded = false});
+
+  /// Dentro da aba Biblioteca (sem AppBar própria).
+  final bool embedded;
 
   @override
   State<PrayersScreen> createState() => _PrayersScreenState();
@@ -25,7 +28,7 @@ class _PrayersScreenState extends State<PrayersScreen> {
     final favorites = s.userData.favorites('prayer').map(s.content.prayer).whereType<Prayer>().toList();
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Devocionário')),
+      appBar: widget.embedded ? null : AppBar(title: const Text('Devocionário')),
       body: ListView(
         padding: EdgeInsets.fromLTRB(pad, VsSpacing.sm, pad, VsSpacing.xxl),
         children: [

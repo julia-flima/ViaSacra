@@ -1,11 +1,12 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 
+import 'app_navigation.dart';
 import 'app_state.dart';
 import 'core/theme.dart';
-import 'features/catechism/catechism_screen.dart';
+import 'features/bible/bible_screen.dart';
+import 'features/library/library_screen.dart';
 import 'features/liturgy/liturgy_screen.dart';
-import 'features/prayers/prayers_screen.dart';
 import 'features/rosary/rosary_screen.dart';
 import 'features/settings/onboarding_screen.dart';
 import 'features/settings/settings_screen.dart';
@@ -23,6 +24,8 @@ class ViaSacraApp extends StatelessWidget {
         Provider<AppServices>.value(value: services),
         ChangeNotifierProvider<SettingsService>.value(value: services.settings),
         ChangeNotifierProvider.value(value: services.audio),
+        ChangeNotifierProvider.value(value: services.bible),
+        ChangeNotifierProvider(create: (_) => NavigationController()),
         ChangeNotifierProvider(create: (_) => LiturgyController(services.liturgyRepository)),
       ],
       child: Consumer2<SettingsService, LiturgyController>(
@@ -58,31 +61,26 @@ class ViaSacraApp extends StatelessWidget {
   }
 }
 
-class HomeShell extends StatefulWidget {
+class HomeShell extends StatelessWidget {
   const HomeShell({super.key});
 
-  @override
-  State<HomeShell> createState() => _HomeShellState();
-}
-
-class _HomeShellState extends State<HomeShell> {
-  int _tab = 0;
-
-  static const _pages = <Widget>[LiturgyScreen(), RosaryScreen(), CatechismScreen(), PrayersScreen(), SettingsScreen()];
+  static const _pages = <Widget>[LiturgyScreen(), BibleScreen(), RosaryScreen(), LibraryScreen(), SettingsScreen()];
 
   @override
   Widget build(BuildContext context) {
+    final nav = context.watch<NavigationController>();
     return Scaffold(
-      body: IndexedStack(index: _tab, children: _pages),
+      body: IndexedStack(index: nav.tab.index, children: _pages),
       bottomNavigationBar: NavigationBar(
-        selectedIndex: _tab,
-        onDestinationSelected: (i) => setState(() => _tab = i),
+        selectedIndex: nav.tab.index,
+        onDestinationSelected: (i) => nav.go(AppTab.values[i]),
         labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
         destinations: const [
+          NavigationDestination(icon: Icon(Icons.today_outlined), selectedIcon: Icon(Icons.today), label: 'Liturgia'),
           NavigationDestination(
             icon: Icon(Icons.menu_book_outlined),
             selectedIcon: Icon(Icons.menu_book),
-            label: 'Liturgia',
+            label: 'Bíblia',
           ),
           NavigationDestination(
             icon: Icon(Icons.radio_button_unchecked),
@@ -90,14 +88,9 @@ class _HomeShellState extends State<HomeShell> {
             label: 'Terço',
           ),
           NavigationDestination(
-            icon: Icon(Icons.auto_stories_outlined),
-            selectedIcon: Icon(Icons.auto_stories),
-            label: 'Catecismo',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.local_florist_outlined),
-            selectedIcon: Icon(Icons.local_florist),
-            label: 'Orações',
+            icon: Icon(Icons.local_library_outlined),
+            selectedIcon: Icon(Icons.local_library),
+            label: 'Biblioteca',
           ),
           NavigationDestination(icon: Icon(Icons.tune_outlined), selectedIcon: Icon(Icons.tune), label: 'Ajustes'),
         ],

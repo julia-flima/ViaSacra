@@ -116,7 +116,7 @@ class _LicenseText extends StatelessWidget {
                 padding: EdgeInsets.fromLTRB(pad, VsSpacing.md, pad, VsSpacing.xxl),
                 child: SelectableText(
                   snap.data!,
-                  style: const TextStyle(fontFamily: 'monospace', fontSize: 12, height: 1.4),
+                  style: const TextStyle(fontFamily: 'Roboto', fontSize: 12, height: 1.4),
                 ),
               )
             : const Center(child: CircularProgressIndicator()),

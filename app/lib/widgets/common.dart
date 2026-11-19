@@ -125,7 +125,9 @@ class StreakBadge extends StatelessWidget {
         children: [
           Icon(Icons.local_fire_department_outlined, size: 16, color: cs.secondary),
           const SizedBox(width: 6),
-          Text(text, style: Theme.of(context).textTheme.labelLarge?.copyWith(color: cs.onSurface)),
+          Flexible(
+            child: Text(text, style: Theme.of(context).textTheme.labelLarge?.copyWith(color: cs.onSurface)),
+          ),
         ],
       ),
     );

@@ -1,5 +1,3 @@
-import 'dart:io' show Platform;
-
 import 'package:flutter/foundation.dart';
 import 'package:material_ui/material_ui.dart' show TimeOfDay;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -70,11 +68,11 @@ class NotificationService {
 
   /// Pede permissão ao sistema (Android 13+ / iOS). Retorna se foi concedida.
   Future<bool> requestPermission() async {
-    if (Platform.isAndroid) {
+    if (defaultTargetPlatform == TargetPlatform.android) {
       final android = _plugin.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>();
       return await android?.requestNotificationsPermission() ?? true;
     }
-    if (Platform.isIOS) {
+    if (defaultTargetPlatform == TargetPlatform.iOS) {
       final ios = _plugin.resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>();
       return await ios?.requestPermissions(alert: true, sound: true) ?? false;
     }

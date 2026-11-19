@@ -38,8 +38,9 @@ class BibleModule {
     }
     if ((j['versao'] as num?)?.toInt() != 1) throw BibleModuleException('Versão de formato não suportada.');
     for (final k in ['id', 'nome', 'abreviacao', 'idioma', 'licenca']) {
-      if (j[k] is! String || (j[k] as String).trim().isEmpty)
+      if (j[k] is! String || (j[k] as String).trim().isEmpty) {
         throw BibleModuleException('Campo obrigatório ausente: $k');
+      }
     }
     if (!_idRe.hasMatch(j['id'] as String)) {
       throw BibleModuleException('id inválido (use letras minúsculas, números, _ ou -).');
@@ -76,8 +77,9 @@ class BibleModule {
       }
     } else if (c is Map) {
       final entries = c.entries.map((e) => (int.tryParse('${e.key}'), e.value)).toList();
-      if (entries.any((e) => e.$1 == null || e.$2 is! String))
+      if (entries.any((e) => e.$1 == null || e.$2 is! String)) {
         throw BibleModuleException('Versículo malformado em $book.');
+      }
       for (final e in entries..sort((a, b) => a.$1!.compareTo(b.$1!))) {
         out.add((e.$1!, e.$2! as String));
       }

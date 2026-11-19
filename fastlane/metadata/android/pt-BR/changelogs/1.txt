@@ -1,6 +1,7 @@
 Primeira versão do Via Sacra:
 • Liturgia Diária com leitura em voz alta offline
 • Homilias do Vaticano e Santos Padres
+• Bíblia Sagrada com 73 livros, busca, marcações e áudio
 • Santo Terço e Rosário com contador tátil e arte sacra
 • Catecismo com busca offline
 • Devocionário em Português e Latim

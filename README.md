@@ -2,11 +2,14 @@
 
 # ✝ Via Sacra
 
-**Liturgia Diária, Homilias, Santo Terço, Catecismo e Orações — gratuito, sem anúncios, sem rastreadores, offline.**
+**Liturgia Diária, Bíblia Sagrada, Santo Terço, Catecismo e Orações — gratuito, sem anúncios, sem rastreadores, offline.**
+
+### [▶ Usar agora no navegador](https://julia-flima.github.io/ViaSacra/) — iPhone, Android e computador, sem baixar nada
 
 [![Licença: GPL v3](https://img.shields.io/badge/Licen%C3%A7a-GPL--3.0-B8860B.svg)](LICENSE)
 [![Flutter](https://img.shields.io/badge/Flutter-3.50-02569B?logo=flutter&logoColor=white)](https://flutter.dev)
 [![F-Droid Ready](https://img.shields.io/badge/F--Droid-ready-1976D2?logo=f-droid&logoColor=white)](https://f-droid.org)
+[![Web PWA](https://img.shields.io/badge/Web-PWA-B8860B?logo=googlechrome&logoColor=white)](https://julia-flima.github.io/ViaSacra/)
 [![Release Android](https://img.shields.io/github/v/release/julia-flima/ViaSacra?label=Android%20APK&logo=android&color=3DDC84)](https://github.com/julia-flima/ViaSacra/releases/latest)
 [![Release iOS](https://img.shields.io/github/v/release/julia-flima/ViaSacra?label=iOS%20IPA&logo=apple&color=555555)](https://github.com/julia-flima/ViaSacra/releases/latest)
 [![Atualização da Liturgia](https://github.com/julia-flima/ViaSacra/actions/workflows/update-liturgy.yml/badge.svg)](https://github.com/julia-flima/ViaSacra/actions/workflows/update-liturgy.yml)
@@ -22,6 +25,7 @@ Idealizado e desenvolvido por **Júlia Lima**.
 - [Filosofia](#filosofia)
 - [Funcionalidades](#funcionalidades)
 - [Instalação para usuários (sem programar)](#instalação-para-usuários-sem-programar)
+  - [Usar agora pelo navegador (sem baixar nada)](#-usar-agora-pelo-navegador-ios-e-android--sem-baixar-nada)
   - [Android](#android)
   - [iOS (iPhone / iPad)](#ios-iphone--ipad)
 - [Instalação para desenvolvedores](#instalação-para-desenvolvedores)
@@ -46,12 +50,32 @@ O Via Sacra nasceu para ser um companheiro de oração **silencioso e respeitoso
 ## Funcionalidades
 
 1. **Liturgia & Homilias** — leituras do dia (1ª Leitura, Salmo com refrão em destaque, 2ª Leitura, Evangelho), cabeçalho com Tempo e Cor Litúrgica, player "Ouvir Liturgia" (TTS offline ou áudio aberto), homilia do Vaticano e reflexões CNBB / Santos Padres, modo Lectio Divina em tela cheia, calendário e "Baixar Semana Offline".
-2. **Santo Terço & Rosário** — mistérios do dia automáticos, Rosário completo (20 mistérios), arte sacra em domínio público, contador tátil com vibração e registro opcional de constância.
-3. **Catecismo da Igreja Católica** — navegação pelas 4 partes, busca instantânea offline (SQLite FTS5) por número ou palavra, favoritos e anotações locais.
-4. **Devocionário** — orações fundamentais, eucarísticas, marianas e de proteção, com alternância Português ⇄ Latim.
+2. **Bíblia Sagrada (73 livros, cânon católico)** — Antigo Testamento com os deuterocanônicos e Novo Testamento; seletor Livro › Capítulo, "Continuar lendo", busca offline por referência ("Jo 3,16") ou palavra (FTS5), leitura comparada versículo a versículo, marcações em cores suaves, favoritos e anotações locais, compartilhamento formatado e áudio do capítulo (TTS). Traduções modulares: Vulgata Clementina e Douay-Rheims embutidas (domínio público) e importação local de módulos — ver [`docs/BIBLE.md`](docs/BIBLE.md). Na Liturgia, tocar na referência de uma leitura abre o capítulo completo.
+3. **Santo Terço & Rosário** — mistérios do dia automáticos, Rosário completo (20 mistérios), arte sacra em domínio público, contador tátil com vibração e registro opcional de constância.
+4. **Biblioteca** — duas sub-abas: **Catecismo da Igreja Católica** — navegação pelas 4 partes, busca instantânea offline (SQLite FTS5) por número ou palavra, favoritos e anotações locais; e **Devocionário**, com orações fundamentais, eucarísticas, marianas e de proteção, com alternância Português ⇄ Latim.
 5. **Ajustes** — lembretes locais (Liturgia e Terço), voz e velocidade do narrador, tipografia, temas Pergaminho / Modo Igreja / Automático, e página "Sobre & Licenças".
 
 ## Instalação para usuários (sem programar)
+
+### ⭐ Usar agora pelo navegador (iOS e Android — sem baixar nada)
+
+A forma mais simples: o Via Sacra funciona como um **aplicativo web (PWA)**. Depois de adicionado à
+tela inicial, ele abre em tela cheia, como um app, e **funciona mesmo sem internet**.
+
+**Endereço: <https://julia-flima.github.io/ViaSacra/>**
+
+**No iPhone / iPad (Safari)**
+
+1. Abra o link acima no **Safari**.
+2. Toque em **Compartilhar** (o quadrado com a seta ↑) → **Adicionar à Tela de Início**.
+
+**No Android (Chrome)**
+
+1. Abra o link acima no **Chrome**.
+2. Toque em **Instalar aplicativo** (ou no menu **⋮** → **Adicionar à tela inicial**).
+
+> A versão web tem Liturgia, Bíblia, Terço, Catecismo, Orações e leitura em voz alta. Os **lembretes
+> agendados** (notificações) ficam disponíveis apenas no app nativo para Android e iOS, abaixo.
 
 ### Android
 
@@ -134,6 +158,20 @@ flutter build apk --release                   # APK universal
 flutter build ios --release --no-codesign     # iOS sem assinatura (macOS)
 ```
 
+Versão Web/PWA (o banco offline usa `sqlite3.wasm`, baixado pelo script):
+
+```bash
+bash ../tool/fetch_sqlite_wasm.sh   # baixa app/web/sqlite3.wasm (versão casada com o pubspec.lock)
+```
+
+```bash
+flutter run -d chrome
+```
+
+```bash
+flutter build web --release --no-web-resources-cdn --base-href "/ViaSacra/"
+```
+
 O endpoint de dados é configurável em tempo de build (útil para forks):
 
 ```bash
@@ -168,18 +206,20 @@ O workflow de release assina os APKs se estes *secrets* existirem no repositóri
 
 ```
 ViaSacra/
-├── app/                    # Aplicativo Flutter (Android + iOS)
+├── app/                    # Aplicativo Flutter (Android + iOS + Web/PWA)
 │   ├── lib/
 │   │   ├── core/           # tema, cores litúrgicas, calendário, constantes
-│   │   ├── data/           # modelos, SQLite (FTS5), repositórios
-│   │   ├── services/       # TTS/áudio, notificações locais, preferências
-│   │   └── features/       # liturgia, terço, catecismo, orações, ajustes
-│   └── assets/data/        # orações, mistérios, arte sacra, schema SQL
+│   │   ├── data/           # modelos, SQLite (FTS5), repositórios, Bíblia
+│   │   │   └── platform/   # abertura do banco: arquivo (nativo) · WASM+IndexedDB (web)
+│   │   ├── services/       # TTS/áudio, notificações locais, Bíblia (módulos), preferências
+│   │   └── features/       # liturgia, bíblia, terço, biblioteca, ajustes
+│   ├── assets/             # orações, mistérios, arte, Bíblia (módulos), fontes, schema SQL
+│   └── web/                # index.html, manifest.json, sw.js (PWA offline)
 ├── scraper/                # Coletor Python (requests + BeautifulSoup4)
 ├── data/                   # JSONs gerados (branch `data`, servidos via jsDelivr)
 ├── fastlane/metadata/      # Metadados do F-Droid
 ├── docs/                   # Arquitetura, banco de dados, arte sacra, design system
-└── .github/workflows/      # update-liturgy.yml · build-release.yml · ci.yml
+└── .github/workflows/      # update-liturgy.yml · build-release.yml · deploy-web.yml · ci.yml
 ```
 
 Fluxo de dados:
@@ -192,7 +232,7 @@ GitHub Actions (00:05 BRT) ─► scraper.py ─► data/liturgia/AAAA-MM-DD.jso
                     └─► SQLite local (cache litúrgico, CIC FTS5, favoritos, constância)
 ```
 
-Documentação detalhada: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) · [`docs/DATABASE.md`](docs/DATABASE.md) · [`docs/DESIGN_SYSTEM.md`](docs/DESIGN_SYSTEM.md) · [`docs/SACRED_ART.md`](docs/SACRED_ART.md) · [`docs/COPYRIGHT.md`](docs/COPYRIGHT.md)
+Documentação detalhada: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) · [`docs/DATABASE.md`](docs/DATABASE.md) · [`docs/DESIGN_SYSTEM.md`](docs/DESIGN_SYSTEM.md) · [`docs/BIBLE.md`](docs/BIBLE.md) · [`docs/SACRED_ART.md`](docs/SACRED_ART.md) · [`docs/COPYRIGHT.md`](docs/COPYRIGHT.md)
 
 ## Fontes, direitos autorais e créditos
 
@@ -204,6 +244,9 @@ O Via Sacra **não tem fins lucrativos** e atribui todas as fontes explicitament
 | Homilias e reflexões do Papa | [Vatican News (Português)](https://www.vaticannews.va/pt.html) / © Libreria Editrice Vaticana / Dicastério para a Comunicação | Uso pastoral não comercial com citação e link |
 | Comentários patrísticos | Santo Agostinho, São João Crisóstomo, *Catena Aurea* (São Tomás de Aquino) | Domínio público |
 | Arte sacra | Wikimedia Commons, The Met Open Access, National Gallery of Art (CC0) | Domínio público — ver [`docs/SACRED_ART.md`](docs/SACRED_ART.md) |
+| Bíblia — Vulgata Clementina e Douay-Rheims | Clementine Vulgate Project / revisão Challoner, via [mborders/vulgata](https://github.com/mborders/vulgata) | Domínio público (embutidas) |
+| Bíblia — CNBB, Ave-Maria, Jerusalém, Pastoral | © respectivas editoras | **Não incluídas**; apenas importação local de módulos autorizados — ver [`docs/BIBLE.md`](docs/BIBLE.md) e [`docs/autorizacoes/`](docs/autorizacoes/) |
+| Fontes tipográficas | Merriweather (SIL OFL), Roboto (Apache-2.0), DejaVu (livre) | Embutidas — nenhuma fonte é baixada da internet |
 | Catecismo da Igreja Católica | © Libreria Editrice Vaticana | **Não incluído** no repositório; importável mediante licença — ver [`docs/COPYRIGHT.md`](docs/COPYRIGHT.md) |
 
 Se você é titular de algum conteúdo e deseja ajustes ou remoção, abra uma *issue* ou escreva para a mantenedora — atenderemos prontamente.

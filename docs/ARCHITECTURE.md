@@ -6,18 +6,21 @@
 ┌──────────────────────── GitHub Actions (serverless, gratuito) ────────────────────────┐
 │ update-liturgy.yml  00:05 BRT ─► scraper/scraper.py ─► branch `data`/liturgia/*.json │
 │ build-release.yml   tag v*    ─► APK universal + APKs por ABI + .ipa sem assinatura   │
+│ deploy-web.yml      push main ─► Flutter Web (PWA) ─► branch gh-pages (GitHub Pages)   │
 │ ci.yml              PR/push   ─► flutter analyze/test · pytest · auditoria F-Droid    │
 └────────────────────────────────────────────────────────────────────────────────────────┘
                                    │ jsDelivr CDN  (fallback: raw.githubusercontent.com)
                                    ▼
-┌──────────────────────────────── App Flutter (Android + iOS) ───────────────────────────┐
-│ features/  liturgy · rosary · catechism · prayers · settings        (UI, Provider)     │
+┌────────────────────────── App Flutter (Android + iOS + Web/PWA) ───────────────────────┐
+│ features/  liturgy · bible · rosary · library(catechism+prayers) · settings  (Provider)│
 │ services/  ReadingAudio (flutter_tts + just_audio + audio_service)                     │
 │            Notification (flutter_local_notifications, 100% local) · Settings           │
 │ data/      LiturgyRepository (offline-first) · CatechismRepository (FTS5)              │
 │            ContentRepository (assets) · UserDataRepository (favoritos/constância)      │
+│            BibleRepository (módulos, FTS5, marcações) · BibleService (importação)      │
 │ core/      LiturgicalCalendar (cálculo local) · LiturgicalColor · AppTheme            │
-│ SQLite (package:sqlite3, FTS5)  ·  assets/data/*.json  ·  assets/art/*.jpg             │
+│ SQLite (package:sqlite3, FTS5): arquivo no celular · WASM + IndexedDB na Web          │
+│ assets: data/*.json · art/*.jpg · bible/*.json · fonts/ (nada baixado de CDNs)         │
 └────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -76,3 +79,29 @@ Exemplo real: [`exemplo-liturgia-2026-11-19.json`](exemplo-liturgia-2026-11-19.j
 | `fontes[]`, `url_original`, `status` | Atribuição e diagnóstico |
 
 Mudanças incompatíveis exigem `schema_version: 2` e suporte simultâneo no app por ao menos uma versão.
+
+## Navegação (5 abas)
+
+`NavigationController` (`lib/app_navigation.dart`) controla a aba ativa e permite que uma aba
+abra outra. Por exemplo, tocar em "Lc 19,41-44" na Liturgia chama
+`BibleService.requestOpen(BibleRef)` e muda para a aba Bíblia, que abre o capítulo com o trecho
+proclamado destacado.
+
+1. Liturgia & Homilias
+2. Bíblia Sagrada (ver [`BIBLE.md`](BIBLE.md))
+3. Santo Terço & Rosário
+4. Biblioteca, com sub-abas Catecismo e Orações
+5. Ajustes & Sobre
+
+## Versão Web (PWA)
+
+| Item | Implementação |
+|---|---|
+| Hospedagem | GitHub Pages, branch `gh-pages`, publicada por `deploy-web.yml` a cada push na `main` |
+| Base | `--base-href "/<repositório>/"`, ou seja, `/ViaSacra/` (o GitHub Pages diferencia maiúsculas) |
+| Instalação | `web/manifest.json` (`standalone`, `#FAF8F5`/`#B8860B`, ícones 192/512 e *maskable*) e meta tags iOS (`apple-mobile-web-app-capable`, `apple-touch-icon`) em `web/index.html` |
+| Offline | `web/sw.js` próprio: o app usa *stale-while-revalidate* e a liturgia usa *network-first* com cache. O service worker legado do Flutter, que se autodesinstala, é desativado por um `web/flutter_bootstrap.js` customizado |
+| Privacidade | `--no-web-resources-cdn` faz o CanvasKit ser servido localmente; todas as fontes são embutidas e o `fontFallbackBaseUrl` aponta para um caminho local. Nenhuma requisição ao Google |
+| Banco | SQLite WASM + IndexedDB (ver `DATABASE.md`). A Bíblia é preparada na primeira visita |
+| Áudio | `flutter_tts` usa a Web Speech API do navegador; `just_audio` usa o elemento HTML `<audio>` |
+| Lembretes | Desativados com `kIsWeb`; a aba Ajustes mostra um aviso indicando o app nativo |

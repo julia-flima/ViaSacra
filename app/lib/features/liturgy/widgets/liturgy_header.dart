@@ -76,7 +76,7 @@ class _Pill extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           if (leading != null) ...[leading!, const SizedBox(width: 8)],
-          Text(label, style: Theme.of(context).textTheme.labelMedium?.copyWith(letterSpacing: 0.3)),
+          Flexible(child: Text(label, style: Theme.of(context).textTheme.labelMedium?.copyWith(letterSpacing: 0.3))),
         ],
       ),
     );

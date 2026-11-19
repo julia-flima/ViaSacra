@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 
@@ -43,7 +44,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             const SizedBox(height: VsSpacing.md),
             Text('Via Sacra', style: t.displaySmall),
             const SizedBox(height: VsSpacing.sm),
-            Text('Liturgia, Terço, Catecismo e Orações — em silêncio, sem distrações.', style: t.bodyLarge),
+            Text('Liturgia, Bíblia, Terço, Catecismo e Orações — em silêncio, sem distrações.', style: t.bodyLarge),
             const CrossDivider(),
             for (final (icon, title, body) in const [
               (Icons.volunteer_activism_outlined, 'Gratuito para sempre', 'Sem anúncios, sem assinaturas.'),
@@ -58,21 +59,31 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 subtitle: Text(body, style: t.bodySmall),
               ),
             const CrossDivider(),
-            Text('Deseja receber lembretes?', style: t.titleLarge),
-            const SizedBox(height: VsSpacing.sm),
-            Text(
-              'Um lembrete matinal da Liturgia (com o Evangelho do dia) e um lembrete do Santo Terço '
-              '(com os mistérios do dia). Tudo agendado no próprio aparelho — você pode mudar os horários '
-              'ou desativar a qualquer momento em Ajustes.',
-              style: t.bodyMedium,
-            ),
-            const SizedBox(height: VsSpacing.lg),
-            FilledButton(
-              onPressed: _busy ? null : () => _finish(reminders: true),
-              child: const Text('Sim, ativar lembretes'),
-            ),
-            const SizedBox(height: VsSpacing.sm),
-            OutlinedButton(onPressed: _busy ? null : () => _finish(reminders: false), child: const Text('Agora não')),
+            if (kIsWeb) ...[
+              Text(
+                'Dica: adicione o Via Sacra à tela inicial do celular para abri-lo como um app, mesmo sem '
+                'internet. Os lembretes agendados estão disponíveis no app para Android e iOS.',
+                style: t.bodyMedium,
+              ),
+              const SizedBox(height: VsSpacing.lg),
+              FilledButton(onPressed: _busy ? null : () => _finish(reminders: false), child: const Text('Começar')),
+            ] else ...[
+              Text('Deseja receber lembretes?', style: t.titleLarge),
+              const SizedBox(height: VsSpacing.sm),
+              Text(
+                'Um lembrete matinal da Liturgia (com o Evangelho do dia) e um lembrete do Santo Terço '
+                '(com os mistérios do dia). Tudo agendado no próprio aparelho — você pode mudar os horários '
+                'ou desativar a qualquer momento em Ajustes.',
+                style: t.bodyMedium,
+              ),
+              const SizedBox(height: VsSpacing.lg),
+              FilledButton(
+                onPressed: _busy ? null : () => _finish(reminders: true),
+                child: const Text('Sim, ativar lembretes'),
+              ),
+              const SizedBox(height: VsSpacing.sm),
+              OutlinedButton(onPressed: _busy ? null : () => _finish(reminders: false), child: const Text('Agora não')),
+            ],
           ],
         ),
       ),

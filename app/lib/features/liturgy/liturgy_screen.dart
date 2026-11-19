@@ -1,12 +1,15 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 
+import '../../app_navigation.dart';
 import '../../app_state.dart';
 import '../../core/constants.dart';
 import '../../core/theme.dart';
+import '../../data/bible/bible_reference.dart';
 import '../../data/liturgy_repository.dart';
 import '../../data/models/liturgy.dart';
 import '../../data/user_data_repository.dart';
+import '../../services/bible_service.dart';
 import '../../services/reading_audio_service.dart';
 import '../../services/settings_service.dart';
 import '../../widgets/common.dart';
@@ -48,6 +51,17 @@ class LiturgyScreen extends StatelessWidget {
       ),
       speed: settings.ttsSpeed,
     );
+
+    void openInBible(Reading r) {
+      final ref = BibleRef.parse(r.reference ?? '');
+      if (ref == null) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(const SnackBar(content: Text('Não foi possível identificar esta referência.')));
+        return;
+      }
+      context.read<BibleService>().requestOpen(ref);
+      context.read<NavigationController>().go(AppTab.biblia);
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -113,9 +127,15 @@ class LiturgyScreen extends StatelessWidget {
                           audio: l.audio,
                           sourceUrl: l.originalUrl,
                           onListenFromHere: () => playFrom(i),
+                          onOpenInBible: () => openInBible(r),
                         )
                       else
-                        ReadingCard(reading: r, sourceUrl: l.originalUrl, onListenFromHere: () => playFrom(i)),
+                        ReadingCard(
+                          reading: r,
+                          sourceUrl: l.originalUrl,
+                          onListenFromHere: () => playFrom(i),
+                          onOpenInBible: () => openInBible(r),
+                        ),
                     ],
                     const SizedBox(height: VsSpacing.md),
                     const Eyebrow('Homilias e reflexões'),

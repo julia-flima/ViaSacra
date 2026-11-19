@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io' show Platform;
 
 import 'package:audio_service/audio_service.dart';
 import 'package:audio_session/audio_session.dart';
@@ -11,13 +10,23 @@ import '../data/models/liturgy.dart';
 
 /// Um trecho da fila de leitura: texto (TTS local) ou URL de áudio aberto.
 class ReadingSegment {
-  const ReadingSegment({required this.id, required this.title, this.subtitle, this.text, this.audioUrl});
+  const ReadingSegment({
+    required this.id,
+    required this.title,
+    this.subtitle,
+    this.text,
+    this.audioUrl,
+    this.language = 'pt-BR',
+  });
 
   final String id;
   final String title;
   final String? subtitle;
   final String? text;
   final String? audioUrl;
+
+  /// Idioma do texto (BCP-47) — ex.: "pt-BR", "en", "la".
+  final String language;
 
   bool get isRecorded => audioUrl != null;
 
@@ -115,6 +124,30 @@ class ReadingAudioHandler extends BaseAudioHandler with QueueHandler {
   bool _playing = false;
   int _generation = 0; // invalida laços de TTS antigos
   bool _ttsReady = false;
+  String? _ttsLanguage;
+
+  /// Mapeia o idioma do texto para uma voz disponível. Não há vozes de latim
+  /// nos sistemas; a voz italiana se aproxima da pronúncia eclesiástica.
+  static String voiceLanguageFor(String lang) {
+    final l = lang.toLowerCase();
+    if (l.startsWith('la')) return 'it-IT';
+    if (l.startsWith('en')) return 'en-US';
+    if (l.startsWith('es')) return 'es-ES';
+    if (l.startsWith('it')) return 'it-IT';
+    return 'pt-BR';
+  }
+
+  Future<void> _useLanguage(String lang) async {
+    final voice = voiceLanguageFor(lang);
+    if (_ttsLanguage == voice) return;
+    try {
+      final ok = await _tts.isLanguageAvailable(voice);
+      await _tts.setLanguage(ok == true || voice != 'pt-BR' ? voice : 'pt-PT');
+    } catch (_) {
+      await _tts.setLanguage(voice);
+    }
+    _ttsLanguage = voice;
+  }
 
   ReadingSegment? get _current => _index < _segments.length ? _segments[_index] : null;
   int get index => _index;
@@ -123,7 +156,7 @@ class ReadingAudioHandler extends BaseAudioHandler with QueueHandler {
   Future<void> _initTts() async {
     if (_ttsReady) return;
     await _tts.awaitSpeakCompletion(true);
-    if (!kIsWeb && Platform.isIOS) {
+    if (!kIsWeb && defaultTargetPlatform == TargetPlatform.iOS) {
       await _tts.setSharedInstance(true);
       await _tts.setIosAudioCategory(IosTextToSpeechAudioCategory.playback, [
         IosTextToSpeechAudioCategoryOptions.allowBluetooth,
@@ -131,11 +164,14 @@ class ReadingAudioHandler extends BaseAudioHandler with QueueHandler {
         IosTextToSpeechAudioCategoryOptions.duckOthers,
       ], IosTextToSpeechAudioMode.spokenAudio);
     }
-    final available = await _tts.isLanguageAvailable('pt-BR');
-    await _tts.setLanguage(available == true ? 'pt-BR' : 'pt-PT');
+    await _useLanguage('pt-BR');
     await _applySpeed();
-    final session = await AudioSession.instance;
-    await session.configure(const AudioSessionConfiguration.speech());
+    try {
+      final session = await AudioSession.instance;
+      await session.configure(const AudioSessionConfiguration.speech());
+    } catch (_) {
+      // Web/plataformas sem sessão de áudio configurável.
+    }
     _ttsReady = true;
   }
 
@@ -144,7 +180,10 @@ class ReadingAudioHandler extends BaseAudioHandler with QueueHandler {
 
   Future<void> setVoice(String? name, String? locale) async {
     await _initTts();
-    if (name != null) await _tts.setVoice({'name': name, 'locale': locale ?? 'pt-BR'});
+    if (name != null) {
+      await _tts.setVoice({'name': name, 'locale': locale ?? 'pt-BR'});
+      _ttsLanguage = locale ?? 'pt-BR';
+    }
   }
 
   /// Vozes pt-* instaladas no aparelho (nenhuma é baixada pelo app).
@@ -188,6 +227,7 @@ class ReadingAudioHandler extends BaseAudioHandler with QueueHandler {
       return;
     }
     await _initTts();
+    await _useLanguage(seg.language);
     if (_chunks.isEmpty || _chunk == 0) _chunks = splitForSpeech(seg.text ?? '');
     while (_playing && gen == _generation && _chunk < _chunks.length) {
       await _tts.speak(_chunks[_chunk]);

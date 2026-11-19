@@ -8,11 +8,20 @@ import '../../../widgets/common.dart';
 
 /// Cartão de leitura (1ª Leitura, 2ª Leitura, Evangelho).
 class ReadingCard extends StatelessWidget {
-  const ReadingCard({super.key, required this.reading, required this.onListenFromHere, this.sourceUrl});
+  const ReadingCard({
+    super.key,
+    required this.reading,
+    required this.onListenFromHere,
+    this.sourceUrl,
+    this.onOpenInBible,
+  });
 
   final Reading reading;
   final VoidCallback onListenFromHere;
   final String? sourceUrl;
+
+  /// Abre o capítulo completo na aba Bíblia.
+  final VoidCallback? onOpenInBible;
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +38,7 @@ class ReadingCard extends StatelessWidget {
               reference: reading.reference,
               onListen: onListenFromHere,
               onShare: () => _share(reading),
+              onOpenInBible: onOpenInBible,
             ),
             if (gospel && reading.acclamation != null) ...[
               const SizedBox(height: 12),
@@ -72,12 +82,14 @@ class PsalmCard extends StatefulWidget {
     required this.onListenFromHere,
     this.audio = const LiturgyAudio(),
     this.sourceUrl,
+    this.onOpenInBible,
   });
 
   final Reading psalm;
   final LiturgyAudio audio;
   final VoidCallback onListenFromHere;
   final String? sourceUrl;
+  final VoidCallback? onOpenInBible;
 
   @override
   State<PsalmCard> createState() => _PsalmCardState();
@@ -129,7 +141,12 @@ class _PsalmCardState extends State<PsalmCard> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _CardHeader(label: p.kind.label, reference: p.reference, onListen: widget.onListenFromHere),
+            _CardHeader(
+              label: p.kind.label,
+              reference: p.reference,
+              onListen: widget.onListenFromHere,
+              onOpenInBible: widget.onOpenInBible,
+            ),
             if (p.refrain != null) ...[
               const SizedBox(height: 14),
               Semantics(
@@ -177,7 +194,7 @@ class _PsalmCardState extends State<PsalmCard> {
             ],
             if (widget.audio.psalmChordsOrMelody != null) ...[
               const SizedBox(height: 8),
-              Text(widget.audio.psalmChordsOrMelody!, style: t.bodySmall?.copyWith(fontFamily: 'monospace')),
+              Text(widget.audio.psalmChordsOrMelody!, style: t.bodySmall?.copyWith(fontFamily: 'Roboto')),
             ],
             const SizedBox(height: 12),
             for (final (i, s) in (p.stanzas.isEmpty ? [p.text] : p.stanzas).indexed) ...[
@@ -199,12 +216,13 @@ class _PsalmCardState extends State<PsalmCard> {
 }
 
 class _CardHeader extends StatelessWidget {
-  const _CardHeader({required this.label, this.reference, required this.onListen, this.onShare});
+  const _CardHeader({required this.label, this.reference, required this.onListen, this.onShare, this.onOpenInBible});
 
   final String label;
   final String? reference;
   final VoidCallback onListen;
   final VoidCallback? onShare;
+  final VoidCallback? onOpenInBible;
 
   @override
   Widget build(BuildContext context) {
@@ -219,7 +237,35 @@ class _CardHeader extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Eyebrow(label),
-                if (reference != null) ...[const SizedBox(height: 4), Text(reference!, style: t.titleLarge)],
+                if (reference != null) ...[
+                  const SizedBox(height: 4),
+                  if (onOpenInBible == null)
+                    Text(reference!, style: t.titleLarge)
+                  else
+                    Tooltip(
+                      message: 'Ler o capítulo completo na Bíblia',
+                      child: InkWell(
+                        onTap: onOpenInBible,
+                        borderRadius: BorderRadius.circular(6),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Flexible(
+                              child: Text(
+                                reference!,
+                                style: t.titleLarge?.copyWith(
+                                  decoration: TextDecoration.underline,
+                                  decorationColor: Theme.of(context).colorScheme.primary.withValues(alpha: 0.4),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 4),
+                            Icon(Icons.menu_book_outlined, size: 16, color: Theme.of(context).colorScheme.primary),
+                          ],
+                        ),
+                      ),
+                    ),
+                ],
               ],
             ),
           ),
