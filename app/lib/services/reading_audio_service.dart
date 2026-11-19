@@ -49,6 +49,7 @@ List<ReadingSegment> buildLiturgyQueue(DailyLiturgy l, {bool preferRecorded = tr
         id: '${l.date.toIso8601String()}#audio',
         title: 'Liturgia do dia',
         subtitle: l.audio.creditFor('liturgia_audio_url')?.channel,
+        text: l.readings.map((r) => r.toSpeech()).join('\n\n'),
         audioUrl: l.audio.liturgyAudioUrl,
       ),
     );
@@ -218,13 +219,23 @@ class ReadingAudioHandler extends BaseAudioHandler with QueueHandler {
     final gen = ++_generation;
     if (seg.isRecorded) {
       await _tts.stop();
-      if (_player.audioSource == null || _chunk == 0) {
-        await _player.setUrl(seg.audioUrl!);
-        _chunk = 1; // marca como carregado
+      try {
+        if (_player.audioSource == null || _chunk == 0) {
+          await _player.setUrl(seg.audioUrl!);
+          _chunk = 1; // marca como carregado
+        }
+        await _player.setSpeed(_speed);
+        unawaited(_player.play());
+        return;
+      } catch (e) {
+        debugPrint('Áudio gravado indisponível (${seg.audioUrl}), usando fallback TTS local: $e');
+        _chunk = 0;
+        if (seg.text == null || seg.text!.trim().isEmpty) {
+          _playing = false;
+          _broadcast();
+          return;
+        }
       }
-      await _player.setSpeed(_speed);
-      unawaited(_player.play());
-      return;
     }
     await _initTts();
     await _useLanguage(seg.language);

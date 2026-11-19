@@ -59,3 +59,14 @@ O Via Sacra é um aplicativo devocional católico. Qualquer alteração de conte
   - **Flutter/Dart (`app/`):** `dart format --output=none --set-exit-if-changed lib test` (`page_width: 120` em `app/analysis_options.yaml`), `flutter analyze` (zero warnings/erros) e `flutter test`.
   - **Python (`scraper/` e `scripts/`):** `ruff check .` e `pytest`.
   - **GitHub Actions:** sempre confirmar via `gh run list` / `gh run view` que o CI passou sem erros após o push.
+
+---
+
+## 5. Releases Mobile (APK / IPA) e Tags Semânticas
+
+Para permitir testar novas funcionalidades no celular (Android `.apk` e iOS `.ipa` sem assinatura), o workflow `.github/workflows/build-release.yml` compila e publica automaticamente os instaladores na aba **Releases** do GitHub sempre que uma tag `v*` é enviada:
+
+- **Pré-releases de teste (a partir da `dev`):** após marcos relevantes (ex.: novo leitor WebView, melhorias de áudio/TTS, novos módulos offline), crie periodicamente uma tag de pré-release semântica `vX.Y.Z-beta.N` (ex.: `git tag v1.1.0-beta.1 && git push origin v1.1.0-beta.1`).
+- **Releases estáveis (a partir da `main`):** somente após validação na `dev` e merge na `main`, crie uma tag estável `vX.Y.Z` (ex.: `v1.1.0`).
+- **Artefatos gerados:** `ViaSacra-universal.apk`, APKs por ABI (`arm64-v8a`, `armeabi-v7a`, `x86_64`) e `ViaSacra-unsigned.ipa`, todos verificados sem dependências proprietárias (F-Droid ready).
+
