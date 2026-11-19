@@ -378,7 +378,16 @@ Se você é titular de algum conteúdo e deseja ajustes ou remoção, abra uma *
 
 ## Contribuindo
 
-Contribuições são muito bem-vindas — de código a correções de orações e traduções! Leia o [CONTRIBUTING.md](CONTRIBUTING.md) e o [Código de Conduta](CODE_OF_CONDUCT.md).
+Contribuições são muito bem-vindas — de código a correções de orações e traduções! Leia o [CONTRIBUTING.md](CONTRIBUTING.md), o [AGENTS.md](AGENTS.md) e o [Código de Conduta](CODE_OF_CONDUCT.md).
+
+### Fluxo de branches
+
+| Branch | Finalidade |
+|---|---|
+| `main` | **Produção / Deployment.** Cada push na `main` roda o CI e publica automaticamente a versão Web/PWA no GitHub Pages (`gh-pages`). |
+| `dev` | **Desenvolvimento contínuo.** Recebe novos recursos e correções e roda o CI (`ci.yml`), **sem** disparar deploy para o GitHub Pages. |
+| `data` | Gerenciada automaticamente pelo workflow `update-liturgy.yml` (JSONs diários da Liturgia). |
+| `gh-pages` | Gerenciada automaticamente pelo workflow `deploy-web.yml` (site estático do GitHub Pages). |
 
 ## Licença
 

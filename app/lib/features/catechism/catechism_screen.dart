@@ -356,7 +356,9 @@ class _CatechismScreenState extends State<CatechismScreen> {
   }
 
   Future<void> _openEntry(BuildContext context, CatechismWork work, CatechismEntry entry) async {
-    final route = MaterialPageRoute<void>(builder: (_) => CatechismEntryScreen(work: work, entry: entry));
+    final route = MaterialPageRoute<void>(
+      builder: (_) => CatechismEntryScreen(work: work, entry: entry),
+    );
     await Navigator.of(context).push(route);
     if (mounted) setState(() {});
   }
@@ -426,7 +428,11 @@ class _Highlighted extends StatelessWidget {
       last = m.end;
     }
     spans.add(TextSpan(text: text.substring(last)));
-    return Text.rich(TextSpan(style: style, children: spans), maxLines: 3, overflow: TextOverflow.ellipsis);
+    return Text.rich(
+      TextSpan(style: style, children: spans),
+      maxLines: 3,
+      overflow: TextOverflow.ellipsis,
+    );
   }
 }
 

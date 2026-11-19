@@ -1,0 +1,63 @@
+# =====================================================================
+# Via Sacra — .gitattributes
+# Garante finais de linha consistentes (LF) entre Linux, macOS e Windows
+# e protege arquivos binários contra corrupção pelo Git.
+# =====================================================================
+
+# Detecção automática de texto normalizada para LF
+* text=auto eol=lf
+
+# Código-fonte, scripts e documentação (sempre LF)
+*.dart text eol=lf
+*.py text eol=lf
+*.sh text eol=lf
+*.js text eol=lf
+*.ts text eol=lf
+*.html text eol=lf
+*.css text eol=lf
+*.json text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.toml text eol=lf
+*.sql text eol=lf
+*.xml text eol=lf
+*.md text eol=lf
+*.txt text eol=lf
+*.gradle text eol=lf
+*.kts text eol=lf
+*.properties text eol=lf
+*.plist text eol=lf
+*.pbxproj text eol=lf
+*.xcconfig text eol=lf
+*.arb text eol=lf
+
+# Scripts Windows (CRLF)
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+
+# Arquivos binários (sem conversão de quebra de linha nem diff textual)
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.pdf binary
+*.ttf binary
+*.otf binary
+*.woff binary
+*.woff2 binary
+*.wasm binary
+*.db binary
+*.sqlite binary
+*.sqlite3 binary
+*.apk binary
+*.aab binary
+*.ipa binary
+*.jks binary
+*.keystore binary
+*.p12 binary
+*.zip binary
+*.gz binary
+*.tar binary

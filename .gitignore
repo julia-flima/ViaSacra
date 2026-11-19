@@ -25,6 +25,14 @@ Thumbs.db
 *.g.dart.bak
 .metadata.bak
 app/lib/generated_plugin_registrant.dart
+app/web/sqlite3.wasm
+**/linux/flutter/ephemeral/
+**/macos/Flutter/ephemeral/
+**/windows/flutter/ephemeral/
+**/*.log
+*.db-journal
+*.db-wal
+*.db-shm
 
 # ───────── Android ─────────
 **/android/.gradle/
@@ -92,6 +100,7 @@ env/
 .coverage
 htmlcov/
 scraper/.cache/
+uv.lock
 
 # ───────── Segredos ─────────
 .env

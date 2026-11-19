@@ -4,7 +4,7 @@ name: CI
 on:
   pull_request:
   push:
-    branches: [main]
+    branches: [main, dev]
 
 jobs:
   flutter:
@@ -20,7 +20,12 @@ jobs:
           channel: stable
           cache: true
       - run: flutter pub get
-      - run: dart format --output=none --set-exit-if-changed lib test
+      - name: Verificar formatação Dart
+        run: |
+          if ! dart format --output=none --set-exit-if-changed lib test; then
+            dart format lib test && git diff
+            exit 1
+          fi
       - run: flutter analyze
       - run: flutter test
 
