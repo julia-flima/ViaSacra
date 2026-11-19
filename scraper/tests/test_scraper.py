@@ -104,3 +104,50 @@ def test_calendario_liturgico():
     assert cal.calcular(date(2027, 2, 10)).celebracao == "Quarta-feira de Cinzas"
     assert cal.ciclos(date(2026, 11, 19)) == ("A", "II")
     assert cal.ciclos(date(2026, 12, 1)) == ("B", "I")
+
+
+def test_vatican_palavra_do_dia_layout_atual():
+    html = (FIX / "vatican_palavra_dia_sample.html").read_text(encoding="utf-8")
+    url = "https://www.vaticannews.va/pt/palavra-do-dia/2026/11/19.html"
+    h = scraper.parse_vatican_evangelho_do_dia(html, url)
+    assert h is not None and h["autor"] == "Papa Francisco"
+    assert h["titulo"] == "As palavras dos Papas"
+    leituras = scraper.parse_vatican_leituras(html, url)
+    assert leituras["primeira_leitura"]["referencia"] == "Ap 5,1-10"
+    assert "Palavra do Senhor" not in leituras["primeira_leitura"]["texto"]
+    assert leituras["evangelho"]["referencia"] == "Lc 19,41-44"
+    assert leituras["salmo"] is None
+
+
+def test_livro_por_introducao():
+    casos = {
+        "Leitura do Livro do Apocalipse de São João": "Ap",
+        "Proclamação do Evangelho de Jesus Cristo segundo João": "Jo",
+        "Leitura da Primeira Carta de São João": "1Jo",
+        "Leitura da Segunda Carta de São Paulo aos Coríntios": "2Cor",
+        "Leitura do Livro do Eclesiástico": "Eclo",
+        "Leitura do Livro de Jó": "Jó",
+        "Leitura do Primeiro Livro dos Reis": "1Rs",
+    }
+    for intro, abrev in casos.items():
+        assert scraper.livro_por_introducao(intro) == abrev, intro
+
+
+def test_reserva_vatican_quando_cnbb_falha():
+    cliente = scraper.ClienteHttp(
+        respeitar_robots=False,
+        offline_html={
+            "cnbb": str(FIX / "vatican_rss_sample.xml"),  # força falha de parse da CNBB
+            "vatican": str(FIX / "vatican_palavra_dia_sample.html"),
+        },
+    )
+    doc = scraper.montar_dia(date(2026, 11, 19), cliente, {"cnbb", "vaticano"})
+    assert doc["status"]["leituras_vaticano"] == "ok"
+    assert doc["leituras"]["evangelho"]["fonte"] == "Vatican News"
+    assert doc["homilias"]["vaticano"]["autor"] == "Papa Francisco"
+
+
+def test_adaptador_tls_legado_so_na_cnbb():
+    c = scraper.ClienteHttp()
+    assert isinstance(c._sessao.get_adapter("https://liturgiadiaria.cnbb.org.br/x"), scraper.AdaptadorTLSLegado)
+    assert not isinstance(c._sessao.get_adapter("https://www.vaticannews.va/"), scraper.AdaptadorTLSLegado)

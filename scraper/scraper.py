@@ -28,6 +28,7 @@ import argparse
 import json
 import logging
 import re
+import ssl
 import sys
 import time
 import unicodedata
@@ -42,6 +43,7 @@ from zoneinfo import ZoneInfo
 
 import requests
 from bs4 import BeautifulSoup, NavigableString, Tag
+from requests.adapters import HTTPAdapter
 
 import liturgical_calendar as calendario
 
@@ -89,7 +91,8 @@ CNBB_URLS = [
     "https://liturgiadiaria.cnbb.org.br/app/user/user/UserView.php?ano={ano}&mes={mes}&dia={dia}",
     "https://liturgiadiaria.cnbb.org.br/liturgia/{dia:02d}-{mes:02d}-{ano}",
 ]
-VATICAN_GOSPEL_URL = "https://www.vaticannews.va/pt/evangelho-do-dia/{ano}/{mes:02d}/{dia:02d}.html"
+# Página "Palavra do dia": leituras + "As palavras dos Papas" (estrutura verificada em nov/2026)
+VATICAN_GOSPEL_URL = "https://www.vaticannews.va/pt/palavra-do-dia/{ano}/{mes:02d}/{dia:02d}.html"
 VATICAN_RSS_URLS = [
     "https://www.vaticannews.va/pt.rss.xml",
     "https://www.vaticannews.va/pt/papa.rss.xml",
@@ -98,6 +101,31 @@ VATICAN_RSS_URLS = [
 # ---------------------------------------------------------------------------
 # HTTP educado
 # ---------------------------------------------------------------------------
+
+
+# Servidores com configuração TLS antiga (o da CNBB recusa o handshake padrão do
+# OpenSSL 3 com "SSLV3_ALERT_HANDSHAKE_FAILURE", inclusive no GitHub Actions).
+HOSTS_TLS_LEGADO = ("https://liturgiadiaria.cnbb.org.br",)
+
+
+class AdaptadorTLSLegado(HTTPAdapter):
+    """Aceita cifras/renegociação legadas SÓ nos hosts listados, mantendo a
+    verificação de certificado e de nome do servidor ligadas."""
+
+    def _contexto(self) -> ssl.SSLContext:
+        ctx = ssl.create_default_context()
+        ctx.set_ciphers("DEFAULT:@SECLEVEL=1")
+        ctx.options |= getattr(ssl, "OP_LEGACY_SERVER_CONNECT", 0x4)
+        ctx.minimum_version = ssl.TLSVersion.TLSv1_2
+        return ctx
+
+    def init_poolmanager(self, *args: Any, **kwargs: Any) -> None:
+        kwargs["ssl_context"] = self._contexto()
+        super().init_poolmanager(*args, **kwargs)
+
+    def proxy_manager_for(self, *args: Any, **kwargs: Any) -> Any:
+        kwargs["ssl_context"] = self._contexto()
+        return super().proxy_manager_for(*args, **kwargs)
 
 
 class FonteIndisponivel(RuntimeError):
@@ -111,8 +139,11 @@ class ClienteHttp:
     _sessao: requests.Session = field(default_factory=requests.Session, init=False)
     _robots: dict[str, robotparser.RobotFileParser | None] = field(default_factory=dict, init=False)
     _ultimo_acesso: dict[str, float] = field(default_factory=dict, init=False)
+    _cache: dict[str, str] = field(default_factory=dict, init=False)
 
     def __post_init__(self) -> None:
+        for host in HOSTS_TLS_LEGADO:
+            self._sessao.mount(host, AdaptadorTLSLegado())
         self._sessao.headers.update(
             {
                 "User-Agent": USER_AGENT,
@@ -150,6 +181,8 @@ class ClienteHttp:
     def get(self, url: str, *, tentativas: int = 3, chave_offline: str | None = None) -> str:
         if chave_offline and chave_offline in self.offline_html:
             return Path(self.offline_html[chave_offline]).read_text(encoding="utf-8")
+        if url in self._cache:  # a mesma página serve à homilia e às leituras
+            return self._cache[url]
         if not self._permitido(url):
             raise FonteIndisponivel(f"robots.txt não permite acessar {url}")
         ultimo_erro: Exception | None = None
@@ -161,6 +194,7 @@ class ClienteHttp:
                     raise FonteIndisponivel(f"404 em {url}")
                 resp.raise_for_status()
                 resp.encoding = resp.apparent_encoding if resp.encoding in (None, "ISO-8859-1") else resp.encoding
+                self._cache[url] = resp.text
                 return resp.text
             except FonteIndisponivel:
                 raise
@@ -443,41 +477,122 @@ def coletar_cnbb(cliente: ClienteHttp, d: date) -> dict[str, Any]:
 # ---------------------------------------------------------------------------
 
 
+def _secoes_vatican(soup: BeautifulSoup) -> dict[str, list[str]]:
+    """Seções da página "Palavra do dia": título normalizado → linhas (<p>)."""
+    secoes: dict[str, list[str]] = {}
+    for titulo in soup.find_all(["h2", "h3"]):
+        secao = titulo.find_parent("section")
+        if secao is None:
+            continue
+        conteudo = secao.find(class_="section__content") or secao
+        linhas = [p.get_text(" ", strip=True) for p in conteudo.find_all("p")]
+        linhas = [linha for linha in linhas if linha]
+        if linhas:
+            secoes.setdefault(normalizar(titulo.get_text(" ", strip=True)), linhas)
+    return secoes
+
+
+def _autor_papa(texto: str) -> str:
+    if m := re.search(r"\((?:Papa\s+)?(Leão XIV|Francisco|Bento XVI|João Paulo II)[^)]*\)", texto):
+        return f"Papa {m.group(1)}"
+    return "Papa Leão XIV"
+
+
 def parse_vatican_evangelho_do_dia(html: str, url: str) -> dict[str, Any] | None:
-    """Página "Evangelho do dia" do Vatican News, que traz as "Palavras do Santo Padre"."""
+    """"As palavras dos Papas" (antes: "Palavras do Santo Padre") da página "Palavra do dia"."""
     soup = BeautifulSoup(html, "html.parser")
     for lixo in soup(["script", "style", "nav", "footer", "header", "form", "noscript"]):
         lixo.decompose()
-    alvo: Tag | None = None
-    for titulo in soup.find_all(["h2", "h3", "h4", "strong"]):
-        t = normalizar(titulo.get_text(" ", strip=True))
-        if "palavras do santo padre" in t or "palavras do papa" in t or t.startswith("reflexao"):
-            alvo = titulo
-            break
-    if alvo is None:
-        return None
     partes: list[str] = []
-    for irmao in alvo.find_all_next(["p", "h2", "h3"]):
-        if irmao.name in {"h2", "h3"} and partes:
+    for titulo, linhas in _secoes_vatican(soup).items():
+        if any(k in titulo for k in ("palavras dos papas", "palavras do santo padre", "palavras do papa")):
+            partes = linhas
             break
-        texto = irmao.get_text(" ", strip=True)
-        if texto:
-            partes.append(texto)
+    if not partes:  # layout antigo: título seguido de parágrafos soltos
+        for titulo in soup.find_all(["h2", "h3", "h4", "strong"]):
+            t = normalizar(titulo.get_text(" ", strip=True))
+            if "palavras do santo padre" in t or "palavras do papa" in t or t.startswith("reflexao"):
+                for irmao in titulo.find_all_next(["p", "h2", "h3"]):
+                    if irmao.name in {"h2", "h3"} and partes:
+                        break
+                    if texto := irmao.get_text(" ", strip=True):
+                        partes.append(texto)
+                break
     texto = limpar("\n\n".join(partes))
     if len(texto) < 80:
         return None
-    autor = "Papa Leão XIV"
-    if m := re.search(r"\((?:Papa\s+)?(Leão XIV|Francisco|Bento XVI|João Paulo II)[^)]*\)", texto):
-        autor = f"Papa {m.group(1)}"
     return {
-        "titulo": "Palavras do Santo Padre",
-        "autor": autor,
+        "titulo": "As palavras dos Papas",
+        "autor": _autor_papa(texto),
         "texto": texto,
         "resumo": texto[:280].rsplit(" ", 1)[0] + "…" if len(texto) > 280 else texto,
         "url": url,
         "fonte": FONTE_VATICANO["nome"],
         "licenca": FONTE_VATICANO["nota"],
     }
+
+
+# Livros: nome normalizado → abreviação (ordinal tratado à parte)
+_LIVROS_POR_NOME = [
+    ("apocalipse", "Ap"), ("atos dos apostolos", "At"), ("eclesiastico", "Eclo"), ("siracida", "Eclo"),
+    ("eclesiastes", "Ecl"), ("genesis", "Gn"), ("exodo", "Ex"), ("levitico", "Lv"), ("numeros", "Nm"),
+    ("deuteronomio", "Dt"), ("josue", "Js"), ("juizes", "Jz"), ("rute", "Rt"), ("esdras", "Esd"),
+    ("neemias", "Ne"), ("tobias", "Tb"), ("judite", "Jt"), ("ester", "Est"), ("jo ", "Jó"),
+    ("salmo", "Sl"), ("proverbios", "Pr"), ("cantico dos canticos", "Ct"), ("sabedoria", "Sb"),
+    ("isaias", "Is"), ("jeremias", "Jr"), ("lamentacoes", "Lm"), ("baruc", "Br"), ("ezequiel", "Ez"),
+    ("daniel", "Dn"), ("oseias", "Os"), ("joel", "Jl"), ("amos", "Am"), ("abdias", "Ab"), ("jonas", "Jn"),
+    ("miqueias", "Mq"), ("naum", "Na"), ("habacuc", "Hab"), ("sofonias", "Sf"), ("ageu", "Ag"),
+    ("zacarias", "Zc"), ("malaquias", "Ml"), ("romanos", "Rm"), ("galatas", "Gl"), ("efesios", "Ef"),
+    ("filipenses", "Fl"), ("colossenses", "Cl"), ("tito", "Tt"), ("filemon", "Fm"), ("hebreus", "Hb"),
+    ("tiago", "Tg"), ("judas", "Jd"), ("mateus", "Mt"), ("marcos", "Mc"), ("lucas", "Lc"),
+]
+_LIVROS_NUMERADOS = {
+    "samuel": "Sm", "reis": "Rs", "cronicas": "Cr", "macabeus": "Mc", "corintios": "Cor",
+    "tessalonicenses": "Ts", "timoteo": "Tm", "pedro": "Pd", "joao": "Jo",
+}
+_ORDINAIS = {"primeira": "1", "primeiro": "1", "segunda": "2", "segundo": "2", "terceira": "3"}
+
+
+def livro_por_introducao(intro: str) -> str | None:
+    """"Leitura da Primeira Carta de São Paulo aos Coríntios" → "1Cor"; "…segundo João" → "Jo"."""
+    t = normalizar(intro) + " "
+    ordinal = next((n for palavra, n in _ORDINAIS.items() if f" {palavra} " in f" {t}"), None)
+    for nome, abrev in _LIVROS_POR_NOME:  # nomes inequívocos primeiro ("Apocalipse de São João")
+        if nome in t:
+            return abrev
+    for nome, abrev in _LIVROS_NUMERADOS.items():
+        if nome in t:
+            if nome == "joao" and (ordinal is None or "evangelho" in t):
+                return "Jo"
+            return f"{ordinal or '1'}{abrev}"
+    return None
+
+
+def _leitura_vatican(linhas: list[str]) -> dict[str, Any] | None:
+    # Domingos/solenidades: a seção começa com um rótulo ("Primeira Leitura").
+    if linhas and normalizar(linhas[0]) in {"primeira leitura", "segunda leitura", "leitura", "evangelho"}:
+        linhas = linhas[1:]
+    if len(linhas) < 3:
+        return None
+    intro, numeros = linhas[0], linhas[1]
+    corpo = linhas[2:]
+    if not re.match(r"^\d{1,3}[,:]", numeros):  # sem linha de referência
+        numeros, corpo = "", linhas[1:]
+    livro = livro_por_introducao(intro)
+    referencia = f"{livro} {numeros}".strip() if livro and numeros else None
+    corpo = [linha for linha in corpo if not RE_CONCLUSAO.fullmatch(linha)]
+    return {"referencia": referencia, "introducao": intro, "aclamacao": None, "texto": limpar("\n".join(corpo))}
+
+
+def parse_vatican_leituras(html: str, url: str) -> dict[str, Any] | None:
+    """Leituras da página "Palavra do dia" — fonte de reserva quando a CNBB falha (sem Salmo)."""
+    soup = BeautifulSoup(html, "html.parser")
+    secoes = _secoes_vatican(soup)
+    primeira = next((_leitura_vatican(v) for k, v in secoes.items() if k.startswith("leitura do dia")), None)
+    evangelho = next((_leitura_vatican(v) for k, v in secoes.items() if k.startswith("evangelho do dia")), None)
+    if not evangelho:
+        return None
+    return {"primeira_leitura": primeira, "salmo": None, "segunda_leitura": None, "evangelho": evangelho, "url": url}
 
 
 def _texto_tag(item: Tag, nome: str) -> str:
@@ -518,6 +633,13 @@ def parse_vatican_rss(xml: str, d: date) -> dict[str, Any] | None:
         return None
     melhores.sort(key=lambda x: x[0], reverse=True)
     return melhores[0][1]
+
+
+def coletar_vaticano_leituras(cliente: ClienteHttp, d: date) -> dict[str, Any]:
+    url = VATICAN_GOSPEL_URL.format(ano=d.year, mes=d.month, dia=d.day)
+    if resultado := parse_vatican_leituras(cliente.get(url, chave_offline="vatican"), url):
+        return resultado
+    raise FonteIndisponivel("Leituras não encontradas na página do Vatican News")
 
 
 def coletar_vaticano(cliente: ClienteHttp, d: date) -> dict[str, Any]:
@@ -659,9 +781,14 @@ def montar_dia(d: date, cliente: ClienteHttp, fontes: set[str]) -> dict[str, Any
 
     cnbb = _executar("cnbb", status, lambda: coletar_cnbb(cliente, d)) if "cnbb" in fontes else None
     vaticano = _executar("vaticano", status, lambda: coletar_vaticano(cliente, d)) if "vaticano" in fontes else None
+    # Reserva: se a CNBB falhar, usa as leituras da página do Vatican News (sem o Salmo).
+    leituras_vatican = None
+    if cnbb is None and "vaticano" in fontes:
+        leituras_vatican = _executar("leituras_vaticano", status, lambda: coletar_vaticano_leituras(cliente, d))
+    leituras_fonte = cnbb or leituras_vatican
 
     acervo_patristico = carregar_json(BASE_DIR / "patristic.json")
-    ref_evangelho = ((cnbb or {}).get("evangelho") or {}).get("referencia")
+    ref_evangelho = ((leituras_fonte or {}).get("evangelho") or {}).get("referencia")
     patristica = selecionar_patristica(ref_evangelho, cal.tempo, acervo_patristico)
     status["patristica"] = "ok" if patristica else "vazio"
 
@@ -679,13 +806,14 @@ def montar_dia(d: date, cliente: ClienteHttp, fontes: set[str]) -> dict[str, Any
         calendario_dict["celebracao"] = cnbb["celebracao"]
 
     leituras = None
-    if cnbb:
-        leituras = {k: cnbb.get(k) for k in ("primeira_leitura", "salmo", "segunda_leitura", "evangelho")}
+    if leituras_fonte:
+        nome_fonte = "CNBB" if cnbb else "Vatican News"
+        leituras = {k: leituras_fonte.get(k) for k in ("primeira_leitura", "salmo", "segunda_leitura", "evangelho")}
         for leitura in leituras.values():
             if leitura:
-                leitura["fonte"] = "CNBB"
+                leitura["fonte"] = nome_fonte
 
-    fontes_usadas = [f for f, usado in ((FONTE_CNBB, cnbb), (FONTE_VATICANO, vaticano),
+    fontes_usadas = [f for f, usado in ((FONTE_CNBB, cnbb), (FONTE_VATICANO, vaticano or leituras_vatican),
                                          (FONTE_PATRISTICA, patristica)) if usado]
     return {
         "schema_version": SCHEMA_VERSION,
@@ -700,7 +828,7 @@ def montar_dia(d: date, cliente: ClienteHttp, fontes: set[str]) -> dict[str, Any
             "patristica": patristica,
         },
         "fontes": fontes_usadas,
-        "url_original": (cnbb or {}).get("url"),
+        "url_original": (leituras_fonte or {}).get("url"),
         "status": status,
     }
 

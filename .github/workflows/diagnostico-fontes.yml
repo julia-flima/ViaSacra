@@ -1,0 +1,39 @@
+# Diagnóstico manual da conexão com as fontes de dados (TLS, HTTP, robots.txt).
+# Rode em Actions → "Diagnóstico das fontes" → Run workflow, e leia o log.
+name: Diagnóstico das fontes
+
+on:
+  workflow_dispatch:
+    inputs:
+      host:
+        description: "Host a diagnosticar"
+        default: "liturgiadiaria.cnbb.org.br"
+
+permissions:
+  contents: read
+
+jobs:
+  diagnostico:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: DNS
+        run: getent hosts "${{ github.event.inputs.host }}" || true
+      - name: openssl — versões de TLS
+        run: |
+          H="${{ github.event.inputs.host }}"
+          openssl version
+          for v in tls1_3 tls1_2 tls1_1 tls1; do
+            echo "=== -$v ==="
+            timeout 20 openssl s_client -connect "$H:443" -servername "$H" -$v -brief </dev/null 2>&1 | head -8 || true
+            echo "=== -$v @SECLEVEL=0 ==="
+            timeout 20 openssl s_client -connect "$H:443" -servername "$H" -$v -cipher 'DEFAULT:@SECLEVEL=0' -brief </dev/null 2>&1 | head -8 || true
+          done
+          echo "=== sem SNI ==="
+          timeout 20 openssl s_client -connect "$H:443" -noservername -brief </dev/null 2>&1 | head -8 || true
+      - name: curl
+        run: |
+          H="${{ github.event.inputs.host }}"
+          curl -sv --max-time 20 -o /dev/null "https://$H/" 2>&1 | grep -E "^\* |^< HTTP|SSL|TLS" | head -30 || true
+          echo "=== http:// ==="
+          curl -sv --max-time 20 -o /dev/null "http://$H/" 2>&1 | grep -E "^< |^\* " | head -15 || true
