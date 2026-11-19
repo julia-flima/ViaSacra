@@ -36,13 +36,22 @@ self.addEventListener('install', (event) => {
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((keys) =>
-      Promise.all(keys.filter((k) => k.startsWith('via-sacra-app-') && k !== APP_CACHE).map((k) => caches.delete(k))),
+      Promise.all(
+        keys
+          .filter((k) => (k.startsWith('via-sacra-app-') && k !== APP_CACHE) || k === DATA_CACHE)
+          .map((k) => caches.delete(k)),
+      ),
     ).then(() => self.clients.claim()),
   );
 });
 
 function isLiturgyData(url) {
   return url.hostname === 'cdn.jsdelivr.net' || url.hostname === 'raw.githubusercontent.com';
+}
+
+function isAppShell(req, url) {
+  if (req.mode === 'navigate') return true;
+  return /\/(index\.html|flutter_bootstrap\.js|main\.dart\.js|manifest\.json)$/.test(url.pathname);
 }
 
 self.addEventListener('fetch', (event) => {
@@ -52,7 +61,7 @@ self.addEventListener('fetch', (event) => {
 
   if (isLiturgyData(url)) {
     event.respondWith(
-      fetch(req)
+      fetch(req, { cache: 'no-store' })
         .then((resp) => {
           if (resp.ok) {
             const copy = resp.clone();
@@ -67,15 +76,39 @@ self.addEventListener('fetch', (event) => {
 
   if (url.origin !== self.location.origin) return; // áudios externos etc.: direto da rede
 
+  // App shell (HTML/JS principal): network-first para refletir novos deploys na hora,
+  // mantendo funcionamento 100% offline via fallback do cache.
+  if (isAppShell(req, url)) {
+    event.respondWith(
+      fetch(req, { cache: 'no-cache' })
+        .then((resp) => {
+          if (resp.ok && resp.type === 'basic') {
+            const copy = resp.clone();
+            caches.open(APP_CACHE).then((c) => c.put(req, copy));
+          }
+          return resp;
+        })
+        .catch(() =>
+          caches.open(APP_CACHE).then((cache) =>
+            cache.match(req, { ignoreSearch: req.mode === 'navigate' }).then(
+              (cached) => cached || (req.mode === 'navigate' ? cache.match('index.html') : Response.error()),
+            ),
+          ),
+        ),
+    );
+    return;
+  }
+
+  // Assets estáticos (fontes, arte sacra, WASM, módulos): stale-while-revalidate.
   event.respondWith(
     caches.open(APP_CACHE).then((cache) =>
-      cache.match(req, { ignoreSearch: req.mode === 'navigate' }).then((cached) => {
+      cache.match(req).then((cached) => {
         const network = fetch(req)
           .then((resp) => {
             if (resp.ok && resp.type === 'basic') cache.put(req, resp.clone());
             return resp;
           })
-          .catch(() => cached || (req.mode === 'navigate' ? cache.match('index.html') : Response.error()));
+          .catch(() => cached || Response.error());
         return cached || network;
       }),
     ),

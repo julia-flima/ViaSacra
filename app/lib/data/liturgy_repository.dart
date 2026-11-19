@@ -31,8 +31,8 @@ class LiturgyRepository {
   static const _timeout = Duration(seconds: 12);
 
   /// Conteúdo de hoje e de dias futuros pode mudar (correções); após este
-  /// intervalo, tentamos atualizar em segundo plano.
-  static const _refreshAfter = Duration(hours: 6);
+  /// intervalo, tentamos atualizar da rede.
+  static const _refreshAfter = Duration(minutes: 30);
 
   static String isoDate(DateTime d) => _iso.format(d);
 
@@ -61,7 +61,8 @@ class LiturgyRepository {
     final local = cached(date);
     final fetched = _fetchedAt(date);
     final stale = fetched == null || DateTime.now().difference(fetched) > _refreshAfter;
-    if (local != null && local.hasReadings && !forceRefresh && !stale) {
+    final complete = local != null && local.hasReadings && local.readings.any((r) => r.isPsalm);
+    if (complete && !forceRefresh && !stale) {
       return LiturgyResult(local, LiturgyOrigin.cache);
     }
     try {
@@ -90,6 +91,7 @@ class LiturgyRepository {
           'INSERT OR REPLACE INTO liturgy_cache(date, json, schema_version, source_url, fetched_at) VALUES (?,?,?,?,?)',
           [iso, body, json['schema_version'] ?? 1, uri.toString(), DateTime.now().millisecondsSinceEpoch],
         );
+        unawaited(_db.flush());
         return liturgy;
       } on TimeoutException {
         lastError = 'Tempo esgotado em ${uri.host}';

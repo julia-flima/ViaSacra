@@ -44,8 +44,17 @@
   <script>
     // Service worker próprio: guarda o app e os dados para uso offline (ver sw.js).
     if ('serviceWorker' in navigator) {
+      var reloading = false;
+      navigator.serviceWorker.addEventListener('controllerchange', function () {
+        if (reloading) return;
+        reloading = true;
+        window.location.reload();
+      });
       window.addEventListener('load', function () {
-        navigator.serviceWorker.register('sw.js').catch(function (e) { console.warn('SW', e); });
+        navigator.serviceWorker
+          .register('sw.js', { updateViaCache: 'none' })
+          .then(function (reg) { reg.update().catch(function () {}); })
+          .catch(function (e) { console.warn('SW', e); });
       });
     }
     // Some com a tela de abertura quando o Flutter desenhar o primeiro quadro.

@@ -30,7 +30,7 @@ class DataEndpoints {
 }
 
 class ExternalLinks {
-  static const cnbb = 'https://liturgiadiaria.cnbb.org.br';
+  static const cnbb = 'https://liturgiadiaria.edicoescnbb.com.br';
   static const vaticanNews = 'https://www.vaticannews.va/pt.html';
   static const commons = 'https://commons.wikimedia.org';
   static const catechismVatican = 'https://www.vatican.va/archive/cathechism_po/index_new/prima-pagina-cic_po.html';
