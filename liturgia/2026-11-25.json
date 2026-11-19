@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "data": "2026-11-25",
-  "gerado_em": "2026-11-19T16:01:08-03:00",
+  "gerado_em": "2026-11-19T16:08:32-03:00",
   "calendario": {
     "data": "2026-11-25",
     "dia_semana": "Quarta-feira",
@@ -16,7 +16,24 @@
     "misterios_do_dia": "gloriosos",
     "cor_origem": "calculada"
   },
-  "leituras": null,
+  "leituras": {
+    "primeira_leitura": {
+      "referencia": "Ap 15,1-4",
+      "introducao": "Leitura do Livro do Apocalipse de São João",
+      "aclamacao": null,
+      "texto": "Eu, João,\nvi no céu outro sinal, grande e admirável: sete anjos, com as sete últimas pragas. Com elas o furor de Deus ia-se consumar.\nVi também como que um mar de vidro\nmisturado com fogo. Sobre este mar estavam, de pé, todos aqueles que saíram vitoriosos do confronto com a besta, com a imagem dela\ne com o número do nome da besta. Seguravam as harpas de Deus.\nEntoavam o cântico de Moisés, o servo de Deus, e o cântico do Cordeiro, dizendo: \"Grandes e admiráveis são as tuas obras, Senhor Deus, Todo-poderoso! Justos e verdadeiros são os teus caminhos, ó Rei das nações!\nQuem não temeria, Senhor, e não glorificaria o teu nome? Só tu és santo! Todas as nações virão prostrar-se diante de Ti, porque tuas justas decisões se tornaram manifestas\".",
+      "fonte": "Vatican News"
+    },
+    "salmo": null,
+    "segunda_leitura": null,
+    "evangelho": {
+      "referencia": "Lc 21,12-19",
+      "introducao": "Proclamação do Evangelho de Jesus Cristo segundo Lucas",
+      "aclamacao": null,
+      "texto": "Naquele tempo, disse Jesus aos seus discípulos:\n\"Antes que estas coisas aconteçam, sereis presos e perseguidos; sereis entregues às sinagogas e postos na prisão; sereis levados diante de reis e governadores por causa do meu nome.\nEsta será a ocasião\nem que testemunhareis a vossa fé.\nFazei o firme propósito de não planejar com antecedência a própria defesa;\nporque eu vos darei palavras tão acertadas, que nenhum dos inimigos\nvos poderá resistir ou rebater.\nSereis entregues até mesmo pelos próprios pais, irmãos, parentes e amigos. E eles matarão alguns de vós.\nTodos vos odiarão por causa do meu nome.\nMas vós não perdereis um só fio de cabelo da vossa cabeça.\nÉ permanecendo firmes que ireis ganhar a vida!\"",
+      "fonte": "Vatican News"
+    }
+  },
   "audio": {
     "salmo_audio_url": null,
     "salmo_cifra_ou_melodia": null,
@@ -25,9 +42,26 @@
     "fallback": "tts_local_pt_BR"
   },
   "homilias": {
-    "vaticano": null,
+    "vaticano": {
+      "titulo": "As palavras dos Papas",
+      "autor": "Papa Francisco",
+      "texto": "«Pela vossa constância é que salvareis as vossas almas» (v. 19). Perseverança. O que significa? A palavra indica ser “muito severo”; mas severos em que sentido? Com nós próprios, não nos considerando à altura? Não. Com os outros, tornando-nos rígidos e inflexíveis? Nem sequer. Jesus pede-nos para sermos “severos”, inflexíveis, persistentes naquilo que lhe agrada, no que conta. Porque, o que realmente conta, muitas vezes não coincide com o que atrai o nosso interesse. (...) Perseverar, ao contrário, é permanecer no bem. Perguntemo-nos: como está a minha perseverança? Sou constante ou vivo a fé, a retidão e a caridade de acordo com o momento: se me apetece, rezo, se me convém, sou justo, prestável e útil, enquanto que se estou insatisfeito, se ninguém me agradece, não faço mais? Em suma, a minha oração e serviço dependem das circunstâncias ou de um coração inabalável no Senhor? Se perseverarmos - lembra-nos Jesus - não temos nada a temer, até das vicissitudes tristes e difíceis da vida, nem sequer do mal que vemos à nossa volta, pois continuamos enraizados no bem. Dostoievski escreveu: «Não temas os pecados dos homens, ama o homem mesmo com o seu pecado, porque este reflexo do amor divino é o ápice do amor na terra» (Os Irmãos Karamazov, II, 6, 3g). A perseverança é o reflexo do amor de Deus no mundo, pois o amor de Deus é fiel, é perseverante, nunca muda. (Papa Francisco, Angelus de 13 de novembro de 2022)",
+      "resumo": "«Pela vossa constância é que salvareis as vossas almas» (v. 19). Perseverança. O que significa? A palavra indica ser “muito severo”; mas severos em que sentido? Com nós próprios, não nos considerando à altura? Não. Com os outros, tornando-nos rígidos e inflexíveis? Nem sequer.…",
+      "url": "https://www.vaticannews.va/pt/palavra-do-dia/2026/11/25.html",
+      "fonte": "Vatican News (Português) — Dicastério para a Comunicação",
+      "licenca": "© Libreria Editrice Vaticana / Dicastério para a Comunicação. Reprodução para fins pastorais e não comerciais, com citação da fonte e link para o original."
+    },
     "cnbb": null,
     "patristica": [
+      {
+        "autor": "Santo Agostinho",
+        "obra": "Sermão 169, 13",
+        "texto": "Aquele que te criou sem ti não te justificará sem ti. Criou-te sem que o soubesses; justifica-te, porém, somente se o quiseres.",
+        "url": "https://www.newadvent.org/fathers/",
+        "fonte": "Santos Padres e Doutores da Igreja (domínio público)",
+        "licenca": "Domínio público",
+        "nota": "Tradução livre do latim (Sermo 169) para fins devocionais."
+      },
       {
         "autor": "Santo Agostinho",
         "obra": "Tratados sobre o Evangelho de São João, 26, 13",
@@ -36,19 +70,16 @@
         "fonte": "Santos Padres e Doutores da Igreja (domínio público)",
         "licenca": "Domínio público",
         "nota": "Tradução livre do latim (In Ioannis Evangelium Tractatus) para fins devocionais."
-      },
-      {
-        "autor": "São João Crisóstomo",
-        "obra": "Homilias sobre o Evangelho de São Mateus, 50, 3-4",
-        "texto": "Queres honrar o Corpo de Cristo? Não o desprezes quando está nu. Não o honres aqui no templo com vestes de seda, enquanto lá fora o abandonas ao frio e à nudez. Aquele que disse «Isto é o meu corpo» disse também «Tive fome e não me destes de comer». De que serve a mesa de Cristo carregada de taças de ouro, se Ele mesmo morre de fome? Sacia primeiro o faminto, e depois, com o que sobrar, adorna também o seu altar.",
-        "url": "https://www.newadvent.org/fathers/200150.htm",
-        "fonte": "Santos Padres e Doutores da Igreja (domínio público)",
-        "licenca": "Domínio público",
-        "nota": "Tradução livre do grego, a partir da edição de domínio público, para fins devocionais."
       }
     ]
   },
   "fontes": [
+    {
+      "id": "vaticannews",
+      "nome": "Vatican News (Português) — Dicastério para a Comunicação",
+      "url": "https://www.vaticannews.va/pt.html",
+      "nota": "© Libreria Editrice Vaticana / Dicastério para a Comunicação. Reprodução para fins pastorais e não comerciais, com citação da fonte e link para o original."
+    },
     {
       "id": "patristica",
       "nome": "Santos Padres e Doutores da Igreja (domínio público)",
@@ -56,10 +87,11 @@
       "nota": "Obras em domínio público; traduções do projeto Via Sacra (GPL-3.0 / CC0 para o texto)."
     }
   ],
-  "url_original": null,
+  "url_original": "https://www.vaticannews.va/pt/palavra-do-dia/2026/11/25.html",
   "status": {
     "cnbb": "indisponivel: Não foi possível acessar https://liturgiadiaria.cnbb.org.br/?data=2026-11-25: HTTPSConnectionPool(host='liturgiadiaria.cnbb.org.br', port=443): Max retries exceeded with url: /?data=2026-11-25 (Caused by SSLError(SSLError(1, '[SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] ssl/tls alert handshake failure (_ssl.c:1011)'))); Não foi possível acessar https://liturgiadiaria.cnbb.org.br/app/user/user/UserView.php?ano=2026&mes=11&dia=25: HTTPSConnectionPool(host='liturgiadiaria.cnbb.org.br', port=443): Max retries exceeded with url: /app/user/user/UserView.php?ano=2026&mes=11&dia=25 (Caused by SSLError(SSLError(1, '[SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] ssl/tls alert handshake failure (_ssl.c:1011)'))); Não foi possível acessar https://liturgiadiaria.cnbb.org.br/liturgia/25-11-2026: HTTPSConnectionPool(host='liturgiadiaria.cnbb.org.br', port=443): Max retries exceeded with url: /liturgia/25-11-2026 (Caused by SSLError(SSLError(1, '[SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] ssl/tls alert handshake failure (_ssl.c:1011)')))",
-    "vaticano": "indisponivel: RSS só é útil para o dia corrente",
+    "vaticano": "ok",
+    "leituras_vaticano": "ok",
     "patristica": "ok"
   }
 }

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "data": "2026-11-20",
-  "gerado_em": "2026-11-19T15:59:07-03:00",
+  "gerado_em": "2026-11-19T16:06:31-03:00",
   "calendario": {
     "data": "2026-11-20",
     "dia_semana": "Sexta-feira",
@@ -16,7 +16,24 @@
     "misterios_do_dia": "dolorosos",
     "cor_origem": "calculada"
   },
-  "leituras": null,
+  "leituras": {
+    "primeira_leitura": {
+      "referencia": "Ap 10,8-11",
+      "introducao": "Leitura do Livro do Apocalipse de São João",
+      "aclamacao": null,
+      "texto": "Aquela mesma voz do céu, que eu, João, já tinha ouvido, tornou a falar comigo: \"Vai.\nPega o livrinho aberto da mão do anjo que está de pé sobre o mar e a terra\".\nEu fui até ao anjo e pedi que me entregasse o livrinho. Ele me falou:\n\"Pega e come. Será amargo no estômago, mas na tua boca, será doce como mel\".\nPeguei da mão do anjo o livrinho e comi-o. Na boca era doce como mel, mas quando o engoli, meu estômago tornou-se amargo.\nEntão ele me disse: \"Deves profetizar ainda contra outros povos e nações, línguas e reis\".",
+      "fonte": "Vatican News"
+    },
+    "salmo": null,
+    "segunda_leitura": null,
+    "evangelho": {
+      "referencia": "Lc 19,45-48",
+      "introducao": "Proclamação do Evangelho de Jesus Cristo segundo Lucas",
+      "aclamacao": null,
+      "texto": "Naquele tempo,\nJesus entrou no Templo e começou a expulsar os vendedores.\nE disse:\n\"Está escrito: 'Minha casa será casa de oração'. No entanto, vós fizestes dela um antro de ladrões\".\nJesus ensinava todos os dias no Templo. Os sumos sacerdotes,\nos mestres da Lei e os notáveis do povo procuravam modo de matá-lo.\nMas não sabiam o que fazer, porque o povo todo ficava fascinado quando ouvia Jesus falar.",
+      "fonte": "Vatican News"
+    }
+  },
   "audio": {
     "salmo_audio_url": null,
     "salmo_cifra_ou_melodia": null,
@@ -25,9 +42,26 @@
     "fallback": "tts_local_pt_BR"
   },
   "homilias": {
-    "vaticano": null,
+    "vaticano": {
+      "titulo": "As palavras dos Papas",
+      "autor": "Papa Francisco",
+      "texto": "O templo é um ícone da Igreja. E a Igreja terá sempre — sempre! — a tentação da mundanidade e de um poder que não é o poder que Jesus Cristo quer para ela. Jesus não diz: Não, não se faz isto, eliminai-o; mas “Vós fizestes deste lugar um covil de ladrões!”. E quando a Igreja entra neste processo de degradação o fim é muito mau. Muito! Há sempre na Igreja a tentação da corrupção. Acontece quando a Igreja, em vez de estar apegada à fidelidade ao Senhor Jesus, ao Senhor da paz, da alegria, da salvação, ela se deixa seduzir pelo dinheiro e pelo poder. Como se lê no Evangelho do dia (...) Jesus não expulsa do Templo os sacerdotes nem os escribas; expulsa os que faziam negócios, os negociantes do Templo. Mas os chefes dos sacerdotes e os escribas estavam relacionados com eles: havia o ‘santo suborno’ ali! Recebiam destes, eram apegados ao dinheiro e veneravam este ‘santo’. O Evangelho é muito forte. Diz: ‘Os chefes dos sacerdotes e os escribas o queriam morto, e assim também os chefes do povo. (...) Mas não sabiam o que fazer porque todo o povo ficava fascinado quando o ouvia. A força de Jesus era a sua palavra, o seu testemunho, o seu amor. E onde está Jesus, não há lugar para a mundanidade, não há lugar para a corrupção! (...) De resto, Jesus nos tinha dito que não se pode servir a dois senhores: ou Deus ou as riquezas; ou Deus ou o poder. (Papa Francisco, Homilia na Casa Santa Marta, 20 de novembro de 2015)",
+      "resumo": "O templo é um ícone da Igreja. E a Igreja terá sempre — sempre! — a tentação da mundanidade e de um poder que não é o poder que Jesus Cristo quer para ela. Jesus não diz: Não, não se faz isto, eliminai-o; mas “Vós fizestes deste lugar um covil de ladrões!”. E quando a Igreja…",
+      "url": "https://www.vaticannews.va/pt/palavra-do-dia/2026/11/20.html",
+      "fonte": "Vatican News (Português) — Dicastério para a Comunicação",
+      "licenca": "© Libreria Editrice Vaticana / Dicastério para a Comunicação. Reprodução para fins pastorais e não comerciais, com citação da fonte e link para o original."
+    },
     "cnbb": null,
     "patristica": [
+      {
+        "autor": "Santo Agostinho",
+        "obra": "Sermão 169, 13",
+        "texto": "Aquele que te criou sem ti não te justificará sem ti. Criou-te sem que o soubesses; justifica-te, porém, somente se o quiseres.",
+        "url": "https://www.newadvent.org/fathers/",
+        "fonte": "Santos Padres e Doutores da Igreja (domínio público)",
+        "licenca": "Domínio público",
+        "nota": "Tradução livre do latim (Sermo 169) para fins devocionais."
+      },
       {
         "autor": "Santo Agostinho",
         "obra": "Tratados sobre o Evangelho de São João, 26, 13",
@@ -36,19 +70,16 @@
         "fonte": "Santos Padres e Doutores da Igreja (domínio público)",
         "licenca": "Domínio público",
         "nota": "Tradução livre do latim (In Ioannis Evangelium Tractatus) para fins devocionais."
-      },
-      {
-        "autor": "São João Crisóstomo",
-        "obra": "Homilias sobre o Evangelho de São Mateus, 50, 3-4",
-        "texto": "Queres honrar o Corpo de Cristo? Não o desprezes quando está nu. Não o honres aqui no templo com vestes de seda, enquanto lá fora o abandonas ao frio e à nudez. Aquele que disse «Isto é o meu corpo» disse também «Tive fome e não me destes de comer». De que serve a mesa de Cristo carregada de taças de ouro, se Ele mesmo morre de fome? Sacia primeiro o faminto, e depois, com o que sobrar, adorna também o seu altar.",
-        "url": "https://www.newadvent.org/fathers/200150.htm",
-        "fonte": "Santos Padres e Doutores da Igreja (domínio público)",
-        "licenca": "Domínio público",
-        "nota": "Tradução livre do grego, a partir da edição de domínio público, para fins devocionais."
       }
     ]
   },
   "fontes": [
+    {
+      "id": "vaticannews",
+      "nome": "Vatican News (Português) — Dicastério para a Comunicação",
+      "url": "https://www.vaticannews.va/pt.html",
+      "nota": "© Libreria Editrice Vaticana / Dicastério para a Comunicação. Reprodução para fins pastorais e não comerciais, com citação da fonte e link para o original."
+    },
     {
       "id": "patristica",
       "nome": "Santos Padres e Doutores da Igreja (domínio público)",
@@ -56,10 +87,11 @@
       "nota": "Obras em domínio público; traduções do projeto Via Sacra (GPL-3.0 / CC0 para o texto)."
     }
   ],
-  "url_original": null,
+  "url_original": "https://www.vaticannews.va/pt/palavra-do-dia/2026/11/20.html",
   "status": {
     "cnbb": "indisponivel: Não foi possível acessar https://liturgiadiaria.cnbb.org.br/?data=2026-11-20: HTTPSConnectionPool(host='liturgiadiaria.cnbb.org.br', port=443): Max retries exceeded with url: /?data=2026-11-20 (Caused by SSLError(SSLError(1, '[SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] ssl/tls alert handshake failure (_ssl.c:1011)'))); Não foi possível acessar https://liturgiadiaria.cnbb.org.br/app/user/user/UserView.php?ano=2026&mes=11&dia=20: HTTPSConnectionPool(host='liturgiadiaria.cnbb.org.br', port=443): Max retries exceeded with url: /app/user/user/UserView.php?ano=2026&mes=11&dia=20 (Caused by SSLError(SSLError(1, '[SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] ssl/tls alert handshake failure (_ssl.c:1011)'))); Não foi possível acessar https://liturgiadiaria.cnbb.org.br/liturgia/20-11-2026: HTTPSConnectionPool(host='liturgiadiaria.cnbb.org.br', port=443): Max retries exceeded with url: /liturgia/20-11-2026 (Caused by SSLError(SSLError(1, '[SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] ssl/tls alert handshake failure (_ssl.c:1011)')))",
-    "vaticano": "indisponivel: RSS só é útil para o dia corrente",
+    "vaticano": "ok",
+    "leituras_vaticano": "ok",
     "patristica": "ok"
   }
 }

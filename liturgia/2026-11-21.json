@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "data": "2026-11-21",
-  "gerado_em": "2026-11-19T15:59:31-03:00",
+  "gerado_em": "2026-11-19T16:06:55-03:00",
   "calendario": {
     "data": "2026-11-21",
     "dia_semana": "Sábado",
@@ -16,7 +16,24 @@
     "misterios_do_dia": "gozosos",
     "cor_origem": "calculada"
   },
-  "leituras": null,
+  "leituras": {
+    "primeira_leitura": {
+      "referencia": "Zc 2,14-17",
+      "introducao": "Leitura da Profecia de Zacarias",
+      "aclamacao": null,
+      "texto": "\"Rejubila, alegra-te, cidade de Sião,\neis que venho para habitar no meio de ti, diz o Senhor.\nMuitas nações se aproximarão do Senhor, naquele dia, e serão o seu povo. Habitarei no meio de ti, e saberás que o Senhor dos exércitos me enviou a ti.\nO Senhor entrará em posse de Judá, como sua porção na terra santa, e escolherá de novo Jerusalém.\nEmudeça todo mortal diante do Senhor,\nele acaba de levantar-se de sua santa habitação\".",
+      "fonte": "Vatican News"
+    },
+    "salmo": null,
+    "segunda_leitura": null,
+    "evangelho": {
+      "referencia": "Mt 12,46-50",
+      "introducao": "Proclamação do Evangelho de Jesus Cristo segundo Mateus",
+      "aclamacao": null,
+      "texto": "Naquele tempo,\nenquanto Jesus estava falando às multidões, sua mãe e seus irmãos ficaram do lado de fora, procurando falar com ele.\nAlguém disse a Jesus: \"Olha! Tua mãe e teus irmãos estão aí fora, e querem falar contigo\".\nJesus perguntou àquele que tinha falado: \"Quem é minha mãe, e quem são meus irmãos?\"\nE, estendendo a mão para os discípulos,\nJesus disse: \"Eis minha mãe e meus irmãos.\nPois todo aquele que faz a vontade do meu Pai, que está nos céus, esse é meu irmão, minha irmã e minha mãe\".",
+      "fonte": "Vatican News"
+    }
+  },
   "audio": {
     "salmo_audio_url": null,
     "salmo_cifra_ou_melodia": null,
@@ -25,9 +42,26 @@
     "fallback": "tts_local_pt_BR"
   },
   "homilias": {
-    "vaticano": null,
+    "vaticano": {
+      "titulo": "As palavras dos Papas",
+      "autor": "Papa Leão XIV",
+      "texto": "Caros irmãos e irmãs, o Evangelho que ouvimos entrega-nos o autêntico significado cristão destas duas palavras. Irmão e irmã são nomes de relação, que repetimos frequentemente na liturgia como saudação, como sinais de proximidade e de afeto. Jesus, o Filho unigênito de Deus, explica o seu sentido em relação a si e ao seu Pai, revelando um laço mais forte do que o sangue porque nos envolve a todos, unindo cada homem e cada mulher. Todos, de fato, somos verdadeiramente irmãos e irmãs de Jesus quando fazemos a vontade de Deus, isto é, quando vivemos amando-nos uns aos outros, como Deus nos amou. Cada relação que Deus vive, em si e por nós, torna-se assim um dom: quando o seu único Filho se torna nosso irmão, o seu Pai torna-se nosso Pai e o Espírito Santo, que une o Pai e o Filho, vem habitar nos nossos corações. O amor de Deus é tão grande que Jesus não guarda nem sequer a sua mãe para si, entregando Maria como nossa mãe na hora da cruz (cf. Jo 19,27). Só quem vive de uma dedicação tão plena pode afirmar: «aquele que fizer a vontade do meu Pai que está nos Céus, esse é meu irmão, irmã e mãe» (Mt 12,50). (Papa Leão XIV, Homilia, 15 de julho de 2025)",
+      "resumo": "Caros irmãos e irmãs, o Evangelho que ouvimos entrega-nos o autêntico significado cristão destas duas palavras. Irmão e irmã são nomes de relação, que repetimos frequentemente na liturgia como saudação, como sinais de proximidade e de afeto. Jesus, o Filho unigênito de Deus,…",
+      "url": "https://www.vaticannews.va/pt/palavra-do-dia/2026/11/21.html",
+      "fonte": "Vatican News (Português) — Dicastério para a Comunicação",
+      "licenca": "© Libreria Editrice Vaticana / Dicastério para a Comunicação. Reprodução para fins pastorais e não comerciais, com citação da fonte e link para o original."
+    },
     "cnbb": null,
     "patristica": [
+      {
+        "autor": "Santo Agostinho",
+        "obra": "Comentário à Primeira Carta de São João, 7, 8",
+        "texto": "Ama, e faze o que quiseres. Se calas, cala por amor; se falas, fala por amor; se corriges, corrige por amor; se perdoas, perdoa por amor. Esteja em ti a raiz do amor: dessa raiz não pode brotar senão o bem.",
+        "url": "https://www.newadvent.org/fathers/170207.htm",
+        "fonte": "Santos Padres e Doutores da Igreja (domínio público)",
+        "licenca": "Domínio público",
+        "nota": "Tradução livre do latim (In Epistolam Ioannis ad Parthos) para fins devocionais."
+      },
       {
         "autor": "Santo Agostinho",
         "obra": "Tratados sobre o Evangelho de São João, 26, 13",
@@ -36,19 +70,16 @@
         "fonte": "Santos Padres e Doutores da Igreja (domínio público)",
         "licenca": "Domínio público",
         "nota": "Tradução livre do latim (In Ioannis Evangelium Tractatus) para fins devocionais."
-      },
-      {
-        "autor": "São João Crisóstomo",
-        "obra": "Homilias sobre o Evangelho de São Mateus, 50, 3-4",
-        "texto": "Queres honrar o Corpo de Cristo? Não o desprezes quando está nu. Não o honres aqui no templo com vestes de seda, enquanto lá fora o abandonas ao frio e à nudez. Aquele que disse «Isto é o meu corpo» disse também «Tive fome e não me destes de comer». De que serve a mesa de Cristo carregada de taças de ouro, se Ele mesmo morre de fome? Sacia primeiro o faminto, e depois, com o que sobrar, adorna também o seu altar.",
-        "url": "https://www.newadvent.org/fathers/200150.htm",
-        "fonte": "Santos Padres e Doutores da Igreja (domínio público)",
-        "licenca": "Domínio público",
-        "nota": "Tradução livre do grego, a partir da edição de domínio público, para fins devocionais."
       }
     ]
   },
   "fontes": [
+    {
+      "id": "vaticannews",
+      "nome": "Vatican News (Português) — Dicastério para a Comunicação",
+      "url": "https://www.vaticannews.va/pt.html",
+      "nota": "© Libreria Editrice Vaticana / Dicastério para a Comunicação. Reprodução para fins pastorais e não comerciais, com citação da fonte e link para o original."
+    },
     {
       "id": "patristica",
       "nome": "Santos Padres e Doutores da Igreja (domínio público)",
@@ -56,10 +87,11 @@
       "nota": "Obras em domínio público; traduções do projeto Via Sacra (GPL-3.0 / CC0 para o texto)."
     }
   ],
-  "url_original": null,
+  "url_original": "https://www.vaticannews.va/pt/palavra-do-dia/2026/11/21.html",
   "status": {
     "cnbb": "indisponivel: Não foi possível acessar https://liturgiadiaria.cnbb.org.br/?data=2026-11-21: HTTPSConnectionPool(host='liturgiadiaria.cnbb.org.br', port=443): Max retries exceeded with url: /?data=2026-11-21 (Caused by SSLError(SSLError(1, '[SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] ssl/tls alert handshake failure (_ssl.c:1011)'))); Não foi possível acessar https://liturgiadiaria.cnbb.org.br/app/user/user/UserView.php?ano=2026&mes=11&dia=21: HTTPSConnectionPool(host='liturgiadiaria.cnbb.org.br', port=443): Max retries exceeded with url: /app/user/user/UserView.php?ano=2026&mes=11&dia=21 (Caused by SSLError(SSLError(1, '[SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] ssl/tls alert handshake failure (_ssl.c:1011)'))); Não foi possível acessar https://liturgiadiaria.cnbb.org.br/liturgia/21-11-2026: HTTPSConnectionPool(host='liturgiadiaria.cnbb.org.br', port=443): Max retries exceeded with url: /liturgia/21-11-2026 (Caused by SSLError(SSLError(1, '[SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] ssl/tls alert handshake failure (_ssl.c:1011)')))",
-    "vaticano": "indisponivel: RSS só é útil para o dia corrente",
+    "vaticano": "ok",
+    "leituras_vaticano": "ok",
     "patristica": "ok"
   }
 }

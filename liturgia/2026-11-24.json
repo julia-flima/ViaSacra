@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "data": "2026-11-24",
-  "gerado_em": "2026-11-19T16:00:43-03:00",
+  "gerado_em": "2026-11-19T16:08:08-03:00",
   "calendario": {
     "data": "2026-11-24",
     "dia_semana": "Terça-feira",
@@ -16,7 +16,24 @@
     "misterios_do_dia": "dolorosos",
     "cor_origem": "calculada"
   },
-  "leituras": null,
+  "leituras": {
+    "primeira_leitura": {
+      "referencia": "Ap 14,14-19",
+      "introducao": "Leitura do Livro do Apocalipse de São João",
+      "aclamacao": null,
+      "texto": "Eu, João,\nna minha visão, vi uma nuvem branca e sentado na nuvem alguém que parecia um \"filho de homem\". Tinha na cabeça uma coroa de ouro e, nas mãos, uma foice afiada.\nSaiu do Templo um outro anjo, gritando em alta voz para aquele que estava sentado na nuvem: \"Lança tua foice, e ceifa. Chegou a hora da colheita. A seara da terra está madura!\"\nE aquele que estava sentado na nuvem lançou a foice,\ne a terra foi ceifada.\nEntão saiu do templo que está no céu mais um anjo. Também ele tinha nas mãos uma foice afiada.\nE saiu, de junto do altar, outro anjo ainda,\naquele que tem o poder sobre o fogo. Ele gritou em alta voz para aquele que segurava a foice afiada: \"Lança a foice e colhe os cachos da videira da terra, porque as uvas já estão maduras\".\nE o anjo lançou a foice afiada na terra, e colheu as uvas da videira da terra. Depois, despejou as uvas no grande lagar do furor de Deus.",
+      "fonte": "Vatican News"
+    },
+    "salmo": null,
+    "segunda_leitura": null,
+    "evangelho": {
+      "referencia": "Lc 21,5-11",
+      "introducao": "Proclamação do Evangelho de Jesus Cristo segundo Lucas",
+      "aclamacao": null,
+      "texto": "Naquele tempo,\nalgumas pessoas comentavam a respeito do Templo que era enfeitado com belas pedras e com ofertas votivas. Jesus disse:\n\"Vós admirais estas coisas? Dias virão em que não ficará pedra sobre pedra. Tudo será destruído\".\nMas eles perguntaram: \"Mestre, quando acontecerá isto?\nE qual vai ser o sinal de que estas coisas estão para acontecer?\"\nJesus respondeu:\n\"Cuidado para não serdes enganados, porque muitos virão em meu nome,\ndizendo: 'Sou eu!'\nE ainda: 'O tempo está próximo'. Não sigais essa gente!\nQuando ouvirdes falar de guerras e revoluções, não fiqueis apavorados. É preciso que estas coisas aconteçam primeiro, mas não será logo o fim\".\nE Jesus continuou: \"Um povo se levantará contra outro povo, um país atacará outro país.\nHaverá grandes terremotos, fomes e pestes em muitos lugares; acontecerão coisas pavorosas e grandes sinais serão vistos no céu\".",
+      "fonte": "Vatican News"
+    }
+  },
   "audio": {
     "salmo_audio_url": null,
     "salmo_cifra_ou_melodia": null,
@@ -25,9 +42,26 @@
     "fallback": "tts_local_pt_BR"
   },
   "homilias": {
-    "vaticano": null,
+    "vaticano": {
+      "titulo": "As palavras dos Papas",
+      "autor": "Papa Leão XIV",
+      "texto": "O Evangelho de hoje (...) faz-nos refletir sobre as tribulações da história e o fim das coisas. Porque conhece o nosso coração, Jesus, ao olhar para estes acontecimentos, convida-nos antes de mais nada a não nos deixarmos vencer pelo medo: «Quando ouvirdes falar de guerras e revoltas – diz Ele –, não vos alarmeis» (v. 9). O seu apelo é muito atual: infelizmente, recebemos diariamente notícias de conflitos, calamidades e perseguições que atormentam milhões de homens e mulheres. Tanto diante dessas aflições quanto diante da indiferença que quer ignorá-las, as palavras de Jesus anunciam que a agressão do mal não pode destruir a esperança daqueles que confiam n’Ele. Quanto mais a hora é escura como a noite, mais a fé brilha como o sol. (...) No seu estilo profético, as palavras de Jesus atestam que os desastres e as dores da história têm um fim, enquanto a alegria daqueles que reconhecem n'Ele o Salvador está destinada a durar para sempre. (Papa Leão XIV, Angelus de 16 de novembro de 2025)",
+      "resumo": "O Evangelho de hoje (...) faz-nos refletir sobre as tribulações da história e o fim das coisas. Porque conhece o nosso coração, Jesus, ao olhar para estes acontecimentos, convida-nos antes de mais nada a não nos deixarmos vencer pelo medo: «Quando ouvirdes falar de guerras e…",
+      "url": "https://www.vaticannews.va/pt/palavra-do-dia/2026/11/24.html",
+      "fonte": "Vatican News (Português) — Dicastério para a Comunicação",
+      "licenca": "© Libreria Editrice Vaticana / Dicastério para a Comunicação. Reprodução para fins pastorais e não comerciais, com citação da fonte e link para o original."
+    },
     "cnbb": null,
     "patristica": [
+      {
+        "autor": "Santo Agostinho",
+        "obra": "Sermão 169, 13",
+        "texto": "Aquele que te criou sem ti não te justificará sem ti. Criou-te sem que o soubesses; justifica-te, porém, somente se o quiseres.",
+        "url": "https://www.newadvent.org/fathers/",
+        "fonte": "Santos Padres e Doutores da Igreja (domínio público)",
+        "licenca": "Domínio público",
+        "nota": "Tradução livre do latim (Sermo 169) para fins devocionais."
+      },
       {
         "autor": "Santo Agostinho",
         "obra": "Tratados sobre o Evangelho de São João, 26, 13",
@@ -36,19 +70,16 @@
         "fonte": "Santos Padres e Doutores da Igreja (domínio público)",
         "licenca": "Domínio público",
         "nota": "Tradução livre do latim (In Ioannis Evangelium Tractatus) para fins devocionais."
-      },
-      {
-        "autor": "São João Crisóstomo",
-        "obra": "Homilias sobre o Evangelho de São Mateus, 50, 3-4",
-        "texto": "Queres honrar o Corpo de Cristo? Não o desprezes quando está nu. Não o honres aqui no templo com vestes de seda, enquanto lá fora o abandonas ao frio e à nudez. Aquele que disse «Isto é o meu corpo» disse também «Tive fome e não me destes de comer». De que serve a mesa de Cristo carregada de taças de ouro, se Ele mesmo morre de fome? Sacia primeiro o faminto, e depois, com o que sobrar, adorna também o seu altar.",
-        "url": "https://www.newadvent.org/fathers/200150.htm",
-        "fonte": "Santos Padres e Doutores da Igreja (domínio público)",
-        "licenca": "Domínio público",
-        "nota": "Tradução livre do grego, a partir da edição de domínio público, para fins devocionais."
       }
     ]
   },
   "fontes": [
+    {
+      "id": "vaticannews",
+      "nome": "Vatican News (Português) — Dicastério para a Comunicação",
+      "url": "https://www.vaticannews.va/pt.html",
+      "nota": "© Libreria Editrice Vaticana / Dicastério para a Comunicação. Reprodução para fins pastorais e não comerciais, com citação da fonte e link para o original."
+    },
     {
       "id": "patristica",
       "nome": "Santos Padres e Doutores da Igreja (domínio público)",
@@ -56,10 +87,11 @@
       "nota": "Obras em domínio público; traduções do projeto Via Sacra (GPL-3.0 / CC0 para o texto)."
     }
   ],
-  "url_original": null,
+  "url_original": "https://www.vaticannews.va/pt/palavra-do-dia/2026/11/24.html",
   "status": {
     "cnbb": "indisponivel: Não foi possível acessar https://liturgiadiaria.cnbb.org.br/?data=2026-11-24: HTTPSConnectionPool(host='liturgiadiaria.cnbb.org.br', port=443): Max retries exceeded with url: /?data=2026-11-24 (Caused by SSLError(SSLError(1, '[SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] ssl/tls alert handshake failure (_ssl.c:1011)'))); Não foi possível acessar https://liturgiadiaria.cnbb.org.br/app/user/user/UserView.php?ano=2026&mes=11&dia=24: HTTPSConnectionPool(host='liturgiadiaria.cnbb.org.br', port=443): Max retries exceeded with url: /app/user/user/UserView.php?ano=2026&mes=11&dia=24 (Caused by SSLError(SSLError(1, '[SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] ssl/tls alert handshake failure (_ssl.c:1011)'))); Não foi possível acessar https://liturgiadiaria.cnbb.org.br/liturgia/24-11-2026: HTTPSConnectionPool(host='liturgiadiaria.cnbb.org.br', port=443): Max retries exceeded with url: /liturgia/24-11-2026 (Caused by SSLError(SSLError(1, '[SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] ssl/tls alert handshake failure (_ssl.c:1011)')))",
-    "vaticano": "indisponivel: RSS só é útil para o dia corrente",
+    "vaticano": "ok",
+    "leituras_vaticano": "ok",
     "patristica": "ok"
   }
 }

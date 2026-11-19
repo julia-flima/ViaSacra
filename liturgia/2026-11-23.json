@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "data": "2026-11-23",
-  "gerado_em": "2026-11-19T16:00:20-03:00",
+  "gerado_em": "2026-11-19T16:07:43-03:00",
   "calendario": {
     "data": "2026-11-23",
     "dia_semana": "Segunda-feira",
@@ -16,7 +16,24 @@
     "misterios_do_dia": "gozosos",
     "cor_origem": "calculada"
   },
-  "leituras": null,
+  "leituras": {
+    "primeira_leitura": {
+      "referencia": "Ap 14,1-3.4b-5",
+      "introducao": "Leitura do Livro do Apocalipse de São João",
+      "aclamacao": null,
+      "texto": "Eu, João,\ntive esta visão: o Cordeiro estava de pé sobre o monte Sião. Com ele, os cento e quarenta e quatro mil que tinham a fronte marcada com o nome dele e o nome do seu Pai.\nOuvi uma voz que vinha do céu; parecia o barulho de águas torrenciais e o estrondo de um forte trovão. O ruído que ouvi era como o som de músicos tocando harpa.\nEstavam diante do trono, diante dos quatro Seres vivos e dos Anciãos, e cantavam um cântico novo. Era um cântico que ninguém podia aprender; só os cento e quarenta e quatro mil marcados, que foram resgatados da terra.\nEles seguem o Cordeiro aonde quer que vá. Foram resgatados do meio dos homens, como primeira oferta a Deus a ao Cordeiro.\nNa sua boca nunca foi encontrada mentira. São íntegros!",
+      "fonte": "Vatican News"
+    },
+    "salmo": null,
+    "segunda_leitura": null,
+    "evangelho": {
+      "referencia": "Lc 21,1-4",
+      "introducao": "Proclamação do Evangelho de Jesus Cristo segundo Lucas",
+      "aclamacao": null,
+      "texto": "Naquele tempo,\nJesus ergueu os olhos e viu pessoas ricas depositando ofertas no tesouro do Templo.\nViu também uma pobre viúva que depositou duas pequenas moedas.\nDiante disto, ele disse: \"Em verdade vos digo que essa pobre viúva ofertou mais do que todos.\nPois todos eles depositaram,\ncomo oferta feita a Deus, aquilo que lhes sobrava. Mas a viúva, na sua pobreza, ofertou tudo quanto tinha para viver\".",
+      "fonte": "Vatican News"
+    }
+  },
   "audio": {
     "salmo_audio_url": null,
     "salmo_cifra_ou_melodia": null,
@@ -25,9 +42,26 @@
     "fallback": "tts_local_pt_BR"
   },
   "homilias": {
-    "vaticano": null,
+    "vaticano": {
+      "titulo": "As palavras dos Papas",
+      "autor": "Papa Francisco",
+      "texto": "Jesus convida-nos a olhar para a pobre viúva. O Senhor denuncia a exploração desta mulher que, para fazer a oferta, deve regressar a casa até sem o pouco que tem para viver. Como é importante libertar o sagrado dos vínculos com o dinheiro! Jesus já o tinha dito noutra ocasião: não se pode servir a dois senhores. Ou serves a Deus – e pensamos que Ele está a dizer “ou o diabo”, não – ou Deus ou dinheiro. Ele é um senhor, e Jesus diz que não o devemos servir. Mas, ao mesmo tempo, Jesus elogia o facto que aquela viúva deita tudo o que possui no tesouro. Não lhe sobra nada, mas encontra tudo em Deus. Ela não tem receio de perder o pouco que tem, porque confia na abundância de Deus, e esta abundância de Deus multiplica a alegria do doador. (...)\n\nO Senhor, diante da generosidade das pessoas, vai sempre além, é mais generoso. Mas é Ele, não a nossa avareza. Eis então que Jesus propõe aquela senhora como mestra de fé: ela não frequenta o Templo para limpar a própria consciência, não reza para se mostrar, não ostenta a fé, mas doa com o coração, com generosidade e gratuidade. As suas moedinhas têm um som mais bonito do que as grandes ofertas dos ricos, porque exprimem uma vida dedicada a Deus com sinceridade, uma fé que não vive das aparências, mas da confiança incondicional. Aprendamos com ela: uma fé sem enfeites exteriores, mas sincera interiormente; uma fé feita de amor humilde a Deus e aos irmãos.\n\n(Papa Francisco, Angelus de 7 de novembro de 2021)",
+      "resumo": "Jesus convida-nos a olhar para a pobre viúva. O Senhor denuncia a exploração desta mulher que, para fazer a oferta, deve regressar a casa até sem o pouco que tem para viver. Como é importante libertar o sagrado dos vínculos com o dinheiro! Jesus já o tinha dito noutra ocasião:…",
+      "url": "https://www.vaticannews.va/pt/palavra-do-dia/2026/11/23.html",
+      "fonte": "Vatican News (Português) — Dicastério para a Comunicação",
+      "licenca": "© Libreria Editrice Vaticana / Dicastério para a Comunicação. Reprodução para fins pastorais e não comerciais, com citação da fonte e link para o original."
+    },
     "cnbb": null,
     "patristica": [
+      {
+        "autor": "Santo Agostinho",
+        "obra": "Sermão 169, 13",
+        "texto": "Aquele que te criou sem ti não te justificará sem ti. Criou-te sem que o soubesses; justifica-te, porém, somente se o quiseres.",
+        "url": "https://www.newadvent.org/fathers/",
+        "fonte": "Santos Padres e Doutores da Igreja (domínio público)",
+        "licenca": "Domínio público",
+        "nota": "Tradução livre do latim (Sermo 169) para fins devocionais."
+      },
       {
         "autor": "Santo Agostinho",
         "obra": "Tratados sobre o Evangelho de São João, 26, 13",
@@ -36,19 +70,16 @@
         "fonte": "Santos Padres e Doutores da Igreja (domínio público)",
         "licenca": "Domínio público",
         "nota": "Tradução livre do latim (In Ioannis Evangelium Tractatus) para fins devocionais."
-      },
-      {
-        "autor": "São João Crisóstomo",
-        "obra": "Homilias sobre o Evangelho de São Mateus, 50, 3-4",
-        "texto": "Queres honrar o Corpo de Cristo? Não o desprezes quando está nu. Não o honres aqui no templo com vestes de seda, enquanto lá fora o abandonas ao frio e à nudez. Aquele que disse «Isto é o meu corpo» disse também «Tive fome e não me destes de comer». De que serve a mesa de Cristo carregada de taças de ouro, se Ele mesmo morre de fome? Sacia primeiro o faminto, e depois, com o que sobrar, adorna também o seu altar.",
-        "url": "https://www.newadvent.org/fathers/200150.htm",
-        "fonte": "Santos Padres e Doutores da Igreja (domínio público)",
-        "licenca": "Domínio público",
-        "nota": "Tradução livre do grego, a partir da edição de domínio público, para fins devocionais."
       }
     ]
   },
   "fontes": [
+    {
+      "id": "vaticannews",
+      "nome": "Vatican News (Português) — Dicastério para a Comunicação",
+      "url": "https://www.vaticannews.va/pt.html",
+      "nota": "© Libreria Editrice Vaticana / Dicastério para a Comunicação. Reprodução para fins pastorais e não comerciais, com citação da fonte e link para o original."
+    },
     {
       "id": "patristica",
       "nome": "Santos Padres e Doutores da Igreja (domínio público)",
@@ -56,10 +87,11 @@
       "nota": "Obras em domínio público; traduções do projeto Via Sacra (GPL-3.0 / CC0 para o texto)."
     }
   ],
-  "url_original": null,
+  "url_original": "https://www.vaticannews.va/pt/palavra-do-dia/2026/11/23.html",
   "status": {
     "cnbb": "indisponivel: Não foi possível acessar https://liturgiadiaria.cnbb.org.br/?data=2026-11-23: HTTPSConnectionPool(host='liturgiadiaria.cnbb.org.br', port=443): Max retries exceeded with url: /?data=2026-11-23 (Caused by SSLError(SSLError(1, '[SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] ssl/tls alert handshake failure (_ssl.c:1011)'))); Não foi possível acessar https://liturgiadiaria.cnbb.org.br/app/user/user/UserView.php?ano=2026&mes=11&dia=23: HTTPSConnectionPool(host='liturgiadiaria.cnbb.org.br', port=443): Max retries exceeded with url: /app/user/user/UserView.php?ano=2026&mes=11&dia=23 (Caused by SSLError(SSLError(1, '[SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] ssl/tls alert handshake failure (_ssl.c:1011)'))); Não foi possível acessar https://liturgiadiaria.cnbb.org.br/liturgia/23-11-2026: HTTPSConnectionPool(host='liturgiadiaria.cnbb.org.br', port=443): Max retries exceeded with url: /liturgia/23-11-2026 (Caused by SSLError(SSLError(1, '[SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] ssl/tls alert handshake failure (_ssl.c:1011)')))",
-    "vaticano": "indisponivel: RSS só é útil para o dia corrente",
+    "vaticano": "ok",
+    "leituras_vaticano": "ok",
     "patristica": "ok"
   }
 }

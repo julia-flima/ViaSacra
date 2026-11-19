@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "data": "2026-11-19",
-  "gerado_em": "2026-11-19T15:58:45-03:00",
+  "gerado_em": "2026-11-19T16:06:07-03:00",
   "calendario": {
     "data": "2026-11-19",
     "dia_semana": "Quinta-feira",
@@ -16,7 +16,24 @@
     "misterios_do_dia": "luminosos",
     "cor_origem": "calculada"
   },
-  "leituras": null,
+  "leituras": {
+    "primeira_leitura": {
+      "referencia": "Ap 5,1-10",
+      "introducao": "Leitura do Livro do Apocalipse de São João",
+      "aclamacao": null,
+      "texto": "Eu, João,\nvi um livro na mão direita\ndaquele que estava sentado no trono. Era um rolo escrito por dentro e por fora, e estava lacrado com sete selos.\nVi então um anjo forte, que proclamava em voz alta: \"Quem é digno de romper os selos e abrir o livro?\"\nNinguém no céu, nem na terra,\nnem debaixo da terra era digno de abrir o livro ou de ler o que nele estava escrito.\nEu chorava muito, porque ninguém foi considerado digno de abrir ou de ler o livro.\nUm dos anciãos me consolou: \"Não chores! Eis que o Leão da tribo de Judá, o Rebento de Davi, saiu vencedor. Ele pode romper os selos e abrir o livro\".\nDe fato, vi um Cordeiro. Estava no centro do trono\ne dos quatro Seres vivos, no meio dos Anciãos. Estava de pé como que imolado. O Cordeiro tinha sete chifres e sete olhos, que são os sete Espíritos de Deus, enviados por toda a terra.\nEntão, o Cordeiro veio receber o livro da mão direita daquele que está sentado no trono.\nQuando ele recebeu o livro, os quatro Seres vivos e os vinte e quatro Anciãos prostraram-se diante do Cordeiro. Todos tinham harpas e taças de ouro cheias de incenso, que são as orações dos santos.\nE entoaram um cântico novo: \"Tu és digno de receber o livro e abrir seus selos, porque foste imolado, e com teu sangue adquiriste para Deus homens de toda a tribo, língua, povo e nação.\nDeles fizeste para o nosso Deus um reino de sacerdotes. E eles reinarão sobre a terra.\"",
+      "fonte": "Vatican News"
+    },
+    "salmo": null,
+    "segunda_leitura": null,
+    "evangelho": {
+      "referencia": "Lc 19,41-44",
+      "introducao": "Proclamação do Evangelho de Jesus Cristo segundo Lucas",
+      "aclamacao": null,
+      "texto": "Naquele tempo,\nquando Jesus se aproximou de Jerusalém\ne viu a cidade, começou a chorar. E disse:\n\"Se tu também compreendesses hoje o que te pode trazer a paz! Agora, porém, isso está escondido aos teus olhos!\nDias virão em que os inimigos farão trincheiras contra ti\ne te cercarão de todos os lados.\nEles esmagarão a ti e a teus filhos. E não deixarão em ti pedra sobre pedra. Porque tu não reconheceste o tempo em que foste visitada\".",
+      "fonte": "Vatican News"
+    }
+  },
   "audio": {
     "salmo_audio_url": null,
     "salmo_cifra_ou_melodia": null,
@@ -26,18 +43,25 @@
   },
   "homilias": {
     "vaticano": {
-      "titulo": "Papa: Basílica de São Pedro, espaço sagrado no qual a fé vibra",
-      "autor": "Papa Leão XIV",
-      "texto": "Leão XIV presidiu a missa pelos 400 da Dedicação da Basílica de São Pedro. \"Foi para dar testemunho d’Ele, o Filho do Deus vivo, que esta esplêndida Basílica foi erguida. É para o servir em cada homem e em cada mulher que a Igreja existe e caminha na história\", disse o Papa na homilia. Leia tudo",
-      "resumo": "Leão XIV presidiu a missa pelos 400 da Dedicação da Basílica de São Pedro. \"Foi para dar testemunho d’Ele, o Filho do Deus vivo, que esta esplêndida Basílica foi erguida. É para o servir em cada homem e em cada mulher que a Igreja existe e caminha na história\", disse o Papa na ho",
-      "url": "https://www.vaticannews.va/pt/papa/news/2026-11/papa-leao-missa-400-anos-dedicacao-basilica-sao-pedro-fe-vibra.html",
-      "publicado_em": "Wed, 18 Nov 2026 18:27:00 +0100",
+      "titulo": "As palavras dos Papas",
+      "autor": "Papa Francisco",
+      "texto": "Jesus chorou, o Evangelho narra-nos dois episódios: no túmulo do amigo Lázaro (cf. Jo 11, 35) e diante de Jerusalém (cf. Lc 19, 41). Em ambos os casos, foram lágrimas de dor. Mas podemos imaginar que Jesus também tenha chorado de alegria, por exemplo, quando viu os pequeninos, os humildes do povo que recebiam o Evangelho com entusiasmo. (...) Creio que nós, o nosso tempo — falo em geral — perdemos o hábito de chorar “bem”. Talvez choremos quando acontece algo que nos toca ou quando cortamos a cebola. Mas o pranto que vem do coração, o pranto verdadeiro, como o de Pedro quando se arrependeu, como o de Nossa Senhora... A nossa civilização, os nossos tempos, perderam o sentido do pranto. E devemos pedir a graça de chorar perante o que vemos, diante do uso que é feito da humanidade, não somente das guerras (...) mas do descarte, dos idosos descartados, das crianças descartadas até antes de nascer... Tantos dramas de descarte: aquele pobre que nada tem para viver é descartado; as praças, as ruas cheias de desabrigados… As misérias do nosso tempo deveriam fazer-nos chorar e nós devemos chorar. Há uma Missa na Liturgia católica para pedir o dom das lágrimas. (...) Por favor, peçamos a graça de chorar. Todos! (Papa Francisco, Discurso aos peregrinos de Bérgamo, 23 de abril de 2022)",
+      "resumo": "Jesus chorou, o Evangelho narra-nos dois episódios: no túmulo do amigo Lázaro (cf. Jo 11, 35) e diante de Jerusalém (cf. Lc 19, 41). Em ambos os casos, foram lágrimas de dor. Mas podemos imaginar que Jesus também tenha chorado de alegria, por exemplo, quando viu os pequeninos,…",
+      "url": "https://www.vaticannews.va/pt/palavra-do-dia/2026/11/19.html",
       "fonte": "Vatican News (Português) — Dicastério para a Comunicação",
-      "licenca": "© Libreria Editrice Vaticana / Dicastério para a Comunicação. Reprodução para fins pastorais e não comerciais, com citação da fonte e link para o original.",
-      "observacao": "Resumo do feed RSS — leia o texto completo no link original."
+      "licenca": "© Libreria Editrice Vaticana / Dicastério para a Comunicação. Reprodução para fins pastorais e não comerciais, com citação da fonte e link para o original."
     },
     "cnbb": null,
     "patristica": [
+      {
+        "autor": "Santo Agostinho",
+        "obra": "Sermão 169, 13",
+        "texto": "Aquele que te criou sem ti não te justificará sem ti. Criou-te sem que o soubesses; justifica-te, porém, somente se o quiseres.",
+        "url": "https://www.newadvent.org/fathers/",
+        "fonte": "Santos Padres e Doutores da Igreja (domínio público)",
+        "licenca": "Domínio público",
+        "nota": "Tradução livre do latim (Sermo 169) para fins devocionais."
+      },
       {
         "autor": "Santo Agostinho",
         "obra": "Tratados sobre o Evangelho de São João, 26, 13",
@@ -46,15 +70,6 @@
         "fonte": "Santos Padres e Doutores da Igreja (domínio público)",
         "licenca": "Domínio público",
         "nota": "Tradução livre do latim (In Ioannis Evangelium Tractatus) para fins devocionais."
-      },
-      {
-        "autor": "São João Crisóstomo",
-        "obra": "Homilias sobre o Evangelho de São Mateus, 50, 3-4",
-        "texto": "Queres honrar o Corpo de Cristo? Não o desprezes quando está nu. Não o honres aqui no templo com vestes de seda, enquanto lá fora o abandonas ao frio e à nudez. Aquele que disse «Isto é o meu corpo» disse também «Tive fome e não me destes de comer». De que serve a mesa de Cristo carregada de taças de ouro, se Ele mesmo morre de fome? Sacia primeiro o faminto, e depois, com o que sobrar, adorna também o seu altar.",
-        "url": "https://www.newadvent.org/fathers/200150.htm",
-        "fonte": "Santos Padres e Doutores da Igreja (domínio público)",
-        "licenca": "Domínio público",
-        "nota": "Tradução livre do grego, a partir da edição de domínio público, para fins devocionais."
       }
     ]
   },
@@ -72,10 +87,11 @@
       "nota": "Obras em domínio público; traduções do projeto Via Sacra (GPL-3.0 / CC0 para o texto)."
     }
   ],
-  "url_original": null,
+  "url_original": "https://www.vaticannews.va/pt/palavra-do-dia/2026/11/19.html",
   "status": {
     "cnbb": "indisponivel: Não foi possível acessar https://liturgiadiaria.cnbb.org.br/?data=2026-11-19: HTTPSConnectionPool(host='liturgiadiaria.cnbb.org.br', port=443): Max retries exceeded with url: /?data=2026-11-19 (Caused by SSLError(SSLError(1, '[SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] ssl/tls alert handshake failure (_ssl.c:1011)'))); Não foi possível acessar https://liturgiadiaria.cnbb.org.br/app/user/user/UserView.php?ano=2026&mes=11&dia=19: HTTPSConnectionPool(host='liturgiadiaria.cnbb.org.br', port=443): Max retries exceeded with url: /app/user/user/UserView.php?ano=2026&mes=11&dia=19 (Caused by SSLError(SSLError(1, '[SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] ssl/tls alert handshake failure (_ssl.c:1011)'))); Não foi possível acessar https://liturgiadiaria.cnbb.org.br/liturgia/19-11-2026: HTTPSConnectionPool(host='liturgiadiaria.cnbb.org.br', port=443): Max retries exceeded with url: /liturgia/19-11-2026 (Caused by SSLError(SSLError(1, '[SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] ssl/tls alert handshake failure (_ssl.c:1011)')))",
     "vaticano": "ok",
+    "leituras_vaticano": "ok",
     "patristica": "ok"
   }
 }

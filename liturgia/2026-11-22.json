@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "data": "2026-11-22",
-  "gerado_em": "2026-11-19T15:59:55-03:00",
+  "gerado_em": "2026-11-19T16:07:19-03:00",
   "calendario": {
     "data": "2026-11-22",
     "dia_semana": "Domingo",
@@ -16,7 +16,24 @@
     "misterios_do_dia": "gloriosos",
     "cor_origem": "calculada"
   },
-  "leituras": null,
+  "leituras": {
+    "primeira_leitura": {
+      "referencia": null,
+      "introducao": "Primeira Leitura",
+      "aclamacao": null,
+      "texto": "Leitura da Profecia de Ezequiel\n34,11-12.15-17\nAssim diz o Senhor Deus: \"Vede! Eu mesmo vou procurar minhas ovelhas e tomar conta delas.\nComo o pastor toma conta do rebanho, de dia,\nquando se encontra no meio das ovelhas dispersas, assim vou cuidar de minhas ovelhas e vou resgatá-las de todos os lugares em que foram dispersadas num dia de nuvens e escuridão.\nEu mesmo vou apascentar as minhas ovelhas e fazê-las repousar — oráculo do Senhor Deus —.\nVou procurar a ovelha perdida, reconduzir a extraviada, enfaixar a da perna quebrada, fortalecer a doente, e vigiar a ovelha gorda e forte. Vou apascentá-las conforme o direito.\nQuanto a vós, minhas ovelhas, — assim diz o Senhor Deus — eu farei justiça entre uma ovelha e outra, entre carneiros e bodes\".",
+      "fonte": "Vatican News"
+    },
+    "salmo": null,
+    "segunda_leitura": null,
+    "evangelho": {
+      "referencia": "Mt 25,31-46",
+      "introducao": "Proclamação do Evangelho de Jesus Cristo segundo Mateus",
+      "aclamacao": null,
+      "texto": "Naquele tempo, disse Jesus a seus discípulos:\n\"Quando o Filho do Homem vier em sua glória, acompanhado de todos os anjos, então se assentará em seu trono glorioso.\nTodos os povos da terra serão reunidos diante dele, e ele separará uns dos outros, assim como o pastor separa as ovelhas dos cabritos.\nE colocará as ovelhas à sua direita e os cabritos à sua esquerda.\nEntão o Rei dirá aos que estiverem à sua direita:\n'Vinde, benditos de meu Pai! Recebei como herança o Reino\nque meu Pai vos preparou desde a criação do mundo!\nPois eu estava com fome e me destes de comer; eu estava com sede e me destes de beber; eu era estrangeiro e me recebestes em casa;\neu estava nu e me vestistes; eu estava doente e cuidastes de mim; eu estava na prisão e fostes me visitar'.\nEntão os justos lhe perguntarão: 'Senhor, quando foi que te vimos com fome e te demos de comer? com sede e te demos de beber?\nQuando foi que te vimos como estrangeiro\ne te recebemos em casa, e sem roupa e te vestimos?\nQuando foi que te vimos doente ou preso, e fomos te visitar?'\nEntão o Rei lhes responderá: 'Em verdade eu vos digo, que todas as vezes que fizestes isso a um dos menores de meus irmãos, foi a mim que o fizestes!'\nDepois o Rei dirá aos que estiverem à sua esquerda: 'Afastai-vos de mim, malditos!\nIde para o fogo eterno, preparado para o diabo e para os seus anjos.\nPois eu estava com fome e não me destes de comer;\neu estava com sede e não me destes de beber;\neu era estrangeiro e não me recebestes em casa; eu estava nu e não me vestistes; eu estava doente e na prisão e não fostes me visitar'.\nE responderão também eles: 'Senhor, quando foi que te vimos com fome, ou com sede, como estrangeiro, ou nu, doente ou preso, e não te servimos?'\nEntão o Rei lhes responderá: 'Em verdade eu vos digo, todas as vezes que não fizestes isso a um desses pequeninos, foi a mim que não o fizestes!'\nPortanto, estes irão para o castigo eterno,\nenquanto os justos irão para a vida eterna\".",
+      "fonte": "Vatican News"
+    }
+  },
   "audio": {
     "salmo_audio_url": null,
     "salmo_cifra_ou_melodia": null,
@@ -25,18 +42,17 @@
     "fallback": "tts_local_pt_BR"
   },
   "homilias": {
-    "vaticano": null,
+    "vaticano": {
+      "titulo": "As palavras dos Papas",
+      "autor": "Papa Bento XVI",
+      "texto": "O Filho do homem na sua glória, circundado pelos seus anjos, comporta-se como o pastor, que separa as ovelhas dos cabritos e põe os justos à sua direita e os réprobos à esquerda. (...) No Evangelho, o critério do juízo é decisivo. Este critério é o amor, a caridade concreta em relação ao próximo, de modo particular dos \"pequeninos\", das pessoas em maior dificuldade: famintos, sedentos, estrangeiros, nus, doentes e prisioneiros. O Rei declara solenemente a todos que aquilo que fizeram ou deixaram de lhes fazer, fizeram-no ou deixaram de fazer a Ele mesmo. Ou seja, Cristo identifica-se com os seus \"irmãos mais pequeninos\", e o juízo final será o balanço do que já aconteceu na vida terrena. (...) Eis por que Jesus quer associar-nos à sua realeza, eis por que nos convida a colaborar para o advento do seu Reino de amor, de justiça e de paz. Cabe-nos responder-lhe, não com as palavras, mas com os fatos: escolhendo o caminho do amor concreto e generoso pelo próximo, nós permitimos que Ele estenda o seu senhorio no tempo e no espaço. (Papa Bento XVI, Discurso aos peregrinos da Arquidiocese de Amalfi - Cava de’Tireni, 22 de novembro de 2008)",
+      "resumo": "O Filho do homem na sua glória, circundado pelos seus anjos, comporta-se como o pastor, que separa as ovelhas dos cabritos e põe os justos à sua direita e os réprobos à esquerda. (...) No Evangelho, o critério do juízo é decisivo. Este critério é o amor, a caridade concreta em…",
+      "url": "https://www.vaticannews.va/pt/palavra-do-dia/2026/11/22.html",
+      "fonte": "Vatican News (Português) — Dicastério para a Comunicação",
+      "licenca": "© Libreria Editrice Vaticana / Dicastério para a Comunicação. Reprodução para fins pastorais e não comerciais, com citação da fonte e link para o original."
+    },
     "cnbb": null,
     "patristica": [
-      {
-        "autor": "Santo Agostinho",
-        "obra": "Tratados sobre o Evangelho de São João, 26, 13",
-        "texto": "Ó sacramento de piedade! Ó sinal de unidade! Ó vínculo de caridade! Quem quer viver tem onde viver, tem de onde viver. Aproxime-se, creia, seja incorporado, para ser vivificado.",
-        "url": "https://www.newadvent.org/fathers/1701026.htm",
-        "fonte": "Santos Padres e Doutores da Igreja (domínio público)",
-        "licenca": "Domínio público",
-        "nota": "Tradução livre do latim (In Ioannis Evangelium Tractatus) para fins devocionais."
-      },
       {
         "autor": "São João Crisóstomo",
         "obra": "Homilias sobre o Evangelho de São Mateus, 50, 3-4",
@@ -45,10 +61,25 @@
         "fonte": "Santos Padres e Doutores da Igreja (domínio público)",
         "licenca": "Domínio público",
         "nota": "Tradução livre do grego, a partir da edição de domínio público, para fins devocionais."
+      },
+      {
+        "autor": "Santo Agostinho",
+        "obra": "Tratados sobre o Evangelho de São João, 26, 13",
+        "texto": "Ó sacramento de piedade! Ó sinal de unidade! Ó vínculo de caridade! Quem quer viver tem onde viver, tem de onde viver. Aproxime-se, creia, seja incorporado, para ser vivificado.",
+        "url": "https://www.newadvent.org/fathers/1701026.htm",
+        "fonte": "Santos Padres e Doutores da Igreja (domínio público)",
+        "licenca": "Domínio público",
+        "nota": "Tradução livre do latim (In Ioannis Evangelium Tractatus) para fins devocionais."
       }
     ]
   },
   "fontes": [
+    {
+      "id": "vaticannews",
+      "nome": "Vatican News (Português) — Dicastério para a Comunicação",
+      "url": "https://www.vaticannews.va/pt.html",
+      "nota": "© Libreria Editrice Vaticana / Dicastério para a Comunicação. Reprodução para fins pastorais e não comerciais, com citação da fonte e link para o original."
+    },
     {
       "id": "patristica",
       "nome": "Santos Padres e Doutores da Igreja (domínio público)",
@@ -56,10 +87,11 @@
       "nota": "Obras em domínio público; traduções do projeto Via Sacra (GPL-3.0 / CC0 para o texto)."
     }
   ],
-  "url_original": null,
+  "url_original": "https://www.vaticannews.va/pt/palavra-do-dia/2026/11/22.html",
   "status": {
     "cnbb": "indisponivel: Não foi possível acessar https://liturgiadiaria.cnbb.org.br/?data=2026-11-22: HTTPSConnectionPool(host='liturgiadiaria.cnbb.org.br', port=443): Max retries exceeded with url: /?data=2026-11-22 (Caused by SSLError(SSLError(1, '[SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] ssl/tls alert handshake failure (_ssl.c:1011)'))); Não foi possível acessar https://liturgiadiaria.cnbb.org.br/app/user/user/UserView.php?ano=2026&mes=11&dia=22: HTTPSConnectionPool(host='liturgiadiaria.cnbb.org.br', port=443): Max retries exceeded with url: /app/user/user/UserView.php?ano=2026&mes=11&dia=22 (Caused by SSLError(SSLError(1, '[SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] ssl/tls alert handshake failure (_ssl.c:1011)'))); Não foi possível acessar https://liturgiadiaria.cnbb.org.br/liturgia/22-11-2026: HTTPSConnectionPool(host='liturgiadiaria.cnbb.org.br', port=443): Max retries exceeded with url: /liturgia/22-11-2026 (Caused by SSLError(SSLError(1, '[SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] ssl/tls alert handshake failure (_ssl.c:1011)')))",
-    "vaticano": "indisponivel: RSS só é útil para o dia corrente",
+    "vaticano": "ok",
+    "leituras_vaticano": "ok",
     "patristica": "ok"
   }
 }
