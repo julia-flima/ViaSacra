@@ -1,37 +1,56 @@
 {
   "schema_version": 1,
   "data": "2026-11-21",
-  "gerado_em": "2026-11-19T16:06:55-03:00",
+  "gerado_em": "2026-11-19T16:46:01-03:00",
   "calendario": {
     "data": "2026-11-21",
     "dia_semana": "Sábado",
     "tempo": "comum",
     "tempo_nome": "Tempo Comum",
     "semana": 33,
-    "cor": "verde",
-    "celebracao": "Sábado da 33ª Semana do Tempo Comum",
+    "cor": "branco",
+    "celebracao": "Apresentação da Bem-aventurada Virgem Maria, Memória",
     "grau": "feria",
     "ciclo_dominical": "A",
     "ciclo_ferial": "II",
     "misterios_do_dia": "gozosos",
-    "cor_origem": "calculada"
+    "cor_origem": "cnbb"
   },
   "leituras": {
     "primeira_leitura": {
       "referencia": "Zc 2,14-17",
-      "introducao": "Leitura da Profecia de Zacarias",
+      "introducao": "Leitura da Profecia de Zacarias 2,14-17",
       "aclamacao": null,
-      "texto": "\"Rejubila, alegra-te, cidade de Sião,\neis que venho para habitar no meio de ti, diz o Senhor.\nMuitas nações se aproximarão do Senhor, naquele dia, e serão o seu povo. Habitarei no meio de ti, e saberás que o Senhor dos exércitos me enviou a ti.\nO Senhor entrará em posse de Judá, como sua porção na terra santa, e escolherá de novo Jerusalém.\nEmudeça todo mortal diante do Senhor,\nele acaba de levantar-se de sua santa habitação\".",
-      "fonte": "Vatican News"
+      "texto": "\"Rejubila, alegra-te, cidade de Sião,\neis que venho para habitar no meio de ti,\ndiz o Senhor.\n\nMuitas nações se aproximarão do Senhor, naquele dia,\ne serão o seu povo.\nHabitarei no meio de ti,\ne saberás que o Senhor dos exércitos me enviou a ti.\n\nO Senhor entrará em posse de Judá,\ncomo sua porção na terra santa,\ne escolherá de novo Jerusalém.\n\nEmudeça todo mortal diante do Senhor,\nele acaba de levantar-se de sua santa habitação\".",
+      "fonte": "CNBB"
     },
-    "salmo": null,
+    "salmo": {
+      "referencia": "Lc 1,46-47.48-49.50-51.52-53.54-55",
+      "refrao": "O Poderoso fez por mim maravilhas,",
+      "estrofes": [
+        "e Santo é o seu nome.",
+        "trouxestes no ventre a Palavra eterna!",
+        "A minh'alma engrandece ao Senhor, *",
+        "e se alegrou o meu espírito em Deus, meu Salvador,",
+        "pois, ele viu a pequenez de sua serva, *\neis que agora as gerações hão de chamar-me de bendita.",
+        "O Poderoso fez por mim maravilhas *\ne Santo é o seu nome!",
+        "Seu amor, de geração em geração, *\nchega a todos que o respeitam.",
+        "Demonstrou o poder de seu braço, *\ndispersou os orgulhosos.",
+        "Derrubou os poderosos de seus tronos *\ne os humildes exaltou.",
+        "De bens saciou os famintos *\ne despediu, sem nada, os ricos.",
+        "Acolheu Israel, seu servidor, *\nfiel ao seu amor,",
+        "como havia prometido aos nossos pais, *\nem favor de Abraão e de seus filhos, para sempre."
+      ],
+      "texto": "e Santo é o seu nome.\n\ntrouxestes no ventre a Palavra eterna!\n\nA minh'alma engrandece ao Senhor, *\n\ne se alegrou o meu espírito em Deus, meu Salvador,\n\npois, ele viu a pequenez de sua serva, *\neis que agora as gerações hão de chamar-me de bendita.\n\nO Poderoso fez por mim maravilhas *\ne Santo é o seu nome!\n\nSeu amor, de geração em geração, *\nchega a todos que o respeitam.\n\nDemonstrou o poder de seu braço, *\ndispersou os orgulhosos.\n\nDerrubou os poderosos de seus tronos *\ne os humildes exaltou.\n\nDe bens saciou os famintos *\ne despediu, sem nada, os ricos.\n\nAcolheu Israel, seu servidor, *\nfiel ao seu amor,\n\ncomo havia prometido aos nossos pais, *\nem favor de Abraão e de seus filhos, para sempre.",
+      "fonte": "CNBB"
+    },
     "segunda_leitura": null,
     "evangelho": {
       "referencia": "Mt 12,46-50",
-      "introducao": "Proclamação do Evangelho de Jesus Cristo segundo Mateus",
-      "aclamacao": null,
-      "texto": "Naquele tempo,\nenquanto Jesus estava falando às multidões, sua mãe e seus irmãos ficaram do lado de fora, procurando falar com ele.\nAlguém disse a Jesus: \"Olha! Tua mãe e teus irmãos estão aí fora, e querem falar contigo\".\nJesus perguntou àquele que tinha falado: \"Quem é minha mãe, e quem são meus irmãos?\"\nE, estendendo a mão para os discípulos,\nJesus disse: \"Eis minha mãe e meus irmãos.\nPois todo aquele que faz a vontade do meu Pai, que está nos céus, esse é meu irmão, minha irmã e minha mãe\".",
-      "fonte": "Vatican News"
+      "introducao": "Proclamação do Evangelho de Jesus Cristo segundo Mateus 12,46-50",
+      "aclamacao": "R. Aleluia, Aleluia, Aleluia.\nV. Feliz quem ouve e observa a palavra de Deus!",
+      "texto": "Naquele tempo,\n\nenquanto Jesus estava falando às multidões,\nsua mãe e seus irmãos ficaram do lado de fora,\nprocurando falar com ele.\n\nAlguém disse a Jesus:\n\"Olha! Tua mãe e teus irmãos estão aí fora,\ne querem falar contigo\".\n\nJesus perguntou àquele que tinha falado:\n\"Quem é minha mãe, e quem são meus irmãos?\"\n\nE, estendendo a mão para os discípulos,\nJesus disse:\n\"Eis minha mãe e meus irmãos.\n\nPois todo aquele que faz a vontade do meu Pai,\nque está nos céus,\nesse é meu irmão, minha irmã e minha mãe\".",
+      "fonte": "CNBB"
     }
   },
   "audio": {
@@ -75,6 +94,12 @@
   },
   "fontes": [
     {
+      "id": "cnbb",
+      "nome": "CNBB — Conferência Nacional dos Bispos do Brasil",
+      "url": "https://liturgiadiaria.edicoescnbb.com.br",
+      "nota": "Textos litúrgicos reproduzidos para uso devocional e não comercial. Fonte: CNBB / Edições CNBB."
+    },
+    {
       "id": "vaticannews",
       "nome": "Vatican News (Português) — Dicastério para a Comunicação",
       "url": "https://www.vaticannews.va/pt.html",
@@ -87,11 +112,10 @@
       "nota": "Obras em domínio público; traduções do projeto Via Sacra (GPL-3.0 / CC0 para o texto)."
     }
   ],
-  "url_original": "https://www.vaticannews.va/pt/palavra-do-dia/2026/11/21.html",
+  "url_original": "https://liturgiadiaria.edicoescnbb.com.br",
   "status": {
-    "cnbb": "indisponivel: Não foi possível acessar https://liturgiadiaria.cnbb.org.br/?data=2026-11-21: HTTPSConnectionPool(host='liturgiadiaria.cnbb.org.br', port=443): Max retries exceeded with url: /?data=2026-11-21 (Caused by SSLError(SSLError(1, '[SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] ssl/tls alert handshake failure (_ssl.c:1011)'))); Não foi possível acessar https://liturgiadiaria.cnbb.org.br/app/user/user/UserView.php?ano=2026&mes=11&dia=21: HTTPSConnectionPool(host='liturgiadiaria.cnbb.org.br', port=443): Max retries exceeded with url: /app/user/user/UserView.php?ano=2026&mes=11&dia=21 (Caused by SSLError(SSLError(1, '[SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] ssl/tls alert handshake failure (_ssl.c:1011)'))); Não foi possível acessar https://liturgiadiaria.cnbb.org.br/liturgia/21-11-2026: HTTPSConnectionPool(host='liturgiadiaria.cnbb.org.br', port=443): Max retries exceeded with url: /liturgia/21-11-2026 (Caused by SSLError(SSLError(1, '[SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] ssl/tls alert handshake failure (_ssl.c:1011)')))",
+    "cnbb": "ok",
     "vaticano": "ok",
-    "leituras_vaticano": "ok",
     "patristica": "ok"
   }
 }

@@ -1,37 +1,51 @@
 {
   "schema_version": 1,
   "data": "2026-11-19",
-  "gerado_em": "2026-11-19T16:06:07-03:00",
+  "gerado_em": "2026-11-19T16:45:57-03:00",
   "calendario": {
     "data": "2026-11-19",
     "dia_semana": "Quinta-feira",
     "tempo": "comum",
     "tempo_nome": "Tempo Comum",
     "semana": 33,
-    "cor": "verde",
-    "celebracao": "Quinta-feira da 33ª Semana do Tempo Comum",
+    "cor": "vermelho",
+    "celebracao": "Santos Roque González, Afonso Rodríguez e João de Castillo, presbíteros e mártires, Memória",
     "grau": "feria",
     "ciclo_dominical": "A",
     "ciclo_ferial": "II",
     "misterios_do_dia": "luminosos",
-    "cor_origem": "calculada"
+    "cor_origem": "cnbb"
   },
   "leituras": {
     "primeira_leitura": {
       "referencia": "Ap 5,1-10",
-      "introducao": "Leitura do Livro do Apocalipse de São João",
+      "introducao": "Leitura do Livro do Apocalipse de São João 5,1-10",
       "aclamacao": null,
-      "texto": "Eu, João,\nvi um livro na mão direita\ndaquele que estava sentado no trono. Era um rolo escrito por dentro e por fora, e estava lacrado com sete selos.\nVi então um anjo forte, que proclamava em voz alta: \"Quem é digno de romper os selos e abrir o livro?\"\nNinguém no céu, nem na terra,\nnem debaixo da terra era digno de abrir o livro ou de ler o que nele estava escrito.\nEu chorava muito, porque ninguém foi considerado digno de abrir ou de ler o livro.\nUm dos anciãos me consolou: \"Não chores! Eis que o Leão da tribo de Judá, o Rebento de Davi, saiu vencedor. Ele pode romper os selos e abrir o livro\".\nDe fato, vi um Cordeiro. Estava no centro do trono\ne dos quatro Seres vivos, no meio dos Anciãos. Estava de pé como que imolado. O Cordeiro tinha sete chifres e sete olhos, que são os sete Espíritos de Deus, enviados por toda a terra.\nEntão, o Cordeiro veio receber o livro da mão direita daquele que está sentado no trono.\nQuando ele recebeu o livro, os quatro Seres vivos e os vinte e quatro Anciãos prostraram-se diante do Cordeiro. Todos tinham harpas e taças de ouro cheias de incenso, que são as orações dos santos.\nE entoaram um cântico novo: \"Tu és digno de receber o livro e abrir seus selos, porque foste imolado, e com teu sangue adquiriste para Deus homens de toda a tribo, língua, povo e nação.\nDeles fizeste para o nosso Deus um reino de sacerdotes. E eles reinarão sobre a terra.\"",
-      "fonte": "Vatican News"
+      "texto": "Eu, João,\n\nvi um livro na mão direita\ndaquele que estava sentado no trono.\nEra um rolo escrito por dentro e por fora,\ne estava lacrado com sete selos.\n\nVi então um anjo forte,\nque proclamava em voz alta:\n\"Quem é digno de romper os selos e abrir o livro?\"\n\nNinguém no céu, nem na terra,\nnem debaixo da terra\nera digno de abrir o livro\nou de ler o que nele estava escrito.\n\nEu chorava muito,\nporque ninguém foi considerado digno\nde abrir ou de ler o livro.\n\nUm dos anciãos me consolou:\n\"Não chores!\nEis que o Leão da tribo de Judá,\no Rebento de Davi, saiu vencedor.\nEle pode romper os selos e abrir o livro\".\n\nDe fato, vi um Cordeiro.\nEstava no centro do trono\ne dos quatro Seres vivos,\nno meio dos Anciãos.\nEstava de pé como que imolado.\nO Cordeiro tinha sete chifres e sete olhos,\nque são os sete Espíritos de Deus,\nenviados por toda a terra.\n\nEntão, o Cordeiro veio receber o livro\nda mão direita daquele que está sentado no trono.\n\nQuando ele recebeu o livro,\nos quatro Seres vivos e os vinte e quatro Anciãos\nprostraram-se diante do Cordeiro.\nTodos tinham harpas e taças de ouro cheias de incenso,\nque são as orações dos santos.\n\nE entoaram um cântico novo:\n\"Tu és digno de receber o livro e abrir seus selos,\nporque foste imolado,\ne com teu sangue adquiriste para Deus\nhomens de toda a tribo, língua, povo e nação.\n\nDeles fizeste para o nosso Deus\num reino de sacerdotes.\nE eles reinarão sobre a terra.\"",
+      "fonte": "CNBB"
     },
-    "salmo": null,
+    "salmo": {
+      "referencia": "Sl 149,1-2.3-4.5-6a",
+      "refrao": "Fizestes de nós, para Deus, sacerdotes e povo de reis.",
+      "estrofes": [
+        "Cantai ao Senhor Deus um canto novo, *\ne o seu louvor na assembleia dos fiéis!",
+        "Alegre-se Israel em Quem o fez, *\ne Sião se rejubile no seu Rei!",
+        "Com danças glorifiquem o seu nome, *\ntoquem harpa e tambor em sua honra!",
+        "Porque, de fato, o Senhor ama seu povo *\ne coroa com vitória os seus humildes.",
+        "Exultem os fiéis por sua glória, *\ne cantando se levantem de seus leitos,",
+        "com louvores do Senhor em sua boca *",
+        "Eis a glória para todos os seus santos."
+      ],
+      "texto": "Cantai ao Senhor Deus um canto novo, *\ne o seu louvor na assembleia dos fiéis!\n\nAlegre-se Israel em Quem o fez, *\ne Sião se rejubile no seu Rei!\n\nCom danças glorifiquem o seu nome, *\ntoquem harpa e tambor em sua honra!\n\nPorque, de fato, o Senhor ama seu povo *\ne coroa com vitória os seus humildes.\n\nExultem os fiéis por sua glória, *\ne cantando se levantem de seus leitos,\n\ncom louvores do Senhor em sua boca *\n\nEis a glória para todos os seus santos.",
+      "fonte": "CNBB"
+    },
     "segunda_leitura": null,
     "evangelho": {
       "referencia": "Lc 19,41-44",
-      "introducao": "Proclamação do Evangelho de Jesus Cristo segundo Lucas",
-      "aclamacao": null,
-      "texto": "Naquele tempo,\nquando Jesus se aproximou de Jerusalém\ne viu a cidade, começou a chorar. E disse:\n\"Se tu também compreendesses hoje o que te pode trazer a paz! Agora, porém, isso está escondido aos teus olhos!\nDias virão em que os inimigos farão trincheiras contra ti\ne te cercarão de todos os lados.\nEles esmagarão a ti e a teus filhos. E não deixarão em ti pedra sobre pedra. Porque tu não reconheceste o tempo em que foste visitada\".",
-      "fonte": "Vatican News"
+      "introducao": "Proclamação do Evangelho de Jesus Cristo segundo Lucas 19,41-44",
+      "aclamacao": "R. Aleluia, Aleluia, Aleluia.\nV. Oxalá ouvísseis hoje a sua voz:\nNão fecheis os corações como em Meriba!",
+      "texto": "Naquele tempo,\n\nquando Jesus se aproximou de Jerusalém\ne viu a cidade,\ncomeçou a chorar. E disse:\n\n\"Se tu também compreendesses hoje\no que te pode trazer a paz!\nAgora, porém, isso está escondido aos teus olhos!\n\nDias virão em que os inimigos\nfarão trincheiras contra ti\ne te cercarão de todos os lados.\n\nEles esmagarão a ti e a teus filhos.\nE não deixarão em ti pedra sobre pedra.\nPorque tu não reconheceste o tempo\nem que foste visitada\".",
+      "fonte": "CNBB"
     }
   },
   "audio": {
@@ -75,6 +89,12 @@
   },
   "fontes": [
     {
+      "id": "cnbb",
+      "nome": "CNBB — Conferência Nacional dos Bispos do Brasil",
+      "url": "https://liturgiadiaria.edicoescnbb.com.br",
+      "nota": "Textos litúrgicos reproduzidos para uso devocional e não comercial. Fonte: CNBB / Edições CNBB."
+    },
+    {
       "id": "vaticannews",
       "nome": "Vatican News (Português) — Dicastério para a Comunicação",
       "url": "https://www.vaticannews.va/pt.html",
@@ -87,11 +107,10 @@
       "nota": "Obras em domínio público; traduções do projeto Via Sacra (GPL-3.0 / CC0 para o texto)."
     }
   ],
-  "url_original": "https://www.vaticannews.va/pt/palavra-do-dia/2026/11/19.html",
+  "url_original": "https://liturgiadiaria.edicoescnbb.com.br",
   "status": {
-    "cnbb": "indisponivel: Não foi possível acessar https://liturgiadiaria.cnbb.org.br/?data=2026-11-19: HTTPSConnectionPool(host='liturgiadiaria.cnbb.org.br', port=443): Max retries exceeded with url: /?data=2026-11-19 (Caused by SSLError(SSLError(1, '[SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] ssl/tls alert handshake failure (_ssl.c:1011)'))); Não foi possível acessar https://liturgiadiaria.cnbb.org.br/app/user/user/UserView.php?ano=2026&mes=11&dia=19: HTTPSConnectionPool(host='liturgiadiaria.cnbb.org.br', port=443): Max retries exceeded with url: /app/user/user/UserView.php?ano=2026&mes=11&dia=19 (Caused by SSLError(SSLError(1, '[SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] ssl/tls alert handshake failure (_ssl.c:1011)'))); Não foi possível acessar https://liturgiadiaria.cnbb.org.br/liturgia/19-11-2026: HTTPSConnectionPool(host='liturgiadiaria.cnbb.org.br', port=443): Max retries exceeded with url: /liturgia/19-11-2026 (Caused by SSLError(SSLError(1, '[SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] ssl/tls alert handshake failure (_ssl.c:1011)')))",
+    "cnbb": "ok",
     "vaticano": "ok",
-    "leituras_vaticano": "ok",
     "patristica": "ok"
   }
 }

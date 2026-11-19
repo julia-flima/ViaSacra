@@ -1,37 +1,53 @@
 {
   "schema_version": 1,
   "data": "2026-11-23",
-  "gerado_em": "2026-11-19T16:07:43-03:00",
+  "gerado_em": "2026-11-19T16:46:05-03:00",
   "calendario": {
     "data": "2026-11-23",
     "dia_semana": "Segunda-feira",
     "tempo": "comum",
     "tempo_nome": "Tempo Comum",
     "semana": 34,
-    "cor": "verde",
-    "celebracao": "Segunda-feira da 34ª Semana do Tempo Comum",
+    "cor": "vermelho",
+    "celebracao": "34ª Semana do Tempo Comum, Ano Par (II)",
     "grau": "feria",
     "ciclo_dominical": "A",
     "ciclo_ferial": "II",
     "misterios_do_dia": "gozosos",
-    "cor_origem": "calculada"
+    "cor_origem": "cnbb"
   },
   "leituras": {
     "primeira_leitura": {
       "referencia": "Ap 14,1-3.4b-5",
-      "introducao": "Leitura do Livro do Apocalipse de São João",
+      "introducao": "Leitura do Livro do Apocalipse de São João 14,1-3.4b-5",
       "aclamacao": null,
-      "texto": "Eu, João,\ntive esta visão: o Cordeiro estava de pé sobre o monte Sião. Com ele, os cento e quarenta e quatro mil que tinham a fronte marcada com o nome dele e o nome do seu Pai.\nOuvi uma voz que vinha do céu; parecia o barulho de águas torrenciais e o estrondo de um forte trovão. O ruído que ouvi era como o som de músicos tocando harpa.\nEstavam diante do trono, diante dos quatro Seres vivos e dos Anciãos, e cantavam um cântico novo. Era um cântico que ninguém podia aprender; só os cento e quarenta e quatro mil marcados, que foram resgatados da terra.\nEles seguem o Cordeiro aonde quer que vá. Foram resgatados do meio dos homens, como primeira oferta a Deus a ao Cordeiro.\nNa sua boca nunca foi encontrada mentira. São íntegros!",
-      "fonte": "Vatican News"
+      "texto": "Eu, João,\n\ntive esta visão:\no Cordeiro estava de pé sobre o monte Sião.\nCom ele, os cento e quarenta e quatro mil\nque tinham a fronte marcada com o nome dele\ne o nome do seu Pai.\n\nOuvi uma voz que vinha do céu;\nparecia o barulho de águas torrenciais\ne o estrondo de um forte trovão.\nO ruído que ouvi era como o som\nde músicos tocando harpa.\n\nEstavam diante do trono,\ndiante dos quatro Seres vivos e dos Anciãos,\ne cantavam um cântico novo.\nEra um cântico que ninguém podia aprender;\nsó os cento e quarenta e quatro mil marcados,\nque foram resgatados da terra.\n\nEles seguem o Cordeiro aonde quer que vá.\nForam resgatados do meio dos homens,\ncomo primeira oferta a Deus a ao Cordeiro.\n\nNa sua boca nunca foi encontrada mentira.\nSão íntegros!",
+      "fonte": "CNBB"
     },
-    "salmo": null,
+    "salmo": {
+      "referencia": "Sl 23(24),1-2.3-4a",
+      "refrao": "É assim a geração dos que buscam vossa face,",
+      "estrofes": [
+        "ó Senhor, Deus de Israel.",
+        "Ao Senhor pertence a terra e o que ela encerra, *\no mundo inteiro com os seres que o povoam;",
+        "porque ele a tornou firme sobre os mares, *\ne sobre as águas a mantém inabalável.",
+        "\"Quem subirá até o monte do Senhor, *\nquem ficará em sua santa habitação?\"",
+        "\"Quem tem mãos puras e inocente coração, *",
+        "b",
+        "quem não dirige sua mente para o crime.",
+        "Sobre este desce a bênção do Senhor *\ne a recompensa de seu Deus e Salvador\".",
+        "\"É assim a geração dos que o procuram, *\ne do Deus de Israel buscam a face\"."
+      ],
+      "texto": "ó Senhor, Deus de Israel.\n\nAo Senhor pertence a terra e o que ela encerra, *\no mundo inteiro com os seres que o povoam;\n\nporque ele a tornou firme sobre os mares, *\ne sobre as águas a mantém inabalável.\n\n\"Quem subirá até o monte do Senhor, *\nquem ficará em sua santa habitação?\"\n\n\"Quem tem mãos puras e inocente coração, *\n\nb\n\nquem não dirige sua mente para o crime.\n\nSobre este desce a bênção do Senhor *\ne a recompensa de seu Deus e Salvador\".\n\n\"É assim a geração dos que o procuram, *\ne do Deus de Israel buscam a face\".",
+      "fonte": "CNBB"
+    },
     "segunda_leitura": null,
     "evangelho": {
       "referencia": "Lc 21,1-4",
-      "introducao": "Proclamação do Evangelho de Jesus Cristo segundo Lucas",
-      "aclamacao": null,
-      "texto": "Naquele tempo,\nJesus ergueu os olhos e viu pessoas ricas depositando ofertas no tesouro do Templo.\nViu também uma pobre viúva que depositou duas pequenas moedas.\nDiante disto, ele disse: \"Em verdade vos digo que essa pobre viúva ofertou mais do que todos.\nPois todos eles depositaram,\ncomo oferta feita a Deus, aquilo que lhes sobrava. Mas a viúva, na sua pobreza, ofertou tudo quanto tinha para viver\".",
-      "fonte": "Vatican News"
+      "introducao": "Proclamação do Evangelho de Jesus Cristo segundo Lucas 21,1-4",
+      "aclamacao": "R. Aleluia, Aleluia, Aleluia.\nV. Vigiai, diz Jesus, vigiai,\npois, no dia em que não esperais,\no vosso Senhor há de vir.",
+      "texto": "Naquele tempo,\n\nJesus ergueu os olhos e viu pessoas ricas\ndepositando ofertas no tesouro do Templo.\n\nViu também uma pobre viúva\nque depositou duas pequenas moedas.\n\nDiante disto, ele disse:\n\"Em verdade vos digo que essa pobre viúva\nofertou mais do que todos.\n\nPois todos eles depositaram,\ncomo oferta feita a Deus,\naquilo que lhes sobrava.\nMas a viúva, na sua pobreza,\nofertou tudo quanto tinha para viver\".",
+      "fonte": "CNBB"
     }
   },
   "audio": {
@@ -75,6 +91,12 @@
   },
   "fontes": [
     {
+      "id": "cnbb",
+      "nome": "CNBB — Conferência Nacional dos Bispos do Brasil",
+      "url": "https://liturgiadiaria.edicoescnbb.com.br",
+      "nota": "Textos litúrgicos reproduzidos para uso devocional e não comercial. Fonte: CNBB / Edições CNBB."
+    },
+    {
       "id": "vaticannews",
       "nome": "Vatican News (Português) — Dicastério para a Comunicação",
       "url": "https://www.vaticannews.va/pt.html",
@@ -87,11 +109,10 @@
       "nota": "Obras em domínio público; traduções do projeto Via Sacra (GPL-3.0 / CC0 para o texto)."
     }
   ],
-  "url_original": "https://www.vaticannews.va/pt/palavra-do-dia/2026/11/23.html",
+  "url_original": "https://liturgiadiaria.edicoescnbb.com.br",
   "status": {
-    "cnbb": "indisponivel: Não foi possível acessar https://liturgiadiaria.cnbb.org.br/?data=2026-11-23: HTTPSConnectionPool(host='liturgiadiaria.cnbb.org.br', port=443): Max retries exceeded with url: /?data=2026-11-23 (Caused by SSLError(SSLError(1, '[SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] ssl/tls alert handshake failure (_ssl.c:1011)'))); Não foi possível acessar https://liturgiadiaria.cnbb.org.br/app/user/user/UserView.php?ano=2026&mes=11&dia=23: HTTPSConnectionPool(host='liturgiadiaria.cnbb.org.br', port=443): Max retries exceeded with url: /app/user/user/UserView.php?ano=2026&mes=11&dia=23 (Caused by SSLError(SSLError(1, '[SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] ssl/tls alert handshake failure (_ssl.c:1011)'))); Não foi possível acessar https://liturgiadiaria.cnbb.org.br/liturgia/23-11-2026: HTTPSConnectionPool(host='liturgiadiaria.cnbb.org.br', port=443): Max retries exceeded with url: /liturgia/23-11-2026 (Caused by SSLError(SSLError(1, '[SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] ssl/tls alert handshake failure (_ssl.c:1011)')))",
+    "cnbb": "ok",
     "vaticano": "ok",
-    "leituras_vaticano": "ok",
     "patristica": "ok"
   }
 }

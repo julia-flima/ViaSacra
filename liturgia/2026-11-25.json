@@ -1,37 +1,53 @@
 {
   "schema_version": 1,
   "data": "2026-11-25",
-  "gerado_em": "2026-11-19T16:08:32-03:00",
+  "gerado_em": "2026-11-19T16:46:09-03:00",
   "calendario": {
     "data": "2026-11-25",
     "dia_semana": "Quarta-feira",
     "tempo": "comum",
     "tempo_nome": "Tempo Comum",
     "semana": 34,
-    "cor": "verde",
-    "celebracao": "Quarta-feira da 34ª Semana do Tempo Comum",
+    "cor": "vermelho",
+    "celebracao": "34ª Semana do Tempo Comum, Ano Par (II)",
     "grau": "feria",
     "ciclo_dominical": "A",
     "ciclo_ferial": "II",
     "misterios_do_dia": "gloriosos",
-    "cor_origem": "calculada"
+    "cor_origem": "cnbb"
   },
   "leituras": {
     "primeira_leitura": {
       "referencia": "Ap 15,1-4",
-      "introducao": "Leitura do Livro do Apocalipse de São João",
+      "introducao": "Leitura do Livro do Apocalipse de São João 15,1-4",
       "aclamacao": null,
-      "texto": "Eu, João,\nvi no céu outro sinal, grande e admirável: sete anjos, com as sete últimas pragas. Com elas o furor de Deus ia-se consumar.\nVi também como que um mar de vidro\nmisturado com fogo. Sobre este mar estavam, de pé, todos aqueles que saíram vitoriosos do confronto com a besta, com a imagem dela\ne com o número do nome da besta. Seguravam as harpas de Deus.\nEntoavam o cântico de Moisés, o servo de Deus, e o cântico do Cordeiro, dizendo: \"Grandes e admiráveis são as tuas obras, Senhor Deus, Todo-poderoso! Justos e verdadeiros são os teus caminhos, ó Rei das nações!\nQuem não temeria, Senhor, e não glorificaria o teu nome? Só tu és santo! Todas as nações virão prostrar-se diante de Ti, porque tuas justas decisões se tornaram manifestas\".",
-      "fonte": "Vatican News"
+      "texto": "Eu, João,\n\nvi no céu outro sinal,\ngrande e admirável:\nsete anjos, com as sete últimas pragas.\nCom elas o furor de Deus ia-se consumar.\n\nVi também como que um mar de vidro\nmisturado com fogo.\nSobre este mar estavam, de pé,\ntodos aqueles que saíram vitoriosos\ndo confronto com a besta, com a imagem dela\ne com o número do nome da besta.\nSeguravam as harpas de Deus.\n\nEntoavam o cântico de Moisés, o servo de Deus,\ne o cântico do Cordeiro, dizendo:\n\"Grandes e admiráveis são as tuas obras,\nSenhor Deus, Todo-poderoso!\nJustos e verdadeiros são os teus caminhos,\nó Rei das nações!\n\nQuem não temeria, Senhor,\ne não glorificaria o teu nome?\nSó tu és santo!\nTodas as nações virão prostrar-se diante de Ti,\nporque tuas justas decisões se tornaram manifestas\".",
+      "fonte": "CNBB"
     },
-    "salmo": null,
+    "salmo": {
+      "referencia": "Sl 97(98),1.2-3a",
+      "refrao": "Como são grandes e admiráveis vossas obras,",
+      "estrofes": [
+        "ó Senhor e nosso Deus onipotente!",
+        "Cantai ao Senhor Deus um canto novo, *\nporque ele fez prodígios!\nSua mão e o seu braço forte e santo *\nalcançaram-lhe a vitória.",
+        "O Senhor fez conhecer a salvação, *\ne às nações, sua justiça;",
+        "recordou o seu amor sempre fiel *",
+        "b",
+        "pela casa de Israel",
+        "Aplauda o mar com todo ser que nele vive, *\no mundo inteiro e toda gente!",
+        "As montanhas e os rios batam palmas *\ne exultem de alegria.",
+        "na presença do Senhor, pois ele vem, *\nvem julgar a terra inteira.\nJulgará o universo com justiça *\ne as nações com equidade."
+      ],
+      "texto": "ó Senhor e nosso Deus onipotente!\n\nCantai ao Senhor Deus um canto novo, *\nporque ele fez prodígios!\nSua mão e o seu braço forte e santo *\nalcançaram-lhe a vitória.\n\nO Senhor fez conhecer a salvação, *\ne às nações, sua justiça;\n\nrecordou o seu amor sempre fiel *\n\nb\n\npela casa de Israel\n\nAplauda o mar com todo ser que nele vive, *\no mundo inteiro e toda gente!\n\nAs montanhas e os rios batam palmas *\ne exultem de alegria.\n\nna presença do Senhor, pois ele vem, *\nvem julgar a terra inteira.\nJulgará o universo com justiça *\ne as nações com equidade.",
+      "fonte": "CNBB"
+    },
     "segunda_leitura": null,
     "evangelho": {
       "referencia": "Lc 21,12-19",
-      "introducao": "Proclamação do Evangelho de Jesus Cristo segundo Lucas",
-      "aclamacao": null,
-      "texto": "Naquele tempo, disse Jesus aos seus discípulos:\n\"Antes que estas coisas aconteçam, sereis presos e perseguidos; sereis entregues às sinagogas e postos na prisão; sereis levados diante de reis e governadores por causa do meu nome.\nEsta será a ocasião\nem que testemunhareis a vossa fé.\nFazei o firme propósito de não planejar com antecedência a própria defesa;\nporque eu vos darei palavras tão acertadas, que nenhum dos inimigos\nvos poderá resistir ou rebater.\nSereis entregues até mesmo pelos próprios pais, irmãos, parentes e amigos. E eles matarão alguns de vós.\nTodos vos odiarão por causa do meu nome.\nMas vós não perdereis um só fio de cabelo da vossa cabeça.\nÉ permanecendo firmes que ireis ganhar a vida!\"",
-      "fonte": "Vatican News"
+      "introducao": "Proclamação do Evangelho de Jesus Cristo segundo Lucas 21,12-19",
+      "aclamacao": "R. Aleluia, Aleluia, Aleluia.\nV. Permanece fiel até a morte e a coroa da vida eu te darei!",
+      "texto": "Naquele tempo, disse Jesus aos seus discípulos:\n\n\"Antes que estas coisas aconteçam,\nsereis presos e perseguidos;\nsereis entregues às sinagogas e postos na prisão;\nsereis levados diante de reis e governadores\npor causa do meu nome.\n\nEsta será a ocasião\nem que testemunhareis a vossa fé.\n\nFazei o firme propósito\nde não planejar com antecedência a própria defesa;\n\nporque eu vos darei palavras tão acertadas,\nque nenhum dos inimigos\nvos poderá resistir ou rebater.\n\nSereis entregues até mesmo pelos próprios pais,\nirmãos, parentes e amigos.\nE eles matarão alguns de vós.\n\nTodos vos odiarão por causa do meu nome.\n\nMas vós não perdereis\num só fio de cabelo da vossa cabeça.\n\nÉ permanecendo firmes que ireis ganhar a vida!\"",
+      "fonte": "CNBB"
     }
   },
   "audio": {
@@ -75,6 +91,12 @@
   },
   "fontes": [
     {
+      "id": "cnbb",
+      "nome": "CNBB — Conferência Nacional dos Bispos do Brasil",
+      "url": "https://liturgiadiaria.edicoescnbb.com.br",
+      "nota": "Textos litúrgicos reproduzidos para uso devocional e não comercial. Fonte: CNBB / Edições CNBB."
+    },
+    {
       "id": "vaticannews",
       "nome": "Vatican News (Português) — Dicastério para a Comunicação",
       "url": "https://www.vaticannews.va/pt.html",
@@ -87,11 +109,10 @@
       "nota": "Obras em domínio público; traduções do projeto Via Sacra (GPL-3.0 / CC0 para o texto)."
     }
   ],
-  "url_original": "https://www.vaticannews.va/pt/palavra-do-dia/2026/11/25.html",
+  "url_original": "https://liturgiadiaria.edicoescnbb.com.br",
   "status": {
-    "cnbb": "indisponivel: Não foi possível acessar https://liturgiadiaria.cnbb.org.br/?data=2026-11-25: HTTPSConnectionPool(host='liturgiadiaria.cnbb.org.br', port=443): Max retries exceeded with url: /?data=2026-11-25 (Caused by SSLError(SSLError(1, '[SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] ssl/tls alert handshake failure (_ssl.c:1011)'))); Não foi possível acessar https://liturgiadiaria.cnbb.org.br/app/user/user/UserView.php?ano=2026&mes=11&dia=25: HTTPSConnectionPool(host='liturgiadiaria.cnbb.org.br', port=443): Max retries exceeded with url: /app/user/user/UserView.php?ano=2026&mes=11&dia=25 (Caused by SSLError(SSLError(1, '[SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] ssl/tls alert handshake failure (_ssl.c:1011)'))); Não foi possível acessar https://liturgiadiaria.cnbb.org.br/liturgia/25-11-2026: HTTPSConnectionPool(host='liturgiadiaria.cnbb.org.br', port=443): Max retries exceeded with url: /liturgia/25-11-2026 (Caused by SSLError(SSLError(1, '[SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] ssl/tls alert handshake failure (_ssl.c:1011)')))",
+    "cnbb": "ok",
     "vaticano": "ok",
-    "leituras_vaticano": "ok",
     "patristica": "ok"
   }
 }

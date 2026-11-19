@@ -1,37 +1,48 @@
 {
   "schema_version": 1,
   "data": "2026-11-24",
-  "gerado_em": "2026-11-19T16:08:08-03:00",
+  "gerado_em": "2026-11-19T16:46:07-03:00",
   "calendario": {
     "data": "2026-11-24",
     "dia_semana": "Terça-feira",
     "tempo": "comum",
     "tempo_nome": "Tempo Comum",
     "semana": 34,
-    "cor": "verde",
-    "celebracao": "Terça-feira da 34ª Semana do Tempo Comum",
+    "cor": "vermelho",
+    "celebracao": "Santo André Dung-Lac, presbítero, e companheiros mártires, Memória",
     "grau": "feria",
     "ciclo_dominical": "A",
     "ciclo_ferial": "II",
     "misterios_do_dia": "dolorosos",
-    "cor_origem": "calculada"
+    "cor_origem": "cnbb"
   },
   "leituras": {
     "primeira_leitura": {
       "referencia": "Ap 14,14-19",
-      "introducao": "Leitura do Livro do Apocalipse de São João",
+      "introducao": "Leitura do Livro do Apocalipse de São João 14,14-19",
       "aclamacao": null,
-      "texto": "Eu, João,\nna minha visão, vi uma nuvem branca e sentado na nuvem alguém que parecia um \"filho de homem\". Tinha na cabeça uma coroa de ouro e, nas mãos, uma foice afiada.\nSaiu do Templo um outro anjo, gritando em alta voz para aquele que estava sentado na nuvem: \"Lança tua foice, e ceifa. Chegou a hora da colheita. A seara da terra está madura!\"\nE aquele que estava sentado na nuvem lançou a foice,\ne a terra foi ceifada.\nEntão saiu do templo que está no céu mais um anjo. Também ele tinha nas mãos uma foice afiada.\nE saiu, de junto do altar, outro anjo ainda,\naquele que tem o poder sobre o fogo. Ele gritou em alta voz para aquele que segurava a foice afiada: \"Lança a foice e colhe os cachos da videira da terra, porque as uvas já estão maduras\".\nE o anjo lançou a foice afiada na terra, e colheu as uvas da videira da terra. Depois, despejou as uvas no grande lagar do furor de Deus.",
-      "fonte": "Vatican News"
+      "texto": "Eu, João,\n\nna minha visão, vi uma nuvem branca\ne sentado na nuvem\nalguém que parecia um \"filho de homem\".\nTinha na cabeça uma coroa de ouro\ne, nas mãos, uma foice afiada.\n\nSaiu do Templo um outro anjo,\ngritando em alta voz\npara aquele que estava sentado na nuvem:\n\"Lança tua foice, e ceifa.\nChegou a hora da colheita.\nA seara da terra está madura!\"\n\nE aquele que estava sentado na nuvem lançou a foice,\ne a terra foi ceifada.\n\nEntão saiu do templo que está no céu mais um anjo.\nTambém ele tinha nas mãos uma foice afiada.\n\nE saiu, de junto do altar, outro anjo ainda,\naquele que tem o poder sobre o fogo.\nEle gritou em alta voz\npara aquele que segurava a foice afiada:\n\"Lança a foice\ne colhe os cachos da videira da terra,\nporque as uvas já estão maduras\".\n\nE o anjo lançou a foice afiada na terra,\ne colheu as uvas da videira da terra.\nDepois, despejou as uvas\nno grande lagar do furor de Deus.",
+      "fonte": "CNBB"
     },
-    "salmo": null,
+    "salmo": {
+      "referencia": "Sl 95(96),10.11-12.13",
+      "refrao": "O Senhor vem julgar nossa terra.",
+      "estrofes": [
+        "Publicai entre as nações: \"Reina o Senhor!\" †\nEle firmou o universo inabalável, *\ne os povos ele julga com justiça.",
+        "O céu se rejubile e exulte a terra, *\naplauda o mar com o que vive em suas águas;",
+        "os campos com seus frutos rejubilem *\ne exultem as florestas e as matas",
+        "na presença do Senhor, pois ele vem, *\nporque vem para julgar a terra inteira.\nGovernará o mundo todo com justiça, *\ne os povos julgará com lealdade."
+      ],
+      "texto": "Publicai entre as nações: \"Reina o Senhor!\" †\nEle firmou o universo inabalável, *\ne os povos ele julga com justiça.\n\nO céu se rejubile e exulte a terra, *\naplauda o mar com o que vive em suas águas;\n\nos campos com seus frutos rejubilem *\ne exultem as florestas e as matas\n\nna presença do Senhor, pois ele vem, *\nporque vem para julgar a terra inteira.\nGovernará o mundo todo com justiça, *\ne os povos julgará com lealdade.",
+      "fonte": "CNBB"
+    },
     "segunda_leitura": null,
     "evangelho": {
       "referencia": "Lc 21,5-11",
-      "introducao": "Proclamação do Evangelho de Jesus Cristo segundo Lucas",
-      "aclamacao": null,
-      "texto": "Naquele tempo,\nalgumas pessoas comentavam a respeito do Templo que era enfeitado com belas pedras e com ofertas votivas. Jesus disse:\n\"Vós admirais estas coisas? Dias virão em que não ficará pedra sobre pedra. Tudo será destruído\".\nMas eles perguntaram: \"Mestre, quando acontecerá isto?\nE qual vai ser o sinal de que estas coisas estão para acontecer?\"\nJesus respondeu:\n\"Cuidado para não serdes enganados, porque muitos virão em meu nome,\ndizendo: 'Sou eu!'\nE ainda: 'O tempo está próximo'. Não sigais essa gente!\nQuando ouvirdes falar de guerras e revoluções, não fiqueis apavorados. É preciso que estas coisas aconteçam primeiro, mas não será logo o fim\".\nE Jesus continuou: \"Um povo se levantará contra outro povo, um país atacará outro país.\nHaverá grandes terremotos, fomes e pestes em muitos lugares; acontecerão coisas pavorosas e grandes sinais serão vistos no céu\".",
-      "fonte": "Vatican News"
+      "introducao": "Proclamação do Evangelho de Jesus Cristo segundo Lucas 21,5-11",
+      "aclamacao": "R. Aleluia, Aleluia, Aleluia.\nV. Permanece fiel até a morte,\ne a coroa da vida eu te darei!",
+      "texto": "Naquele tempo,\n\nalgumas pessoas comentavam a respeito do Templo\nque era enfeitado com belas pedras\ne com ofertas votivas.\nJesus disse:\n\n\"Vós admirais estas coisas?\nDias virão em que não ficará pedra sobre pedra.\nTudo será destruído\".\n\nMas eles perguntaram:\n\"Mestre, quando acontecerá isto?\nE qual vai ser o sinal\nde que estas coisas estão para acontecer?\"\n\nJesus respondeu:\n\"Cuidado para não serdes enganados,\nporque muitos virão em meu nome,\ndizendo: 'Sou eu!'\nE ainda: 'O tempo está próximo'.\nNão sigais essa gente!\n\nQuando ouvirdes falar de guerras e revoluções,\nnão fiqueis apavorados.\nÉ preciso que estas coisas aconteçam primeiro,\nmas não será logo o fim\".\n\nE Jesus continuou:\n\"Um povo se levantará contra outro povo,\num país atacará outro país.\n\nHaverá grandes terremotos,\nfomes e pestes em muitos lugares;\nacontecerão coisas pavorosas\ne grandes sinais serão vistos no céu\".",
+      "fonte": "CNBB"
     }
   },
   "audio": {
@@ -75,6 +86,12 @@
   },
   "fontes": [
     {
+      "id": "cnbb",
+      "nome": "CNBB — Conferência Nacional dos Bispos do Brasil",
+      "url": "https://liturgiadiaria.edicoescnbb.com.br",
+      "nota": "Textos litúrgicos reproduzidos para uso devocional e não comercial. Fonte: CNBB / Edições CNBB."
+    },
+    {
       "id": "vaticannews",
       "nome": "Vatican News (Português) — Dicastério para a Comunicação",
       "url": "https://www.vaticannews.va/pt.html",
@@ -87,11 +104,10 @@
       "nota": "Obras em domínio público; traduções do projeto Via Sacra (GPL-3.0 / CC0 para o texto)."
     }
   ],
-  "url_original": "https://www.vaticannews.va/pt/palavra-do-dia/2026/11/24.html",
+  "url_original": "https://liturgiadiaria.edicoescnbb.com.br",
   "status": {
-    "cnbb": "indisponivel: Não foi possível acessar https://liturgiadiaria.cnbb.org.br/?data=2026-11-24: HTTPSConnectionPool(host='liturgiadiaria.cnbb.org.br', port=443): Max retries exceeded with url: /?data=2026-11-24 (Caused by SSLError(SSLError(1, '[SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] ssl/tls alert handshake failure (_ssl.c:1011)'))); Não foi possível acessar https://liturgiadiaria.cnbb.org.br/app/user/user/UserView.php?ano=2026&mes=11&dia=24: HTTPSConnectionPool(host='liturgiadiaria.cnbb.org.br', port=443): Max retries exceeded with url: /app/user/user/UserView.php?ano=2026&mes=11&dia=24 (Caused by SSLError(SSLError(1, '[SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] ssl/tls alert handshake failure (_ssl.c:1011)'))); Não foi possível acessar https://liturgiadiaria.cnbb.org.br/liturgia/24-11-2026: HTTPSConnectionPool(host='liturgiadiaria.cnbb.org.br', port=443): Max retries exceeded with url: /liturgia/24-11-2026 (Caused by SSLError(SSLError(1, '[SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] ssl/tls alert handshake failure (_ssl.c:1011)')))",
+    "cnbb": "ok",
     "vaticano": "ok",
-    "leituras_vaticano": "ok",
     "patristica": "ok"
   }
 }

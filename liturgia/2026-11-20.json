@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "data": "2026-11-20",
-  "gerado_em": "2026-11-19T16:06:31-03:00",
+  "gerado_em": "2026-11-19T16:45:59-03:00",
   "calendario": {
     "data": "2026-11-20",
     "dia_semana": "Sexta-feira",
@@ -9,29 +9,42 @@
     "tempo_nome": "Tempo Comum",
     "semana": 33,
     "cor": "verde",
-    "celebracao": "Sexta-feira da 33ª Semana do Tempo Comum",
+    "celebracao": "33ª Semana do Tempo Comum, Ano Par (II)",
     "grau": "feria",
     "ciclo_dominical": "A",
     "ciclo_ferial": "II",
     "misterios_do_dia": "dolorosos",
-    "cor_origem": "calculada"
+    "cor_origem": "cnbb"
   },
   "leituras": {
     "primeira_leitura": {
       "referencia": "Ap 10,8-11",
-      "introducao": "Leitura do Livro do Apocalipse de São João",
+      "introducao": "Leitura do Livro do Apocalipse de São João 10,8-11",
       "aclamacao": null,
-      "texto": "Aquela mesma voz do céu, que eu, João, já tinha ouvido, tornou a falar comigo: \"Vai.\nPega o livrinho aberto da mão do anjo que está de pé sobre o mar e a terra\".\nEu fui até ao anjo e pedi que me entregasse o livrinho. Ele me falou:\n\"Pega e come. Será amargo no estômago, mas na tua boca, será doce como mel\".\nPeguei da mão do anjo o livrinho e comi-o. Na boca era doce como mel, mas quando o engoli, meu estômago tornou-se amargo.\nEntão ele me disse: \"Deves profetizar ainda contra outros povos e nações, línguas e reis\".",
-      "fonte": "Vatican News"
+      "texto": "Aquela mesma voz do céu,\nque eu, João, já tinha ouvido,\ntornou a falar comigo:\n\"Vai.\nPega o livrinho aberto da mão do anjo\nque está de pé sobre o mar e a terra\".\n\nEu fui até ao anjo\ne pedi que me entregasse o livrinho.\nEle me falou:\n\"Pega e come.\nSerá amargo no estômago,\nmas na tua boca, será doce como mel\".\n\nPeguei da mão do anjo o livrinho e comi-o.\nNa boca era doce como mel,\nmas quando o engoli,\nmeu estômago tornou-se amargo.\n\nEntão ele me disse:\n\"Deves profetizar ainda\ncontra outros povos e nações, línguas e reis\".",
+      "fonte": "CNBB"
     },
-    "salmo": null,
+    "salmo": {
+      "referencia": "Sl 118(119),14.24.72.103.111.131",
+      "refrao": "Como é doce ao paladar vossa palavra, ó Senhor!",
+      "estrofes": [
+        "Seguindo vossa lei me rejubilo *\nmuito mais do que em todas as riquezas.",
+        "Minha alegria é a vossa Aliança, *\nmeus conselheiros são os vossos mandamentos.",
+        "A lei de vossa boca, para mim, *\nvale mais do que milhões em ouro e prata.",
+        "Como é doce ao paladar vossa palavra, *\nmuito mais doce do que o mel na minha boca!",
+        "Vossa palavra é minha herança para sempre, *\nporque ela é que me alegra o coração!",
+        "Abro a boca e aspiro largamente, *\npois estou ávido de vossos mandamentos."
+      ],
+      "texto": "Seguindo vossa lei me rejubilo *\nmuito mais do que em todas as riquezas.\n\nMinha alegria é a vossa Aliança, *\nmeus conselheiros são os vossos mandamentos.\n\nA lei de vossa boca, para mim, *\nvale mais do que milhões em ouro e prata.\n\nComo é doce ao paladar vossa palavra, *\nmuito mais doce do que o mel na minha boca!\n\nVossa palavra é minha herança para sempre, *\nporque ela é que me alegra o coração!\n\nAbro a boca e aspiro largamente, *\npois estou ávido de vossos mandamentos.",
+      "fonte": "CNBB"
+    },
     "segunda_leitura": null,
     "evangelho": {
       "referencia": "Lc 19,45-48",
-      "introducao": "Proclamação do Evangelho de Jesus Cristo segundo Lucas",
-      "aclamacao": null,
-      "texto": "Naquele tempo,\nJesus entrou no Templo e começou a expulsar os vendedores.\nE disse:\n\"Está escrito: 'Minha casa será casa de oração'. No entanto, vós fizestes dela um antro de ladrões\".\nJesus ensinava todos os dias no Templo. Os sumos sacerdotes,\nos mestres da Lei e os notáveis do povo procuravam modo de matá-lo.\nMas não sabiam o que fazer, porque o povo todo ficava fascinado quando ouvia Jesus falar.",
-      "fonte": "Vatican News"
+      "introducao": "Proclamação do Evangelho de Jesus Cristo segundo Lucas 19,45-48",
+      "aclamacao": "R. Aleluia, Aleluia, Aleluia.\nV. Minhas ovelhas escutam minha voz,\neu as conheço e elas me seguem.",
+      "texto": "Naquele tempo,\n\nJesus entrou no Templo\ne começou a expulsar os vendedores.\n\nE disse:\n\"Está escrito:\n'Minha casa será casa de oração'.\nNo entanto, vós fizestes dela um antro de ladrões\".\n\nJesus ensinava todos os dias no Templo.\nOs sumos sacerdotes,\nos mestres da Lei e os notáveis do povo\nprocuravam modo de matá-lo.\n\nMas não sabiam o que fazer,\nporque o povo todo ficava fascinado\nquando ouvia Jesus falar.",
+      "fonte": "CNBB"
     }
   },
   "audio": {
@@ -75,6 +88,12 @@
   },
   "fontes": [
     {
+      "id": "cnbb",
+      "nome": "CNBB — Conferência Nacional dos Bispos do Brasil",
+      "url": "https://liturgiadiaria.edicoescnbb.com.br",
+      "nota": "Textos litúrgicos reproduzidos para uso devocional e não comercial. Fonte: CNBB / Edições CNBB."
+    },
+    {
       "id": "vaticannews",
       "nome": "Vatican News (Português) — Dicastério para a Comunicação",
       "url": "https://www.vaticannews.va/pt.html",
@@ -87,11 +106,10 @@
       "nota": "Obras em domínio público; traduções do projeto Via Sacra (GPL-3.0 / CC0 para o texto)."
     }
   ],
-  "url_original": "https://www.vaticannews.va/pt/palavra-do-dia/2026/11/20.html",
+  "url_original": "https://liturgiadiaria.edicoescnbb.com.br",
   "status": {
-    "cnbb": "indisponivel: Não foi possível acessar https://liturgiadiaria.cnbb.org.br/?data=2026-11-20: HTTPSConnectionPool(host='liturgiadiaria.cnbb.org.br', port=443): Max retries exceeded with url: /?data=2026-11-20 (Caused by SSLError(SSLError(1, '[SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] ssl/tls alert handshake failure (_ssl.c:1011)'))); Não foi possível acessar https://liturgiadiaria.cnbb.org.br/app/user/user/UserView.php?ano=2026&mes=11&dia=20: HTTPSConnectionPool(host='liturgiadiaria.cnbb.org.br', port=443): Max retries exceeded with url: /app/user/user/UserView.php?ano=2026&mes=11&dia=20 (Caused by SSLError(SSLError(1, '[SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] ssl/tls alert handshake failure (_ssl.c:1011)'))); Não foi possível acessar https://liturgiadiaria.cnbb.org.br/liturgia/20-11-2026: HTTPSConnectionPool(host='liturgiadiaria.cnbb.org.br', port=443): Max retries exceeded with url: /liturgia/20-11-2026 (Caused by SSLError(SSLError(1, '[SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] ssl/tls alert handshake failure (_ssl.c:1011)')))",
+    "cnbb": "ok",
     "vaticano": "ok",
-    "leituras_vaticano": "ok",
     "patristica": "ok"
   }
 }

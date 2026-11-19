@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "atualizado_em": "2026-11-19T16:08:32-03:00",
+  "atualizado_em": "2026-11-19T16:46:09-03:00",
   "ultima_data": "2026-11-25",
   "datas": [
     "2026-11-19",
@@ -15,8 +15,8 @@
     {
       "id": "cnbb",
       "nome": "CNBB — Conferência Nacional dos Bispos do Brasil",
-      "url": "https://liturgiadiaria.cnbb.org.br",
-      "nota": "Textos litúrgicos reproduzidos para uso devocional e não comercial. Fonte: CNBB."
+      "url": "https://liturgiadiaria.edicoescnbb.com.br",
+      "nota": "Textos litúrgicos reproduzidos para uso devocional e não comercial. Fonte: CNBB / Edições CNBB."
     },
     {
       "id": "vaticannews",
