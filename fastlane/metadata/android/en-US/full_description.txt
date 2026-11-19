@@ -1,0 +1,8 @@
+<p><b>Via Sacra</b> is a quiet, respectful Catholic prayer companion (Brazilian Portuguese): <b>free forever, no ads, no trackers, open source</b> (GPL-3.0). Created by Júlia Lima.</p>
+<ul>
+<li>Daily Mass readings (CNBB) with liturgical season and color, offline text-to-speech, Vatican homilies and public-domain Church Fathers.</li>
+<li>Holy Rosary with tactile bead counter, haptics, public-domain sacred art and an optional, private prayer streak.</li>
+<li>Catechism of the Catholic Church index with instant offline full-text search, bookmarks and notes.</li>
+<li>Prayer book in Portuguese and Latin.</li>
+<li>Optional 100% local reminders. No Google Play Services, no Firebase, no analytics.</li>
+</ul>

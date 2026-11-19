@@ -1,0 +1,95 @@
+name: via_sacra
+description: >-
+  Via Sacra — Liturgia Diária, Homilias, Santo Terço, Catecismo e Orações.
+  Gratuito, sem anúncios, sem rastreadores e Open Source (GPL-3.0).
+publish_to: "none"
+homepage: https://github.com/julia-flima/ViaSacra
+repository: https://github.com/julia-flima/ViaSacra
+issue_tracker: https://github.com/julia-flima/ViaSacra/issues
+
+# versão semântica + build number (usado como versionCode no Android).
+# Para APKs por ABI o Flutter soma 1000*ABI automaticamente.
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.13.0
+  flutter: ">=3.50.0"
+
+# ---------------------------------------------------------------------------
+# DEPENDÊNCIAS — todas Open Source, sem Google Play Services/Firebase/analytics.
+# Licença de cada pacote documentada ao lado (verifique antes de adicionar novos!)
+# ---------------------------------------------------------------------------
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  material_ui: ^1.11.1 # BSD-3-Clause — Material Design (desacoplado do SDK a partir do Flutter 3.47)
+
+  # Estado
+  provider: ^6.1.5 # MIT
+
+  # Armazenamento local (offline-first)
+  sqlite3: ^3.9.1 # MIT — SQLite com FTS5 (ver hooks abaixo para builds F-Droid)
+  shared_preferences: ^2.5.6 # BSD-3-Clause
+  path_provider: ^2.1.6 # BSD-3-Clause
+  path: ^1.9.1 # BSD-3-Clause
+
+  # Rede (somente JSON estático do próprio projeto via jsDelivr/GitHub)
+  http: ^1.6.0 # BSD-3-Clause
+
+  # Áudio e leitura em voz alta
+  flutter_tts: ^4.2.5 # MIT — TTS nativo do sistema (offline)
+  just_audio: ^0.10.6 # MIT — ExoPlayer/Media3 (Apache-2.0) e AVPlayer
+  audio_service: ^0.18.19 # MIT — reprodução em 2º plano + tela de bloqueio
+  audio_session: ^0.2.4 # MIT
+
+  # Notificações 100% locais (sem FCM/APNs remoto)
+  flutter_local_notifications: ^23.0.3 # BSD-3-Clause
+  timezone: ^0.11.2 # BSD-2-Clause
+  flutter_timezone: ^5.1.1 # Apache-2.0
+
+  # Utilidades
+  intl: ^0.20.3 # BSD-3-Clause
+  share_plus: ^13.3.1 # BSD-3-Clause
+  url_launcher: ^6.3.3 # BSD-3-Clause
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0 # BSD-3-Clause
+
+flutter:
+  uses-material-design: true
+  generate: false
+  assets:
+    - assets/data/
+    - assets/art/
+    - assets/db/
+    - assets/legal/
+  # Tipografia: o app usa as fontes serifadas/sem serifa do sistema por padrão
+  # (Noto Serif / Roboto no Android, New York / SF no iOS), sem baixar nada da
+  # internet. Para empacotar EB Garamond e Inter (SIL OFL), rode
+  # `tool/fetch_fonts.sh` e descomente o bloco abaixo.
+  # fonts:
+  #   - family: EBGaramond
+  #     fonts:
+  #       - asset: assets/fonts/EBGaramond-Variable.ttf
+  #   - family: Inter
+  #     fonts:
+  #       - asset: assets/fonts/Inter-Variable.ttf
+
+# Builds reproduzíveis / F-Droid: compile o SQLite a partir do código-fonte
+# (amalgamation de domínio público) em vez de baixar binários pré-compilados.
+# O script `tool/fdroid_prebuild.sh` baixa o sqlite3.c verificado por SHA3 e
+# ativa este bloco automaticamente.
+# hooks:
+#   user_defines:
+#     sqlite3:
+#       source: source
+#       path: third_party/sqlite/sqlite3.c
+#       defines:
+#         defines:
+#           - SQLITE_ENABLE_FTS5
+#           - SQLITE_DQS=0
+#           - SQLITE_THREADSAFE=1

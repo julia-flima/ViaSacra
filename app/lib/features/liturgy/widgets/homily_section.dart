@@ -1,0 +1,142 @@
+import 'package:material_ui/material_ui.dart';
+
+import '../../../core/theme.dart';
+import '../../../data/models/liturgy.dart';
+import '../../../widgets/common.dart';
+import '../lectio_divina_screen.dart';
+
+/// Seção abaixo do Evangelho com duas abas alternáveis:
+/// "Homilia do Vaticano" e "Reflexão CNBB / Santos Padres".
+class HomilySection extends StatefulWidget {
+  const HomilySection({super.key, required this.liturgy, required this.onListen});
+
+  final DailyLiturgy liturgy;
+  final void Function(Homily h) onListen;
+
+  @override
+  State<HomilySection> createState() => _HomilySectionState();
+}
+
+class _HomilySectionState extends State<HomilySection> with SingleTickerProviderStateMixin {
+  late final _tabs = TabController(length: 2, vsync: this);
+
+  @override
+  void initState() {
+    super.initState();
+    _tabs.addListener(() => setState(() {}));
+  }
+
+  @override
+  void dispose() {
+    _tabs.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l = widget.liturgy;
+    final second = <Homily>[if (l.cnbbReflection != null) l.cnbbReflection!, ...l.patristic];
+    return Card(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          TabBar(
+            controller: _tabs,
+            tabs: const [
+              Tab(text: 'Homilia do Vaticano'),
+              Tab(text: 'CNBB / Santos Padres'),
+            ],
+          ),
+          AnimatedSize(
+            duration: const Duration(milliseconds: 250),
+            child: Padding(
+              padding: const EdgeInsets.all(VsSpacing.lg),
+              child: _tabs.index == 0
+                  ? (l.vaticanHomily != null
+                        ? _HomilyView(homily: l.vaticanHomily!, onListen: widget.onListen)
+                        : const _Empty(
+                            'A homilia ou reflexão do Santo Padre para esta data ainda não está disponível.',
+                          ))
+                  : (second.isEmpty
+                        ? const _Empty('Nenhuma reflexão disponível para esta data.')
+                        : Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              for (final (i, h) in second.indexed) ...[
+                                if (i > 0) const CrossDivider(),
+                                _HomilyView(homily: h, onListen: widget.onListen),
+                              ],
+                            ],
+                          )),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _HomilyView extends StatelessWidget {
+  const _HomilyView({required this.homily, required this.onListen});
+
+  final Homily homily;
+  final void Function(Homily h) onListen;
+
+  @override
+  Widget build(BuildContext context) {
+    final t = Theme.of(context).textTheme;
+    final h = homily;
+    final preview = h.text.length > 700 ? '${h.text.substring(0, 700).trimRight()}…' : h.text;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (h.author != null) Eyebrow(h.author!),
+        const SizedBox(height: 4),
+        Text(h.work ?? h.title, style: t.titleLarge),
+        const SizedBox(height: 12),
+        Text(preview, style: t.bodyLarge),
+        const SizedBox(height: 12),
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: [
+            FilledButton.tonalIcon(
+              onPressed: () => Navigator.of(context).push(
+                MaterialPageRoute(
+                  fullscreenDialog: true,
+                  builder: (_) => LectioDivinaScreen(
+                    title: h.work ?? h.title,
+                    author: h.author,
+                    text: h.text,
+                    source: h.source,
+                    url: h.url,
+                    license: h.license,
+                  ),
+                ),
+              ),
+              icon: const Icon(Icons.fullscreen),
+              label: const Text('Lectio Divina'),
+            ),
+            OutlinedButton.icon(
+              onPressed: () => onListen(h),
+              icon: const Icon(Icons.headphones_outlined),
+              label: const Text('Ouvir reflexão'),
+            ),
+          ],
+        ),
+        const SizedBox(height: 8),
+        SourceAttribution(source: h.source ?? 'Fonte não informada', url: h.url, license: h.license),
+        if (h.note != null) Text(h.note!, style: t.bodySmall?.copyWith(fontSize: 11)),
+      ],
+    );
+  }
+}
+
+class _Empty extends StatelessWidget {
+  const _Empty(this.text);
+  final String text;
+
+  @override
+  Widget build(BuildContext context) =>
+      Text(text, style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontStyle: FontStyle.italic));
+}

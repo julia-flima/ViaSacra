@@ -1,0 +1,31 @@
+{
+  "_comentario": "Cadastre APENAS fontes pastorais abertas/públicas cujo uso foi autorizado ou cuja licença permite redistribuição de links. Sempre informe intérprete, canal e link da fonte. Quando nenhum provedor estiver ativo, o app lê tudo via TTS local (pt-BR), offline.",
+  "provedores": [
+    {
+      "id": "exemplo-liturgia-narrada",
+      "ativo": false,
+      "tipo": "por_data",
+      "campo": "liturgia_audio_url",
+      "modelo_url": "https://exemplo.org/liturgia/{ano}/{mes}/{iso}.mp3",
+      "interprete": "Nome do narrador",
+      "canal": "Nome da paróquia/canal",
+      "url_fonte": "https://exemplo.org",
+      "licenca": "CC BY 4.0"
+    },
+    {
+      "id": "exemplo-salmos-cantados",
+      "ativo": false,
+      "tipo": "por_salmo",
+      "canal": "Ministério de música (exemplo)",
+      "licenca": "CC BY-SA 4.0",
+      "salmos": {
+        "Sl 22": {
+          "url": "https://exemplo.org/salmos/sl22-refrao.mp3",
+          "cifra": "Tom: D — D  A  Bm  G | O Senhor é o pastor que me conduz",
+          "interprete": "Coral (exemplo)",
+          "url_fonte": "https://exemplo.org/salmos"
+        }
+      }
+    }
+  ]
+}

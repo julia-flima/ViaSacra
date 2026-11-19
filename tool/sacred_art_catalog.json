@@ -1,0 +1,187 @@
+[
+  {
+    "id": "gozosos-1",
+    "misterio": "A Anunciação do Anjo a Nossa Senhora",
+    "titulo": "A Anunciação",
+    "artista": "Fra Angelico",
+    "ano": "c. 1426",
+    "acervo": "Museo del Prado, Madri",
+    "busca": "Fra Angelico Annunciation Prado 1426"
+  },
+  {
+    "id": "gozosos-2",
+    "misterio": "A Visitação de Nossa Senhora a Santa Isabel",
+    "titulo": "A Visitação",
+    "artista": "Domenico Ghirlandaio",
+    "ano": "1491",
+    "acervo": "Museu do Louvre, Paris",
+    "busca": "Ghirlandaio Visitation Louvre"
+  },
+  {
+    "id": "gozosos-3",
+    "misterio": "O Nascimento de Jesus em Belém",
+    "titulo": "Natividade",
+    "artista": "Giotto di Bondone",
+    "ano": "c. 1305",
+    "acervo": "Capela Scrovegni, Pádua",
+    "busca": "Giotto Scrovegni Nativity",
+    "arquivo_commons": "File:Giotto di Bondone - No. 17 Scenes from the Life of Christ - 1. Nativity - Birth of Jesus - WGA09193.jpg"
+  },
+  {
+    "id": "gozosos-4",
+    "misterio": "A Apresentação do Menino Jesus no Templo",
+    "titulo": "Apresentação no Templo",
+    "artista": "Andrea Mantegna",
+    "ano": "c. 1455",
+    "acervo": "Gemäldegalerie, Berlim",
+    "busca": "Mantegna Presentation at the Temple Berlin",
+    "arquivo_commons": "File:Andrea Mantegna - The Presentation - Google Art Project.jpg"
+  },
+  {
+    "id": "gozosos-5",
+    "misterio": "A Perda e o Encontro do Menino Jesus no Templo",
+    "titulo": "Cristo entre os Doutores",
+    "artista": "Albrecht Dürer",
+    "ano": "1506",
+    "acervo": "Museo Thyssen-Bornemisza, Madri",
+    "busca": "Dürer Christ among the Doctors Thyssen"
+  },
+  {
+    "id": "luminosos-1",
+    "misterio": "O Batismo de Jesus no Rio Jordão",
+    "titulo": "O Batismo de Cristo",
+    "artista": "Piero della Francesca",
+    "ano": "c. 1450",
+    "acervo": "National Gallery, Londres",
+    "busca": "Piero della Francesca Baptism of Christ National Gallery"
+  },
+  {
+    "id": "luminosos-2",
+    "misterio": "A Autorrevelação de Jesus nas Bodas de Caná",
+    "titulo": "As Bodas de Caná",
+    "artista": "Paolo Veronese",
+    "ano": "1563",
+    "acervo": "Museu do Louvre, Paris",
+    "busca": "Veronese Wedding at Cana Louvre"
+  },
+  {
+    "id": "luminosos-3",
+    "misterio": "O Anúncio do Reino de Deus e o convite à conversão",
+    "titulo": "O Sermão da Montanha",
+    "artista": "Carl Heinrich Bloch",
+    "ano": "1877",
+    "acervo": "Capela do Castelo de Frederiksborg, Dinamarca",
+    "busca": "Carl Bloch Sermon on the Mount"
+  },
+  {
+    "id": "luminosos-4",
+    "misterio": "A Transfiguração de Jesus",
+    "titulo": "A Transfiguração",
+    "artista": "Rafael Sanzio",
+    "ano": "1516–1520",
+    "acervo": "Pinacoteca Vaticana",
+    "busca": "Raphael Transfiguration Pinacoteca Vaticana",
+    "arquivo_commons": "File:Transfiguration Raphael.jpg"
+  },
+  {
+    "id": "luminosos-5",
+    "misterio": "A Instituição da Eucaristia",
+    "titulo": "A Última Ceia",
+    "artista": "Juan de Juanes",
+    "ano": "c. 1562",
+    "acervo": "Museo del Prado, Madri",
+    "busca": "Juan de Juanes Last Supper Prado",
+    "arquivo_commons": "File:La Última Cena (Juan de Juanes) (restaurada).jpg"
+  },
+  {
+    "id": "dolorosos-1",
+    "misterio": "A Agonia de Jesus no Horto das Oliveiras",
+    "titulo": "A Agonia no Horto",
+    "artista": "Giovanni Bellini",
+    "ano": "c. 1465",
+    "acervo": "National Gallery, Londres",
+    "busca": "Giovanni Bellini Agony in the Garden National Gallery"
+  },
+  {
+    "id": "dolorosos-2",
+    "misterio": "A Flagelação de Jesus",
+    "titulo": "A Flagelação de Cristo",
+    "artista": "Piero della Francesca",
+    "ano": "c. 1460",
+    "acervo": "Galleria Nazionale delle Marche, Urbino",
+    "busca": "Piero della Francesca Flagellation of Christ Urbino"
+  },
+  {
+    "id": "dolorosos-3",
+    "misterio": "A Coroação de Espinhos",
+    "titulo": "A Coroação de Espinhos",
+    "artista": "Caravaggio",
+    "ano": "c. 1603",
+    "acervo": "Kunsthistorisches Museum, Viena",
+    "busca": "Caravaggio Crowning with Thorns Kunsthistorisches"
+  },
+  {
+    "id": "dolorosos-4",
+    "misterio": "Jesus carrega a Cruz até o Calvário",
+    "titulo": "Cristo carregando a Cruz",
+    "artista": "El Greco",
+    "ano": "c. 1580",
+    "acervo": "The Metropolitan Museum of Art, Nova York (Open Access)",
+    "busca": "El Greco Christ Carrying the Cross Metropolitan Museum"
+  },
+  {
+    "id": "dolorosos-5",
+    "misterio": "A Crucifixão e Morte de Jesus",
+    "titulo": "Cristo Crucificado",
+    "artista": "Diego Velázquez",
+    "ano": "c. 1632",
+    "acervo": "Museo del Prado, Madri",
+    "busca": "Velázquez Cristo crucificado Prado",
+    "arquivo_commons": "File:Cristo crucificado.jpg"
+  },
+  {
+    "id": "gloriosos-1",
+    "misterio": "A Ressurreição de Jesus",
+    "titulo": "A Ressurreição de Cristo",
+    "artista": "Rafael Sanzio",
+    "ano": "c. 1499–1502",
+    "acervo": "MASP — Museu de Arte de São Paulo",
+    "busca": "Raphael Resurrection of Christ MASP"
+  },
+  {
+    "id": "gloriosos-2",
+    "misterio": "A Ascensão de Jesus ao Céu",
+    "titulo": "A Ascensão",
+    "artista": "Rembrandt van Rijn",
+    "ano": "1636",
+    "acervo": "Alte Pinakothek, Munique",
+    "busca": "Rembrandt Ascension of Christ Alte Pinakothek"
+  },
+  {
+    "id": "gloriosos-3",
+    "misterio": "A Vinda do Espírito Santo sobre Maria e os Apóstolos",
+    "titulo": "Pentecostes",
+    "artista": "El Greco",
+    "ano": "c. 1600",
+    "acervo": "Museo del Prado, Madri",
+    "busca": "El Greco Pentecost Prado"
+  },
+  {
+    "id": "gloriosos-4",
+    "misterio": "A Assunção de Nossa Senhora ao Céu",
+    "titulo": "Assunção da Virgem (Assunta)",
+    "artista": "Ticiano",
+    "ano": "1516–1518",
+    "acervo": "Basílica de Santa Maria Gloriosa dei Frari, Veneza",
+    "busca": "Titian Assumption of the Virgin Frari"
+  },
+  {
+    "id": "gloriosos-5",
+    "misterio": "A Coroação de Nossa Senhora como Rainha do Céu e da Terra",
+    "titulo": "A Coroação da Virgem",
+    "artista": "Diego Velázquez",
+    "ano": "c. 1635",
+    "acervo": "Museo del Prado, Madri",
+    "busca": "Velázquez Coronation of the Virgin Prado"
+  }
+]

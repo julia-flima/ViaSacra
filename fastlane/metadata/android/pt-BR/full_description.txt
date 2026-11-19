@@ -1,0 +1,28 @@
+<p><b>Via Sacra</b> é um companheiro de oração católico, silencioso e respeitoso: <b>100% gratuito, sem anúncios, sem rastreadores e de código aberto</b> (GPL-3.0). Idealizado e desenvolvido por Júlia Lima.</p>
+
+<p><b>Liturgia &amp; Homilias</b></p>
+<ul>
+<li>Leituras do dia (1ª Leitura, Salmo com refrão em destaque, 2ª Leitura e Evangelho) com atribuição à CNBB.</li>
+<li>Tempo Litúrgico e Cor Litúrgica do dia, que colorem sutilmente a interface.</li>
+<li>Ouvir Liturgia: leitura em voz alta pelo mecanismo de voz do próprio aparelho (funciona offline), com velocidade ajustável, avanço automático e controles na tela de bloqueio.</li>
+<li>Homilia do Vaticano (Vatican News) e reflexões dos Santos Padres em domínio público, com modo Lectio Divina em tela cheia.</li>
+<li>Calendário e "Baixar Semana Offline".</li>
+</ul>
+
+<p><b>Santo Terço &amp; Rosário</b></p>
+<ul>
+<li>Mistérios do dia selecionados automaticamente e Rosário completo (20 mistérios).</li>
+<li>Pinturas clássicas em domínio público para cada mistério, com fruto e leitura bíblica.</li>
+<li>Contador tátil com vibração suave a cada conta e vibração dupla ao fim da dezena.</li>
+<li>Constância opcional e discreta, salva apenas no aparelho — sem gamificação agressiva.</li>
+</ul>
+
+<p><b>Catecismo da Igreja Católica</b> — índice completo, busca instantânea offline por número ou palavra, favoritos e anotações locais.</p>
+
+<p><b>Devocionário</b> — Orações fundamentais, eucarísticas, marianas e de proteção, com alternância Português ⇄ Latim.</p>
+
+<p><b>Ajustes</b> — lembretes 100% locais (Liturgia e Terço), voz e velocidade do narrador, fonte serifada ou sem serifa, tamanho da letra, espaçamento e temas Pergaminho, Modo Igreja e Automático.</p>
+
+<p><b>Privacidade</b>: nenhum dado pessoal é coletado. A única conexão de rede baixa arquivos JSON estáticos do próprio repositório do projeto (jsDelivr / GitHub). Sem Google Play Services, sem Firebase, sem analytics.</p>
+
+<p>Fontes: CNBB (Liturgia Diária), Vatican News / Libreria Editrice Vaticana, Wikimedia Commons. Uso devocional e sem fins lucrativos.</p>

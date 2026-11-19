@@ -1,0 +1,108 @@
+# Atualiza diariamente os JSONs de Liturgia, Homilias e áudios.
+# Roda às 00:05 de Brasília (03:05 UTC — o Brasil não tem horário de verão desde 2019)
+# e publica no branch `data`, servido gratuitamente via jsDelivr e GitHub raw:
+#   https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/liturgia/AAAA-MM-DD.json
+name: Atualizar Liturgia
+
+on:
+  schedule:
+    - cron: "5 3 * * *"
+  workflow_dispatch:
+    inputs:
+      date:
+        description: "Data inicial (AAAA-MM-DD). Vazio = hoje"
+        required: false
+      days:
+        description: "Quantidade de dias"
+        required: false
+        default: "7"
+      force:
+        description: "Sobrescrever mesmo se a versão existente for mais completa"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-liturgy
+  cancel-in-progress: false
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      TZ: America/Sao_Paulo
+    steps:
+      - name: Checkout (código do scraper)
+        uses: actions/checkout@v4
+
+      - name: Checkout do branch de dados
+        run: |
+          git fetch origin data:data 2>/dev/null || true
+          if git show-ref --verify --quiet refs/heads/data; then
+            git worktree add data-branch data
+          else
+            echo "Branch 'data' não existe — criando branch órfão."
+            git worktree add --detach data-branch
+            cd data-branch
+            git checkout --orphan data
+            git rm -rf . >/dev/null 2>&1 || true
+            printf '# Via Sacra — dados\n\nJSONs gerados automaticamente por `scraper/scraper.py`. Não edite à mão.\n' > README.md
+          fi
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: scraper/requirements.txt
+
+      - name: Instalar dependências
+        run: pip install -r scraper/requirements.txt
+
+      - name: Coletar liturgia, homilias e áudios
+        working-directory: scraper
+        run: |
+          ARGS="--days ${{ github.event.inputs.days || '7' }} --out ../data-branch"
+          if [ -n "${{ github.event.inputs.date }}" ]; then ARGS="$ARGS --date ${{ github.event.inputs.date }}"; fi
+          if [ "${{ github.event.inputs.force }}" = "true" ]; then ARGS="$ARGS --force"; fi
+          python scraper.py $ARGS
+
+      - name: Validar JSON gerado
+        working-directory: data-branch
+        run: |
+          python - <<'PY'
+          import json, pathlib, sys
+          erros = 0
+          for f in pathlib.Path("liturgia").glob("*.json"):
+              try:
+                  d = json.loads(f.read_text(encoding="utf-8"))
+                  assert f.name == "index.json" or d.get("schema_version") == 1
+              except Exception as e:
+                  print(f"JSON inválido: {f}: {e}"); erros += 1
+          sys.exit(1 if erros else 0)
+          PY
+
+      - name: Publicar no branch `data`
+        working-directory: data-branch
+        run: |
+          git config user.name "via-sacra-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "Sem mudanças."
+            exit 0
+          fi
+          git commit -m "data: liturgia de $(date +%F)"
+          git push origin data
+
+      - name: Limpar cache do jsDelivr (índice e próximos dias)
+        continue-on-error: true
+        run: |
+          base="https://purge.jsdelivr.net/gh/${{ github.repository }}@data/liturgia"
+          curl -fsS "$base/index.json" > /dev/null
+          for i in $(seq 0 6); do
+            d=$(date -d "+$i day" +%F)
+            curl -fsS "$base/$d.json" > /dev/null || true
+          done

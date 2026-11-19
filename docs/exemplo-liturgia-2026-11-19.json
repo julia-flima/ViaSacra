@@ -1,0 +1,117 @@
+{
+  "schema_version": 1,
+  "data": "2026-11-19",
+  "gerado_em": "2026-11-19T13:44:55-03:00",
+  "calendario": {
+    "data": "2026-11-19",
+    "dia_semana": "Quinta-feira",
+    "tempo": "comum",
+    "tempo_nome": "Tempo Comum",
+    "semana": 33,
+    "cor": "verde",
+    "celebracao": "Quinta-feira da 33ª Semana do Tempo Comum",
+    "grau": "feria",
+    "ciclo_dominical": "A",
+    "ciclo_ferial": "II",
+    "misterios_do_dia": "luminosos",
+    "cor_origem": "cnbb"
+  },
+  "leituras": {
+    "primeira_leitura": {
+      "referencia": "Ap 5,1-10",
+      "introducao": "Leitura do Livro do Apocalipse de São João.",
+      "aclamacao": null,
+      "texto": "Eu, João, vi na mão direita daquele que estava sentado no trono um livro escrito por dentro e por fora.\n\nE vi um Cordeiro de pé, como que imolado.",
+      "fonte": "CNBB"
+    },
+    "salmo": {
+      "referencia": "Sl 149",
+      "refrao": "Fizestes de nós, para Deus, sacerdotes e povo de reis.",
+      "estrofes": [
+        "Cantai ao Senhor Deus um canto novo,\ne o seu louvor na assembleia dos fiéis!",
+        "Com danças glorifiquem o seu nome,\ntoquem harpa e tambor em sua honra!"
+      ],
+      "texto": "Cantai ao Senhor Deus um canto novo,\ne o seu louvor na assembleia dos fiéis!\n\nCom danças glorifiquem o seu nome,\ntoquem harpa e tambor em sua honra!",
+      "fonte": "CNBB"
+    },
+    "segunda_leitura": null,
+    "evangelho": {
+      "referencia": "Lc 19,41-44",
+      "introducao": "Proclamação do Evangelho de Jesus Cristo segundo Lucas.",
+      "aclamacao": "Aleluia, aleluia, aleluia.\nHoje não fecheis o vosso coração, mas ouvi a voz do Senhor!",
+      "texto": "Naquele tempo, quando Jesus se aproximou de Jerusalém e viu a cidade, começou a chorar.",
+      "fonte": "CNBB"
+    }
+  },
+  "audio": {
+    "salmo_audio_url": null,
+    "salmo_cifra_ou_melodia": null,
+    "liturgia_audio_url": null,
+    "creditos": [],
+    "fallback": "tts_local_pt_BR"
+  },
+  "homilias": {
+    "vaticano": {
+      "titulo": "Palavras do Santo Padre",
+      "autor": "Papa Francisco",
+      "texto": "Jesus chora sobre a cidade porque ela não reconheceu o tempo em que foi visitada. Também nós somos chamados a reconhecer as visitas de Deus na nossa vida cotidiana, nos irmãos, nos pequenos gestos de misericórdia. (Papa Francisco, Homilia em Santa Marta, 17 de novembro de 2016)",
+      "resumo": "Jesus chora sobre a cidade porque ela não reconheceu o tempo em que foi visitada. Também nós somos chamados a reconhecer as visitas de Deus na nossa vida cotidiana, nos irmãos, nos pequenos gestos de misericórdia. (Papa Francisco, Homilia em Santa Marta, 17 de novembro de 2016)",
+      "url": "https://www.vaticannews.va/pt/evangelho-do-dia/2026/11/19.html",
+      "fonte": "Vatican News (Português) — Dicastério para a Comunicação",
+      "licenca": "© Libreria Editrice Vaticana / Dicastério para a Comunicação. Reprodução para fins pastorais e não comerciais, com citação da fonte e link para o original."
+    },
+    "cnbb": {
+      "titulo": "Reflexão",
+      "texto": "Jesus chora por Jerusalém: o seu pranto é amor que não desiste de nós.",
+      "autor": null,
+      "url": "https://liturgiadiaria.cnbb.org.br/?data=2026-11-19",
+      "fonte": "CNBB — Conferência Nacional dos Bispos do Brasil"
+    },
+    "patristica": [
+      {
+        "autor": "Santo Agostinho",
+        "obra": "Sermão 169, 13",
+        "texto": "Aquele que te criou sem ti não te justificará sem ti. Criou-te sem que o soubesses; justifica-te, porém, somente se o quiseres.",
+        "url": "https://www.newadvent.org/fathers/",
+        "fonte": "Santos Padres e Doutores da Igreja (domínio público)",
+        "licenca": "Domínio público",
+        "nota": "Tradução livre do latim (Sermo 169) para fins devocionais."
+      },
+      {
+        "autor": "Santo Agostinho",
+        "obra": "Tratados sobre o Evangelho de São João, 26, 13",
+        "texto": "Ó sacramento de piedade! Ó sinal de unidade! Ó vínculo de caridade! Quem quer viver tem onde viver, tem de onde viver. Aproxime-se, creia, seja incorporado, para ser vivificado.",
+        "url": "https://www.newadvent.org/fathers/1701026.htm",
+        "fonte": "Santos Padres e Doutores da Igreja (domínio público)",
+        "licenca": "Domínio público",
+        "nota": "Tradução livre do latim (In Ioannis Evangelium Tractatus) para fins devocionais."
+      }
+    ]
+  },
+  "fontes": [
+    {
+      "id": "cnbb",
+      "nome": "CNBB — Conferência Nacional dos Bispos do Brasil",
+      "url": "https://liturgiadiaria.cnbb.org.br",
+      "nota": "Textos litúrgicos reproduzidos para uso devocional e não comercial. Fonte: CNBB."
+    },
+    {
+      "id": "vaticannews",
+      "nome": "Vatican News (Português) — Dicastério para a Comunicação",
+      "url": "https://www.vaticannews.va/pt.html",
+      "nota": "© Libreria Editrice Vaticana / Dicastério para a Comunicação. Reprodução para fins pastorais e não comerciais, com citação da fonte e link para o original."
+    },
+    {
+      "id": "patristica",
+      "nome": "Santos Padres e Doutores da Igreja (domínio público)",
+      "url": "https://www.newadvent.org/fathers/",
+      "nota": "Obras em domínio público; traduções do projeto Via Sacra (GPL-3.0 / CC0 para o texto)."
+    }
+  ],
+  "url_original": "https://liturgiadiaria.cnbb.org.br/?data=2026-11-19",
+  "status": {
+    "cnbb": "ok",
+    "vaticano": "ok",
+    "patristica": "ok"
+  }
+}

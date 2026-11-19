@@ -1,0 +1,37 @@
+/// Constantes globais do Via Sacra.
+library;
+
+class AppInfo {
+  static const name = 'Via Sacra';
+  static const author = 'Júlia Lima';
+  static const version = '1.0.0';
+  static const license = 'GPL-3.0';
+  static const repositoryUrl = 'https://github.com/julia-flima/ViaSacra';
+  static const issuesUrl = 'https://github.com/julia-flima/ViaSacra/issues';
+  static const releasesUrl = 'https://github.com/julia-flima/ViaSacra/releases';
+}
+
+/// Endpoints de dados estáticos (JSON gerado pelo GitHub Actions).
+///
+/// Pode ser sobrescrito em tempo de build para forks:
+/// `flutter run --dart-define=VIA_SACRA_DATA_URL=https://...`
+class DataEndpoints {
+  static const _override = String.fromEnvironment('VIA_SACRA_DATA_URL');
+
+  static List<String> get bases => [
+    if (_override.isNotEmpty) _override,
+    'https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data',
+    'https://raw.githubusercontent.com/julia-flima/ViaSacra/data',
+  ];
+
+  static List<Uri> liturgy(String isoDate) => bases.map((b) => Uri.parse('$b/liturgia/$isoDate.json')).toList();
+
+  static List<Uri> index() => bases.map((b) => Uri.parse('$b/liturgia/index.json')).toList();
+}
+
+class ExternalLinks {
+  static const cnbb = 'https://liturgiadiaria.cnbb.org.br';
+  static const vaticanNews = 'https://www.vaticannews.va/pt.html';
+  static const commons = 'https://commons.wikimedia.org';
+  static const catechismVatican = 'https://www.vatican.va/archive/cathechism_po/index_new/prima-pagina-cic_po.html';
+}

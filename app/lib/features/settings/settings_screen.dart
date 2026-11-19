@@ -1,0 +1,302 @@
+import 'package:material_ui/material_ui.dart';
+import 'package:provider/provider.dart';
+
+import '../../app_state.dart';
+import '../../core/theme.dart';
+import '../../services/notification_service.dart';
+import '../../services/reading_audio_service.dart';
+import '../../services/settings_service.dart';
+import '../../widgets/common.dart';
+import 'about_screen.dart';
+
+/// Aba 5 — Ajustes, Notificações & Sobre o Projeto.
+class SettingsScreen extends StatelessWidget {
+  const SettingsScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final st = context.watch<SettingsService>();
+    final services = context.read<AppServices>();
+    final t = Theme.of(context).textTheme;
+    final pad = VsSpacing.page(context);
+
+    Future<void> reschedule() async =>
+        services.notifications?.reschedule(services.settings, services.liturgyRepository);
+
+    Future<void> pickTime(TimeOfDay initial, void Function(TimeOfDay) save) async {
+      final picked = await showTimePicker(context: context, initialTime: initial, helpText: 'Horário do lembrete');
+      if (picked != null) {
+        save(picked);
+        await reschedule();
+      }
+    }
+
+    return Scaffold(
+      appBar: AppBar(title: const Text('Ajustes')),
+      body: ListView(
+        padding: EdgeInsets.fromLTRB(pad, VsSpacing.sm, pad, VsSpacing.xxl),
+        children: [
+          // ------------------------------------------------ Notificações
+          const _Section('Lembretes (100% locais)'),
+          SwitchListTile(
+            contentPadding: EdgeInsets.zero,
+            title: const Text('Ativar lembretes'),
+            subtitle: const Text('Agendados no próprio aparelho. Nenhum servidor envia notificações.'),
+            value: st.notificationsEnabled,
+            onChanged: (v) async {
+              if (v) {
+                final granted = await services.notifications?.requestPermission() ?? false;
+                if (!granted && context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text(
+                        'Permissão de notificações não concedida. Você pode ativá-la nos ajustes do sistema.',
+                      ),
+                    ),
+                  );
+                  return;
+                }
+              }
+              st.notificationsEnabled = v;
+              await reschedule();
+            },
+          ),
+          if (st.notificationsEnabled) ...[
+            _ReminderTile(
+              title: 'Liturgia Diária',
+              example: NotificationService.liturgyMessage(DateTime.now(), services.liturgyRepository).$2,
+              enabled: st.liturgyReminder,
+              time: st.liturgyReminderTime,
+              onToggle: (v) async {
+                st.liturgyReminder = v;
+                await reschedule();
+              },
+              onPickTime: () => pickTime(st.liturgyReminderTime, (t) => st.liturgyReminderTime = t),
+            ),
+            _ReminderTile(
+              title: 'Santo Terço',
+              example: NotificationService.rosaryMessage(DateTime.now()).$2,
+              enabled: st.rosaryReminder,
+              time: st.rosaryReminderTime,
+              onToggle: (v) async {
+                st.rosaryReminder = v;
+                await reschedule();
+              },
+              onPickTime: () => pickTime(st.rosaryReminderTime, (t) => st.rosaryReminderTime = t),
+            ),
+          ],
+
+          // ------------------------------------------------ Áudio
+          const _Section('Leitura em voz alta'),
+          Text('Velocidade padrão', style: t.titleSmall),
+          const SizedBox(height: 8),
+          SegmentedButton<double>(
+            segments: [
+              for (final s in SettingsService.speeds)
+                ButtonSegment(value: s, label: Text('${s.toString().replaceAll('.', ',').replaceAll(',0', '')}×')),
+            ],
+            selected: {st.ttsSpeed},
+            onSelectionChanged: (v) {
+              st.ttsSpeed = v.first;
+              context.read<ReadingAudioController>().setSpeed(v.first);
+            },
+          ),
+          ListTile(
+            contentPadding: EdgeInsets.zero,
+            title: const Text('Voz do narrador'),
+            subtitle: Text(st.ttsVoiceName ?? 'Padrão do sistema (português)'),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () => _pickVoice(context),
+          ),
+          SwitchListTile(
+            contentPadding: EdgeInsets.zero,
+            title: const Text('Preferir áudio narrado quando disponível'),
+            subtitle: const Text('Caso contrário, usa sempre a voz do aparelho (offline).'),
+            value: st.preferRecordedAudio,
+            onChanged: (v) => st.preferRecordedAudio = v,
+          ),
+
+          // ------------------------------------------------ Constância
+          const _Section('Constância'),
+          SwitchListTile(
+            contentPadding: EdgeInsets.zero,
+            title: const Text('Mostrar sequência de dias em oração'),
+            subtitle: const Text('Discreto e opcional. Os registros ficam só neste aparelho.'),
+            value: st.showStreak,
+            onChanged: (v) => st.showStreak = v,
+          ),
+          SwitchListTile(
+            contentPadding: EdgeInsets.zero,
+            title: const Text('Vibração no terço'),
+            subtitle: const Text('Vibração suave a cada conta e dupla ao concluir a dezena.'),
+            value: st.haptics,
+            onChanged: (v) => st.haptics = v,
+          ),
+          SwitchListTile(
+            contentPadding: EdgeInsets.zero,
+            title: const Text('Abrir orações em latim'),
+            value: st.preferLatin,
+            onChanged: (v) => st.preferLatin = v,
+          ),
+
+          // ------------------------------------------------ Tipografia e tema
+          const _Section('Leitura e aparência'),
+          Text('Tema', style: t.titleSmall),
+          const SizedBox(height: 8),
+          SegmentedButton<ThemeMode>(
+            segments: const [
+              ButtonSegment(value: ThemeMode.light, label: Text('Pergaminho'), icon: Icon(Icons.light_mode_outlined)),
+              ButtonSegment(value: ThemeMode.dark, label: Text('Igreja'), icon: Icon(Icons.dark_mode_outlined)),
+              ButtonSegment(value: ThemeMode.system, label: Text('Auto'), icon: Icon(Icons.brightness_auto_outlined)),
+            ],
+            selected: {st.themeMode},
+            onSelectionChanged: (v) => st.themeMode = v.first,
+          ),
+          const SizedBox(height: VsSpacing.md),
+          Text('Fonte', style: t.titleSmall),
+          const SizedBox(height: 8),
+          SegmentedButton<ReadingFont>(
+            segments: const [
+              ButtonSegment(value: ReadingFont.serif, label: Text('Serifada clássica')),
+              ButtonSegment(value: ReadingFont.sans, label: Text('Sem serifa')),
+            ],
+            selected: {st.readingFont},
+            onSelectionChanged: (v) => st.readingFont = v.first,
+          ),
+          const SizedBox(height: VsSpacing.md),
+          Text('Tamanho da letra', style: t.titleSmall),
+          Slider(
+            value: st.textScale,
+            min: 0.85,
+            max: 1.6,
+            divisions: 15,
+            label: '${(st.textScale * 100).round()}%',
+            onChanged: (v) => st.textScale = v,
+          ),
+          Text('Espaçamento entre linhas', style: t.titleSmall),
+          Slider(
+            value: st.lineHeight,
+            min: 1.3,
+            max: 2.1,
+            divisions: 8,
+            label: st.lineHeight.toStringAsFixed(1),
+            onChanged: (v) => st.lineHeight = v,
+          ),
+          Container(
+            padding: const EdgeInsets.all(VsSpacing.md),
+            decoration: BoxDecoration(
+              border: Border.all(color: Theme.of(context).colorScheme.outline),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Text('Naquele tempo, disse Jesus: “Eu sou o caminho, a verdade e a vida.”', style: t.bodyLarge),
+          ),
+
+          // ------------------------------------------------ Sobre
+          const _Section('Sobre'),
+          ListTile(
+            contentPadding: EdgeInsets.zero,
+            leading: const Icon(Icons.info_outline),
+            title: const Text('Sobre o Via Sacra & Licenças'),
+            subtitle: const Text('Autoria, créditos, fontes e código aberto'),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => const AboutScreen())),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _pickVoice(BuildContext context) async {
+    final audio = context.read<ReadingAudioController>();
+    final st = context.read<SettingsService>();
+    final voices = await audio.voices();
+    if (!context.mounted) return;
+    await showModalBottomSheet<void>(
+      context: context,
+      showDragHandle: true,
+      builder: (ctx) => SafeArea(
+        child: ListView(
+          shrinkWrap: true,
+          children: [
+            ListTile(
+              title: const Text('Padrão do sistema'),
+              trailing: st.ttsVoiceName == null ? const Icon(Icons.check) : null,
+              onTap: () {
+                st.setTtsVoice(null, null);
+                Navigator.pop(ctx);
+              },
+            ),
+            if (voices.isEmpty)
+              const ListTile(
+                title: Text('Nenhuma voz em português encontrada'),
+                subtitle: Text('Instale uma voz pt-BR nas configurações de "Texto para fala" do sistema.'),
+              ),
+            for (final v in voices)
+              ListTile(
+                title: Text(v.name),
+                subtitle: Text(v.locale),
+                trailing: st.ttsVoiceName == v.name ? const Icon(Icons.check) : null,
+                onTap: () {
+                  st.setTtsVoice(v.name, v.locale);
+                  audio.setVoice(v.name, v.locale);
+                  Navigator.pop(ctx);
+                },
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _Section extends StatelessWidget {
+  const _Section(this.title);
+  final String title;
+
+  @override
+  Widget build(BuildContext context) => Padding(
+    padding: const EdgeInsets.only(top: VsSpacing.lg, bottom: VsSpacing.xs),
+    child: Eyebrow(title),
+  );
+}
+
+class _ReminderTile extends StatelessWidget {
+  const _ReminderTile({
+    required this.title,
+    required this.example,
+    required this.enabled,
+    required this.time,
+    required this.onToggle,
+    required this.onPickTime,
+  });
+
+  final String title;
+  final String example;
+  final bool enabled;
+  final TimeOfDay time;
+  final ValueChanged<bool> onToggle;
+  final VoidCallback onPickTime;
+
+  @override
+  Widget build(BuildContext context) {
+    final t = Theme.of(context).textTheme;
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(VsSpacing.md, 4, 4, VsSpacing.md),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Expanded(child: Text(title, style: t.titleMedium)),
+                TextButton(onPressed: enabled ? onPickTime : null, child: Text(time.format(context))),
+                Switch(value: enabled, onChanged: onToggle),
+              ],
+            ),
+            Text('Exemplo: “$example”', style: t.bodySmall),
+          ],
+        ),
+      ),
+    );
+  }
+}

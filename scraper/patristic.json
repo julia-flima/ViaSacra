@@ -1,0 +1,122 @@
+[
+  {
+    "id": "agostinho-tract-jo-26-13",
+    "autor": "Santo Agostinho",
+    "obra": "Tratados sobre o Evangelho de São João, 26, 13",
+    "passagens": [{"livro": "Jo", "capitulos": [6]}],
+    "tempos": ["pascoa", "comum"],
+    "texto": "Ó sacramento de piedade! Ó sinal de unidade! Ó vínculo de caridade! Quem quer viver tem onde viver, tem de onde viver. Aproxime-se, creia, seja incorporado, para ser vivificado.",
+    "url": "https://www.newadvent.org/fathers/1701026.htm",
+    "nota": "Tradução livre do latim (In Ioannis Evangelium Tractatus) para fins devocionais."
+  },
+  {
+    "id": "agostinho-sermao-272",
+    "autor": "Santo Agostinho",
+    "obra": "Sermão 272 (aos neófitos, sobre o Sacramento)",
+    "passagens": [{"livro": "Jo", "capitulos": [6]}, {"livro": "Mt", "capitulos": [26]}, {"livro": "Mc", "capitulos": [14]}, {"livro": "Lc", "capitulos": [22, 24]}],
+    "tempos": ["pascoa", "triduo"],
+    "texto": "Se vós sois o corpo e os membros de Cristo, é o vosso mistério que está posto sobre a mesa do Senhor: recebeis o vosso mistério. Ao que sois respondeis «Amém», e, respondendo, o subscreveis. Sede, pois, o que vedes, e recebei o que sois.",
+    "url": "https://www.newadvent.org/fathers/",
+    "nota": "Tradução livre do latim (Sermo 272) para fins devocionais."
+  },
+  {
+    "id": "crisostomo-hom-mt-50",
+    "autor": "São João Crisóstomo",
+    "obra": "Homilias sobre o Evangelho de São Mateus, 50, 3-4",
+    "passagens": [{"livro": "Mt", "capitulos": [14, 25]}, {"livro": "Mc", "capitulos": [6]}, {"livro": "Lc", "capitulos": [16]}],
+    "tempos": ["quaresma", "comum"],
+    "texto": "Queres honrar o Corpo de Cristo? Não o desprezes quando está nu. Não o honres aqui no templo com vestes de seda, enquanto lá fora o abandonas ao frio e à nudez. Aquele que disse «Isto é o meu corpo» disse também «Tive fome e não me destes de comer». De que serve a mesa de Cristo carregada de taças de ouro, se Ele mesmo morre de fome? Sacia primeiro o faminto, e depois, com o que sobrar, adorna também o seu altar.",
+    "url": "https://www.newadvent.org/fathers/200150.htm",
+    "nota": "Tradução livre do grego, a partir da edição de domínio público, para fins devocionais."
+  },
+  {
+    "id": "agostinho-ep-jo-7-8",
+    "autor": "Santo Agostinho",
+    "obra": "Comentário à Primeira Carta de São João, 7, 8",
+    "passagens": [{"livro": "Jo", "capitulos": [13, 15, 17]}, {"livro": "Mt", "capitulos": [22]}, {"livro": "Mc", "capitulos": [12]}, {"livro": "Lc", "capitulos": [10]}],
+    "tempos": ["pascoa", "comum"],
+    "texto": "Ama, e faze o que quiseres. Se calas, cala por amor; se falas, fala por amor; se corriges, corrige por amor; se perdoas, perdoa por amor. Esteja em ti a raiz do amor: dessa raiz não pode brotar senão o bem.",
+    "url": "https://www.newadvent.org/fathers/170207.htm",
+    "nota": "Tradução livre do latim (In Epistolam Ioannis ad Parthos) para fins devocionais."
+  },
+  {
+    "id": "agostinho-sermao-103",
+    "autor": "Santo Agostinho",
+    "obra": "Sermão 103 (sobre Marta e Maria)",
+    "passagens": [{"livro": "Lc", "capitulos": [10]}, {"livro": "Jo", "capitulos": [11, 12]}],
+    "tempos": ["comum"],
+    "texto": "Marta estava ocupada em como alimentar o Senhor; Maria, em como ser alimentada pelo Senhor. O trabalho de Marta é bom, mas passa; a parte de Maria é melhor, porque não lhe será tirada. Na terra servimos como Marta; no céu, como Maria, apenas contemplaremos e amaremos.",
+    "url": "https://www.newadvent.org/fathers/160303.htm",
+    "nota": "Tradução livre e condensada do latim (Sermo 103) para fins devocionais."
+  },
+  {
+    "id": "crisostomo-hom-mt-19",
+    "autor": "São João Crisóstomo",
+    "obra": "Homilias sobre o Evangelho de São Mateus, 19, 4 (o Pai-Nosso)",
+    "passagens": [{"livro": "Mt", "capitulos": [6, 7]}, {"livro": "Lc", "capitulos": [11, 18]}],
+    "tempos": ["quaresma", "comum"],
+    "texto": "Ele nos ensina a fazer a oração em comum, também em favor dos irmãos. Pois não disse «Pai meu, que estás nos céus», mas «Pai nosso», para que a nossa súplica se estenda a todo o corpo e jamais busquemos apenas o nosso próprio interesse, mas o do próximo.",
+    "url": "https://www.newadvent.org/fathers/200119.htm",
+    "nota": "Tradução livre do grego, a partir da edição de domínio público, para fins devocionais."
+  },
+  {
+    "id": "agostinho-sermao-185",
+    "autor": "Santo Agostinho",
+    "obra": "Sermão 185 (no Natal do Senhor), 1",
+    "passagens": [{"livro": "Lc", "capitulos": [1, 2]}, {"livro": "Jo", "capitulos": [1]}, {"livro": "Mt", "capitulos": [1, 2]}],
+    "tempos": ["natal", "advento"],
+    "texto": "Desperta, ó homem: por ti Deus se fez homem. Estarias morto para sempre se Ele não tivesse nascido no tempo. Jamais serias libertado da carne do pecado se Ele não tivesse assumido a semelhança da carne do pecado.",
+    "url": "https://www.newadvent.org/fathers/",
+    "nota": "Tradução livre do latim (Sermo 185) para fins devocionais."
+  },
+  {
+    "id": "crisostomo-homilia-pascal",
+    "autor": "São João Crisóstomo",
+    "obra": "Homilia Pascal (Sermão Catequético)",
+    "passagens": [{"livro": "Jo", "capitulos": [20, 21]}, {"livro": "Mt", "capitulos": [28]}, {"livro": "Mc", "capitulos": [16]}, {"livro": "Lc", "capitulos": [24]}],
+    "tempos": ["pascoa"],
+    "texto": "Ninguém tema a morte, pois a morte do Salvador nos libertou. Ó morte, onde está o teu aguilhão? Ó inferno, onde está a tua vitória? Cristo ressuscitou, e tu foste derrubado. Cristo ressuscitou, e os demônios caíram. Cristo ressuscitou, e os anjos se alegram. Cristo ressuscitou, e reina a vida.",
+    "url": "https://www.newadvent.org/fathers/",
+    "nota": "Tradução livre do grego, a partir do texto litúrgico tradicional de domínio público."
+  },
+  {
+    "id": "agostinho-tract-jo-15",
+    "autor": "Santo Agostinho",
+    "obra": "Tratados sobre o Evangelho de São João, 15, 10-11 (a Samaritana)",
+    "passagens": [{"livro": "Jo", "capitulos": [4]}],
+    "tempos": ["quaresma"],
+    "texto": "Aquele que pedia de beber tinha sede da fé daquela mulher. Pede de beber e promete dar de beber; tem necessidade como quem espera receber, e é rico como quem vai saciar.",
+    "url": "https://www.newadvent.org/fathers/1701015.htm",
+    "nota": "Tradução livre do latim (In Ioannis Evangelium Tractatus) para fins devocionais."
+  },
+  {
+    "id": "agostinho-sermao-169",
+    "autor": "Santo Agostinho",
+    "obra": "Sermão 169, 13",
+    "passagens": [{"livro": "Lc", "capitulos": [13, 15, 19]}, {"livro": "Mt", "capitulos": [11, 21]}],
+    "tempos": ["quaresma", "comum", "geral"],
+    "texto": "Aquele que te criou sem ti não te justificará sem ti. Criou-te sem que o soubesses; justifica-te, porém, somente se o quiseres.",
+    "url": "https://www.newadvent.org/fathers/",
+    "nota": "Tradução livre do latim (Sermo 169) para fins devocionais."
+  },
+  {
+    "id": "agostinho-confissoes-1-1",
+    "autor": "Santo Agostinho",
+    "obra": "Confissões, I, 1",
+    "passagens": [{"livro": "Mt", "capitulos": [11]}, {"livro": "Jo", "capitulos": [14]}],
+    "tempos": ["geral", "advento", "comum"],
+    "texto": "Tu és grande, Senhor, e muito digno de louvor. Tu mesmo nos incitas a louvar-te com prazer, porque nos fizeste para ti, e o nosso coração está inquieto enquanto não repousar em ti.",
+    "url": "https://www.newadvent.org/fathers/110101.htm",
+    "nota": "Tradução livre do latim (Confessiones) para fins devocionais."
+  },
+  {
+    "id": "agostinho-sermao-monte-1-1",
+    "autor": "Santo Agostinho",
+    "obra": "O Sermão do Senhor na Montanha, I, 1, 1",
+    "passagens": [{"livro": "Mt", "capitulos": [5, 6, 7]}, {"livro": "Lc", "capitulos": [6]}],
+    "tempos": ["comum"],
+    "texto": "Quem meditar com piedade e sobriedade o sermão que Nosso Senhor Jesus Cristo pronunciou no monte, tal como o lemos no Evangelho segundo Mateus, encontrará nele, quanto aos bons costumes, a norma perfeita da vida cristã.",
+    "url": "https://www.newadvent.org/fathers/16011.htm",
+    "nota": "Tradução livre do latim (De Sermone Domini in Monte). Este trecho abre também a Catena Aurea de São Tomás de Aquino sobre Mt 5 em várias edições; curadoria aberta à comunidade."
+  }
+]

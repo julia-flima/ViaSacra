@@ -1,0 +1,46 @@
+# Integração contínua: análise estática e testes do app e do scraper.
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  flutter:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: app
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.50.0"
+          channel: stable
+          cache: true
+      - run: flutter pub get
+      - run: dart format --output=none --set-exit-if-changed lib test
+      - run: flutter analyze
+      - run: flutter test
+
+      - name: Auditoria F-Droid (sem dependências proprietárias)
+        run: |
+          if grep -E -i "firebase|google_mobile_ads|play_services|gms|crashlytics|google_fonts|sentry|amplitude|mixpanel" pubspec.lock; then
+            echo "::error::Dependência proprietária ou rastreador detectado em pubspec.lock"
+            exit 1
+          fi
+
+  scraper:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: scraper
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements-dev.txt
+      - run: ruff check .
+      - run: python -m pytest -q

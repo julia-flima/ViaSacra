@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: 📖 Documentação do projeto
+    url: https://github.com/julia-flima/ViaSacra/tree/main/docs
+    about: Arquitetura, banco de dados, design system e política de direitos autorais.

@@ -1,0 +1,5 @@
+# Copie para android/key.properties (NUNCA versione o arquivo real)
+storePassword=senha-do-keystore
+keyPassword=senha-da-chave
+keyAlias=via-sacra
+storeFile=/caminho/absoluto/via-sacra-release.jks

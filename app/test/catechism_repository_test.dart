@@ -1,0 +1,57 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:flutter_test/flutter_test.dart';
+import 'package:via_sacra/data/catechism_repository.dart';
+import 'package:via_sacra/data/database.dart';
+import 'package:via_sacra/data/user_data_repository.dart';
+
+void main() {
+  late AppDatabase db;
+
+  setUp(() async {
+    db = await AppDatabase.memory(schema: File('assets/db/schema.sql').readAsStringSync());
+    await db.importCatechism(jsonDecode(File('assets/db/catechism.json').readAsStringSync()) as Map<String, dynamic>);
+  });
+
+  tearDown(() => db.close());
+
+  test('Busca por número exato e FTS5 sem acentos', () {
+    final repo = CatechismRepository(db);
+    expect(repo.search('1324').single.number, 1324);
+    expect(repo.search('§ 27').single.number, 27);
+    final graca = repo.search('graca');
+    expect(graca.map((p) => p.number), contains(1996));
+    expect(graca.first.snippet, contains('«'));
+    expect(repo.search('Eucaristia').first.number, 1324);
+    expect(repo.search('"(*'), isEmpty); // entrada malformada não quebra o FTS
+  });
+
+  test('Índice do CIC com 4 partes + prólogo', () {
+    final toc = CatechismRepository(db).toc();
+    expect(toc, hasLength(5));
+    expect(toc.last.last, 2865);
+    expect(toc[2].children.last.children.first.children.last.title, 'O sacramento da Eucaristia');
+  });
+
+  test('Favoritos, anotações e constância', () {
+    final u = UserDataRepository(db);
+    expect(u.toggleFavorite('catechism', '1324'), isTrue);
+    expect(u.favorites('catechism'), ['1324']);
+    u.saveNote('catechism', '1324', 'Fonte e ápice!');
+    expect(u.note('catechism', '1324'), 'Fonte e ápice!');
+
+    final today = DateTime(2026, 11, 19);
+    for (var i = 0; i < 5; i++) {
+      u.logPrayer(PrayerKind.terco, day: DateTime(2026, 11, 19 - i), mysterySet: 'gozosos');
+    }
+    u.logPrayer(PrayerKind.liturgia, day: DateTime(2026, 11, 10));
+    final s = u.streak(today: today);
+    expect(s.current, 5);
+    expect(s.best, 5);
+    expect(s.daysThisMonth, containsAll([10, 15, 16, 17, 18, 19]));
+    // Sem oração hoje ainda: a sequência de ontem continua (sem punição)
+    expect(u.streak(today: DateTime(2026, 11, 20)).current, 5);
+    expect(u.streak(today: DateTime(2026, 11, 22)).current, 0);
+  });
+}
