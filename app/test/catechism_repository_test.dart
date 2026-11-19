@@ -1,10 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:via_sacra/data/catechism_repository.dart';
 import 'package:via_sacra/data/database.dart';
+import 'package:via_sacra/data/models/catechism.dart';
 import 'package:via_sacra/data/user_data_repository.dart';
+import 'package:via_sacra/services/catechism_import_service.dart';
 
 void main() {
   late AppDatabase db;
@@ -53,5 +56,52 @@ void main() {
     // Sem oração hoje ainda: a sequência de ontem continua (sem punição)
     expect(u.streak(today: DateTime(2026, 11, 20)).current, 5);
     expect(u.streak(today: DateTime(2026, 11, 22)).current, 0);
+  });
+
+  test('Catecismos embutidos (São Pio X + Catecismo Romano) e importador modular JSON', () async {
+    await db.importCatechismWork(
+      jsonDecode(File('assets/db/sao_pio_x.json').readAsStringSync()) as Map<String, dynamic>,
+      bundled: true,
+    );
+    await db.importCatechismWork(
+      jsonDecode(File('assets/db/catecismo_romano.json').readAsStringSync()) as Map<String, dynamic>,
+      bundled: true,
+    );
+    final repo = CatechismRepository(db);
+    expect(repo.works().map((w) => w.id), containsAll(['sao_pio_x', 'romano_trento']));
+    expect(repo.parts('sao_pio_x'), isNotEmpty);
+    expect(repo.searchEntries('sao_pio_x', '1').single.question, 'Sois cristão?');
+    expect(repo.searchEntries('sao_pio_x', 'Eucaristia'), isNotEmpty);
+    expect(repo.searchEntries('romano_trento', 'transubstanciacao').single.number, 6);
+
+    final importer = CatechismImportService(repo);
+    final payload = utf8.encode(
+      jsonEncode({
+        'formato': 'viasacra-catecismo',
+        'versao': 1,
+        'id': 'cic_local',
+        'nome': 'Catecismo da Igreja Católica (Local)',
+        'sigla': 'CIC 1992',
+        'idioma': 'pt-BR',
+        'rotulo_entrada': '§',
+        'entradas': [
+          {
+            'numero': 1324,
+            'parte': 'Segunda Parte — A Celebração do Mistério Cristão',
+            'capitulo': 'O Sacramento da Eucaristia',
+            'resposta': 'A Eucaristia é fonte e ápice de toda a vida cristã.',
+          },
+        ],
+      }),
+    );
+    final res = await importer.importFromBytes(Uint8List.fromList(payload));
+    expect((res.id, res.entryCount), ('cic_local', 1));
+    expect(repo.searchEntries('cic_local', '§1324').single.number, 1324);
+    expect(repo.searchEntries('cic_local', 'apice').single.number, 1324);
+    expect(repo.searchEntries('sao_pio_x', 'apice'), isEmpty);
+
+    await expectLater(importer.deleteWork('sao_pio_x'), throwsA(isA<CatechismModuleException>()));
+    await importer.deleteWork('cic_local');
+    expect(repo.work('cic_local'), isNull);
   });
 }

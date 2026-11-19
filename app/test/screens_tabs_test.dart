@@ -57,7 +57,7 @@ void main() {
     await tester.enterText(find.byType(TextField), 'graça');
     await tester.pump(const Duration(milliseconds: 300));
     await settle(tester);
-    expect(find.text('§ 1996'), findsOneWidget);
+    expect(find.text('P. 24'), findsOneWidget);
     await shot(tester, '5-catecismo');
 
     // Biblioteca › Orações

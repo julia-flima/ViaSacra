@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """Via Sacra — construtor do banco de dados local da Bíblia Sagrada (73 livros).
 
-Padroniza arquivos de texto ou JSON das traduções católicas clássicas:
+Padroniza arquivos de texto ou JSON das duas traduções católicas clássicas em
+Domínio Público (100% compatíveis com o F-Droid):
   1. Pe. Antônio Pereira de Figueiredo (Português — 73 livros, Domínio Público)
-  2. Pe. Manuel de Matos Soares        (Português — 73 livros)
-  3. Vulgata Clementina                (Latim — 73 livros, já disponível em app/assets/bible/vulgata.json)
+  2. Vulgata Clementina                (Latim — 73 livros, Domínio Público, já disponível em app/assets/bible/vulgata.json)
 
 Mapeia os 73 livros do cânon católico (46 AT com deuterocanônicos + 27 NT) com
 as abreviações católicas padrão (`tool/bible/canon.py`) e gera:
@@ -23,10 +23,9 @@ Exemplos de uso:
   # Gera o banco SQLite a partir da Vulgata já presente no repositório:
   python3 scripts/build_bible_db.py
 
-  # Consolida Figueiredo, Matos Soares e Vulgata no banco SQLite e gera os módulos JSON:
+  # Consolida Figueiredo e Vulgata (Domínio Público) no banco SQLite e gera os módulos JSON:
   python3 scripts/build_bible_db.py \
       --figueiredo fontes/figueiredo.json \
-      --matos-soares fontes/matos_soares.json \
       --vulgata app/assets/bible/vulgata.json \
       --db-out app/assets/db/bible.db \
       --write-json \
@@ -54,7 +53,7 @@ ASSETS_BIBLE_DIR = RAIZ / "app/assets/bible"
 DEFAULT_VULGATA_JSON = ASSETS_BIBLE_DIR / "vulgata.json"
 DEFAULT_DB_OUT = RAIZ / "app/assets/db/bible.db"
 
-# Metadados padrão das 3 traduções nativas
+# Metadados padrão das 2 traduções nativas em Domínio Público (100% F-Droid)
 PRESETS: dict[str, dict[str, Any]] = {
     "figueiredo": {
         "id": "figueiredo",
@@ -65,17 +64,6 @@ PRESETS: dict[str, dict[str, Any]] = {
         "licenca": "Domínio público",
         "fonte": "Tradução da Vulgata Latina pelo Pe. Antônio Pereira de Figueiredo (1778–1790)",
         "descricao": "Tradução clássica portuguesa da Vulgata Latina (73 livros, domínio público).",
-        "numeracao_salmos": "grega",
-    },
-    "matos_soares": {
-        "id": "matos_soares",
-        "nome": "Bíblia Sagrada — Pe. Manuel de Matos Soares",
-        "sigla": "MS",
-        "abreviacao": "MS",
-        "idioma": "pt-BR",
-        "licenca": "Uso devocional / edição local",
-        "fonte": "Tradução da Vulgata Latina pelo Pe. Manuel de Matos Soares (73 livros)",
-        "descricao": "Tradução católica tradicional em português a partir da Vulgata (73 livros).",
         "numeracao_salmos": "grega",
     },
     "vulgata": {
@@ -516,14 +504,14 @@ def atualizar_bundled(ids: list[str], pasta_assets: Path) -> None:
     atuais: list[str] = []
     if manifest_path.exists():
         atuais = list(json.loads(manifest_path.read_text(encoding="utf-8")).get("modulos", []))
-    # Prioriza português (Figueiredo, Matos Soares) antes do latim/inglês
-    prioridade = ["figueiredo", "matos_soares", "vulgata"]
+    # Prioriza português (Figueiredo) antes do latim/inglês (somente domínio público)
+    prioridade = ["figueiredo", "vulgata"]
     combinados = list(dict.fromkeys([*prioridade, *ids, *atuais]))
     finais = [i for i in combinados if (pasta_assets / f"{i}.json").exists()]
     payload = {
         "_comentario": (
-            "Traduções embutidas no app. Use scripts/build_bible_db.py para gerar módulos "
-            "padronizados (Figueiredo, Matos Soares e Vulgata) e o banco SQLite otimizado."
+            "Traduções embutidas no app — SOMENTE Domínio Público (100% F-Droid). "
+            "Use scripts/build_bible_db.py para gerar Figueiredo e Vulgata e o banco SQLite otimizado."
         ),
         "modulos": finais,
     }
@@ -533,10 +521,12 @@ def atualizar_bundled(ids: list[str], pasta_assets: Path) -> None:
 
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(
-        description="Padroniza Figueiredo, Matos Soares e Vulgata (73 livros) e gera o banco SQLite/FTS5 do Via Sacra."
+        description=(
+            "Padroniza Figueiredo e Vulgata (73 livros, Domínio Público) "
+            "e gera o banco SQLite/FTS5 do Via Sacra."
+        )
     )
     ap.add_argument("--figueiredo", type=Path, help="Arquivo JSON/TXT da tradução Pe. Antônio Pereira de Figueiredo")
-    ap.add_argument("--matos-soares", type=Path, help="Arquivo JSON/TXT da tradução Pe. Manuel de Matos Soares")
     ap.add_argument(
         "--vulgata",
         type=Path,
@@ -570,8 +560,6 @@ def main(argv: list[str] | None = None) -> int:
     entradas: list[tuple[str, Path]] = []
     if args.figueiredo:
         entradas.append(("figueiredo", args.figueiredo))
-    if args.matos_soares:
-        entradas.append(("matos_soares", args.matos_soares))
     if args.vulgata and args.vulgata.exists():
         entradas.append(("vulgata", args.vulgata))
     for item in args.extra:

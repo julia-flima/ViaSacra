@@ -16,8 +16,8 @@ class AppDatabase {
 
   final CommonDatabase db;
 
-  /// 1 = conteúdo inicial; 2 = Bíblia Sagrada.
-  static const schemaVersion = 2;
+  /// 1 = conteúdo inicial; 2 = Bíblia Sagrada; 3 = múltiplos catecismos (100% FOSS + importador).
+  static const schemaVersion = 3;
 
   static Future<AppDatabase> open() async {
     final db = await openPlatformDatabase('via_sacra');
@@ -25,6 +25,7 @@ class AppDatabase {
     final app = AppDatabase._(db);
     await app._migrate();
     await app._seedCatechism();
+    await app._seedBundledCatechismWorks();
     return app;
   }
 
@@ -143,6 +144,77 @@ class AppDatabase {
       db.execute('ROLLBACK');
       rethrow;
     }
+  }
+
+  /// Instala os catecismos clássicos em Domínio Público (São Pio X e Catecismo Romano).
+  Future<void> _seedBundledCatechismWorks() async {
+    for (final asset in const ['assets/db/sao_pio_x.json', 'assets/db/catecismo_romano.json']) {
+      try {
+        final raw = await rootBundle.loadString(asset);
+        await importCatechismWork(jsonDecode(raw) as Map<String, dynamic>, bundled: true);
+      } on FlutterError {
+        debugPrint('$asset ausente.');
+      }
+    }
+  }
+
+  /// Instala/atualiza uma obra de catecismo nas tabelas `catechisms` e `catechism_entries`.
+  Future<void> importCatechismWork(Map<String, dynamic> data, {bool bundled = false, bool force = false}) async {
+    final id = (data['id'] as String).trim();
+    final version = (data['versao_modulo'] as num?)?.toInt() ?? 1;
+    final current =
+        db.select('SELECT module_version FROM catechisms WHERE id = ?', [id]).firstOrNull?['module_version'] as int?;
+    if (!force && current != null && current >= version) return;
+
+    final entries = (data['entradas'] ?? data['paragrafos']) as List? ?? const [];
+    db.execute('BEGIN');
+    try {
+      db.execute('DELETE FROM catechism_entries WHERE catechism_id = ?', [id]);
+      db.execute(
+        '''INSERT OR REPLACE INTO catechisms
+           (id, name, short_name, year, language, license, source, description,
+            entry_label, bundled, entry_count, module_version, installed_at)
+           VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)''',
+        [
+          id,
+          (data['nome'] as String).trim(),
+          ((data['nome_curto'] ?? data['sigla'] ?? data['nome']) as String).trim(),
+          (data['ano'] as num?)?.toInt(),
+          (data['idioma'] as String? ?? 'pt-BR').trim(),
+          (data['licenca'] as String? ?? 'Importado localmente pelo usuário').trim(),
+          data['fonte'],
+          data['descricao'],
+          (data['rotulo_entrada'] as String? ?? '§').trim(),
+          bundled ? 1 : 0,
+          entries.length,
+          version,
+          DateTime.now().millisecondsSinceEpoch,
+        ],
+      );
+      final ins = db.prepare(
+        'INSERT INTO catechism_entries(catechism_id, number, part, chapter, question, answer) '
+        'VALUES (?,?,?,?,?,?)',
+      );
+      for (final raw in entries) {
+        final m = (raw as Map).cast<String, dynamic>();
+        final numVal = (m['numero'] ?? m['n']) as num;
+        final textVal = (m['resposta'] ?? m['texto']) as String;
+        ins.execute([
+          id,
+          numVal.toInt(),
+          (m['parte'] as String? ?? 'Geral').trim(),
+          (m['capitulo'] as String?)?.trim(),
+          (m['pergunta'] ?? m['titulo']) as String?,
+          textVal.trim(),
+        ]);
+      }
+      ins.close();
+      db.execute('COMMIT');
+    } catch (e) {
+      db.execute('ROLLBACK');
+      rethrow;
+    }
+    await flush();
   }
 
   void close() => db.close();

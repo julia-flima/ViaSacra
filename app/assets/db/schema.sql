@@ -208,3 +208,63 @@ CREATE TABLE IF NOT EXISTS bible_highlights_notes (
   PRIMARY KEY (book_id, chapter, verse)
 );
 CREATE INDEX IF NOT EXISTS idx_bible_hn_fav ON bible_highlights_notes(favorite, updated_at);
+
+-- =====================================================================
+-- Versão 3 — Múltiplos Catecismos (100% FOSS + Importador Modular JSON)
+-- Embutidos (domínio público): Catecismo Maior de São Pio X (1905) e
+-- Catecismo Romano (Concílio de Trento, 1566).
+-- Importados localmente pelo usuário: CIC (1992), Compêndio do CIC, etc.
+-- =====================================================================
+
+CREATE TABLE IF NOT EXISTS catechisms (
+  id              TEXT PRIMARY KEY,            -- ex.: "sao_pio_x", "romano_trento", "cic_1992"
+  name            TEXT NOT NULL,
+  short_name      TEXT NOT NULL,               -- ex.: "São Pio X", "Trento", "CIC 1992"
+  year            INTEGER,
+  language        TEXT NOT NULL DEFAULT 'pt-BR',
+  license         TEXT NOT NULL,
+  source          TEXT,
+  description     TEXT,
+  entry_label     TEXT NOT NULL DEFAULT '§',   -- "Pergunta" ou "§"
+  bundled         INTEGER NOT NULL DEFAULT 0,  -- 1 = embutido (domínio público)
+  entry_count     INTEGER NOT NULL DEFAULT 0,
+  module_version  INTEGER NOT NULL DEFAULT 1,
+  installed_at    INTEGER NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS catechism_entries (
+  id              INTEGER PRIMARY KEY,         -- rowid (ligado ao FTS5)
+  catechism_id    TEXT NOT NULL REFERENCES catechisms(id) ON DELETE CASCADE,
+  number          INTEGER NOT NULL,            -- nº da pergunta ou parágrafo
+  part            TEXT NOT NULL,               -- ex.: "Primeira Parte — Do Símbolo dos Apóstolos"
+  chapter         TEXT,                        -- ex.: "Capítulo I — De Deus e da Criação"
+  question        TEXT,                        -- pergunta ou título do parágrafo
+  answer          TEXT NOT NULL,               -- resposta ou texto integral
+  UNIQUE (catechism_id, number)
+);
+CREATE INDEX IF NOT EXISTS idx_catechism_entries_cat ON catechism_entries(catechism_id, number);
+
+CREATE VIRTUAL TABLE IF NOT EXISTS catechism_entries_fts USING fts5(
+  question,
+  answer,
+  part,
+  chapter,
+  content = 'catechism_entries',
+  content_rowid = 'id',
+  tokenize = 'unicode61 remove_diacritics 2'
+);
+
+CREATE TRIGGER IF NOT EXISTS catechism_entries_ai AFTER INSERT ON catechism_entries BEGIN
+  INSERT INTO catechism_entries_fts(rowid, question, answer, part, chapter)
+  VALUES (new.id, new.question, new.answer, new.part, new.chapter);
+END;
+CREATE TRIGGER IF NOT EXISTS catechism_entries_ad AFTER DELETE ON catechism_entries BEGIN
+  INSERT INTO catechism_entries_fts(catechism_entries_fts, rowid, question, answer, part, chapter)
+  VALUES ('delete', old.id, old.question, old.answer, old.part, old.chapter);
+END;
+CREATE TRIGGER IF NOT EXISTS catechism_entries_au AFTER UPDATE ON catechism_entries BEGIN
+  INSERT INTO catechism_entries_fts(catechism_entries_fts, rowid, question, answer, part, chapter)
+  VALUES ('delete', old.id, old.question, old.answer, old.part, old.chapter);
+  INSERT INTO catechism_entries_fts(rowid, question, answer, part, chapter)
+  VALUES (new.id, new.question, new.answer, new.part, new.chapter);
+END;

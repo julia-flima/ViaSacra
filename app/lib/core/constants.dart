@@ -34,4 +34,24 @@ class ExternalLinks {
   static const vaticanNews = 'https://www.vaticannews.va/pt.html';
   static const commons = 'https://commons.wikimedia.org';
   static const catechismVatican = 'https://www.vatican.va/archive/cathechism_po/index_new/prima-pagina-cic_po.html';
+
+  /// Páginas oficiais das partes do CIC (1992) em português no portal da Santa Sé.
+  static String catechismPartUrl(String nodeId) {
+    if (nodeId.startsWith('p0')) {
+      return 'https://www.vatican.va/archive/cathechism_po/index_new/prologo%201-25_po.html';
+    }
+    if (nodeId.startsWith('p1')) {
+      return 'https://www.vatican.va/archive/cathechism_po/index_new/p1s1c1_26-49_po.html';
+    }
+    if (nodeId.startsWith('p2')) {
+      return 'https://www.vatican.va/archive/cathechism_po/index_new/p2s1cap1_1113-1134_po.html';
+    }
+    if (nodeId.startsWith('p3')) {
+      return 'https://www.vatican.va/archive/cathechism_po/index_new/p3s1cap1_1700-1715_po.html';
+    }
+    if (nodeId.startsWith('p4')) {
+      return 'https://www.vatican.va/archive/cathechism_po/index_new/p4s1cap1_2558-2565_po.html';
+    }
+    return catechismVatican;
+  }
 }

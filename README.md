@@ -205,17 +205,16 @@ O workflow de release assina os APKs se estes *secrets* existirem no repositóri
 
 ## Traduções da Bíblia Sagrada e Importador JSON
 
-O módulo da Bíblia Sagrada (cânon católico de **73 livros**: 46 AT com deuterocanônicos + 27 NT) oferece suporte nativo às traduções clássicas (**Pe. Antônio Pereira de Figueiredo**, **Pe. Manuel de Matos Soares** e **Vulgata Clementina**) e um **importador modular local (`.json`)** acessível pela aba **Bíblia** e pelos **Ajustes → Gerenciar e Importar Traduções**.
+O módulo da Bíblia Sagrada (cânon católico de **73 livros**: 46 AT com deuterocanônicos + 27 NT) oferece suporte nativo a duas traduções clássicas em **Domínio Público** (100% compatíveis com o F-Droid) — **Pe. Antônio Pereira de Figueiredo** (Português) e **Vulgata Clementina** (Latim) — e um **importador modular local (`.json`)** acessível pela aba **Bíblia** e pelos **Ajustes → Gerenciar e Importar Traduções**.
 
 ### Consolidando traduções com `scripts/build_bible_db.py`
 
-O script [`scripts/build_bible_db.py`](scripts/build_bible_db.py) padroniza arquivos `.json` ou `.txt` das traduções Figueiredo, Matos Soares e Vulgata (mapeando os 73 livros pelo cânon em [`tool/bible/canon.py`](tool/bible/canon.py)) e gera os módulos JSON padronizados e o banco SQLite otimizado com índice FTS5:
+O script [`scripts/build_bible_db.py`](scripts/build_bible_db.py) padroniza arquivos `.json` ou `.txt` de Figueiredo e da Vulgata (mapeando os 73 livros pelo cânon em [`tool/bible/canon.py`](tool/bible/canon.py)) e gera os módulos JSON padronizados e o banco SQLite otimizado com índice FTS5:
 
 ```bash
-# Gera o banco SQLite/FTS5 consolidando as três traduções clássicas:
+# Gera o banco SQLite/FTS5 consolidando Figueiredo e Vulgata (Domínio Público):
 python3 scripts/build_bible_db.py \
   --figueiredo fontes/figueiredo.json \
-  --matos-soares fontes/matos_soares.json \
   --vulgata app/assets/bible/vulgata.json \
   --db-out app/assets/db/bible.db \
   --write-json \
@@ -279,6 +278,51 @@ Qualquer arquivo `.json` no formato abaixo pode ser importado diretamente no apa
 | `livros[].capitulos` | **Sim** | Lista de capítulos (cada capítulo como lista de versículos `["v1", "v2"]`, pares `[[1, "v1"], [3, "v3"]]` ou objeto `{"1": "v1"}`), ou objeto numerado por capítulo (`{"1": {"1": "v1"}}`). |
 
 Detalhes completos sobre o cânon de 73 livros e armazenamento SQLite/FTS5 estão em [`docs/BIBLE.md`](docs/BIBLE.md).
+
+## Módulo Catecismo (100% FOSS + Portal Oficial e Importador JSON)
+
+Na sub-aba **Biblioteca → Catecismo**, o Via Sacra oferece:
+
+- **Estudo Offline (100% Domínio Público / F-Droid):** **Catecismo Maior de São Pio X (1905)** (perguntas e respostas) e **Catecismo Romano (Concílio de Trento, 1566)** (mesma divisão em 4 partes do CIC de 1992), ambos indexados localmente com SQLite FTS5, busca por número ou palavra-chave, favoritos, anotações pessoais e leitura em voz alta (TTS offline).
+- **CIC (1992) — Portal Oficial:** índice estruturado das 4 Partes com atalho direto para o portal oficial em português no site da Santa Sé (`vatican.va`), sem hospedar texto protegido no repositório.
+- **Importador Modular Local (`.json`):** permite importar no próprio aparelho um arquivo `.json` do CIC (1992) ou do Compêndio do Catecismo, habilitando busca offline por número (`§1324`) e leitura em voz alta (TTS).
+
+### Esquema JSON padrão para importação de Catecismos
+
+```json
+{
+  "formato": "viasacra-catecismo",
+  "versao": 1,
+  "id": "cic_1992",
+  "nome": "Catecismo da Igreja Católica",
+  "nome_curto": "CIC (1992)",
+  "sigla": "CIC",
+  "ano": 1992,
+  "idioma": "pt-BR",
+  "licenca": "Uso pessoal (importação local)",
+  "rotulo_entrada": "§",
+  "entradas": [
+    {
+      "numero": 1324,
+      "parte": "Segunda Parte — A Celebração do Mistério Cristão",
+      "capitulo": "O Sacramento da Eucaristia",
+      "pergunta": "A Eucaristia — fonte e ápice da vida eclesial",
+      "resposta": "A Eucaristia é fonte e ápice de toda a vida cristã..."
+    }
+  ]
+}
+```
+
+| Campo | Obrigatório | Descrição |
+|---|---|---|
+| `formato` | Recomendado | Deve ser `"viasacra-catecismo"` (quando informado). |
+| `versao` | Recomendado | Versão do esquema (`1`). |
+| `id` | **Sim** | Identificador único (`2` a `32` caracteres: `[a-z0-9_-]`). |
+| `nome` | **Sim** | Nome completo da obra. |
+| `nome_curto` / `sigla` | Não | Rótulo curto exibido no seletor de obras. |
+| `idioma` | Não | Código BCP-47 (padrão: `"pt-BR"`). Define a voz do TTS. |
+| `rotulo_entrada` | Não | Prefixo do número (ex.: `"§"` ou `"P."`). |
+| `entradas` (ou `paragrafos`) | **Sim** | Lista de objetos com `numero` (inteiro positivo), `parte`, `capitulo` (opcional), `pergunta` / `titulo` (opcional) e `resposta` / `texto` (obrigatório). |
 
 ## Arquitetura
 
