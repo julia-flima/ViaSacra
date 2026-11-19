@@ -10,8 +10,8 @@ O repositório utiliza exatamente **quatro branches** com papéis bem definidos:
 
 | Branch | Papel | Dispara CI? | Dispara Deploy Web (GitHub Pages)? |
 |---|---|---|---|
-| `main` | **Produção / Deployment.** Sempre estável e verde no CI. | Sim (`ci.yml`) | **Sim** (`deploy-web.yml` → `gh-pages`) |
-| `dev` | **Desenvolvimento contínuo.** Todo novo recurso, experimento e correção deve nascer aqui ou em branches a partir de `dev`. | Sim (`ci.yml`) | **Não** |
+| `main` | **Produção / Deployment.** Sempre estável e verde no CI. | Sim (`ci.yml`) | **Sim — Produção** (`deploy-web.yml` → `/ViaSacra/`) |
+| `dev` | **Desenvolvimento contínuo.** Todo novo recurso, experimento e correção deve nascer aqui ou em branches a partir de `dev`. | Sim (`ci.yml`) | **Prévia isolada** (`deploy-dev-preview.yml` → `/ViaSacra/dev/`, sem tocar na produção) |
 | `data` | **Automática (bot).** JSONs diários da Liturgia gerados pelo GitHub Actions (`update-liturgy.yml`). Nunca editar manualmente. | Não | Não |
 | `gh-pages` | **Automática (bot).** Build estático da versão Web/PWA publicado a partir da `main`. Nunca editar manualmente. | Não | — |
 

@@ -1,0 +1,72 @@
+# Publica uma prévia isolada da branch `dev` em /ViaSacra/dev/ (branch `gh-pages`,
+# subpasta `dev/`) para testar cada nova versão no navegador sem tocar na produção (`main`).
+# Endereço: https://julia-flima.github.io/ViaSacra/dev/
+name: Deploy Prévia Web (dev)
+
+on:
+  push:
+    branches: [dev]
+    paths:
+      - "app/**"
+      - "tool/fetch_sqlite_wasm.sh"
+      - ".github/workflows/deploy-dev-preview.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: deploy-web-pages
+  cancel-in-progress: false
+
+jobs:
+  deploy-preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.50.0"
+          channel: stable
+          cache: true
+
+      - name: Dependências
+        working-directory: app
+        run: flutter pub get
+
+      - name: SQLite WebAssembly (banco offline no navegador)
+        run: bash tool/fetch_sqlite_wasm.sh
+
+      - name: Build Web (Prévia /dev/)
+        working-directory: app
+        run: |
+          flutter build web --release \
+            --no-web-resources-cdn \
+            --no-wasm-dry-run \
+            --base-href "/${{ github.event.repository.name }}/dev/"
+
+      - name: Preparar publicação da prévia
+        working-directory: app/build/web
+        run: |
+          # Cache separado da produção para nunca conflitar com a versão da main
+          sed -i "s/const VERSION = 'dev';/const VERSION = 'preview-${GITHUB_SHA::12}';/" sw.js
+          sed -i "s/via-sacra-app-/via-sacra-dev-app-/g" sw.js
+          sed -i "s/via-sacra-dados/via-sacra-dev-dados/g" sw.js
+          rm -f flutter_service_worker.js
+          cp index.html 404.html
+          touch .nojekyll
+          du -sh .
+
+      - name: Publicar prévia em gh-pages/dev/
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: app/build/web
+          publish_branch: gh-pages
+          destination_dir: dev
+          keep_files: true
+          user_name: via-sacra-bot
+          user_email: 41898282+github-actions[bot]@users.noreply.github.com
+          commit_message: "web(dev): preview ${{ github.sha }}"

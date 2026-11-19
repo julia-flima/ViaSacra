@@ -1,3 +1,6 @@
+import 'dart:ui' show PointerDeviceKind;
+
+import 'package:flutter/services.dart' show LogicalKeyboardKey;
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 
@@ -11,6 +14,20 @@ import 'features/rosary/rosary_screen.dart';
 import 'features/settings/onboarding_screen.dart';
 import 'features/settings/settings_screen.dart';
 import 'services/settings_service.dart';
+
+/// Comportamento de rolagem confortável em Desktop/Web (mouse, trackpad e toque).
+class _ViaSacraScrollBehavior extends MaterialScrollBehavior {
+  const _ViaSacraScrollBehavior();
+
+  @override
+  Set<PointerDeviceKind> get dragDevices => {
+    PointerDeviceKind.touch,
+    PointerDeviceKind.mouse,
+    PointerDeviceKind.trackpad,
+    PointerDeviceKind.stylus,
+    PointerDeviceKind.unknown,
+  };
+}
 
 class ViaSacraApp extends StatelessWidget {
   const ViaSacraApp({super.key, required this.services});
@@ -39,6 +56,7 @@ class ViaSacraApp extends StatelessWidget {
           return MaterialApp(
             title: 'Via Sacra',
             debugShowCheckedModeBanner: false,
+            scrollBehavior: const _ViaSacraScrollBehavior(),
             theme: theme(Brightness.light),
             darkTheme: theme(Brightness.dark),
             themeMode: settings.themeMode,
@@ -66,35 +84,95 @@ class HomeShell extends StatelessWidget {
 
   static const _pages = <Widget>[LiturgyScreen(), BibleScreen(), RosaryScreen(), LibraryScreen(), SettingsScreen()];
 
+  static const _items = <(IconData, IconData, String)>[
+    (Icons.today_outlined, Icons.today, 'Liturgia'),
+    (Icons.menu_book_outlined, Icons.menu_book, 'Bíblia'),
+    (Icons.radio_button_unchecked, Icons.radio_button_checked, 'Terço'),
+    (Icons.local_library_outlined, Icons.local_library, 'Biblioteca'),
+    (Icons.tune_outlined, Icons.tune, 'Ajustes'),
+  ];
+
   @override
   Widget build(BuildContext context) {
     final nav = context.watch<NavigationController>();
-    return Scaffold(
-      body: IndexedStack(index: nav.tab.index, children: _pages),
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: nav.tab.index,
-        onDestinationSelected: (i) => nav.go(AppTab.values[i]),
-        labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
-        destinations: const [
-          NavigationDestination(icon: Icon(Icons.today_outlined), selectedIcon: Icon(Icons.today), label: 'Liturgia'),
-          NavigationDestination(
-            icon: Icon(Icons.menu_book_outlined),
-            selectedIcon: Icon(Icons.menu_book),
-            label: 'Bíblia',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.radio_button_unchecked),
-            selectedIcon: Icon(Icons.radio_button_checked),
-            label: 'Terço',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.local_library_outlined),
-            selectedIcon: Icon(Icons.local_library),
-            label: 'Biblioteca',
-          ),
-          NavigationDestination(icon: Icon(Icons.tune_outlined), selectedIcon: Icon(Icons.tune), label: 'Ajustes'),
-        ],
-      ),
+    final liturgy = context.watch<LiturgyController>();
+    final width = MediaQuery.sizeOf(context).width;
+    final useRail = width >= 600;
+    final extendedRail = width >= 1024;
+    final cs = Theme.of(context).colorScheme;
+    final t = Theme.of(context).textTheme;
+
+    final body = IndexedStack(index: nav.tab.index, children: _pages);
+
+    final scaffold = Scaffold(
+      body: useRail
+          ? Row(
+              children: [
+                NavigationRail(
+                  selectedIndex: nav.tab.index,
+                  extended: extendedRail,
+                  minWidth: 80,
+                  minExtendedWidth: 224,
+                  labelType: extendedRail ? NavigationRailLabelType.none : NavigationRailLabelType.all,
+                  onDestinationSelected: (i) => nav.go(AppTab.values[i]),
+                  leading: Padding(
+                    padding: EdgeInsets.fromLTRB(extendedRail ? 16 : 8, 16, extendedRail ? 16 : 8, 20),
+                    child: extendedRail
+                        ? Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text('✝', style: TextStyle(fontSize: 22, color: cs.primary)),
+                                  const SizedBox(width: 8),
+                                  Text('Via Sacra', style: t.titleLarge),
+                                ],
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                liturgy.day.season.label,
+                                style: t.bodySmall?.copyWith(color: cs.primary),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ],
+                          )
+                        : Text('✝', style: TextStyle(fontSize: 24, color: cs.primary)),
+                  ),
+                  destinations: [
+                    for (final (icon, selected, label) in _items)
+                      NavigationRailDestination(icon: Icon(icon), selectedIcon: Icon(selected), label: Text(label)),
+                  ],
+                ),
+                VerticalDivider(width: 1, thickness: 1, color: cs.outline),
+                Expanded(child: body),
+              ],
+            )
+          : body,
+      bottomNavigationBar: useRail
+          ? null
+          : NavigationBar(
+              selectedIndex: nav.tab.index,
+              onDestinationSelected: (i) => nav.go(AppTab.values[i]),
+              labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
+              destinations: [
+                for (final (icon, selected, label) in _items)
+                  NavigationDestination(icon: Icon(icon), selectedIcon: Icon(selected), label: label),
+              ],
+            ),
+    );
+
+    // Atalhos de teclado no desktop/web: Alt+1..5 alterna entre as abas.
+    return CallbackShortcuts(
+      bindings: <ShortcutActivator, VoidCallback>{
+        const SingleActivator(LogicalKeyboardKey.digit1, alt: true): () => nav.go(AppTab.liturgia),
+        const SingleActivator(LogicalKeyboardKey.digit2, alt: true): () => nav.go(AppTab.biblia),
+        const SingleActivator(LogicalKeyboardKey.digit3, alt: true): () => nav.go(AppTab.terco),
+        const SingleActivator(LogicalKeyboardKey.digit4, alt: true): () => nav.go(AppTab.biblioteca),
+        const SingleActivator(LogicalKeyboardKey.digit5, alt: true): () => nav.go(AppTab.ajustes),
+      },
+      child: Focus(autofocus: false, child: scaffold),
     );
   }
 }

@@ -384,8 +384,8 @@ Contribuições são muito bem-vindas — de código a correções de orações 
 
 | Branch | Finalidade |
 |---|---|
-| `main` | **Produção / Deployment.** Cada push na `main` roda o CI e publica automaticamente a versão Web/PWA no GitHub Pages (`gh-pages`). |
-| `dev` | **Desenvolvimento contínuo.** Recebe novos recursos e correções e roda o CI (`ci.yml`), **sem** disparar deploy para o GitHub Pages. |
+| `main` | **Produção / Deployment.** Cada push na `main` roda o CI e publica a versão de produção em `https://julia-flima.github.io/ViaSacra/`. |
+| `dev` | **Desenvolvimento contínuo.** Roda o CI (`ci.yml`) e publica uma **prévia isolada** para testes em `https://julia-flima.github.io/ViaSacra/dev/` sem afetar a produção. |
 | `data` | Gerenciada automaticamente pelo workflow `update-liturgy.yml` (JSONs diários da Liturgia). |
 | `gh-pages` | Gerenciada automaticamente pelo workflow `deploy-web.yml` (site estático do GitHub Pages). |
 

@@ -17,8 +17,8 @@ permissions:
   contents: write
 
 concurrency:
-  group: deploy-web
-  cancel-in-progress: true
+  group: deploy-web-pages
+  cancel-in-progress: false
 
 jobs:
   deploy:
@@ -68,7 +68,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: app/build/web
           publish_branch: gh-pages
-          force_orphan: true
+          keep_files: true
           user_name: via-sacra-bot
           user_email: 41898282+github-actions[bot]@users.noreply.github.com
           commit_message: "web: deploy ${{ github.sha }}"

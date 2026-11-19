@@ -34,11 +34,20 @@ class VsSpacing {
   static const xl = 32.0;
   static const xxl = 48.0;
 
-  /// Margem lateral "de missal": generosa em telas grandes.
+  /// Largura da barra lateral (NavigationRail) conforme breakpoints Material 3.
+  static double railWidth(double windowWidth) {
+    if (windowWidth >= 1024) return 224;
+    if (windowWidth >= 600) return 80;
+    return 0;
+  }
+
+  /// Margem lateral "de missal": generosa e centralizada em telas grandes,
+  /// descontando automaticamente a largura do NavigationRail no desktop/tablet.
   static double page(BuildContext context) {
-    final w = MediaQuery.sizeOf(context).width;
-    if (w > 900) return (w - 680) / 2;
-    if (w > 600) return 48;
+    final full = MediaQuery.sizeOf(context).width;
+    final content = full - railWidth(full);
+    if (content > 820) return (content - 720) / 2;
+    if (content > 600) return 40;
     return 22;
   }
 }
