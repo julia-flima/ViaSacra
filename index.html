@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <!-- Substituído por --base-href no build (GitHub Pages: "/<repositório>/"). -->
+  <base href="/ViaSacra/">
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="Via Sacra — Liturgia Diária, Bíblia, Santo Terço, Catecismo e Orações. Gratuito, sem anúncios, sem rastreadores, offline.">
+  <meta name="theme-color" content="#FAF8F5" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#121212" media="(prefers-color-scheme: dark)">
+  <meta name="color-scheme" content="light dark">
+
+  <!-- iOS: abre em tela cheia, sem a barra do Safari, ao adicionar à Tela de Início -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Via Sacra">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="manifest" href="manifest.json">
+
+  <!-- Sem rastreadores, sem fontes externas, sem CDNs de terceiros. -->
+  <title>Via Sacra</title>
+
+  <style>
+    html, body { margin: 0; height: 100%; background: #FAF8F5; }
+    @media (prefers-color-scheme: dark) { html, body { background: #121212; } }
+    #splash {
+      position: fixed; inset: 0; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 14px;
+      font-family: Georgia, "Noto Serif", serif; color: #B8860B;
+      transition: opacity .4s ease;
+    }
+    #splash .cruz { font-size: 44px; line-height: 1; }
+    #splash .nome { font-size: 22px; letter-spacing: .08em; color: #5C5852; }
+    @media (prefers-color-scheme: dark) { #splash .nome { color: #A59E92; } #splash { color: #D9B35A; } }
+  </style>
+</head>
+<body>
+  <div id="splash" aria-hidden="true"><div class="cruz">✝</div><div class="nome">Via Sacra</div></div>
+
+  <script>
+    // Service worker próprio: guarda o app e os dados para uso offline (ver sw.js).
+    if ('serviceWorker' in navigator) {
+      var reloading = false;
+      navigator.serviceWorker.addEventListener('controllerchange', function () {
+        if (reloading) return;
+        reloading = true;
+        window.location.reload();
+      });
+      window.addEventListener('load', function () {
+        navigator.serviceWorker
+          .register('sw.js', { updateViaCache: 'none' })
+          .then(function (reg) { reg.update().catch(function () {}); })
+          .catch(function (e) { console.warn('SW', e); });
+      });
+    }
+    // Some com a tela de abertura quando o Flutter desenhar o primeiro quadro.
+    window.addEventListener('flutter-first-frame', function () {
+      var s = document.getElementById('splash');
+      if (s) { s.style.opacity = '0'; setTimeout(function () { s.remove(); }, 450); }
+    });
+  </script>
+  <script src="flutter_bootstrap.js" async></script>
+</body>
+</html>

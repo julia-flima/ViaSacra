@@ -1,0 +1,856 @@
+[
+ {
+  "id": "gn",
+  "abreviacao": "Gn",
+  "nome": "Gênesis",
+  "nome_latino": "Genesis",
+  "testamento": "AT",
+  "deuterocanonico": false,
+  "apelidos": [
+   "gen",
+   "genesis"
+  ]
+ },
+ {
+  "id": "ex",
+  "abreviacao": "Ex",
+  "nome": "Êxodo",
+  "nome_latino": "Exodus",
+  "testamento": "AT",
+  "deuterocanonico": false,
+  "apelidos": [
+   "exo",
+   "exodo"
+  ]
+ },
+ {
+  "id": "lv",
+  "abreviacao": "Lv",
+  "nome": "Levítico",
+  "nome_latino": "Leviticus",
+  "testamento": "AT",
+  "deuterocanonico": false,
+  "apelidos": [
+   "lev",
+   "levitico"
+  ]
+ },
+ {
+  "id": "nm",
+  "abreviacao": "Nm",
+  "nome": "Números",
+  "nome_latino": "Numeri",
+  "testamento": "AT",
+  "deuterocanonico": false,
+  "apelidos": [
+   "num",
+   "numeros"
+  ]
+ },
+ {
+  "id": "dt",
+  "abreviacao": "Dt",
+  "nome": "Deuteronômio",
+  "nome_latino": "Deuteronomium",
+  "testamento": "AT",
+  "deuterocanonico": false,
+  "apelidos": [
+   "deut",
+   "deuteronomio"
+  ]
+ },
+ {
+  "id": "js",
+  "abreviacao": "Js",
+  "nome": "Josué",
+  "nome_latino": "Iosue",
+  "testamento": "AT",
+  "deuterocanonico": false,
+  "apelidos": [
+   "jos",
+   "josue"
+  ]
+ },
+ {
+  "id": "jz",
+  "abreviacao": "Jz",
+  "nome": "Juízes",
+  "nome_latino": "Iudicum",
+  "testamento": "AT",
+  "deuterocanonico": false,
+  "apelidos": [
+   "juizes",
+   "jui"
+  ]
+ },
+ {
+  "id": "rt",
+  "abreviacao": "Rt",
+  "nome": "Rute",
+  "nome_latino": "Ruth",
+  "testamento": "AT",
+  "deuterocanonico": false,
+  "apelidos": [
+   "rute"
+  ]
+ },
+ {
+  "id": "1sm",
+  "abreviacao": "1Sm",
+  "nome": "1 Samuel",
+  "nome_latino": "I Samuelis (I Regum)",
+  "testamento": "AT",
+  "deuterocanonico": false,
+  "apelidos": [
+   "1samuel",
+   "1 sam",
+   "1rs reg"
+  ]
+ },
+ {
+  "id": "2sm",
+  "abreviacao": "2Sm",
+  "nome": "2 Samuel",
+  "nome_latino": "II Samuelis (II Regum)",
+  "testamento": "AT",
+  "deuterocanonico": false,
+  "apelidos": [
+   "2samuel",
+   "2 sam"
+  ]
+ },
+ {
+  "id": "1rs",
+  "abreviacao": "1Rs",
+  "nome": "1 Reis",
+  "nome_latino": "III Regum",
+  "testamento": "AT",
+  "deuterocanonico": false,
+  "apelidos": [
+   "1reis",
+   "1 re"
+  ]
+ },
+ {
+  "id": "2rs",
+  "abreviacao": "2Rs",
+  "nome": "2 Reis",
+  "nome_latino": "IV Regum",
+  "testamento": "AT",
+  "deuterocanonico": false,
+  "apelidos": [
+   "2reis",
+   "2 re"
+  ]
+ },
+ {
+  "id": "1cr",
+  "abreviacao": "1Cr",
+  "nome": "1 Crônicas",
+  "nome_latino": "I Paralipomenon",
+  "testamento": "AT",
+  "deuterocanonico": false,
+  "apelidos": [
+   "1cronicas",
+   "1par"
+  ]
+ },
+ {
+  "id": "2cr",
+  "abreviacao": "2Cr",
+  "nome": "2 Crônicas",
+  "nome_latino": "II Paralipomenon",
+  "testamento": "AT",
+  "deuterocanonico": false,
+  "apelidos": [
+   "2cronicas",
+   "2par"
+  ]
+ },
+ {
+  "id": "esd",
+  "abreviacao": "Esd",
+  "nome": "Esdras",
+  "nome_latino": "I Esdrae",
+  "testamento": "AT",
+  "deuterocanonico": false,
+  "apelidos": [
+   "esdras",
+   "ed"
+  ]
+ },
+ {
+  "id": "ne",
+  "abreviacao": "Ne",
+  "nome": "Neemias",
+  "nome_latino": "II Esdrae (Nehemiae)",
+  "testamento": "AT",
+  "deuterocanonico": false,
+  "apelidos": [
+   "neemias",
+   "nee"
+  ]
+ },
+ {
+  "id": "tb",
+  "abreviacao": "Tb",
+  "nome": "Tobias",
+  "nome_latino": "Tobiae",
+  "testamento": "AT",
+  "deuterocanonico": true,
+  "apelidos": [
+   "tobias",
+   "tob"
+  ]
+ },
+ {
+  "id": "jt",
+  "abreviacao": "Jt",
+  "nome": "Judite",
+  "nome_latino": "Iudith",
+  "testamento": "AT",
+  "deuterocanonico": true,
+  "apelidos": [
+   "judite",
+   "jdt"
+  ]
+ },
+ {
+  "id": "est",
+  "abreviacao": "Est",
+  "nome": "Ester",
+  "nome_latino": "Esther",
+  "testamento": "AT",
+  "deuterocanonico": false,
+  "apelidos": [
+   "ester",
+   "et"
+  ]
+ },
+ {
+  "id": "1mc",
+  "abreviacao": "1Mc",
+  "nome": "1 Macabeus",
+  "nome_latino": "I Machabaeorum",
+  "testamento": "AT",
+  "deuterocanonico": true,
+  "apelidos": [
+   "1macabeus",
+   "1mac"
+  ]
+ },
+ {
+  "id": "2mc",
+  "abreviacao": "2Mc",
+  "nome": "2 Macabeus",
+  "nome_latino": "II Machabaeorum",
+  "testamento": "AT",
+  "deuterocanonico": true,
+  "apelidos": [
+   "2macabeus",
+   "2mac"
+  ]
+ },
+ {
+  "id": "jb",
+  "abreviacao": "Jó",
+  "nome": "Jó",
+  "nome_latino": "Iob",
+  "testamento": "AT",
+  "deuterocanonico": false,
+  "apelidos": [
+   "job"
+  ]
+ },
+ {
+  "id": "sl",
+  "abreviacao": "Sl",
+  "nome": "Salmos",
+  "nome_latino": "Psalmi",
+  "testamento": "AT",
+  "deuterocanonico": false,
+  "apelidos": [
+   "salmo",
+   "salmos",
+   "ps"
+  ]
+ },
+ {
+  "id": "pr",
+  "abreviacao": "Pr",
+  "nome": "Provérbios",
+  "nome_latino": "Proverbia",
+  "testamento": "AT",
+  "deuterocanonico": false,
+  "apelidos": [
+   "proverbios",
+   "prov"
+  ]
+ },
+ {
+  "id": "ecl",
+  "abreviacao": "Ecl",
+  "nome": "Eclesiastes",
+  "nome_latino": "Ecclesiastes (Qoheleth)",
+  "testamento": "AT",
+  "deuterocanonico": false,
+  "apelidos": [
+   "eclesiastes",
+   "qo",
+   "coelet"
+  ]
+ },
+ {
+  "id": "ct",
+  "abreviacao": "Ct",
+  "nome": "Cântico dos Cânticos",
+  "nome_latino": "Canticum Canticorum",
+  "testamento": "AT",
+  "deuterocanonico": false,
+  "apelidos": [
+   "canticos",
+   "cant",
+   "cc"
+  ]
+ },
+ {
+  "id": "sb",
+  "abreviacao": "Sb",
+  "nome": "Sabedoria",
+  "nome_latino": "Sapientiae",
+  "testamento": "AT",
+  "deuterocanonico": true,
+  "apelidos": [
+   "sabedoria",
+   "sab"
+  ]
+ },
+ {
+  "id": "eclo",
+  "abreviacao": "Eclo",
+  "nome": "Eclesiástico (Sirácida)",
+  "nome_latino": "Ecclesiasticus",
+  "testamento": "AT",
+  "deuterocanonico": true,
+  "apelidos": [
+   "eclesiastico",
+   "sir",
+   "siracida"
+  ]
+ },
+ {
+  "id": "is",
+  "abreviacao": "Is",
+  "nome": "Isaías",
+  "nome_latino": "Isaias",
+  "testamento": "AT",
+  "deuterocanonico": false,
+  "apelidos": [
+   "isaias"
+  ]
+ },
+ {
+  "id": "jr",
+  "abreviacao": "Jr",
+  "nome": "Jeremias",
+  "nome_latino": "Ieremias",
+  "testamento": "AT",
+  "deuterocanonico": false,
+  "apelidos": [
+   "jeremias",
+   "jer"
+  ]
+ },
+ {
+  "id": "lm",
+  "abreviacao": "Lm",
+  "nome": "Lamentações",
+  "nome_latino": "Lamentationes",
+  "testamento": "AT",
+  "deuterocanonico": false,
+  "apelidos": [
+   "lamentacoes",
+   "lam"
+  ]
+ },
+ {
+  "id": "br",
+  "abreviacao": "Br",
+  "nome": "Baruc",
+  "nome_latino": "Baruch",
+  "testamento": "AT",
+  "deuterocanonico": true,
+  "apelidos": [
+   "baruc",
+   "bar"
+  ]
+ },
+ {
+  "id": "ez",
+  "abreviacao": "Ez",
+  "nome": "Ezequiel",
+  "nome_latino": "Ezechiel",
+  "testamento": "AT",
+  "deuterocanonico": false,
+  "apelidos": [
+   "ezequiel"
+  ]
+ },
+ {
+  "id": "dn",
+  "abreviacao": "Dn",
+  "nome": "Daniel",
+  "nome_latino": "Daniel",
+  "testamento": "AT",
+  "deuterocanonico": false,
+  "apelidos": [
+   "daniel",
+   "dan"
+  ]
+ },
+ {
+  "id": "os",
+  "abreviacao": "Os",
+  "nome": "Oseias",
+  "nome_latino": "Osee",
+  "testamento": "AT",
+  "deuterocanonico": false,
+  "apelidos": [
+   "oseias"
+  ]
+ },
+ {
+  "id": "jl",
+  "abreviacao": "Jl",
+  "nome": "Joel",
+  "nome_latino": "Ioel",
+  "testamento": "AT",
+  "deuterocanonico": false,
+  "apelidos": [
+   "joel"
+  ]
+ },
+ {
+  "id": "am",
+  "abreviacao": "Am",
+  "nome": "Amós",
+  "nome_latino": "Amos",
+  "testamento": "AT",
+  "deuterocanonico": false,
+  "apelidos": [
+   "amos"
+  ]
+ },
+ {
+  "id": "ab",
+  "abreviacao": "Ab",
+  "nome": "Abdias",
+  "nome_latino": "Abdias",
+  "testamento": "AT",
+  "deuterocanonico": false,
+  "apelidos": [
+   "abdias",
+   "obadias"
+  ]
+ },
+ {
+  "id": "jn",
+  "abreviacao": "Jn",
+  "nome": "Jonas",
+  "nome_latino": "Ionas",
+  "testamento": "AT",
+  "deuterocanonico": false,
+  "apelidos": [
+   "jonas"
+  ]
+ },
+ {
+  "id": "mq",
+  "abreviacao": "Mq",
+  "nome": "Miqueias",
+  "nome_latino": "Michaeas",
+  "testamento": "AT",
+  "deuterocanonico": false,
+  "apelidos": [
+   "miqueias",
+   "mi"
+  ]
+ },
+ {
+  "id": "na",
+  "abreviacao": "Na",
+  "nome": "Naum",
+  "nome_latino": "Nahum",
+  "testamento": "AT",
+  "deuterocanonico": false,
+  "apelidos": [
+   "naum"
+  ]
+ },
+ {
+  "id": "hab",
+  "abreviacao": "Hab",
+  "nome": "Habacuc",
+  "nome_latino": "Habacuc",
+  "testamento": "AT",
+  "deuterocanonico": false,
+  "apelidos": [
+   "habacuc",
+   "hc"
+  ]
+ },
+ {
+  "id": "sf",
+  "abreviacao": "Sf",
+  "nome": "Sofonias",
+  "nome_latino": "Sophonias",
+  "testamento": "AT",
+  "deuterocanonico": false,
+  "apelidos": [
+   "sofonias"
+  ]
+ },
+ {
+  "id": "ag",
+  "abreviacao": "Ag",
+  "nome": "Ageu",
+  "nome_latino": "Aggaeus",
+  "testamento": "AT",
+  "deuterocanonico": false,
+  "apelidos": [
+   "ageu"
+  ]
+ },
+ {
+  "id": "zc",
+  "abreviacao": "Zc",
+  "nome": "Zacarias",
+  "nome_latino": "Zacharias",
+  "testamento": "AT",
+  "deuterocanonico": false,
+  "apelidos": [
+   "zacarias"
+  ]
+ },
+ {
+  "id": "ml",
+  "abreviacao": "Ml",
+  "nome": "Malaquias",
+  "nome_latino": "Malachias",
+  "testamento": "AT",
+  "deuterocanonico": false,
+  "apelidos": [
+   "malaquias"
+  ]
+ },
+ {
+  "id": "mt",
+  "abreviacao": "Mt",
+  "nome": "Mateus",
+  "nome_latino": "Matthaeus",
+  "testamento": "NT",
+  "deuterocanonico": false,
+  "apelidos": [
+   "mateus"
+  ]
+ },
+ {
+  "id": "mc",
+  "abreviacao": "Mc",
+  "nome": "Marcos",
+  "nome_latino": "Marcus",
+  "testamento": "NT",
+  "deuterocanonico": false,
+  "apelidos": [
+   "marcos",
+   "mr"
+  ]
+ },
+ {
+  "id": "lc",
+  "abreviacao": "Lc",
+  "nome": "Lucas",
+  "nome_latino": "Lucas",
+  "testamento": "NT",
+  "deuterocanonico": false,
+  "apelidos": [
+   "lucas"
+  ]
+ },
+ {
+  "id": "jo",
+  "abreviacao": "Jo",
+  "nome": "João",
+  "nome_latino": "Ioannes",
+  "testamento": "NT",
+  "deuterocanonico": false,
+  "apelidos": [
+   "joao"
+  ]
+ },
+ {
+  "id": "at",
+  "abreviacao": "At",
+  "nome": "Atos dos Apóstolos",
+  "nome_latino": "Actus Apostolorum",
+  "testamento": "NT",
+  "deuterocanonico": false,
+  "apelidos": [
+   "atos"
+  ]
+ },
+ {
+  "id": "rm",
+  "abreviacao": "Rm",
+  "nome": "Romanos",
+  "nome_latino": "ad Romanos",
+  "testamento": "NT",
+  "deuterocanonico": false,
+  "apelidos": [
+   "romanos",
+   "rom"
+  ]
+ },
+ {
+  "id": "1cor",
+  "abreviacao": "1Cor",
+  "nome": "1 Coríntios",
+  "nome_latino": "I ad Corinthios",
+  "testamento": "NT",
+  "deuterocanonico": false,
+  "apelidos": [
+   "1corintios",
+   "1co"
+  ]
+ },
+ {
+  "id": "2cor",
+  "abreviacao": "2Cor",
+  "nome": "2 Coríntios",
+  "nome_latino": "II ad Corinthios",
+  "testamento": "NT",
+  "deuterocanonico": false,
+  "apelidos": [
+   "2corintios",
+   "2co"
+  ]
+ },
+ {
+  "id": "gl",
+  "abreviacao": "Gl",
+  "nome": "Gálatas",
+  "nome_latino": "ad Galatas",
+  "testamento": "NT",
+  "deuterocanonico": false,
+  "apelidos": [
+   "galatas",
+   "gal"
+  ]
+ },
+ {
+  "id": "ef",
+  "abreviacao": "Ef",
+  "nome": "Efésios",
+  "nome_latino": "ad Ephesios",
+  "testamento": "NT",
+  "deuterocanonico": false,
+  "apelidos": [
+   "efesios"
+  ]
+ },
+ {
+  "id": "fl",
+  "abreviacao": "Fl",
+  "nome": "Filipenses",
+  "nome_latino": "ad Philippenses",
+  "testamento": "NT",
+  "deuterocanonico": false,
+  "apelidos": [
+   "filipenses",
+   "fp"
+  ]
+ },
+ {
+  "id": "cl",
+  "abreviacao": "Cl",
+  "nome": "Colossenses",
+  "nome_latino": "ad Colossenses",
+  "testamento": "NT",
+  "deuterocanonico": false,
+  "apelidos": [
+   "colossenses",
+   "col"
+  ]
+ },
+ {
+  "id": "1ts",
+  "abreviacao": "1Ts",
+  "nome": "1 Tessalonicenses",
+  "nome_latino": "I ad Thessalonicenses",
+  "testamento": "NT",
+  "deuterocanonico": false,
+  "apelidos": [
+   "1tessalonicenses"
+  ]
+ },
+ {
+  "id": "2ts",
+  "abreviacao": "2Ts",
+  "nome": "2 Tessalonicenses",
+  "nome_latino": "II ad Thessalonicenses",
+  "testamento": "NT",
+  "deuterocanonico": false,
+  "apelidos": [
+   "2tessalonicenses"
+  ]
+ },
+ {
+  "id": "1tm",
+  "abreviacao": "1Tm",
+  "nome": "1 Timóteo",
+  "nome_latino": "I ad Timotheum",
+  "testamento": "NT",
+  "deuterocanonico": false,
+  "apelidos": [
+   "1timoteo"
+  ]
+ },
+ {
+  "id": "2tm",
+  "abreviacao": "2Tm",
+  "nome": "2 Timóteo",
+  "nome_latino": "II ad Timotheum",
+  "testamento": "NT",
+  "deuterocanonico": false,
+  "apelidos": [
+   "2timoteo"
+  ]
+ },
+ {
+  "id": "tt",
+  "abreviacao": "Tt",
+  "nome": "Tito",
+  "nome_latino": "ad Titum",
+  "testamento": "NT",
+  "deuterocanonico": false,
+  "apelidos": [
+   "tito"
+  ]
+ },
+ {
+  "id": "fm",
+  "abreviacao": "Fm",
+  "nome": "Filêmon",
+  "nome_latino": "ad Philemonem",
+  "testamento": "NT",
+  "deuterocanonico": false,
+  "apelidos": [
+   "filemon",
+   "flm"
+  ]
+ },
+ {
+  "id": "hb",
+  "abreviacao": "Hb",
+  "nome": "Hebreus",
+  "nome_latino": "ad Hebraeos",
+  "testamento": "NT",
+  "deuterocanonico": false,
+  "apelidos": [
+   "hebreus",
+   "heb"
+  ]
+ },
+ {
+  "id": "tg",
+  "abreviacao": "Tg",
+  "nome": "Tiago",
+  "nome_latino": "Iacobi",
+  "testamento": "NT",
+  "deuterocanonico": false,
+  "apelidos": [
+   "tiago"
+  ]
+ },
+ {
+  "id": "1pd",
+  "abreviacao": "1Pd",
+  "nome": "1 Pedro",
+  "nome_latino": "I Petri",
+  "testamento": "NT",
+  "deuterocanonico": false,
+  "apelidos": [
+   "1pedro",
+   "1pe"
+  ]
+ },
+ {
+  "id": "2pd",
+  "abreviacao": "2Pd",
+  "nome": "2 Pedro",
+  "nome_latino": "II Petri",
+  "testamento": "NT",
+  "deuterocanonico": false,
+  "apelidos": [
+   "2pedro",
+   "2pe"
+  ]
+ },
+ {
+  "id": "1jo",
+  "abreviacao": "1Jo",
+  "nome": "1 João",
+  "nome_latino": "I Ioannis",
+  "testamento": "NT",
+  "deuterocanonico": false,
+  "apelidos": [
+   "1joao"
+  ]
+ },
+ {
+  "id": "2jo",
+  "abreviacao": "2Jo",
+  "nome": "2 João",
+  "nome_latino": "II Ioannis",
+  "testamento": "NT",
+  "deuterocanonico": false,
+  "apelidos": [
+   "2joao"
+  ]
+ },
+ {
+  "id": "3jo",
+  "abreviacao": "3Jo",
+  "nome": "3 João",
+  "nome_latino": "III Ioannis",
+  "testamento": "NT",
+  "deuterocanonico": false,
+  "apelidos": [
+   "3joao"
+  ]
+ },
+ {
+  "id": "jd",
+  "abreviacao": "Jd",
+  "nome": "Judas",
+  "nome_latino": "Iudae",
+  "testamento": "NT",
+  "deuterocanonico": false,
+  "apelidos": [
+   "judas"
+  ]
+ },
+ {
+  "id": "ap",
+  "abreviacao": "Ap",
+  "nome": "Apocalipse",
+  "nome_latino": "Apocalypsis",
+  "testamento": "NT",
+  "deuterocanonico": false,
+  "apelidos": [
+   "apocalipse",
+   "apoc",
+   "apc"
+  ]
+ }
+]

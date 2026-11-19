@@ -1,0 +1,502 @@
+{
+  "versao": 1,
+  "licenca": "Estrutura do índice: dados factuais. Texto do CIC © Libreria Editrice Vaticana — apenas trechos breves de exemplo (citação, Lei 9.610/98 art. 46, III). O texto integral só será incluído mediante autorização; ver docs/COPYRIGHT.md e tool/import_catechism.py.",
+  "indice": [
+    {
+      "id": "prologo",
+      "nivel": 1,
+      "titulo": "Prólogo",
+      "inicio": 1,
+      "fim": 25,
+      "filhos": []
+    },
+    {
+      "id": "p1",
+      "nivel": 1,
+      "titulo": "Primeira Parte — A Profissão da Fé",
+      "inicio": 26,
+      "fim": 1065,
+      "filhos": [
+        {
+          "id": "p1.s1",
+          "nivel": 2,
+          "titulo": "Primeira Seção — «Eu creio» – «Nós cremos»",
+          "inicio": 26,
+          "fim": 184,
+          "filhos": [
+            {
+              "id": "p1.s1.c1",
+              "nivel": 3,
+              "titulo": "O homem é «capaz» de Deus",
+              "inicio": 27,
+              "fim": 49,
+              "filhos": []
+            },
+            {
+              "id": "p1.s1.c2",
+              "nivel": 3,
+              "titulo": "Deus vem ao encontro do homem",
+              "inicio": 50,
+              "fim": 141,
+              "filhos": []
+            },
+            {
+              "id": "p1.s1.c3",
+              "nivel": 3,
+              "titulo": "A resposta do homem a Deus",
+              "inicio": 142,
+              "fim": 184,
+              "filhos": []
+            }
+          ]
+        },
+        {
+          "id": "p1.s2",
+          "nivel": 2,
+          "titulo": "Segunda Seção — A profissão da fé cristã",
+          "inicio": 185,
+          "fim": 1065,
+          "filhos": [
+            {
+              "id": "p1.s2.c1",
+              "nivel": 3,
+              "titulo": "Creio em Deus Pai",
+              "inicio": 198,
+              "fim": 421,
+              "filhos": []
+            },
+            {
+              "id": "p1.s2.c2",
+              "nivel": 3,
+              "titulo": "Creio em Jesus Cristo, Filho único de Deus",
+              "inicio": 422,
+              "fim": 682,
+              "filhos": []
+            },
+            {
+              "id": "p1.s2.c3",
+              "nivel": 3,
+              "titulo": "Creio no Espírito Santo",
+              "inicio": 683,
+              "fim": 1065,
+              "filhos": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "p2",
+      "nivel": 1,
+      "titulo": "Segunda Parte — A Celebração do Mistério Cristão",
+      "inicio": 1066,
+      "fim": 1690,
+      "filhos": [
+        {
+          "id": "p2.s1",
+          "nivel": 2,
+          "titulo": "Primeira Seção — A economia sacramental",
+          "inicio": 1076,
+          "fim": 1209,
+          "filhos": [
+            {
+              "id": "p2.s1.c1",
+              "nivel": 3,
+              "titulo": "O Mistério Pascal no tempo da Igreja",
+              "inicio": 1077,
+              "fim": 1134,
+              "filhos": []
+            },
+            {
+              "id": "p2.s1.c2",
+              "nivel": 3,
+              "titulo": "A celebração sacramental do Mistério Pascal",
+              "inicio": 1135,
+              "fim": 1209,
+              "filhos": []
+            }
+          ]
+        },
+        {
+          "id": "p2.s2",
+          "nivel": 2,
+          "titulo": "Segunda Seção — Os sete sacramentos da Igreja",
+          "inicio": 1210,
+          "fim": 1690,
+          "filhos": [
+            {
+              "id": "p2.s2.c1",
+              "nivel": 3,
+              "titulo": "Os sacramentos da iniciação cristã",
+              "inicio": 1212,
+              "fim": 1419,
+              "filhos": [
+                {
+                  "id": "p2.s2.c1.a1",
+                  "nivel": 4,
+                  "titulo": "O sacramento do Batismo",
+                  "inicio": 1213,
+                  "fim": 1284,
+                  "filhos": []
+                },
+                {
+                  "id": "p2.s2.c1.a2",
+                  "nivel": 4,
+                  "titulo": "O sacramento da Confirmação",
+                  "inicio": 1285,
+                  "fim": 1321,
+                  "filhos": []
+                },
+                {
+                  "id": "p2.s2.c1.a3",
+                  "nivel": 4,
+                  "titulo": "O sacramento da Eucaristia",
+                  "inicio": 1322,
+                  "fim": 1419,
+                  "filhos": []
+                }
+              ]
+            },
+            {
+              "id": "p2.s2.c2",
+              "nivel": 3,
+              "titulo": "Os sacramentos de cura",
+              "inicio": 1420,
+              "fim": 1532,
+              "filhos": [
+                {
+                  "id": "p2.s2.c2.a4",
+                  "nivel": 4,
+                  "titulo": "O sacramento da Penitência e da Reconciliação",
+                  "inicio": 1422,
+                  "fim": 1498,
+                  "filhos": []
+                },
+                {
+                  "id": "p2.s2.c2.a5",
+                  "nivel": 4,
+                  "titulo": "A Unção dos Enfermos",
+                  "inicio": 1499,
+                  "fim": 1532,
+                  "filhos": []
+                }
+              ]
+            },
+            {
+              "id": "p2.s2.c3",
+              "nivel": 3,
+              "titulo": "Os sacramentos do serviço da comunhão",
+              "inicio": 1533,
+              "fim": 1666,
+              "filhos": [
+                {
+                  "id": "p2.s2.c3.a6",
+                  "nivel": 4,
+                  "titulo": "O sacramento da Ordem",
+                  "inicio": 1536,
+                  "fim": 1600,
+                  "filhos": []
+                },
+                {
+                  "id": "p2.s2.c3.a7",
+                  "nivel": 4,
+                  "titulo": "O sacramento do Matrimônio",
+                  "inicio": 1601,
+                  "fim": 1666,
+                  "filhos": []
+                }
+              ]
+            },
+            {
+              "id": "p2.s2.c4",
+              "nivel": 3,
+              "titulo": "Outras celebrações litúrgicas",
+              "inicio": 1667,
+              "fim": 1690,
+              "filhos": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "p3",
+      "nivel": 1,
+      "titulo": "Terceira Parte — A Vida em Cristo",
+      "inicio": 1691,
+      "fim": 2557,
+      "filhos": [
+        {
+          "id": "p3.s1",
+          "nivel": 2,
+          "titulo": "Primeira Seção — A vocação do homem: a vida no Espírito",
+          "inicio": 1699,
+          "fim": 2051,
+          "filhos": [
+            {
+              "id": "p3.s1.c1",
+              "nivel": 3,
+              "titulo": "A dignidade da pessoa humana",
+              "inicio": 1700,
+              "fim": 1876,
+              "filhos": []
+            },
+            {
+              "id": "p3.s1.c2",
+              "nivel": 3,
+              "titulo": "A comunidade humana",
+              "inicio": 1877,
+              "fim": 1948,
+              "filhos": []
+            },
+            {
+              "id": "p3.s1.c3",
+              "nivel": 3,
+              "titulo": "A salvação de Deus: a lei e a graça",
+              "inicio": 1949,
+              "fim": 2051,
+              "filhos": []
+            }
+          ]
+        },
+        {
+          "id": "p3.s2",
+          "nivel": 2,
+          "titulo": "Segunda Seção — Os Dez Mandamentos",
+          "inicio": 2052,
+          "fim": 2557,
+          "filhos": [
+            {
+              "id": "p3.s2.c1",
+              "nivel": 3,
+              "titulo": "«Amarás o Senhor teu Deus de todo o teu coração…»",
+              "inicio": 2083,
+              "fim": 2195,
+              "filhos": [
+                {
+                  "id": "p3.s2.c1.a1",
+                  "nivel": 4,
+                  "titulo": "O primeiro mandamento",
+                  "inicio": 2084,
+                  "fim": 2141,
+                  "filhos": []
+                },
+                {
+                  "id": "p3.s2.c1.a2",
+                  "nivel": 4,
+                  "titulo": "O segundo mandamento",
+                  "inicio": 2142,
+                  "fim": 2167,
+                  "filhos": []
+                },
+                {
+                  "id": "p3.s2.c1.a3",
+                  "nivel": 4,
+                  "titulo": "O terceiro mandamento",
+                  "inicio": 2168,
+                  "fim": 2195,
+                  "filhos": []
+                }
+              ]
+            },
+            {
+              "id": "p3.s2.c2",
+              "nivel": 3,
+              "titulo": "«Amarás o teu próximo como a ti mesmo»",
+              "inicio": 2196,
+              "fim": 2557,
+              "filhos": [
+                {
+                  "id": "p3.s2.c2.a4",
+                  "nivel": 4,
+                  "titulo": "O quarto mandamento",
+                  "inicio": 2197,
+                  "fim": 2257,
+                  "filhos": []
+                },
+                {
+                  "id": "p3.s2.c2.a5",
+                  "nivel": 4,
+                  "titulo": "O quinto mandamento",
+                  "inicio": 2258,
+                  "fim": 2330,
+                  "filhos": []
+                },
+                {
+                  "id": "p3.s2.c2.a6",
+                  "nivel": 4,
+                  "titulo": "O sexto mandamento",
+                  "inicio": 2331,
+                  "fim": 2400,
+                  "filhos": []
+                },
+                {
+                  "id": "p3.s2.c2.a7",
+                  "nivel": 4,
+                  "titulo": "O sétimo mandamento",
+                  "inicio": 2401,
+                  "fim": 2463,
+                  "filhos": []
+                },
+                {
+                  "id": "p3.s2.c2.a8",
+                  "nivel": 4,
+                  "titulo": "O oitavo mandamento",
+                  "inicio": 2464,
+                  "fim": 2513,
+                  "filhos": []
+                },
+                {
+                  "id": "p3.s2.c2.a9",
+                  "nivel": 4,
+                  "titulo": "O nono mandamento",
+                  "inicio": 2514,
+                  "fim": 2533,
+                  "filhos": []
+                },
+                {
+                  "id": "p3.s2.c2.a10",
+                  "nivel": 4,
+                  "titulo": "O décimo mandamento",
+                  "inicio": 2534,
+                  "fim": 2557,
+                  "filhos": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "p4",
+      "nivel": 1,
+      "titulo": "Quarta Parte — A Oração Cristã",
+      "inicio": 2558,
+      "fim": 2865,
+      "filhos": [
+        {
+          "id": "p4.s1",
+          "nivel": 2,
+          "titulo": "Primeira Seção — A oração na vida cristã",
+          "inicio": 2559,
+          "fim": 2758,
+          "filhos": [
+            {
+              "id": "p4.s1.c1",
+              "nivel": 3,
+              "titulo": "A revelação da oração",
+              "inicio": 2566,
+              "fim": 2649,
+              "filhos": []
+            },
+            {
+              "id": "p4.s1.c2",
+              "nivel": 3,
+              "titulo": "A tradição da oração",
+              "inicio": 2650,
+              "fim": 2696,
+              "filhos": []
+            },
+            {
+              "id": "p4.s1.c3",
+              "nivel": 3,
+              "titulo": "A vida de oração",
+              "inicio": 2697,
+              "fim": 2758,
+              "filhos": []
+            }
+          ]
+        },
+        {
+          "id": "p4.s2",
+          "nivel": 2,
+          "titulo": "Segunda Seção — A oração do Senhor: «Pai Nosso»",
+          "inicio": 2759,
+          "fim": 2865,
+          "filhos": []
+        }
+      ]
+    }
+  ],
+  "temas": {
+    "Eucaristia": [
+      "1322-1419"
+    ],
+    "Maria": [
+      "484-511",
+      "963-975",
+      "2617-2619",
+      "2673-2679"
+    ],
+    "Graça": [
+      "1996-2005"
+    ],
+    "Oração": [
+      "2558-2865"
+    ],
+    "Perdão": [
+      "1422-1498",
+      "2838-2845"
+    ],
+    "Batismo": [
+      "1213-1284"
+    ],
+    "Espírito Santo": [
+      "683-747"
+    ],
+    "Trindade": [
+      "232-267"
+    ],
+    "Igreja": [
+      "748-975"
+    ],
+    "Mandamentos": [
+      "2052-2557"
+    ],
+    "Ressurreição": [
+      "638-658",
+      "988-1019"
+    ]
+  },
+  "paragrafos": [
+    {
+      "n": 1,
+      "parte": 0,
+      "titulo": "A vida do homem: conhecer e amar a Deus",
+      "texto": "Deus, infinitamente perfeito e bem-aventurado em si mesmo, num desígnio de pura bondade, criou livremente o homem para fazê-lo participar da sua vida bem-aventurada. [Trecho de exemplo — consulte o texto oficial.]"
+    },
+    {
+      "n": 27,
+      "parte": 1,
+      "secao": 1,
+      "capitulo": 1,
+      "titulo": "O desejo de Deus",
+      "texto": "O desejo de Deus está inscrito no coração do homem, já que o homem é criado por Deus e para Deus; e Deus não cessa de atrair o homem a si. Somente em Deus o homem há de encontrar a verdade e a felicidade que não cessa de procurar. [Trecho de exemplo — consulte o texto oficial.]"
+    },
+    {
+      "n": 1324,
+      "parte": 2,
+      "secao": 2,
+      "capitulo": 1,
+      "artigo": 3,
+      "titulo": "A Eucaristia — fonte e ápice da vida eclesial",
+      "texto": "A Eucaristia é «fonte e ápice de toda a vida cristã» (LG 11). Os demais sacramentos, como aliás todos os ministérios eclesiásticos e tarefas apostólicas, estão vinculados à sagrada Eucaristia e a ela se ordenam. [Trecho de exemplo — consulte o texto oficial.]"
+    },
+    {
+      "n": 1996,
+      "parte": 3,
+      "secao": 1,
+      "capitulo": 3,
+      "titulo": "A graça",
+      "texto": "A nossa justificação vem da graça de Deus. A graça é o favor, o socorro gratuito que Deus nos dá para respondermos ao seu convite: tornarmo-nos filhos de Deus, filhos adotivos, participantes da natureza divina e da vida eterna. [Trecho de exemplo — consulte o texto oficial.]"
+    },
+    {
+      "n": 2559,
+      "parte": 4,
+      "secao": 1,
+      "titulo": "A oração como dom de Deus",
+      "texto": "«A oração é a elevação da alma a Deus ou o pedido a Deus dos bens convenientes» (São João Damasceno). [Trecho de exemplo — consulte o texto oficial.]"
+    }
+  ]
+}

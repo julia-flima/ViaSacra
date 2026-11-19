@@ -1,0 +1,224 @@
+{
+  "versao": 1,
+  "nota": "Citações bíblicas breves em tradução livre do projeto; frutos segundo a tradição. Mistérios Luminosos: Rosarium Virginis Mariae (S. João Paulo II, 2002).",
+  "dias": {
+    "segunda": "gozosos",
+    "terca": "dolorosos",
+    "quarta": "gloriosos",
+    "quinta": "luminosos",
+    "sexta": "dolorosos",
+    "sabado": "gozosos",
+    "domingo": "gloriosos"
+  },
+  "misterios": [
+    {
+      "id": "gozosos-1",
+      "conjunto": "gozosos",
+      "ordem": 1,
+      "titulo": "A Anunciação do Anjo a Nossa Senhora",
+      "fruto": "Humildade",
+      "referencia": "Lc 1,38",
+      "leitura": "Eis aqui a serva do Senhor; faça-se em mim segundo a tua palavra.",
+      "arte": "gozosos-1"
+    },
+    {
+      "id": "gozosos-2",
+      "conjunto": "gozosos",
+      "ordem": 2,
+      "titulo": "A Visitação de Nossa Senhora a Santa Isabel",
+      "fruto": "Caridade fraterna",
+      "referencia": "Lc 1,42",
+      "leitura": "Bendita és tu entre as mulheres, e bendito é o fruto do teu ventre!",
+      "arte": "gozosos-2"
+    },
+    {
+      "id": "gozosos-3",
+      "conjunto": "gozosos",
+      "ordem": 3,
+      "titulo": "O Nascimento de Jesus em Belém",
+      "fruto": "Pobreza de espírito e desapego",
+      "referencia": "Lc 2,7",
+      "leitura": "Ela deu à luz o seu filho primogênito, envolveu-o em faixas e deitou-o numa manjedoura.",
+      "arte": "gozosos-3"
+    },
+    {
+      "id": "gozosos-4",
+      "conjunto": "gozosos",
+      "ordem": 4,
+      "titulo": "A Apresentação do Menino Jesus no Templo",
+      "fruto": "Obediência e pureza",
+      "referencia": "Lc 2,22",
+      "leitura": "Levaram o Menino a Jerusalém, para apresentá-lo ao Senhor.",
+      "arte": "gozosos-4"
+    },
+    {
+      "id": "gozosos-5",
+      "conjunto": "gozosos",
+      "ordem": 5,
+      "titulo": "A Perda e o Encontro do Menino Jesus no Templo",
+      "fruto": "Amor a Deus e busca de Jesus",
+      "referencia": "Lc 2,49",
+      "leitura": "Não sabíeis que devo estar na casa de meu Pai?",
+      "arte": "gozosos-5"
+    },
+    {
+      "id": "luminosos-1",
+      "conjunto": "luminosos",
+      "ordem": 1,
+      "titulo": "O Batismo de Jesus no Rio Jordão",
+      "fruto": "Fidelidade às promessas do Batismo",
+      "referencia": "Mt 3,17",
+      "leitura": "Este é o meu Filho amado, em quem pus o meu agrado.",
+      "arte": "luminosos-1"
+    },
+    {
+      "id": "luminosos-2",
+      "conjunto": "luminosos",
+      "ordem": 2,
+      "titulo": "A Autorrevelação de Jesus nas Bodas de Caná",
+      "fruto": "Confiança em Maria e fé",
+      "referencia": "Jo 2,5",
+      "leitura": "Fazei tudo o que ele vos disser.",
+      "arte": "luminosos-2"
+    },
+    {
+      "id": "luminosos-3",
+      "conjunto": "luminosos",
+      "ordem": 3,
+      "titulo": "O Anúncio do Reino de Deus e o convite à conversão",
+      "fruto": "Conversão do coração",
+      "referencia": "Mc 1,15",
+      "leitura": "O tempo se cumpriu e o Reino de Deus está próximo. Convertei-vos e crede no Evangelho.",
+      "arte": "luminosos-3"
+    },
+    {
+      "id": "luminosos-4",
+      "conjunto": "luminosos",
+      "ordem": 4,
+      "titulo": "A Transfiguração de Jesus",
+      "fruto": "Desejo de santidade",
+      "referencia": "Lc 9,35",
+      "leitura": "Este é o meu Filho, o Escolhido. Escutai-o!",
+      "arte": "luminosos-4"
+    },
+    {
+      "id": "luminosos-5",
+      "conjunto": "luminosos",
+      "ordem": 5,
+      "titulo": "A Instituição da Eucaristia",
+      "fruto": "Amor à Eucaristia e adoração",
+      "referencia": "Lc 22,19",
+      "leitura": "Isto é o meu corpo, que é dado por vós. Fazei isto em memória de mim.",
+      "arte": "luminosos-5"
+    },
+    {
+      "id": "dolorosos-1",
+      "conjunto": "dolorosos",
+      "ordem": 1,
+      "titulo": "A Agonia de Jesus no Horto das Oliveiras",
+      "fruto": "Contrição e conformidade com a vontade de Deus",
+      "referencia": "Lc 22,42",
+      "leitura": "Pai, se queres, afasta de mim este cálice; contudo, não se faça a minha vontade, mas a tua.",
+      "arte": "dolorosos-1"
+    },
+    {
+      "id": "dolorosos-2",
+      "conjunto": "dolorosos",
+      "ordem": 2,
+      "titulo": "A Flagelação de Jesus",
+      "fruto": "Mortificação e pureza",
+      "referencia": "Jo 19,1",
+      "leitura": "Pilatos mandou então açoitar Jesus.",
+      "arte": "dolorosos-2"
+    },
+    {
+      "id": "dolorosos-3",
+      "conjunto": "dolorosos",
+      "ordem": 3,
+      "titulo": "A Coroação de Espinhos",
+      "fruto": "Humildade e domínio de si",
+      "referencia": "Mt 27,29",
+      "leitura": "Teceram uma coroa de espinhos e a puseram sobre a sua cabeça.",
+      "arte": "dolorosos-3"
+    },
+    {
+      "id": "dolorosos-4",
+      "conjunto": "dolorosos",
+      "ordem": 4,
+      "titulo": "Jesus carrega a Cruz até o Calvário",
+      "fruto": "Paciência nas provações",
+      "referencia": "Jo 19,17",
+      "leitura": "Carregando a sua cruz, ele saiu para o lugar chamado Calvário.",
+      "arte": "dolorosos-4"
+    },
+    {
+      "id": "dolorosos-5",
+      "conjunto": "dolorosos",
+      "ordem": 5,
+      "titulo": "A Crucifixão e Morte de Jesus",
+      "fruto": "Perseverança e amor a Cristo crucificado",
+      "referencia": "Lc 23,46",
+      "leitura": "Pai, em tuas mãos entrego o meu espírito.",
+      "arte": "dolorosos-5"
+    },
+    {
+      "id": "gloriosos-1",
+      "conjunto": "gloriosos",
+      "ordem": 1,
+      "titulo": "A Ressurreição de Jesus",
+      "fruto": "Fé viva",
+      "referencia": "Lc 24,5-6",
+      "leitura": "Por que procurais entre os mortos aquele que está vivo? Ele não está aqui: ressuscitou!",
+      "arte": "gloriosos-1"
+    },
+    {
+      "id": "gloriosos-2",
+      "conjunto": "gloriosos",
+      "ordem": 2,
+      "titulo": "A Ascensão de Jesus ao Céu",
+      "fruto": "Esperança e desejo do Céu",
+      "referencia": "Mc 16,19",
+      "leitura": "O Senhor Jesus foi elevado ao céu e sentou-se à direita de Deus.",
+      "arte": "gloriosos-2"
+    },
+    {
+      "id": "gloriosos-3",
+      "conjunto": "gloriosos",
+      "ordem": 3,
+      "titulo": "A Vinda do Espírito Santo sobre Maria e os Apóstolos",
+      "fruto": "Amor a Deus e dons do Espírito Santo",
+      "referencia": "At 2,4",
+      "leitura": "Todos ficaram cheios do Espírito Santo.",
+      "arte": "gloriosos-3"
+    },
+    {
+      "id": "gloriosos-4",
+      "conjunto": "gloriosos",
+      "ordem": 4,
+      "titulo": "A Assunção de Nossa Senhora ao Céu",
+      "fruto": "Graça de uma boa morte e devoção a Maria",
+      "referencia": "Lc 1,48-49",
+      "leitura": "Todas as gerações me chamarão bem-aventurada, porque o Poderoso fez em mim grandes coisas.",
+      "arte": "gloriosos-4"
+    },
+    {
+      "id": "gloriosos-5",
+      "conjunto": "gloriosos",
+      "ordem": 5,
+      "titulo": "A Coroação de Nossa Senhora como Rainha do Céu e da Terra",
+      "fruto": "Perseverança final e confiança em Maria",
+      "referencia": "Ap 12,1",
+      "leitura": "Apareceu no céu um grande sinal: uma mulher vestida de sol, com uma coroa de doze estrelas.",
+      "arte": "gloriosos-5"
+    }
+  ],
+  "oracoes_do_terco": {
+    "credo": "Pelo sinal da Santa Cruz,\nlivrai-nos, Deus, Nosso Senhor,\ndos nossos inimigos.\n\nEm nome do Pai, e do Filho, e do Espírito Santo. Amém.\n\nCreio em Deus Pai todo-poderoso,\nCriador do céu e da terra;\ne em Jesus Cristo, seu único Filho, nosso Senhor,\nque foi concebido pelo poder do Espírito Santo;\nnasceu da Virgem Maria;\npadeceu sob Pôncio Pilatos,\nfoi crucificado, morto e sepultado;\ndesceu à mansão dos mortos;\nressuscitou ao terceiro dia;\nsubiu aos céus,\nestá sentado à direita de Deus Pai todo-poderoso,\ndonde há de vir a julgar os vivos e os mortos.\nCreio no Espírito Santo,\nna santa Igreja Católica,\nna comunhão dos santos,\nna remissão dos pecados,\nna ressurreição da carne,\nna vida eterna. Amém.",
+    "pai_nosso": "Pai nosso que estais nos céus,\nsantificado seja o vosso nome;\nvenha a nós o vosso reino;\nseja feita a vossa vontade,\nassim na terra como no céu.\nO pão nosso de cada dia nos dai hoje;\nperdoai-nos as nossas ofensas,\nassim como nós perdoamos a quem nos tem ofendido;\ne não nos deixeis cair em tentação,\nmas livrai-nos do mal. Amém.",
+    "ave_maria": "Ave, Maria, cheia de graça,\no Senhor é convosco;\nbendita sois vós entre as mulheres,\ne bendito é o fruto do vosso ventre, Jesus.\n\nSanta Maria, Mãe de Deus,\nrogai por nós, pecadores,\nagora e na hora de nossa morte. Amém.",
+    "gloria": "Glória ao Pai, e ao Filho, e ao Espírito Santo.\nComo era no princípio, agora e sempre. Amém.",
+    "gloria_fatima": "Glória ao Pai, e ao Filho, e ao Espírito Santo.\nComo era no princípio, agora e sempre. Amém.\n\nÓ meu Jesus, perdoai-nos, livrai-nos do fogo do inferno, levai as almas todas para o céu e socorrei principalmente as que mais precisarem.",
+    "salve_rainha": "Salve, Rainha, Mãe de misericórdia,\nvida, doçura e esperança nossa, salve!\nA vós bradamos, os degredados filhos de Eva;\na vós suspiramos, gemendo e chorando\nneste vale de lágrimas.\nEia, pois, advogada nossa,\nesses vossos olhos misericordiosos a nós volvei;\ne depois deste desterro mostrai-nos Jesus,\nbendito fruto do vosso ventre,\nó clemente, ó piedosa, ó doce sempre Virgem Maria.\n\nV. Rogai por nós, santa Mãe de Deus.\nR. Para que sejamos dignos das promessas de Cristo.",
+    "oracao_final": "Ó Deus, cujo Filho Unigênito, por sua vida, morte e ressurreição, nos alcançou os prêmios da salvação eterna, concedei-nos, vos pedimos, que, meditando estes mistérios no Santíssimo Rosário da Bem-aventurada Virgem Maria, imitemos o que contêm e alcancemos o que prometem. Pelo mesmo Cristo, Senhor nosso. Amém."
+  }
+}

@@ -1,0 +1,206 @@
+{
+  "formato": "viasacra-catecismo",
+  "versao": 1,
+  "id": "sao_pio_x",
+  "nome": "Catecismo Maior de São Pio X",
+  "nome_curto": "São Pio X (1905)",
+  "sigla": "SPX",
+  "ano": 1905,
+  "idioma": "pt-BR",
+  "licenca": "Domínio público (1905)",
+  "fonte": "Papa São Pio X — Catecismo Maior da Doutrina Cristã (1905)",
+  "descricao": "Exposição clara e fiel da doutrina católica em perguntas e respostas, promulgada por São Pio X em 1905.",
+  "rotulo_entrada": "P.",
+  "versao_modulo": 1,
+  "entradas": [
+    {
+      "numero": 1,
+      "parte": "Lição Preliminar — Da Doutrina Cristã",
+      "capitulo": "Do cristão e do sinal da Cruz",
+      "pergunta": "Sois cristão?",
+      "resposta": "Sim, sou cristão pela graça de Deus."
+    },
+    {
+      "numero": 2,
+      "parte": "Lição Preliminar — Da Doutrina Cristã",
+      "capitulo": "Do cristão e do sinal da Cruz",
+      "pergunta": "Quem é o verdadeiro cristão?",
+      "resposta": "O verdadeiro cristão é aquele que é batizado, crê e professa a doutrina de Jesus Cristo e obedece aos legítimos pastores da Igreja."
+    },
+    {
+      "numero": 3,
+      "parte": "Lição Preliminar — Da Doutrina Cristã",
+      "capitulo": "Do cristão e do sinal da Cruz",
+      "pergunta": "Qual é o sinal do cristão?",
+      "resposta": "O sinal do cristão é o sinal da Santa Cruz, porque na Cruz Jesus Cristo nos redimiu."
+    },
+    {
+      "numero": 4,
+      "parte": "Lição Preliminar — Da Doutrina Cristã",
+      "capitulo": "Do fim do homem",
+      "pergunta": "Para que fim nos criou Deus?",
+      "resposta": "Deus nos criou para O conhecermos, amarmos e servirmos nesta vida, e depois O gozarmos eternamente no Paraíso."
+    },
+    {
+      "numero": 5,
+      "parte": "Primeira Parte — Do Símbolo dos Apóstolos (Credo)",
+      "capitulo": "Capítulo I — De Deus e da Santíssima Trindade",
+      "pergunta": "Quem é Deus?",
+      "resposta": "Deus é o Ser perfeitíssimo, Criador e Senhor do céu e da terra."
+    },
+    {
+      "numero": 6,
+      "parte": "Primeira Parte — Do Símbolo dos Apóstolos (Credo)",
+      "capitulo": "Capítulo I — De Deus e da Santíssima Trindade",
+      "pergunta": "Que nos ensina o mistério da Santíssima Trindade?",
+      "resposta": "O mistério da Santíssima Trindade ensina-nos que em Deus há uma só natureza e três Pessoas distintas: o Pai, o Filho e o Espírito Santo, que são um só Deus."
+    },
+    {
+      "numero": 7,
+      "parte": "Primeira Parte — Do Símbolo dos Apóstolos (Credo)",
+      "capitulo": "Capítulo II — Da Encarnação e Redenção",
+      "pergunta": "Quem é Jesus Cristo?",
+      "resposta": "Jesus Cristo é o Filho de Deus feito homem, nascido da Virgem Maria por obra do Espírito Santo, verdadeiro Deus e verdadeiro homem."
+    },
+    {
+      "numero": 8,
+      "parte": "Primeira Parte — Do Símbolo dos Apóstolos (Credo)",
+      "capitulo": "Capítulo II — Da Encarnação e Redenção",
+      "pergunta": "Por que Jesus Cristo padeceu e morreu na Cruz?",
+      "resposta": "Jesus Cristo padeceu e morreu na Cruz para satisfazer à justiça divina pelos nossos pecados, livrar-nos da morte eterna e abrir-nos as portas do céu."
+    },
+    {
+      "numero": 9,
+      "parte": "Primeira Parte — Do Símbolo dos Apóstolos (Credo)",
+      "capitulo": "Capítulo III — Da Igreja e da Comunhão dos Santos",
+      "pergunta": "Que é a Igreja Católica?",
+      "resposta": "A Igreja Católica é a sociedade de todos os fiéis batizados que professam a mesma fé, participam dos mesmos sacramentos e estão unidos sob a autoridade do Papa, Vigário de Cristo na terra."
+    },
+    {
+      "numero": 10,
+      "parte": "Primeira Parte — Do Símbolo dos Apóstolos (Credo)",
+      "capitulo": "Capítulo III — Da Igreja e da Comunhão dos Santos",
+      "pergunta": "Quais são as quatro notas da verdadeira Igreja?",
+      "resposta": "A verdadeira Igreja é Una, Santa, Católica e Apostólica."
+    },
+    {
+      "numero": 11,
+      "parte": "Primeira Parte — Do Símbolo dos Apóstolos (Credo)",
+      "capitulo": "Capítulo III — Da Igreja e da Comunhão dos Santos",
+      "pergunta": "Que nos ensina a Comunhão dos Santos?",
+      "resposta": "Ensina-nos que os fiéis na terra (Igreja militante), as almas do Purgatório (Igreja padecente) e os bem-aventurados no céu (Igreja triunfante) formam um só corpo em Cristo e comunicam entre si os bens espirituais."
+    },
+    {
+      "numero": 12,
+      "parte": "Segunda Parte — Da Oração",
+      "capitulo": "Capítulo I — Da oração em geral",
+      "pergunta": "Que é a oração?",
+      "resposta": "A oração é a elevação da mente e do coração a Deus para O adorar, Lhe dar graças e Lhe pedir tudo o que nos é necessário."
+    },
+    {
+      "numero": 13,
+      "parte": "Segunda Parte — Da Oração",
+      "capitulo": "Capítulo II — Da Oração Dominical (Pai-Nosso)",
+      "pergunta": "Qual é a oração mais excelente de todas?",
+      "resposta": "A oração mais excelente de todas é o Pai-Nosso, porque o próprio Jesus Cristo no-la ensinou e encerra tudo o que podemos desejar e pedir a Deus."
+    },
+    {
+      "numero": 14,
+      "parte": "Segunda Parte — Da Oração",
+      "capitulo": "Capítulo III — Da Ave-Maria",
+      "pergunta": "Por que recorremos a Maria Santíssima na oração?",
+      "resposta": "Recorremos a Maria Santíssima porque Ela é a Mãe de Deus e nossa Mãe espiritual, cheia de graça e poderosa intercessora junto de seu Filho Jesus Cristo."
+    },
+    {
+      "numero": 15,
+      "parte": "Terceira Parte — Dos Mandamentos de Deus e da Igreja",
+      "capitulo": "Capítulo I — Dos Mandamentos da Lei de Deus",
+      "pergunta": "A que se reduzem os dez Mandamentos da Lei de Deus?",
+      "resposta": "Reduzem-se a dois preceitos de caridade: amar a Deus sobre todas as coisas e amar o próximo como a si mesmo por amor de Deus."
+    },
+    {
+      "numero": 16,
+      "parte": "Terceira Parte — Dos Mandamentos de Deus e da Igreja",
+      "capitulo": "Capítulo I — Dos Mandamentos da Lei de Deus",
+      "pergunta": "Que nos ordena o terceiro mandamento — Guardar domingos e festas?",
+      "resposta": "Ordena-nos honrar a Deus nos domingos e dias santos de guarda, participando devotamente da Santa Missa e abstendo-nos de trabalhos servis desnecessários."
+    },
+    {
+      "numero": 17,
+      "parte": "Terceira Parte — Dos Mandamentos de Deus e da Igreja",
+      "capitulo": "Capítulo II — Dos Mandamentos da Igreja",
+      "pergunta": "Quais são os cinco Mandamentos da Igreja?",
+      "resposta": "1º Participar da Missa inteira nos domingos e festas de guarda; 2º Confessar-se ao menos uma vez por ano; 3º Comungar ao menos pela Páscoa da Ressurreição; 4º Jejuar e abster-se de carne quando manda a Igreja; 5º Ajudar a Igreja em suas necessidades."
+    },
+    {
+      "numero": 18,
+      "parte": "Quarta Parte — Dos Sacramentos",
+      "capitulo": "Capítulo I — Dos Sacramentos em geral",
+      "pergunta": "Que é um Sacramento?",
+      "resposta": "Sacramento é um sinal sensível e eficaz da graça, instituído por Jesus Cristo para santificar as nossas almas."
+    },
+    {
+      "numero": 19,
+      "parte": "Quarta Parte — Dos Sacramentos",
+      "capitulo": "Capítulo I — Dos Sacramentos em geral",
+      "pergunta": "Quais são os sete Sacramentos?",
+      "resposta": "Os sete Sacramentos são: Batismo, Confirmação (Crisma), Eucaristia, Penitência (Confissão), Unção dos Enfermos, Ordem e Matrimônio."
+    },
+    {
+      "numero": 20,
+      "parte": "Quarta Parte — Dos Sacramentos",
+      "capitulo": "Capítulo II — Do Batismo e da Confirmação",
+      "pergunta": "Que efeitos produz o Batismo?",
+      "resposta": "O Batismo apaga o pecado original e todos os pecados atuais, infunde a graça santificante, torna-nos filhos de Deus e membros da Igreja e imprime na alma caráter indelével."
+    },
+    {
+      "numero": 21,
+      "parte": "Quarta Parte — Dos Sacramentos",
+      "capitulo": "Capítulo III — Da Santíssima Eucaristia",
+      "pergunta": "Que é a Santíssima Eucaristia?",
+      "resposta": "A Santíssima Eucaristia é o Sacramento que contém verdadeira, real e substancialmente o Corpo, o Sangue, a Alma e a Divindade de Nosso Senhor Jesus Cristo, sob as espécies do pão e do vinho."
+    },
+    {
+      "numero": 22,
+      "parte": "Quarta Parte — Dos Sacramentos",
+      "capitulo": "Capítulo III — Da Santíssima Eucaristia",
+      "pergunta": "Que é o Santo Sacrifício da Missa?",
+      "resposta": "A Santa Missa é o sacrifício do Corpo e do Sangue de Jesus Cristo, oferecido sobre os nossos altares sob as aparências de pão e de vinho, em renovação incruenta do sacrifício da Cruz."
+    },
+    {
+      "numero": 23,
+      "parte": "Quarta Parte — Dos Sacramentos",
+      "capitulo": "Capítulo IV — Da Penitência (Confissão)",
+      "pergunta": "Que é o Sacramento da Penitência?",
+      "resposta": "É o Sacramento instituído por Jesus Cristo para perdoar os pecados cometidos depois do Batismo, mediante a contrição, a confissão dos pecados ao sacerdote, a absolvição e a satisfação."
+    },
+    {
+      "numero": 24,
+      "parte": "Quinta Parte — Das Virtudes Principais e da Graça",
+      "capitulo": "Capítulo I — Da Graça e das Virtudes Teologais",
+      "pergunta": "Que é a graça santificante?",
+      "resposta": "A graça santificante é um dom sobrenatural e gratuito que Deus infunde em nossa alma, tornando-nos justos, amigos de Deus e herdeiros do Paraíso."
+    },
+    {
+      "numero": 25,
+      "parte": "Quinta Parte — Das Virtudes Principais e da Graça",
+      "capitulo": "Capítulo I — Da Graça e das Virtudes Teologais",
+      "pergunta": "Quais são as virtudes teologais?",
+      "resposta": "As virtudes teologais são três: Fé, Esperança e Caridade — chamadas teologais porque têm diretamente a Deus por objeto."
+    },
+    {
+      "numero": 26,
+      "parte": "Quinta Parte — Das Virtudes Principais e da Graça",
+      "capitulo": "Capítulo II — Das Virtudes Cardeais e das Obras de Misericórdia",
+      "pergunta": "Quais são as quatro virtudes cardeais?",
+      "resposta": "As quatro virtudes cardeais são: Prudência, Justiça, Fortaleza e Temperança."
+    },
+    {
+      "numero": 27,
+      "parte": "Quinta Parte — Das Virtudes Principais e da Graça",
+      "capitulo": "Capítulo III — Dos Novíssimos do Homem",
+      "pergunta": "Quais são os quatro Novíssimos do homem?",
+      "resposta": "Os quatro Novíssimos do homem são: Morte, Juízo, Inferno e Paraíso."
+    }
+  ]
+}

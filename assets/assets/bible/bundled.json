@@ -1,0 +1,4 @@
+{
+  "_comentario": "Traduções embutidas no app — SOMENTE domínio público. Para adicionar Figueiredo: gere assets/bible/figueiredo.json com tool/bible/build_modules.py e inclua o id aqui.",
+  "modulos": ["vulgata", "douay_rheims"]
+}
