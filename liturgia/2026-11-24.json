@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "data": "2026-11-24",
-  "gerado_em": "2026-11-19T16:46:07-03:00",
+  "gerado_em": "2026-11-19T18:24:24-03:00",
   "calendario": {
     "data": "2026-11-24",
     "dia_semana": "Terça-feira",
@@ -48,8 +48,14 @@
   "audio": {
     "salmo_audio_url": null,
     "salmo_cifra_ou_melodia": null,
-    "liturgia_audio_url": null,
-    "creditos": [],
+    "liturgia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-24.mp3",
+    "creditos": [
+      {
+        "campo": "liturgia_audio_url",
+        "canal": "Via Sacra — Voz Neural Kokoro (pf_dora, pt-BR)",
+        "licenca": "Apache-2.0 (Kokoro-82M)"
+      }
+    ],
     "fallback": "tts_local_pt_BR"
   },
   "homilias": {
@@ -74,13 +80,13 @@
         "nota": "Tradução livre do latim (Sermo 169) para fins devocionais."
       },
       {
-        "autor": "Santo Agostinho",
-        "obra": "Tratados sobre o Evangelho de São João, 26, 13",
-        "texto": "Ó sacramento de piedade! Ó sinal de unidade! Ó vínculo de caridade! Quem quer viver tem onde viver, tem de onde viver. Aproxime-se, creia, seja incorporado, para ser vivificado.",
-        "url": "https://www.newadvent.org/fathers/1701026.htm",
+        "autor": "São Tomás de Aquino (Catena Aurea)",
+        "obra": "Catena Aurea sobre São João, cap. 15 (a Videira Verdadeira)",
+        "texto": "Assim como o ramo não pode dar fruto por si mesmo se não permanecer na videira, assim também ninguém pode produzir obras de vida eterna se não permanecer unido a Cristo pela fé viva e pela caridade.",
+        "url": "https://www.newadvent.org/fathers/",
         "fonte": "Santos Padres e Doutores da Igreja (domínio público)",
         "licenca": "Domínio público",
-        "nota": "Tradução livre do latim (In Ioannis Evangelium Tractatus) para fins devocionais."
+        "nota": "Síntese devocional a partir da Catena Aurea (século XIII — domínio público)."
       }
     ]
   },

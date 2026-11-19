@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "data": "2026-11-21",
-  "gerado_em": "2026-11-19T16:46:01-03:00",
+  "gerado_em": "2026-11-19T18:24:18-03:00",
   "calendario": {
     "data": "2026-11-21",
     "dia_semana": "Sábado",
@@ -56,8 +56,14 @@
   "audio": {
     "salmo_audio_url": null,
     "salmo_cifra_ou_melodia": null,
-    "liturgia_audio_url": null,
-    "creditos": [],
+    "liturgia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-21.mp3",
+    "creditos": [
+      {
+        "campo": "liturgia_audio_url",
+        "canal": "Via Sacra — Voz Neural Kokoro (pf_dora, pt-BR)",
+        "licenca": "Apache-2.0 (Kokoro-82M)"
+      }
+    ],
     "fallback": "tts_local_pt_BR"
   },
   "homilias": {
