@@ -118,5 +118,65 @@
     "texto": "Quem meditar com piedade e sobriedade o sermão que Nosso Senhor Jesus Cristo pronunciou no monte, tal como o lemos no Evangelho segundo Mateus, encontrará nele, quanto aos bons costumes, a norma perfeita da vida cristã.",
     "url": "https://www.newadvent.org/fathers/16011.htm",
     "nota": "Tradução livre do latim (De Sermone Domini in Monte). Este trecho abre também a Catena Aurea de São Tomás de Aquino sobre Mt 5 em várias edições; curadoria aberta à comunidade."
+  },
+  {
+    "id": "leao-magno-sermao-21",
+    "autor": "São Leão Magno",
+    "obra": "Sermão 21 (no Natal do Senhor), 3",
+    "passagens": [{"livro": "Lc", "capitulos": [2]}, {"livro": "Jo", "capitulos": [1]}],
+    "tempos": ["natal", "advento"],
+    "texto": "Reconhece, ó cristão, a tua dignidade. Tornado participante da natureza divina, não voltes à antiga vileza por uma conduta indigna. Lembra-te de que Cabeça e de que Corpo és membro.",
+    "url": "https://www.newadvent.org/fathers/360321.htm",
+    "nota": "Tradução livre do latim (Sermo 21) para fins devocionais — domínio público."
+  },
+  {
+    "id": "gregorio-magno-hom-34",
+    "autor": "São Gregório Magno",
+    "obra": "Homilias sobre os Evangelhos, 34 (a ovelha perdida)",
+    "passagens": [{"livro": "Lc", "capitulos": [15]}, {"livro": "Mt", "capitulos": [18]}],
+    "tempos": ["quaresma", "comum"],
+    "texto": "O Bom Pastor colocou a ovelha perdida sobre os próprios ombros: ao assumir a natureza humana, carregou sobre si os nossos pecados para nos reconduzir à casa do Pai.",
+    "url": "https://www.newadvent.org/fathers/",
+    "nota": "Tradução livre do latim (Homiliae in Evangelia) para fins devocionais — domínio público."
+  },
+  {
+    "id": "ambrosio-expositio-lc-2",
+    "autor": "Santo Ambrósio",
+    "obra": "Comentário ao Evangelho de São Lucas, II, 26",
+    "passagens": [{"livro": "Lc", "capitulos": [1, 2]}],
+    "tempos": ["advento", "natal", "comum"],
+    "texto": "Esteja em cada um a alma de Maria para engrandecer o Senhor; esteja em cada um o espírito de Maria para exultar em Deus. Segundo a carne, há uma só Mãe de Cristo; segundo a fé, Cristo é fruto de todos nós.",
+    "url": "https://www.newadvent.org/fathers/",
+    "nota": "Tradução livre do latim (Expositio Evangelii secundum Lucam) — domínio público."
+  },
+  {
+    "id": "bernardo-hom-missus-est-2",
+    "autor": "São Bernardo de Claraval",
+    "obra": "Homilia II sobre «Missus est», 17 (Estrela do Mar)",
+    "passagens": [{"livro": "Lc", "capitulos": [1]}, {"livro": "Jo", "capitulos": [2, 19]}],
+    "tempos": ["advento", "comum", "geral"],
+    "texto": "Se se levantam os ventos das tentações, se esbarras nos escolhos das tribulações, olha para a estrela, invoca Maria. Seguindo-a, não te desvias; rezando a ela, não desesperas; pensando nela, não erras.",
+    "url": "https://www.newadvent.org/fathers/",
+    "nota": "Tradução livre do latim (Super Missus est) — domínio público."
+  },
+  {
+    "id": "jeronimo-comm-isaias-prologo",
+    "autor": "São Jerônimo",
+    "obra": "Comentário ao Profeta Isaías, Prólogo",
+    "passagens": [{"livro": "Lc", "capitulos": [4, 24]}, {"livro": "Mt", "capitulos": [13]}],
+    "tempos": ["comum", "advento", "geral"],
+    "texto": "Ignorar as Escrituras é ignorar o próprio Cristo. Aproxima-te da Palavra com humildade e oração, para que o mesmo Espírito que a inspirou abra o teu coração para a compreender.",
+    "url": "https://www.newadvent.org/fathers/",
+    "nota": "Tradução livre do latim (Commentarii in Isaiam) — domínio público."
+  },
+  {
+    "id": "catena-aurea-jo-15",
+    "autor": "São Tomás de Aquino (Catena Aurea)",
+    "obra": "Catena Aurea sobre São João, cap. 15 (a Videira Verdadeira)",
+    "passagens": [{"livro": "Jo", "capitulos": [15]}, {"livro": "Mt", "capitulos": [7, 21]}],
+    "tempos": ["pascoa", "comum"],
+    "texto": "Assim como o ramo não pode dar fruto por si mesmo se não permanecer na videira, assim também ninguém pode produzir obras de vida eterna se não permanecer unido a Cristo pela fé viva e pela caridade.",
+    "url": "https://www.newadvent.org/fathers/",
+    "nota": "Síntese devocional a partir da Catena Aurea (século XIII — domínio público)."
   }
 ]

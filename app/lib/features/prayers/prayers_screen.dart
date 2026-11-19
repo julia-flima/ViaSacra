@@ -7,6 +7,7 @@ import '../../core/theme.dart';
 import '../../data/models/prayer.dart';
 import '../../services/settings_service.dart';
 import '../../widgets/common.dart';
+import 'imitacao_screen.dart';
 import 'via_sacra_screen.dart';
 
 /// Aba 4 — Devocionário & Orações (100% offline).
@@ -41,6 +42,16 @@ class _PrayersScreenState extends State<PrayersScreen> {
               subtitle: const Text('Meditações de Santo Afonso de Ligório · guiada e com áudio'),
               trailing: const Icon(Icons.arrow_forward),
               onTap: () => Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => const ViaSacraScreen())),
+            ),
+          ),
+          Card(
+            child: ListTile(
+              contentPadding: const EdgeInsets.symmetric(horizontal: VsSpacing.md, vertical: VsSpacing.sm),
+              leading: Icon(Icons.auto_stories_outlined, color: Theme.of(context).colorScheme.primary),
+              title: Text('A Imitação de Cristo', style: t.titleMedium),
+              subtitle: const Text('Tomás de Kempis · 4 Livros, 114 capítulos offline'),
+              trailing: const Icon(Icons.arrow_forward),
+              onTap: () => Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => const ImitacaoScreen())),
             ),
           ),
           const SizedBox(height: VsSpacing.sm),

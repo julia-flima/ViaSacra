@@ -221,6 +221,14 @@ class AppTheme {
       ),
       bottomSheetTheme: BottomSheetThemeData(backgroundColor: bg, surfaceTintColor: Colors.transparent),
       dialogTheme: DialogThemeData(backgroundColor: bg, surfaceTintColor: Colors.transparent),
+      focusColor: accent.withValues(alpha: 0.16),
+      hoverColor: accent.withValues(alpha: 0.08),
+      scrollbarTheme: ScrollbarThemeData(
+        thumbVisibility: const WidgetStatePropertyAll(false),
+        radius: const Radius.circular(8),
+        thickness: const WidgetStatePropertyAll(8),
+        thumbColor: WidgetStatePropertyAll(muted.withValues(alpha: 0.35)),
+      ),
       snackBarTheme: SnackBarThemeData(
         behavior: SnackBarBehavior.floating,
         backgroundColor: fg,

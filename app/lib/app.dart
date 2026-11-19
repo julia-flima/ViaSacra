@@ -1,6 +1,7 @@
+import 'dart:async' show unawaited;
 import 'dart:ui' show PointerDeviceKind;
 
-import 'package:flutter/services.dart' show LogicalKeyboardKey;
+import 'package:flutter/services.dart' show HardwareKeyboard, KeyDownEvent, KeyRepeatEvent, LogicalKeyboardKey;
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 
@@ -79,9 +80,14 @@ class ViaSacraApp extends StatelessWidget {
   }
 }
 
-class HomeShell extends StatelessWidget {
+class HomeShell extends StatefulWidget {
   const HomeShell({super.key});
 
+  @override
+  State<HomeShell> createState() => _HomeShellState();
+}
+
+class _HomeShellState extends State<HomeShell> {
   static const _pages = <Widget>[LiturgyScreen(), BibleScreen(), RosaryScreen(), LibraryScreen(), SettingsScreen()];
 
   static const _items = <(IconData, IconData, String)>[
@@ -91,6 +97,107 @@ class HomeShell extends StatelessWidget {
     (Icons.local_library_outlined, Icons.local_library, 'Biblioteca'),
     (Icons.tune_outlined, Icons.tune, 'Ajustes'),
   ];
+
+  static const _allPlatforms = <TargetPlatform>{
+    TargetPlatform.android,
+    TargetPlatform.iOS,
+    TargetPlatform.linux,
+    TargetPlatform.macOS,
+    TargetPlatform.windows,
+    TargetPlatform.fuchsia,
+  };
+
+  late final List<ScrollController> _scrollControllers = List.generate(_pages.length, (_) => ScrollController());
+
+  @override
+  void dispose() {
+    for (final c in _scrollControllers) {
+      c.dispose();
+    }
+    super.dispose();
+  }
+
+  bool _isEditingText() {
+    final primary = FocusManager.instance.primaryFocus;
+    final ctx = primary?.context;
+    if (ctx == null) return false;
+    return ctx.widget is EditableText || ctx.findAncestorWidgetOfExactType<EditableText>() != null;
+  }
+
+  void _scrollActive(int tabIndex, double delta, {bool toStart = false, bool toEnd = false}) {
+    final ctrl = _scrollControllers[tabIndex];
+    if (!ctrl.hasClients) return;
+    final pos = ctrl.position;
+    final target = toStart
+        ? pos.minScrollExtent
+        : toEnd
+        ? pos.maxScrollExtent
+        : (pos.pixels + delta).clamp(pos.minScrollExtent, pos.maxScrollExtent);
+    unawaited(ctrl.animateTo(target, duration: const Duration(milliseconds: 140), curve: Curves.easeOut));
+  }
+
+  KeyEventResult _handleKey(KeyEvent event, NavigationController nav) {
+    if (event is! KeyDownEvent && event is! KeyRepeatEvent) return KeyEventResult.ignored;
+    if (_isEditingText()) return KeyEventResult.ignored;
+
+    final key = event.logicalKey;
+    final hw = HardwareKeyboard.instance;
+    final viewport = MediaQuery.sizeOf(context).height * 0.8;
+    final idx = nav.tab.index;
+
+    if (hw.isAltPressed) {
+      if (key == LogicalKeyboardKey.digit1) {
+        nav.go(AppTab.liturgia);
+        return KeyEventResult.handled;
+      }
+      if (key == LogicalKeyboardKey.digit2) {
+        nav.go(AppTab.biblia);
+        return KeyEventResult.handled;
+      }
+      if (key == LogicalKeyboardKey.digit3) {
+        nav.go(AppTab.terco);
+        return KeyEventResult.handled;
+      }
+      if (key == LogicalKeyboardKey.digit4) {
+        nav.go(AppTab.biblioteca);
+        return KeyEventResult.handled;
+      }
+      if (key == LogicalKeyboardKey.digit5) {
+        nav.go(AppTab.ajustes);
+        return KeyEventResult.handled;
+      }
+    }
+
+    if (key == LogicalKeyboardKey.arrowDown) {
+      _scrollActive(idx, 120);
+      return KeyEventResult.handled;
+    }
+    if (key == LogicalKeyboardKey.arrowUp) {
+      _scrollActive(idx, -120);
+      return KeyEventResult.handled;
+    }
+    if (key == LogicalKeyboardKey.pageDown) {
+      _scrollActive(idx, viewport);
+      return KeyEventResult.handled;
+    }
+    if (key == LogicalKeyboardKey.pageUp) {
+      _scrollActive(idx, -viewport);
+      return KeyEventResult.handled;
+    }
+    if (key == LogicalKeyboardKey.space && !hw.isControlPressed && !hw.isMetaPressed) {
+      _scrollActive(idx, hw.isShiftPressed ? -viewport : viewport);
+      return KeyEventResult.handled;
+    }
+    if (key == LogicalKeyboardKey.home) {
+      _scrollActive(idx, 0, toStart: true);
+      return KeyEventResult.handled;
+    }
+    if (key == LogicalKeyboardKey.end) {
+      _scrollActive(idx, 0, toEnd: true);
+      return KeyEventResult.handled;
+    }
+    return KeyEventResult.ignored;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +209,22 @@ class HomeShell extends StatelessWidget {
     final cs = Theme.of(context).colorScheme;
     final t = Theme.of(context).textTheme;
 
-    final body = IndexedStack(index: nav.tab.index, children: _pages);
+    // Cada aba possui seu próprio PrimaryScrollController (habilitando setas/PageUp/Home/End)
+    // e ExcludeFocus nas abas ocultas para que TAB navegue apenas nos elementos visíveis.
+    final body = IndexedStack(
+      index: nav.tab.index,
+      children: [
+        for (var i = 0; i < _pages.length; i++)
+          ExcludeFocus(
+            excluding: i != nav.tab.index,
+            child: PrimaryScrollController(
+              controller: _scrollControllers[i],
+              automaticallyInheritForPlatforms: _allPlatforms,
+              child: _pages[i],
+            ),
+          ),
+      ],
+    );
 
     final scaffold = Scaffold(
       body: useRail
@@ -163,16 +285,14 @@ class HomeShell extends StatelessWidget {
             ),
     );
 
-    // Atalhos de teclado no desktop/web: Alt+1..5 alterna entre as abas.
-    return CallbackShortcuts(
-      bindings: <ShortcutActivator, VoidCallback>{
-        const SingleActivator(LogicalKeyboardKey.digit1, alt: true): () => nav.go(AppTab.liturgia),
-        const SingleActivator(LogicalKeyboardKey.digit2, alt: true): () => nav.go(AppTab.biblia),
-        const SingleActivator(LogicalKeyboardKey.digit3, alt: true): () => nav.go(AppTab.terco),
-        const SingleActivator(LogicalKeyboardKey.digit4, alt: true): () => nav.go(AppTab.biblioteca),
-        const SingleActivator(LogicalKeyboardKey.digit5, alt: true): () => nav.go(AppTab.ajustes),
-      },
-      child: Focus(autofocus: false, child: scaffold),
+    return FocusTraversalGroup(
+      policy: ReadingOrderTraversalPolicy(),
+      child: Focus(
+        autofocus: true,
+        canRequestFocus: true,
+        onKeyEvent: (_, event) => _handleKey(event, nav),
+        child: scaffold,
+      ),
     );
   }
 }
