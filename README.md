@@ -29,6 +29,7 @@ Idealizado e desenvolvido por **Júlia Lima**.
   - [Android](#android)
   - [iOS (iPhone / iPad)](#ios-iphone--ipad)
 - [Instalação para desenvolvedores](#instalação-para-desenvolvedores)
+- [Traduções da Bíblia Sagrada e Importador JSON](#traduções-da-bíblia-sagrada-e-importador-json)
 - [Arquitetura](#arquitetura)
 - [Fontes, direitos autorais e créditos](#fontes-direitos-autorais-e-créditos)
 - [Contribuindo](#contribuindo)
@@ -202,6 +203,83 @@ Veja todas as opções com `python scraper.py --help`.
 
 O workflow de release assina os APKs se estes *secrets* existirem no repositório: `ANDROID_KEYSTORE_BASE64`, `ANDROID_KEYSTORE_PASSWORD`, `ANDROID_KEY_ALIAS`, `ANDROID_KEY_PASSWORD`. Sem eles, os APKs são assinados com a chave de debug (funcionam, mas não atualizam por cima de uma versão assinada com outra chave). Para o F-Droid, o próprio F-Droid compila e assina a partir do código-fonte.
 
+## Traduções da Bíblia Sagrada e Importador JSON
+
+O módulo da Bíblia Sagrada (cânon católico de **73 livros**: 46 AT com deuterocanônicos + 27 NT) oferece suporte nativo às traduções clássicas (**Pe. Antônio Pereira de Figueiredo**, **Pe. Manuel de Matos Soares** e **Vulgata Clementina**) e um **importador modular local (`.json`)** acessível pela aba **Bíblia** e pelos **Ajustes → Gerenciar e Importar Traduções**.
+
+### Consolidando traduções com `scripts/build_bible_db.py`
+
+O script [`scripts/build_bible_db.py`](scripts/build_bible_db.py) padroniza arquivos `.json` ou `.txt` das traduções Figueiredo, Matos Soares e Vulgata (mapeando os 73 livros pelo cânon em [`tool/bible/canon.py`](tool/bible/canon.py)) e gera os módulos JSON padronizados e o banco SQLite otimizado com índice FTS5:
+
+```bash
+# Gera o banco SQLite/FTS5 consolidando as três traduções clássicas:
+python3 scripts/build_bible_db.py \
+  --figueiredo fontes/figueiredo.json \
+  --matos-soares fontes/matos_soares.json \
+  --vulgata app/assets/bible/vulgata.json \
+  --db-out app/assets/db/bible.db \
+  --write-json \
+  --update-bundled
+```
+
+### Esquema JSON padrão aceito pelo Importador
+
+Qualquer arquivo `.json` no formato abaixo pode ser importado diretamente no aparelho via **Gerenciar e Importar Traduções** (usando `file_picker` — compatível com Android, iOS, Web e F-Droid):
+
+```json
+{
+  "formato": "viasacra-biblia",
+  "versao": 1,
+  "id": "cnbb",
+  "nome": "Bíblia Sagrada — Tradução Oficial da CNBB",
+  "sigla": "CNBB",
+  "idioma": "pt-BR",
+  "licenca": "Uso pessoal (importação local)",
+  "fonte": "Edições CNBB",
+  "descricao": "Tradução oficial da Conferência Nacional dos Bispos do Brasil.",
+  "numeracao_salmos": "grega",
+  "versao_modulo": 1,
+  "livros": [
+    {
+      "id": "gn",
+      "capitulos": [
+        [
+          "No princípio, Deus criou o céu e a terra.",
+          "A terra estava deserta e vazia..."
+        ],
+        {
+          "1": "Assim foram concluídos o céu e a terra...",
+          "2": "No sétimo dia, Deus concluiu toda a obra..."
+        }
+      ]
+    },
+    {
+      "id": "jo",
+      "capitulos": {
+        "3": {
+          "16": "Com efeito, de tal modo Deus amou o mundo, que lhe deu seu Filho único..."
+        }
+      }
+    }
+  ]
+}
+```
+
+| Campo | Obrigatório | Descrição |
+|---|---|---|
+| `formato` | Recomendado | Deve ser `"viasacra-biblia"` (quando informado). |
+| `versao` | Recomendado | Versão do esquema (`1`). |
+| `id` | **Sim** | Identificador único (`2` a `32` caracteres: `[a-z0-9_-]`). Reimportar o mesmo `id` atualiza a tradução. |
+| `nome` | **Sim** | Nome completo exibido no seletor e nas atribuições. |
+| `sigla` (ou `abreviacao`) | **Sim** | Sigla curta exibida na barra superior (ex.: `FIG`, `MS`, `VUL`, `CNBB`, `AM`, `BJ`). |
+| `idioma` | **Sim** | Código BCP-47 (ex.: `pt-BR`, `pt-PT`, `la`, `en`). Define a voz do TTS. |
+| `licenca` | Não | Nota de licença/origem (padrão: `"Importada localmente pelo usuário"`). |
+| `numeracao_salmos` | Não | `"grega"` (padrão — Vulgata/lecionários) ou `"hebraica"`. |
+| `livros` | **Sim** | Lista de livros com `id` pertencente aos 73 livros do cânon católico ([`app/assets/bible/canon.json`](app/assets/bible/canon.json)). |
+| `livros[].capitulos` | **Sim** | Lista de capítulos (cada capítulo como lista de versículos `["v1", "v2"]`, pares `[[1, "v1"], [3, "v3"]]` ou objeto `{"1": "v1"}`), ou objeto numerado por capítulo (`{"1": {"1": "v1"}}`). |
+
+Detalhes completos sobre o cânon de 73 livros e armazenamento SQLite/FTS5 estão em [`docs/BIBLE.md`](docs/BIBLE.md).
+
 ## Arquitetura
 
 ```
@@ -240,7 +318,7 @@ O Via Sacra **não tem fins lucrativos** e atribui todas as fontes explicitament
 
 | Conteúdo | Fonte | Uso |
 |---|---|---|
-| Leituras da Liturgia Diária | [CNBB — liturgiadiaria.cnbb.org.br](https://liturgiadiaria.cnbb.org.br) | Devocional, não comercial, com atribuição "Fonte: CNBB" |
+| Leituras da Liturgia Diária | [CNBB — liturgiadiaria.edicoescnbb.com.br](https://liturgiadiaria.edicoescnbb.com.br) | Devocional, não comercial, com atribuição "Fonte: CNBB / Edições CNBB" |
 | Homilias e reflexões do Papa | [Vatican News (Português)](https://www.vaticannews.va/pt.html) / © Libreria Editrice Vaticana / Dicastério para a Comunicação | Uso pastoral não comercial com citação e link |
 | Comentários patrísticos | Santo Agostinho, São João Crisóstomo, *Catena Aurea* (São Tomás de Aquino) | Domínio público |
 | Arte sacra | Wikimedia Commons, The Met Open Access, National Gallery of Art (CC0) | Domínio público — ver [`docs/SACRED_ART.md`](docs/SACRED_ART.md) |

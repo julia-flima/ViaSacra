@@ -3,12 +3,15 @@ import 'package:provider/provider.dart';
 
 import '../../core/constants.dart';
 import '../../core/theme.dart';
+import '../../data/bible/bible_models.dart';
 import '../../data/bible/bible_module.dart';
+import '../../services/bible_import_service.dart';
 import '../../services/bible_service.dart';
 import '../../widgets/common.dart';
 
-/// Gerenciador de traduções: embutidas (domínio público) e módulos importados
-/// localmente pelo usuário.
+/// Tela "Gerenciar e Importar Traduções": lista traduções nativas (embutidas)
+/// e módulos `.json` importados localmente pelo usuário, com barra de progresso,
+/// validação detalhada e exclusão para liberar espaço.
 class TranslationsScreen extends StatelessWidget {
   const TranslationsScreen({super.key});
 
@@ -19,15 +22,38 @@ class TranslationsScreen extends StatelessWidget {
     ('Pastoral', 'Bíblia Pastoral', 'Paulus'),
   ];
 
-  Future<void> _run(BuildContext context, Future<String?> Function() action) async {
+  Future<void> _run(BuildContext context, Future<BibleImportResult?> Function() action) async {
     final messenger = ScaffoldMessenger.of(context);
     try {
-      final name = await action();
-      if (name != null) messenger.showSnackBar(SnackBar(content: Text('“$name” instalada.')));
+      final result = await action();
+      if (result != null && context.mounted) {
+        messenger.showSnackBar(
+          SnackBar(
+            content: Text(
+              '“${result.name}” (${result.abbreviation}) importada: '
+              '${result.bookCount} livros, ${result.verseCount} versículos.',
+            ),
+          ),
+        );
+      }
     } on BibleModuleException catch (e) {
-      messenger.showSnackBar(SnackBar(content: Text('Módulo inválido: ${e.message}')));
+      if (!context.mounted) return;
+      await showDialog<void>(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: const Text('Arquivo fora do padrão'),
+          content: Text(
+            'Não foi possível validar o arquivo JSON selecionado:\n\n${e.message}\n\n'
+            'Verifique se o arquivo possui os metadados obrigatórios (id, nome, sigla, idioma) '
+            'e a lista de livros/capítulos/versículos no formato documentado no README.',
+          ),
+          actions: [FilledButton(onPressed: () => Navigator.pop(ctx), child: const Text('Entendi'))],
+        ),
+      );
     } catch (e) {
-      messenger.showSnackBar(SnackBar(content: Text('Não foi possível importar: $e')));
+      if (context.mounted) {
+        messenger.showSnackBar(SnackBar(content: Text('Não foi possível importar: $e')));
+      }
     }
   }
 
@@ -53,54 +79,89 @@ class TranslationsScreen extends StatelessWidget {
     }
   }
 
+  Future<void> _confirmDelete(BuildContext context, BibleService bible, BibleTranslation tr) async {
+    final ok = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text('Excluir “${tr.name}”?'),
+        content: Text(
+          'Os ${tr.verseCount} versículos serão removidos deste aparelho para liberar espaço. '
+          'Suas marcações, favoritos e anotações são mantidos.',
+        ),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('Cancelar')),
+          FilledButton(onPressed: () => Navigator.pop(ctx, true), child: const Text('Excluir')),
+        ],
+      ),
+    );
+    if ((ok ?? false) && context.mounted) {
+      await bible.remove(tr.id);
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('“${tr.name}” removida.')));
+      }
+    }
+  }
+
+  Widget _tile(BuildContext context, BibleService bible, BibleTranslation tr, TextTheme t) {
+    return ListTile(
+      contentPadding: EdgeInsets.zero,
+      leading: CircleAvatar(child: Text(tr.abbreviation, style: t.labelSmall?.copyWith(letterSpacing: 0))),
+      title: Text(tr.name),
+      subtitle: Text(
+        '${tr.language} · ${tr.license}\n'
+        '${tr.verseCount} versículos · Salmos: numeração ${tr.psalmNumbering}',
+      ),
+      isThreeLine: true,
+      trailing: tr.bundled
+          ? null
+          : IconButton(
+              tooltip: 'Excluir tradução importada',
+              icon: const Icon(Icons.delete_outline),
+              onPressed: bible.progress != null ? null : () => _confirmDelete(context, bible, tr),
+            ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final bible = context.watch<BibleService>();
     final t = Theme.of(context).textTheme;
     final pad = VsSpacing.page(context);
+    final bundled = bible.translations.where((tr) => tr.bundled).toList();
+    final imported = bible.translations.where((tr) => !tr.bundled).toList();
+    final pct = bible.progress == null ? null : (bible.progress! * 100).clamp(0, 100).round();
+
     return Scaffold(
-      appBar: AppBar(title: const Text('Traduções da Bíblia')),
+      appBar: AppBar(title: const Text('Gerenciar e Importar Traduções')),
       body: ListView(
         padding: EdgeInsets.fromLTRB(pad, VsSpacing.sm, pad, VsSpacing.xxl),
         children: [
           if (bible.progress != null) ...[
-            Text(bible.progressLabel ?? '', style: t.bodySmall),
-            const SizedBox(height: 4),
+            Row(
+              children: [
+                Expanded(child: Text(bible.progressLabel ?? 'Importando…', style: t.bodySmall)),
+                if (pct != null) Text('$pct%', style: t.labelSmall),
+              ],
+            ),
+            const SizedBox(height: 6),
             LinearProgressIndicator(value: bible.progress),
             const SizedBox(height: VsSpacing.md),
           ],
-          const Eyebrow('Instaladas neste aparelho'),
-          for (final tr in bible.translations)
-            ListTile(
-              contentPadding: EdgeInsets.zero,
-              leading: CircleAvatar(child: Text(tr.abbreviation, style: t.labelSmall?.copyWith(letterSpacing: 0))),
-              title: Text(tr.name),
-              subtitle: Text(
-                '${tr.language} · ${tr.license}${tr.bundled ? ' · embutida' : ' · importada'}\n'
-                '${tr.verseCount} versículos',
+          const Eyebrow('Traduções nativas (embutidas)'),
+          for (final tr in bundled) _tile(context, bible, tr, t),
+          const SizedBox(height: VsSpacing.md),
+          const Eyebrow('Traduções importadas neste aparelho'),
+          if (imported.isEmpty)
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: VsSpacing.sm),
+              child: Text(
+                'Nenhuma tradução importada ainda. Você pode importar arquivos .json no padrão do Via Sacra '
+                '(como Figueiredo, Matos Soares, CNBB, Ave-Maria ou Jerusalém) diretamente do seu aparelho.',
+                style: t.bodyMedium,
               ),
-              isThreeLine: true,
-              trailing: tr.bundled
-                  ? null
-                  : IconButton(
-                      tooltip: 'Remover',
-                      icon: const Icon(Icons.delete_outline),
-                      onPressed: () async {
-                        final ok = await showDialog<bool>(
-                          context: context,
-                          builder: (ctx) => AlertDialog(
-                            title: Text('Remover “${tr.name}”?'),
-                            content: const Text('Suas marcações e anotações são mantidas.'),
-                            actions: [
-                              TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('Cancelar')),
-                              FilledButton(onPressed: () => Navigator.pop(ctx, true), child: const Text('Remover')),
-                            ],
-                          ),
-                        );
-                        if (ok ?? false) await bible.remove(tr.id);
-                      },
-                    ),
-            ),
+            )
+          else
+            for (final tr in imported) _tile(context, bible, tr, t),
           const SizedBox(height: VsSpacing.md),
           Wrap(
             spacing: 8,
@@ -123,8 +184,8 @@ class TranslationsScreen extends StatelessWidget {
           const SizedBox(height: VsSpacing.sm),
           Text(
             'As traduções abaixo pertencem às suas editoras e não podem ser distribuídas pelo Via Sacra sem '
-            'autorização. O app está pronto para recebê-las: se você possuir um módulo autorizado pela editora, '
-            'importe-o acima — ele fica somente neste aparelho e funciona com leitura comparada, busca, '
+            'autorização. O app está pronto para recebê-las: se você possuir um arquivo .json compatível, '
+            'importe-o acima — ele fica somente neste aparelho e funciona com leitura comparada, busca FTS5, '
             'marcações e áudio. O Via Sacra não fornece nem indica onde obter esses arquivos.',
             style: t.bodyMedium,
           ),
@@ -141,7 +202,7 @@ class TranslationsScreen extends StatelessWidget {
           TextButton.icon(
             onPressed: () => openExternal(context, '${AppInfo.repositoryUrl}/blob/main/docs/BIBLE.md'),
             icon: const Icon(Icons.description_outlined, size: 18),
-            label: const Text('Formato do módulo de tradução (para editoras e desenvolvedores)'),
+            label: const Text('Formato do módulo JSON (documentação e esquema)'),
           ),
         ],
       ),

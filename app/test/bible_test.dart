@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:via_sacra/data/bible/bible_canon.dart';
@@ -8,6 +9,7 @@ import 'package:via_sacra/data/bible/bible_module.dart';
 import 'package:via_sacra/data/bible/bible_reference.dart';
 import 'package:via_sacra/data/bible/bible_repository.dart';
 import 'package:via_sacra/data/database.dart';
+import 'package:via_sacra/services/bible_import_service.dart';
 
 void main() {
   group('Cânon católico', () {
@@ -74,6 +76,28 @@ void main() {
       expect(m.verseCount, 6);
       expect(m.books['jo']![1].map((v) => v.$1), [1, 3]);
       expect(m.books['jo']![2].first, (1, 'p'));
+    });
+
+    test('aceita metadado "sigla", licença opcional e capítulos como objeto', () {
+      final m = BibleModule.parse({
+        'formato': 'viasacra-biblia',
+        'versao': 1,
+        'id': 'matos_soares',
+        'nome': 'Bíblia Sagrada — Matos Soares',
+        'sigla': 'MS',
+        'idioma': 'pt-BR',
+        'livros': [
+          {
+            'id': 'gn',
+            'capitulos': {
+              '1': {'1': 'No princípio, criou Deus o céu e a terra.'},
+            },
+          },
+        ],
+      });
+      expect(m.abbreviation, 'MS');
+      expect(m.verseCount, 1);
+      expect(m.books['gn']!.first.first, (1, 'No princípio, criou Deus o céu e a terra.'));
     });
 
     test('rejeita livro fora do cânon e formato errado', () {
@@ -148,6 +172,37 @@ void main() {
       repo.savePosition(const ReadingPosition('vulgata', 'lc', 19, 41));
       final p = repo.lastPosition()!;
       expect((p.translationId, p.bookId, p.chapter, p.verse), ('vulgata', 'lc', 19, 41));
+    });
+
+    test('BibleImportService importa JSON modular, filtra FTS5 por tradução e permite excluir', () async {
+      final importer = BibleImportService(repo);
+      final payload = utf8.encode(
+        jsonEncode({
+          'formato': 'viasacra-biblia',
+          'versao': 1,
+          'id': 'figueiredo_amostra',
+          'nome': 'Pe. Antônio Pereira de Figueiredo',
+          'sigla': 'FIG',
+          'idioma': 'pt-BR',
+          'livros': [
+            {
+              'id': 'jo',
+              'capitulos': {
+                '3': {'16': 'Porque de tal maneira amou Deus ao mundo, que lhe deu seu Filho unigênito.'},
+              },
+            },
+          ],
+        }),
+      );
+      final res = await importer.importFromBytes(Uint8List.fromList(payload));
+      expect((res.id, res.abbreviation, res.verseCount), ('figueiredo_amostra', 'FIG', 1));
+      // Busca FTS5 isolada na tradução ativa ("maneira" existe só em português, não na Vulgata)
+      expect(repo.search('figueiredo_amostra', 'maneira').single.reference, 'Jo 3,16');
+      expect(repo.search('vulgata', 'maneira'), isEmpty);
+      // Protege tradução embutida e permite excluir importada
+      await expectLater(importer.deleteTranslation('vulgata'), throwsA(isA<BibleModuleException>()));
+      await importer.deleteTranslation('figueiredo_amostra');
+      expect(repo.translation('figueiredo_amostra'), isNull);
     });
   });
 }

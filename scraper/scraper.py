@@ -66,8 +66,8 @@ log = logging.getLogger("viasacra")
 FONTE_CNBB = {
     "id": "cnbb",
     "nome": "CNBB — Conferência Nacional dos Bispos do Brasil",
-    "url": "https://liturgiadiaria.cnbb.org.br",
-    "nota": "Textos litúrgicos reproduzidos para uso devocional e não comercial. Fonte: CNBB.",
+    "url": "https://liturgiadiaria.edicoescnbb.com.br",
+    "nota": "Textos litúrgicos reproduzidos para uso devocional e não comercial. Fonte: CNBB / Edições CNBB.",
 }
 FONTE_VATICANO = {
     "id": "vaticannews",
@@ -85,8 +85,15 @@ FONTE_PATRISTICA = {
     "nota": "Obras em domínio público; traduções do projeto Via Sacra (GPL-3.0 / CC0 para o texto).",
 }
 
+CNBB_SITE_ORIGIN = "https://liturgiadiaria.edicoescnbb.com.br"
+CNBB_API_URL = "https://api-liturgia.edicoescnbb.com.br/contents/in/date/{iso}"
+CNBB_API_HEADERS = {
+    "Accept": "application/json",
+    "Origin": CNBB_SITE_ORIGIN,
+    "Referer": f"{CNBB_SITE_ORIGIN}/",
+}
 CNBB_URLS = [
-    # Padrões conhecidos do portal ao longo dos anos; o primeiro que responder é usado.
+    # Padrões legados do portal (fallback caso a API mude).
     "https://liturgiadiaria.cnbb.org.br/?data={iso}",
     "https://liturgiadiaria.cnbb.org.br/app/user/user/UserView.php?ano={ano}&mes={mes}&dia={dia}",
     "https://liturgiadiaria.cnbb.org.br/liturgia/{dia:02d}-{mes:02d}-{ano}",
@@ -178,7 +185,14 @@ class ClienteHttp:
             time.sleep(MIN_INTERVALO_ENTRE_REQUISICOES - decorrido)
         self._ultimo_acesso[host] = time.monotonic()
 
-    def get(self, url: str, *, tentativas: int = 3, chave_offline: str | None = None) -> str:
+    def get(
+        self,
+        url: str,
+        *,
+        tentativas: int = 3,
+        chave_offline: str | None = None,
+        headers: dict[str, str] | None = None,
+    ) -> str:
         if chave_offline and chave_offline in self.offline_html:
             return Path(self.offline_html[chave_offline]).read_text(encoding="utf-8")
         if url in self._cache:  # a mesma página serve à homilia e às leituras
@@ -189,7 +203,7 @@ class ClienteHttp:
         for tentativa in range(1, tentativas + 1):
             self._aguardar(url)
             try:
-                resp = self._sessao.get(url, timeout=REQUEST_TIMEOUT)
+                resp = self._sessao.get(url, timeout=REQUEST_TIMEOUT, headers=headers)
                 if resp.status_code == 404:
                     raise FonteIndisponivel(f"404 em {url}")
                 resp.raise_for_status()
@@ -222,6 +236,7 @@ SECOES = {
     "primeira_leitura": ("primeira leitura", "1ª leitura", "1a leitura", "leitura i"),
     "salmo": ("salmo responsorial", "salmo"),
     "segunda_leitura": ("segunda leitura", "2ª leitura", "2a leitura", "leitura ii"),
+    "aclamacao": ("aclamacao ao evangelho", "aclamacao"),
     "evangelho": ("evangelho",),
     "reflexao": ("reflexão", "reflexao", "comentário", "comentario", "homilia"),
 }
@@ -338,7 +353,13 @@ def parse_leitura(texto: str, titulo_secao: str = "") -> dict[str, Any]:
     """Estrutura uma leitura: referência, aclamação (Evangelho), introdução e corpo."""
     paragrafos = [p.strip() for p in re.split(r"\n\s*\n", texto) if p.strip()]
     referencia = extrair_referencia(titulo_secao)
-    if referencia is None and paragrafos and len(paragrafos[0]) < 50 and (ref := extrair_referencia(paragrafos[0])):
+    if (
+        referencia is None
+        and paragrafos
+        and len(paragrafos[0]) < 50
+        and not RE_INTRODUCAO.match(paragrafos[0])
+        and (ref := extrair_referencia(paragrafos[0]))
+    ):
         referencia = ref
         paragrafos.pop(0)
 
@@ -378,7 +399,7 @@ def _blocos_por_titulo(soup: BeautifulSoup) -> list[tuple[str, str, str]]:
         or soup.body
         or soup
     )
-    candidatos = conteudo.find_all(["h1", "h2", "h3", "h4", "h5", "strong", "b", "span", "div", "p"])
+    candidatos = conteudo.find_all(["h1", "h2", "h3", "h4", "h5", "strong", "b", "span", "div", "p", "font", "center"])
     marcadores: list[tuple[Tag, str]] = []
     vistos: set[int] = set()
     for el in candidatos:
@@ -412,6 +433,148 @@ def _blocos_por_titulo(soup: BeautifulSoup) -> list[tuple[str, str, str]]:
     return blocos
 
 
+def _limpar_html_cnbb_api(html: str) -> BeautifulSoup:
+    """Remove elementos ocultos, epígrafes e números de versículo do HTML da API Edições CNBB."""
+    soup = BeautifulSoup(html, "html.parser")
+    for lixo in soup(["script", "style", "nav", "footer", "header", "form", "noscript", "iframe", "img"]):
+        lixo.decompose()
+    for el in list(soup.find_all(style=True)):
+        st = normalizar(str(el.get("style", "")))
+        if "display: none" in st or "display:none" in st:
+            el.decompose()
+            continue
+        # Coluna lateral com número do versículo (min-width: 30px; color: #FF0000)
+        if "min-width: 30px" in st and "#ff0000" in st:
+            txt = el.get_text(strip=True)
+            if not txt or re.fullmatch(r"\d+[a-z]?", txt):
+                el.decompose()
+    for p in list(soup.find_all("p", attrs={"align": "right"})):
+        p.decompose()
+    return soup
+
+
+def _referencias_cnbb_api(leituras_html: str) -> dict[str, str | None]:
+    """Extrai as referências do campo `leituras` da API (ordem: 1ª, Salmo, 2ª, Evangelho)."""
+    refs: dict[str, str | None] = {
+        "primeira_leitura": None,
+        "salmo": None,
+        "segunda_leitura": None,
+        "evangelho": None,
+    }
+    if not leituras_html:
+        return refs
+    soup = BeautifulSoup(leituras_html, "html.parser")
+    itens = [
+        d.get_text(" ", strip=True)
+        for d in soup.find_all("div")
+        if normalizar(d.get_text(" ", strip=True)) != "leituras:"
+    ]
+    chaves = ("primeira_leitura", "salmo", "segunda_leitura", "evangelho")
+    for chave, texto in zip(chaves, itens, strict=False):
+        if texto:
+            refs[chave] = extrair_referencia(texto) or texto
+    return refs
+
+
+def _celebracao_cnbb_api(details_html: str, fallback_title: str | None) -> str | None:
+    if details_html:
+        soup = BeautifulSoup(details_html, "html.parser")
+        for div in soup.find_all("div", style=True):
+            if "font-size: 26px" in str(div.get("style", "")).lower():
+                texto = limpar(div.get_text(" ", strip=True))
+                texto = re.sub(r"\s*,\s*Ano\s+[ABC]\b", "", texto, flags=re.I)
+                texto = re.sub(r"\s+,", ",", texto)
+                if texto:
+                    return texto
+    return fallback_title.strip() if isinstance(fallback_title, str) and fallback_title.strip() else None
+
+
+def _limpar_aclamacao(texto: str) -> str | None:
+    linhas = [linha.strip() for linha in texto.split("\n") if linha.strip()]
+    # Remove a primeira linha se for apenas a referência bíblica (ex.: "Jo 14,6")
+    if linhas and len(linhas[0]) < 40 and extrair_referencia(linhas[0]) and not RE_ACLAMACAO.match(linhas[0]):
+        linhas.pop(0)
+    limpo = limpar("\n".join(linhas))
+    return limpo or None
+
+
+def parse_cnbb_api(payload: str, url: str) -> dict[str, Any]:
+    """Interpreta o JSON retornado por `api-liturgia.edicoescnbb.com.br/contents/in/date/AAAA-MM-DD`."""
+    try:
+        dados = json.loads(payload)
+    except json.JSONDecodeError as exc:
+        raise FonteIndisponivel(f"Resposta da API CNBB não é JSON válido: {exc}") from exc
+
+    content = dados.get("content") if isinstance(dados, dict) else None
+    if not isinstance(content, dict) or not content.get("body"):
+        raise FonteIndisponivel("Resposta da API CNBB sem conteúdo (campo content.body ausente)")
+
+    cor_bruta = normalizar(str(content.get("color") or ""))
+    refs = _referencias_cnbb_api(str(content.get("leituras") or ""))
+
+    resultado: dict[str, Any] = {
+        "celebracao": _celebracao_cnbb_api(str(content.get("details") or ""), content.get("title")),
+        "cor": CORES.get(cor_bruta) if cor_bruta else None,
+        "primeira_leitura": None,
+        "salmo": None,
+        "segunda_leitura": None,
+        "evangelho": None,
+        "reflexao": None,
+        "url": FONTE_CNBB["url"],
+    }
+
+    soup = _limpar_html_cnbb_api(str(content["body"]))
+    aclamacao_texto: str | None = None
+
+    for chave, titulo_secao, texto in _blocos_por_titulo(soup):
+        if not texto:
+            continue
+        if chave == "aclamacao":
+            if aclamacao_texto is None:
+                aclamacao_texto = _limpar_aclamacao(texto)
+            continue
+        if resultado.get(chave):
+            continue
+        if chave == "salmo":
+            salmo = parse_salmo(texto, titulo_secao)
+            # Remove marcador "R." solto no fim das estrofes e linhas "Ou: Aleluia..."
+            estrofes_limpas: list[str] = []
+            for e in salmo["estrofes"]:
+                linhas_e = [
+                    re.sub(r"\s*\bR\.\s*$", "", ln).strip()
+                    for ln in e.split("\n")
+                    if not re.match(r"^Ou:\s*", ln.strip(), re.I)
+                ]
+                bloco = "\n".join(ln for ln in linhas_e if ln).strip()
+                if bloco:
+                    estrofes_limpas.append(bloco)
+            salmo["estrofes"] = estrofes_limpas
+            salmo["texto"] = limpar("\n\n".join(estrofes_limpas))
+            if refs["salmo"]:
+                salmo["referencia"] = refs["salmo"]
+            resultado["salmo"] = salmo
+        elif chave == "reflexao":
+            resultado["reflexao"] = {
+                "titulo": titulo_secao,
+                "texto": texto,
+                "autor": None,
+                "url": FONTE_CNBB["url"],
+                "fonte": FONTE_CNBB["nome"],
+            }
+        else:
+            leitura = parse_leitura(texto, titulo_secao)
+            if refs.get(chave):
+                leitura["referencia"] = refs[chave]
+            resultado[chave] = leitura
+
+    if resultado["evangelho"] and aclamacao_texto and not resultado["evangelho"].get("aclamacao"):
+        resultado["evangelho"]["aclamacao"] = aclamacao_texto
+
+    if not resultado["evangelho"] or not resultado["primeira_leitura"]:
+        raise FonteIndisponivel("Estrutura do JSON da API CNBB não reconhecida (leituras não encontradas)")
+    return resultado
+
+
 def parse_cnbb(html: str, url: str) -> dict[str, Any]:
     soup = BeautifulSoup(html, "html.parser")
     for lixo in soup(["script", "style", "nav", "footer", "header", "form", "noscript", "iframe"]):
@@ -437,8 +600,15 @@ def parse_cnbb(html: str, url: str) -> dict[str, Any]:
                       texto_pagina):
         resultado["cor"] = CORES.get(m.group(1), m.group(1))
 
+    aclamacao_texto: str | None = None
     for chave, titulo_secao, texto in _blocos_por_titulo(soup):
-        if not texto or resultado.get(chave):
+        if not texto:
+            continue
+        if chave == "aclamacao":
+            if aclamacao_texto is None:
+                aclamacao_texto = _limpar_aclamacao(texto)
+            continue
+        if resultado.get(chave):
             continue
         if chave == "salmo":
             resultado["salmo"] = parse_salmo(texto, titulo_secao)
@@ -453,6 +623,9 @@ def parse_cnbb(html: str, url: str) -> dict[str, Any]:
         else:
             resultado[chave] = parse_leitura(texto, titulo_secao)
 
+    if resultado["evangelho"] and aclamacao_texto and not resultado["evangelho"].get("aclamacao"):
+        resultado["evangelho"]["aclamacao"] = aclamacao_texto
+
     if not resultado["evangelho"] or not resultado["primeira_leitura"]:
         raise FonteIndisponivel("Estrutura da página da CNBB não reconhecida (leituras não encontradas)")
     return resultado
@@ -460,15 +633,26 @@ def parse_cnbb(html: str, url: str) -> dict[str, Any]:
 
 def coletar_cnbb(cliente: ClienteHttp, d: date) -> dict[str, Any]:
     erros: list[str] = []
+    if "cnbb" in cliente.offline_html:
+        bruto = cliente.get(CNBB_API_URL.format(iso=d.isoformat()), chave_offline="cnbb")
+        if bruto.lstrip().startswith("{"):
+            return parse_cnbb_api(bruto, CNBB_API_URL.format(iso=d.isoformat()))
+        return parse_cnbb(bruto, CNBB_URLS[0].format(iso=d.isoformat(), ano=d.year, mes=d.month, dia=d.day))
+
+    api_url = CNBB_API_URL.format(iso=d.isoformat())
+    try:
+        payload = cliente.get(api_url, headers=CNBB_API_HEADERS)
+        return parse_cnbb_api(payload, api_url)
+    except FonteIndisponivel as exc:
+        erros.append(f"API Edições CNBB: {exc}")
+
     for modelo in CNBB_URLS:
         url = modelo.format(iso=d.isoformat(), ano=d.year, mes=d.month, dia=d.day)
         try:
-            html = cliente.get(url, chave_offline="cnbb")
+            html = cliente.get(url)
             return parse_cnbb(html, url)
         except FonteIndisponivel as exc:
             erros.append(str(exc))
-            if "cnbb" in cliente.offline_html:
-                break
     raise FonteIndisponivel("; ".join(erros))
 
 

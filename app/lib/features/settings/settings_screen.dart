@@ -4,10 +4,12 @@ import 'package:provider/provider.dart';
 
 import '../../app_state.dart';
 import '../../core/theme.dart';
+import '../../services/bible_service.dart';
 import '../../services/notification_service.dart';
 import '../../services/reading_audio_service.dart';
 import '../../services/settings_service.dart';
 import '../../widgets/common.dart';
+import '../bible/translations_screen.dart';
 import 'about_screen.dart';
 
 /// Aba 5 — Ajustes, Notificações & Sobre o Projeto.
@@ -193,6 +195,26 @@ class SettingsScreen extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
             ),
             child: Text('Naquele tempo, disse Jesus: “Eu sou o caminho, a verdade e a vida.”', style: t.bodyLarge),
+          ),
+
+          // ------------------------------------------------ Bíblia Sagrada
+          const _Section('Bíblia Sagrada'),
+          Builder(
+            builder: (context) {
+              final count = context.watch<BibleService>().translations.length;
+              return ListTile(
+                contentPadding: EdgeInsets.zero,
+                leading: const Icon(Icons.translate_outlined),
+                title: const Text('Gerenciar e Importar Traduções'),
+                subtitle: Text(
+                  count == 0
+                      ? 'Importar arquivos .json ou remover traduções'
+                      : '$count tradução(ões) instalada(s) neste aparelho',
+                ),
+                trailing: const Icon(Icons.chevron_right),
+                onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => const TranslationsScreen())),
+              );
+            },
           ),
 
           // ------------------------------------------------ Sobre

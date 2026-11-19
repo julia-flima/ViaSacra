@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:http/http.dart' as http;
@@ -9,25 +8,25 @@ import '../data/bible/bible_models.dart';
 import '../data/bible/bible_module.dart';
 import '../data/bible/bible_reference.dart';
 import '../data/bible/bible_repository.dart';
+import 'bible_import_service.dart';
 
 Map<String, dynamic> _decode(String raw) => jsonDecode(raw) as Map<String, dynamic>;
 
 /// Estado da Bíblia + serviço modular de traduções.
 ///
-/// - Instala na primeira execução os módulos embutidos (domínio público)
-///   listados em `assets/bible/bundled.json`.
-/// - Importa módulos locais (.json no formato "viasacra-biblia") escolhidos
-///   pelo usuário ou baixados de um endereço informado por ele. Traduções
-///   protegidas (CNBB, Ave-Maria, Jerusalém, Pastoral) só devem ser importadas
-///   com autorização do titular — o app não fornece nem indica esses arquivos.
+/// - Instala na primeira execução os módulos nativos (embutidos) listados em
+///   `assets/bible/bundled.json` (Figueiredo, Matos Soares e Vulgata quando
+///   presentes nos assets).
+/// - Delega a validação, importação local (.json via `file_picker`) e remoção
+///   de traduções ao [BibleImportService].
 class BibleService extends ChangeNotifier {
-  BibleService(this.repo, {http.Client? client}) : _client = client ?? http.Client() {
+  BibleService(this.repo, {http.Client? client}) : importer = BibleImportService(repo, client: client) {
     translations = repo.translations();
     position = repo.lastPosition();
   }
 
   final BibleRepository repo;
-  final http.Client _client;
+  final BibleImportService importer;
 
   List<BibleTranslation> translations = const [];
   ReadingPosition? position;
@@ -67,46 +66,35 @@ class BibleService extends ChangeNotifier {
     _done();
   }
 
-  /// Importa um módulo a partir de um arquivo escolhido pelo usuário.
-  /// Retorna o nome da tradução importada, ou null se o usuário cancelar.
-  Future<String?> importFromFile() async {
-    final file = await FilePicker.pickFile(
-      dialogTitle: 'Escolha o módulo de tradução (.json)',
-      type: FileType.custom,
-      allowedExtensions: const ['json'],
-    );
-    if (file == null) return null;
-    return importFromBytes(await file.readAsBytes());
+  /// Importa um módulo a partir de um arquivo `.json` escolhido pelo usuário.
+  /// Retorna o resultado da importação, ou `null` se o usuário cancelar.
+  Future<BibleImportResult?> importFromFile() async {
+    try {
+      return await importer.importFromFile(onProgress: _setProgress);
+    } finally {
+      _done();
+    }
   }
 
   /// Importa a partir de um endereço (https) informado pelo próprio usuário.
-  Future<String> importFromUrl(String url) async {
-    final uri = Uri.tryParse(url.trim());
-    if (uri == null || uri.scheme != 'https') throw BibleModuleException('Informe um endereço https:// válido.');
-    final resp = await _client.get(uri).timeout(const Duration(minutes: 2));
-    if (resp.statusCode != 200) throw BibleModuleException('Falha ao baixar (HTTP ${resp.statusCode}).');
-    return importFromBytes(resp.bodyBytes);
+  Future<BibleImportResult> importFromUrl(String url) async {
+    try {
+      return await importer.importFromUrl(url, onProgress: _setProgress);
+    } finally {
+      _done();
+    }
   }
 
-  Future<String> importFromBytes(Uint8List bytes) async {
-    _setProgress(0, 'Lendo módulo…');
+  Future<BibleImportResult> importFromBytes(Uint8List bytes) async {
     try {
-      final Map<String, dynamic> json;
-      try {
-        json = await compute(_decode, utf8.decode(bytes));
-      } on FormatException {
-        throw BibleModuleException('O arquivo não é um JSON válido.');
-      }
-      final module = BibleModule.parse(json);
-      await repo.install(module, onProgress: (p) => _setProgress(p, 'Importando ${module.name}…'));
-      return module.name;
+      return await importer.importFromBytes(bytes, onProgress: _setProgress);
     } finally {
       _done();
     }
   }
 
   Future<void> remove(String id) async {
-    await repo.remove(id);
+    await importer.deleteTranslation(id);
     _done();
   }
 

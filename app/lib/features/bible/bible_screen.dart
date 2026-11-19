@@ -99,12 +99,42 @@ class _BibleScreenState extends State<BibleScreen> {
       final p = b.position;
       if (p != null) {
         final count = b.repo.chapterCount(choice.translationId!, p.bookId);
-        _open(p.bookId, p.chapter.clamp(1, count < 1 ? 1 : count), translationId: choice.translationId);
+        _open(p.bookId, p.chapter.clamp(1, count < 1 ? 1 : count), verse: p.verse, translationId: choice.translationId);
       } else {
         b.open(choice.translationId!, 'mt', 1);
       }
       if (_compareId == choice.translationId) setState(() => _compareId = null);
     }
+  }
+
+  void _toggleCompare(BibleService bible) {
+    if (_compareId != null) {
+      setState(() => _compareId = null);
+      return;
+    }
+    final others = bible.translations.where((t) => t.id != bible.currentTranslationId).toList();
+    if (others.isEmpty) {
+      _pickTranslation();
+      return;
+    }
+    if (others.length == 1) {
+      setState(() => _compareId = others.first.id);
+      return;
+    }
+    // Se houver Vulgata entre as demais, ou múltiplas, abre o seletor rápido.
+    _pickTranslation();
+  }
+
+  /// Alinha o capítulo dos Salmos quando as duas traduções comparadas usam
+  /// numerações diferentes (grega vs hebraica).
+  int _alignedChapter(BibleTranslation primary, BibleTranslation compare, String bookId, int chapter) {
+    if (bookId != 'sl' || primary.psalmNumbering == compare.psalmNumbering) return chapter;
+    if (primary.psalmNumbering == 'grega' && compare.psalmNumbering == 'hebraica') {
+      if (chapter >= 10 && chapter <= 146) return chapter + 1;
+    } else if (primary.psalmNumbering == 'hebraica' && compare.psalmNumbering == 'grega') {
+      if (chapter >= 11 && chapter <= 147) return chapter - 1;
+    }
+    return chapter;
   }
 
   void _listen(BibleTranslation tr, String bookId, int chapter, List<BibleVerse> verses) {
@@ -142,6 +172,11 @@ class _BibleScreenState extends State<BibleScreen> {
       appBar: AppBar(
         title: const Text('Bíblia Sagrada'),
         actions: [
+          TextButton.icon(
+            onPressed: _pickTranslation,
+            icon: const Icon(Icons.translate, size: 18),
+            label: Text(tr.abbreviation),
+          ),
           IconButton(tooltip: 'Buscar na Bíblia', icon: const Icon(Icons.search), onPressed: () => _search(bible)),
         ],
       ),
@@ -176,6 +211,14 @@ class _BibleScreenState extends State<BibleScreen> {
                   .push<(String, int, int)>(MaterialPageRoute(builder: (_) => const MarkedVersesScreen()));
               if (r != null) _open(r.$1, r.$2, verse: r.$3);
             },
+          ),
+          ListTile(
+            contentPadding: EdgeInsets.zero,
+            leading: const Icon(Icons.library_add_outlined),
+            title: const Text('Gerenciar e Importar Traduções'),
+            subtitle: Text('${bible.translations.length} instalada(s) neste aparelho'),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => const TranslationsScreen())),
           ),
           for (final te in Testament.values) ...[
             const SizedBox(height: VsSpacing.md),
@@ -230,9 +273,10 @@ class _BibleScreenState extends State<BibleScreen> {
     final verses = bible.repo.chapter(tr.id, book.id, pos.chapter);
     final total = bible.repo.chapterCount(tr.id, book.id);
     final compare = _compareId == null ? null : bible.translation(_compareId!);
+    final compareChapter = compare == null ? pos.chapter : _alignedChapter(tr, compare, book.id, pos.chapter);
     final compareVerses = compare == null
         ? const <int, String>{}
-        : {for (final v in bible.repo.chapter(compare.id, book.id, pos.chapter)) v.verse: v.text};
+        : {for (final v in bible.repo.chapter(compare.id, book.id, compareChapter)) v.verse: v.text};
     final notes = bible.repo.annotations(book.id, pos.chapter);
     final highlight = _highlightRef?.book.id == book.id ? _highlightRef : null;
 
@@ -262,6 +306,12 @@ class _BibleScreenState extends State<BibleScreen> {
             onPressed: _pickTranslation,
             child: Text(compare == null ? tr.abbreviation : '${tr.abbreviation}+${compare.abbreviation}'),
           ),
+          if (bible.translations.length > 1)
+            IconButton(
+              tooltip: compare == null ? 'Ativar leitura comparada' : 'Desativar leitura comparada',
+              icon: Icon(Icons.compare_arrows, color: compare != null ? cs.primary : null),
+              onPressed: () => _toggleCompare(bible),
+            ),
           IconButton(
             tooltip: 'Ouvir capítulo',
             icon: const Icon(Icons.headphones_outlined),
@@ -293,6 +343,7 @@ class _BibleScreenState extends State<BibleScreen> {
               emphasized: highlight?.contains(v.verse) ?? false,
               dark: dark,
               onTap: () async {
+                bible.open(tr.id, book.id, pos.chapter, verse: v.verse);
                 final r = await showVerseActions(
                   context,
                   verse: v,

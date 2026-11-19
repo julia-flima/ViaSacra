@@ -51,17 +51,31 @@ módulo que o próprio usuário escolhe e guarda tudo no aparelho dele.
 }
 ```
 
-Regras de validação (`app/lib/data/bible/bible_module.dart`):
+Regras de validação (`app/lib/data/bible/bible_module.dart` e `app/lib/services/bible_import_service.dart`):
 
 - `id`: de 2 a 32 caracteres `[a-z0-9_-]`. Reimportar um módulo com o mesmo id substitui a versão instalada.
-- `livros[].id`: precisa existir no cânon católico (por exemplo, livros apócrifos são recusados).
+- `sigla` ou `abreviacao`: sigla curta exibida no seletor rápido (ex.: `FIG`, `MS`, `VUL`, `CNBB`).
+- `livros[].id`: precisa existir no cânon católico (73 livros — livros apócrifos são recusados).
 - Capítulo: lista de textos (versículos 1, 2, 3…); pares `[número, "texto"]` quando a numeração
-  não é sequencial; ou o objeto `{"1": "…", "2": "…"}`.
+  não é sequencial; ou o objeto `{"1": "…", "2": "…"}`. O campo `capitulos` também pode ser um objeto
+  numerado (`{"1": {"1": "…"}}`).
 - `numeracao_salmos`: `grega` (Vulgata e lecionários brasileiros, por exemplo Sl 22 = "O Senhor é
   meu pastor") ou `hebraica`. Referências da Liturgia como `Sl 22(23)` abrem o salmo certo nas
   duas numerações.
 
-Para gerar um módulo:
+Para consolidar Figueiredo, Matos Soares e Vulgata no banco SQLite/FTS5 (e gerar os módulos JSON):
+
+```bash
+python3 scripts/build_bible_db.py \
+  --figueiredo fontes/figueiredo.json \
+  --matos-soares fontes/matos_soares.json \
+  --vulgata app/assets/bible/vulgata.json \
+  --db-out app/assets/db/bible.db \
+  --write-json \
+  --update-bundled
+```
+
+Ou gerar um módulo avulso via `tool/bible/build_modules.py`:
 
 ```bash
 python tool/bible/build_modules.py --vulgata /pasta/extraída        # Vulgata + Douay-Rheims

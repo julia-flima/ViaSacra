@@ -151,3 +151,24 @@ def test_adaptador_tls_legado_so_na_cnbb():
     c = scraper.ClienteHttp()
     assert isinstance(c._sessao.get_adapter("https://liturgiadiaria.cnbb.org.br/x"), scraper.AdaptadorTLSLegado)
     assert not isinstance(c._sessao.get_adapter("https://www.vaticannews.va/"), scraper.AdaptadorTLSLegado)
+
+
+def test_parse_cnbb_api():
+    payload = (FIX / "cnbb_api_sample.json").read_text(encoding="utf-8")
+    r = scraper.parse_cnbb_api(payload, "https://api-liturgia.edicoescnbb.com.br/contents/in/date/2026-11-19")
+    assert r["cor"] == "vermelho"
+    assert "Santos Roque González" in r["celebracao"]
+    assert r["primeira_leitura"]["referencia"] == "Ap 5,1-10"
+    assert r["primeira_leitura"]["introducao"].startswith("Leitura do Livro do Apocalipse")
+    assert r["primeira_leitura"]["texto"].startswith("Eu, João")
+    assert "Palavra do Senhor" not in r["primeira_leitura"]["texto"]
+    assert r["salmo"]["referencia"] == "Sl 149,1-2.3-4.5-6a"
+    assert r["salmo"]["refrao"] == "Fizestes de nós, para Deus, sacerdotes e povo de reis."
+    assert len(r["salmo"]["estrofes"]) == 1
+    assert not r["salmo"]["estrofes"][0].endswith("R.")
+    assert r["segunda_leitura"] is None
+    assert r["evangelho"]["referencia"] == "Lc 19,41-44"
+    assert r["evangelho"]["aclamacao"] and "Aleluia" in r["evangelho"]["aclamacao"]
+    assert r["evangelho"]["texto"].startswith("Naquele tempo")
+    assert "Palavra da Salvação" not in r["evangelho"]["texto"]
+
