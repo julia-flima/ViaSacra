@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "data": "2026-11-19",
+  "gerado_em": "2026-11-19T15:58:45-03:00",
+  "calendario": {
+    "data": "2026-11-19",
+    "dia_semana": "Quinta-feira",
+    "tempo": "comum",
+    "tempo_nome": "Tempo Comum",
+    "semana": 33,
+    "cor": "verde",
+    "celebracao": "Quinta-feira da 33ª Semana do Tempo Comum",
+    "grau": "feria",
+    "ciclo_dominical": "A",
+    "ciclo_ferial": "II",
+    "misterios_do_dia": "luminosos",
+    "cor_origem": "calculada"
+  },
+  "leituras": null,
+  "audio": {
+    "salmo_audio_url": null,
+    "salmo_cifra_ou_melodia": null,
+    "liturgia_audio_url": null,
+    "creditos": [],
+    "fallback": "tts_local_pt_BR"
+  },
+  "homilias": {
+    "vaticano": {
+      "titulo": "Papa: Basílica de São Pedro, espaço sagrado no qual a fé vibra",
+      "autor": "Papa Leão XIV",
+      "texto": "Leão XIV presidiu a missa pelos 400 da Dedicação da Basílica de São Pedro. \"Foi para dar testemunho d’Ele, o Filho do Deus vivo, que esta esplêndida Basílica foi erguida. É para o servir em cada homem e em cada mulher que a Igreja existe e caminha na história\", disse o Papa na homilia. Leia tudo",
+      "resumo": "Leão XIV presidiu a missa pelos 400 da Dedicação da Basílica de São Pedro. \"Foi para dar testemunho d’Ele, o Filho do Deus vivo, que esta esplêndida Basílica foi erguida. É para o servir em cada homem e em cada mulher que a Igreja existe e caminha na história\", disse o Papa na ho",
+      "url": "https://www.vaticannews.va/pt/papa/news/2026-11/papa-leao-missa-400-anos-dedicacao-basilica-sao-pedro-fe-vibra.html",
+      "publicado_em": "Wed, 18 Nov 2026 18:27:00 +0100",
+      "fonte": "Vatican News (Português) — Dicastério para a Comunicação",
+      "licenca": "© Libreria Editrice Vaticana / Dicastério para a Comunicação. Reprodução para fins pastorais e não comerciais, com citação da fonte e link para o original.",
+      "observacao": "Resumo do feed RSS — leia o texto completo no link original."
+    },
+    "cnbb": null,
+    "patristica": [
+      {
+        "autor": "Santo Agostinho",
+        "obra": "Tratados sobre o Evangelho de São João, 26, 13",
+        "texto": "Ó sacramento de piedade! Ó sinal de unidade! Ó vínculo de caridade! Quem quer viver tem onde viver, tem de onde viver. Aproxime-se, creia, seja incorporado, para ser vivificado.",
+        "url": "https://www.newadvent.org/fathers/1701026.htm",
+        "fonte": "Santos Padres e Doutores da Igreja (domínio público)",
+        "licenca": "Domínio público",
+        "nota": "Tradução livre do latim (In Ioannis Evangelium Tractatus) para fins devocionais."
+      },
+      {
+        "autor": "São João Crisóstomo",
+        "obra": "Homilias sobre o Evangelho de São Mateus, 50, 3-4",
+        "texto": "Queres honrar o Corpo de Cristo? Não o desprezes quando está nu. Não o honres aqui no templo com vestes de seda, enquanto lá fora o abandonas ao frio e à nudez. Aquele que disse «Isto é o meu corpo» disse também «Tive fome e não me destes de comer». De que serve a mesa de Cristo carregada de taças de ouro, se Ele mesmo morre de fome? Sacia primeiro o faminto, e depois, com o que sobrar, adorna também o seu altar.",
+        "url": "https://www.newadvent.org/fathers/200150.htm",
+        "fonte": "Santos Padres e Doutores da Igreja (domínio público)",
+        "licenca": "Domínio público",
+        "nota": "Tradução livre do grego, a partir da edição de domínio público, para fins devocionais."
+      }
+    ]
+  },
+  "fontes": [
+    {
+      "id": "vaticannews",
+      "nome": "Vatican News (Português) — Dicastério para a Comunicação",
+      "url": "https://www.vaticannews.va/pt.html",
+      "nota": "© Libreria Editrice Vaticana / Dicastério para a Comunicação. Reprodução para fins pastorais e não comerciais, com citação da fonte e link para o original."
+    },
+    {
+      "id": "patristica",
+      "nome": "Santos Padres e Doutores da Igreja (domínio público)",
+      "url": "https://www.newadvent.org/fathers/",
+      "nota": "Obras em domínio público; traduções do projeto Via Sacra (GPL-3.0 / CC0 para o texto)."
+    }
+  ],
+  "url_original": null,
+  "status": {
+    "cnbb": "indisponivel: Não foi possível acessar https://liturgiadiaria.cnbb.org.br/?data=2026-11-19: HTTPSConnectionPool(host='liturgiadiaria.cnbb.org.br', port=443): Max retries exceeded with url: /?data=2026-11-19 (Caused by SSLError(SSLError(1, '[SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] ssl/tls alert handshake failure (_ssl.c:1011)'))); Não foi possível acessar https://liturgiadiaria.cnbb.org.br/app/user/user/UserView.php?ano=2026&mes=11&dia=19: HTTPSConnectionPool(host='liturgiadiaria.cnbb.org.br', port=443): Max retries exceeded with url: /app/user/user/UserView.php?ano=2026&mes=11&dia=19 (Caused by SSLError(SSLError(1, '[SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] ssl/tls alert handshake failure (_ssl.c:1011)'))); Não foi possível acessar https://liturgiadiaria.cnbb.org.br/liturgia/19-11-2026: HTTPSConnectionPool(host='liturgiadiaria.cnbb.org.br', port=443): Max retries exceeded with url: /liturgia/19-11-2026 (Caused by SSLError(SSLError(1, '[SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] ssl/tls alert handshake failure (_ssl.c:1011)')))",
+    "vaticano": "ok",
+    "patristica": "ok"
+  }
+}
