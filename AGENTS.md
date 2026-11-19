@@ -51,9 +51,10 @@ O Via Sacra é um aplicativo devocional católico. Qualquer alteração de conte
 
 ---
 
-## 4. APIs Atualizadas e Verificação de Métodos
+## 4. APIs Atualizadas, Ambiente Local e Verificação de Métodos
 
 - **Nunca assuma contratos antigos de APIs externas ou pacotes:** antes de alterar integrações externas (ex.: API das Edições CNBB `api-liturgia.edicoescnbb.com.br`, Vatican News) ou atualizar dependências Flutter/Dart/Python, **consulte a documentação oficial na web e verifique as assinaturas/métodos atuais**.
+- **Ambiente local com `mise`:** neste ambiente, **Flutter/Dart** e **Python/uv** podem estar instalados globalmente via `mise` (shims em `~/.local/share/mise/shims`). Antes de assumir que `flutter` ou `dart` não existem, verifique o `PATH`, `mise which flutter` ou rode com `mise exec -- flutter ...`.
 - **Verificação de qualidade antes de concluir:**
   - **Flutter/Dart (`app/`):** `dart format --output=none --set-exit-if-changed lib test` (`page_width: 120` em `app/analysis_options.yaml`), `flutter analyze` (zero warnings/erros) e `flutter test`.
   - **Python (`scraper/` e `scripts/`):** `ruff check .` e `pytest`.
