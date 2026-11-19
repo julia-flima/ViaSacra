@@ -12,6 +12,7 @@ import '../../services/catechism_import_service.dart';
 import '../../services/reading_audio_service.dart';
 import '../../services/settings_service.dart';
 import '../../widgets/common.dart';
+import 'vatican_reader_screen.dart';
 
 enum _CatechismView { offline, officialCic }
 
@@ -332,14 +333,27 @@ class _CatechismScreenState extends State<CatechismScreen> {
                 runSpacing: 8,
                 children: [
                   FilledButton.icon(
-                    onPressed: () => openExternal(context, ExternalLinks.catechismVatican),
-                    icon: const Icon(Icons.open_in_new, size: 18),
-                    label: const Text('Abrir índice no vatican.va'),
+                    onPressed: () => openVaticanDocument(
+                      context,
+                      title: 'CIC (1992) — Índice Oficial',
+                      url: ExternalLinks.catechismVatican,
+                    ),
+                    icon: const Icon(Icons.menu_book_outlined, size: 18),
+                    label: const Text('Ler CIC (1992)'),
+                  ),
+                  FilledButton.tonalIcon(
+                    onPressed: () => openVaticanDocument(
+                      context,
+                      title: 'Compêndio do CIC (2005)',
+                      url: ExternalLinks.compendiumCcc,
+                    ),
+                    icon: const Icon(Icons.question_answer_outlined, size: 18),
+                    label: const Text('Compêndio (2005)'),
                   ),
                   OutlinedButton.icon(
                     onPressed: _importProgress != null ? null : _importJson,
                     icon: const Icon(Icons.file_open_outlined, size: 18),
-                    label: const Text('Importar CIC / Compêndio (.json)'),
+                    label: const Text('Importar JSON local'),
                   ),
                 ],
               ),
@@ -351,7 +365,10 @@ class _CatechismScreenState extends State<CatechismScreen> {
       const Eyebrow('Índice das 4 Partes do CIC (1992)'),
       const SizedBox(height: VsSpacing.sm),
       for (final part in toc)
-        _OfficialTocTile(node: part, onOpen: (n) => openExternal(context, ExternalLinks.catechismPartUrl(n.id))),
+        _OfficialTocTile(
+          node: part,
+          onOpen: (n) => openVaticanDocument(context, title: n.title, url: ExternalLinks.catechismPartUrl(n.id)),
+        ),
     ];
   }
 

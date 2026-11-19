@@ -34,6 +34,8 @@ class ExternalLinks {
   static const vaticanNews = 'https://www.vaticannews.va/pt.html';
   static const commons = 'https://commons.wikimedia.org';
   static const catechismVatican = 'https://www.vatican.va/archive/cathechism_po/index_new/prima-pagina-cic_po.html';
+  static const compendiumCcc =
+      'https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_po.html';
 
   /// Páginas oficiais das partes do CIC (1992) em português no portal da Santa Sé.
   static String catechismPartUrl(String nodeId) {

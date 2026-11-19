@@ -7,6 +7,7 @@ import '../../core/theme.dart';
 import '../../data/models/prayer.dart';
 import '../../services/settings_service.dart';
 import '../../widgets/common.dart';
+import 'via_sacra_screen.dart';
 
 /// Aba 4 — Devocionário & Orações (100% offline).
 class PrayersScreen extends StatefulWidget {
@@ -32,6 +33,17 @@ class _PrayersScreenState extends State<PrayersScreen> {
       body: ListView(
         padding: EdgeInsets.fromLTRB(pad, VsSpacing.sm, pad, VsSpacing.xxl),
         children: [
+          Card(
+            child: ListTile(
+              contentPadding: const EdgeInsets.symmetric(horizontal: VsSpacing.md, vertical: VsSpacing.sm),
+              leading: Icon(Icons.add, color: Theme.of(context).colorScheme.primary),
+              title: Text('Via Sacra (14 Estações)', style: t.titleMedium),
+              subtitle: const Text('Meditações de Santo Afonso de Ligório · guiada e com áudio'),
+              trailing: const Icon(Icons.arrow_forward),
+              onTap: () => Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => const ViaSacraScreen())),
+            ),
+          ),
+          const SizedBox(height: VsSpacing.sm),
           if (favorites.isNotEmpty) ...[
             const Eyebrow('Favoritas'),
             for (final p in favorites) _PrayerTile(prayer: p, onReturn: () => setState(() {})),
