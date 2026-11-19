@@ -15,8 +15,8 @@ Map<String, dynamic> _decode(String raw) => jsonDecode(raw) as Map<String, dynam
 /// Estado da Bíblia + serviço modular de traduções.
 ///
 /// - Instala na primeira execução os módulos nativos (embutidos) listados em
-///   `assets/bible/bundled.json` (Figueiredo, Matos Soares e Vulgata quando
-///   presentes nos assets).
+///   `assets/bible/bundled.json` (Bíblia Portuguesa Mundial em pt-BR, Vulgata
+///   Clementina em Latim e Douay-Rheims em Inglês — todos em domínio público).
 /// - Delega a validação, importação local (.json via `file_picker`) e remoção
 ///   de traduções ao [BibleImportService].
 class BibleService extends ChangeNotifier {

@@ -17,9 +17,10 @@ A ordem segue as Bíblias católicas brasileiras. A fonte única dos ids e abrev
 
 | Tradução | Idioma | Situação | No app |
 |---|---|---|---|
+| Bíblia Portuguesa Mundial (`porbrbsl`) | português (BR) | Domínio público (eBible.org) | **Embutida** (`scripts/build_ptbr_bible.py`) |
 | Vulgata Clementina | latim | Domínio público | **Embutida** |
 | Douay-Rheims (Challoner) | inglês | Domínio público | **Embutida** |
-| Pe. Antônio Pereira de Figueiredo | português | Domínio público (†1797) | Conversor pronto (`--generic`); falta o texto-fonte digitalizado |
+| Pe. Antônio Pereira de Figueiredo | português | Domínio público (†1797) | Conversor pronto (`--generic` / `scripts/build_bible_db.py`) |
 | Pe. Matos Soares | português | Domínio público a partir de **1º/01/2028** (†1957; regra de vida + 70 anos) | Importação local até lá |
 | CNBB · Ave-Maria · Jerusalém · Pastoral | português | © das editoras | Só importação local, com autorização do titular |
 

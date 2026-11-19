@@ -15,7 +15,9 @@ class BibleRepository {
 
   // ---------------------------------------------------------------- traduções
   List<BibleTranslation> translations() => _db.db
-      .select('SELECT * FROM bible_translations ORDER BY bundled DESC, language, name')
+      .select(
+        "SELECT * FROM bible_translations ORDER BY bundled DESC, CASE WHEN language LIKE 'pt%' THEN 0 ELSE 1 END, language, name",
+      )
       .map(BibleTranslation.fromRow)
       .toList();
 

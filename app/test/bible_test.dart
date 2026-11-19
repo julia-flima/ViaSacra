@@ -204,5 +204,26 @@ void main() {
       await importer.deleteTranslation('figueiredo_amostra');
       expect(repo.translation('figueiredo_amostra'), isNull);
     });
+
+    test('Bíblia Portuguesa Mundial (BPM) embutida: 73 livros, Salmos hebraicos e busca pt-BR', () async {
+      final bpm = BibleModule.parse(
+        jsonDecode(File('assets/bible/bpm.json').readAsStringSync()) as Map<String, dynamic>,
+      );
+      await repo.install(bpm, bundled: true);
+
+      final t = repo.translation('bpm')!;
+      expect(t.bundled, isTrue);
+      expect(t.language, 'pt-BR');
+      expect(t.psalmNumbering, 'hebraica');
+      expect(repo.books('bpm'), hasLength(73));
+      expect(repo.chapterCount('bpm', 'br'), 6);
+      expect(repo.chapterCount('bpm', 'dn'), 14);
+      expect(repo.translations().first.id, 'bpm');
+
+      final sl = repo.resolve(BibleRef.parse('Sl 22(23),1')!, 'bpm')!;
+      expect(sl.chapter, 23);
+      expect(repo.chapter('bpm', 'sl', sl.chapter).first.text.toLowerCase(), contains('meu pastor'));
+      expect(repo.search('bpm', 'amou o mundo').map((v) => v.reference), contains('Jo 3,16'));
+    });
   });
 }
