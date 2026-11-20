@@ -29,8 +29,10 @@ API = "https://commons.wikimedia.org/w/api.php"
 UA = "ViaSacraBot/1.0 (+https://github.com/julia-flima/ViaSacra; open source devotional app)"
 LICENCAS_OK = re.compile(r"public domain|^pd|cc0|domínio público", re.I)
 EXTENSOES_OK = (".jpg", ".jpeg", ".png", ".tif", ".tiff")
-PALAVRAS_RUINS = ("detail", "detalle", "dettaglio", "detalhe", "frame", "google earth", "cropped", "sketch", "x-ray",
-                  "copy", "after ", "workshop", "museum interior", "exhibition", "stamp", "postcard", "cadre", "with frame", "framed")
+PALAVRAS_RUINS = (
+    "detail", "detalle", "dettaglio", "detalhe", "frame", "google earth", "cropped", "sketch", "x-ray",
+    "copy", "after ", "workshop", "museum interior", "exhibition", "stamp", "postcard", "cadre", "with frame", "framed",
+)
 
 sessao = requests.Session()
 sessao.headers["User-Agent"] = UA

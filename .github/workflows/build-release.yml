@@ -141,6 +141,7 @@ jobs:
         env:
           TAG: ${{ github.event.inputs.tag || github.ref_name }}
         run: |
+          [[ "$TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.]+)?$ ]] || { echo "::error::Tag inválida: '$TAG'"; exit 1; }
           notas="docs/releases/${TAG}.md"
           if [ -f "$notas" ]; then
             cat "$notas" > release-body.md

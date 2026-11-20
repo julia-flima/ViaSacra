@@ -55,7 +55,7 @@ def capitulo(versos: list[tuple[int, str]]) -> list:
 
 def gravar(modulo: dict, nome_arquivo: str) -> None:
     DESTINO.mkdir(parents=True, exist_ok=True)
-    total = sum(len(c) for l in modulo["livros"] for c in l["capitulos"])
+    total = sum(len(c) for livro in modulo["livros"] for c in livro["capitulos"])
     modulo["total_versiculos"] = total
     caminho = DESTINO / nome_arquivo
     caminho.write_text(json.dumps(modulo, ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8")

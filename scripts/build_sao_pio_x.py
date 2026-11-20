@@ -142,7 +142,7 @@ def extrair_epub(dados: bytes) -> list[dict[str, object]]:
     # marcador seguinte confirma a sequência; cada correção é informada.
     def um_digito(lido: str, esperado: int) -> bool:
         alvo = str(esperado)
-        return len(lido) == len(alvo) and sum(a != b for a, b in zip(lido, alvo)) == 1
+        return len(lido) == len(alvo) and sum(a != b for a, b in zip(lido, alvo, strict=True)) == 1
 
     candidatos = list(re.finditer(r"(?<![\d,])(\d{1,3})\)\s", corpo))
     marcadores: list[re.Match[str]] = []
@@ -203,7 +203,10 @@ def main() -> int:
             "Original de 1905 em domínio público. Tradução portuguesa não oficial, de distribuição "
             "gratuita (Internet Archive), sem as notas do tradutor — licença da tradução em verificação."
         ),
-        "fonte": "Papa São Pio X — Catecismo Maior da Doutrina Cristã (Tipografia Vaticana, 1905), via Internet Archive",
+        "fonte": (
+            "Papa São Pio X — Catecismo Maior da Doutrina Cristã (Tipografia Vaticana, 1905), "
+            "via Internet Archive"
+        ),
         "descricao": (
             "Exposição completa e fiel da doutrina católica em perguntas e respostas, "
             "promulgada por São Pio X em 1905."
