@@ -24,12 +24,52 @@ class RosaryScreen extends StatefulWidget {
   State<RosaryScreen> createState() => _RosaryScreenState();
 }
 
-class _RosaryScreenState extends State<RosaryScreen> {
+class _RosaryScreenState extends State<RosaryScreen> with WidgetsBindingObserver {
   RosarySession? _session;
-  late MysterySetId _set = LiturgicalCalendar.mysteriesFor(DateTime.now());
+  DateTime _today = DateUtils.dateOnly(DateTime.now());
+  late MysterySetId _set = LiturgicalCalendar.mysteriesFor(_today);
   RosaryMode _mode = RosaryMode.terco;
+  Timer? _midnight;
 
   AppServices get _s => context.read<AppServices>();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    _scheduleMidnight();
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    _midnight?.cancel();
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) _syncDay();
+  }
+
+  void _scheduleMidnight() {
+    _midnight?.cancel();
+    final next = DateUtils.addDaysToDate(_today, 1);
+    _midnight = Timer(next.difference(DateTime.now()) + const Duration(seconds: 1), _syncDay);
+  }
+
+  /// Vira o dia se o app ficou aberto após a meia-noite: atualiza os mistérios
+  /// sugeridos, a menos que o usuário tenha escolhido outro conjunto.
+  void _syncDay() {
+    final now = DateUtils.dateOnly(DateTime.now());
+    if (!mounted || now == _today) return;
+    final oldDefault = LiturgicalCalendar.mysteriesFor(_today);
+    setState(() {
+      if (_session == null && _set == oldDefault) _set = LiturgicalCalendar.mysteriesFor(now);
+      _today = now;
+    });
+    _scheduleMidnight();
+  }
 
   @override
   void didChangeDependencies() {
@@ -69,14 +109,7 @@ class _RosaryScreenState extends State<RosaryScreen> {
           unawaited(HapticFeedback.heavyImpact());
       }
     }
-    if (session.stage == RosaryStage.decades) {
-      _s.userData.saveRosaryProgress(
-        mode: _mode.name,
-        set: _mode == RosaryMode.rosario ? 'completo' : _set.name,
-        decade: session.decade,
-        bead: session.bead,
-      );
-    }
+    _saveProgress(session);
     if (ev == BeadEvent.finished) {
       _s.userData.logPrayer(
         _mode == RosaryMode.rosario ? PrayerKind.rosario : PrayerKind.terco,
@@ -88,7 +121,45 @@ class _RosaryScreenState extends State<RosaryScreen> {
     setState(() {});
   }
 
-  void _close() {
+  void _saveProgress(RosarySession session) {
+    if (session.stage != RosaryStage.decades) return;
+    _s.userData.saveRosaryProgress(
+      mode: _mode.name,
+      set: _mode == RosaryMode.rosario ? 'completo' : _set.name,
+      decade: session.decade,
+      bead: session.bead,
+    );
+  }
+
+  void _back() {
+    final session = _session!;
+    session.back();
+    if (session.stage == RosaryStage.intro) {
+      _s.userData.clearRosaryProgress();
+    } else {
+      _saveProgress(session);
+    }
+    setState(() {});
+  }
+
+  /// Encerra a oração. Se houver progresso, pede confirmação antes de apagá-lo.
+  Future<void> _close() async {
+    final session = _session;
+    final started = session != null && (session.stage != RosaryStage.intro || session.bead > 0);
+    if (started && session.stage != RosaryStage.finished) {
+      final ok = await showDialog<bool>(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: const Text('Encerrar a oração?'),
+          content: const Text('O progresso desta oração será perdido.'),
+          actions: [
+            TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('Continuar rezando')),
+            TextButton(onPressed: () => Navigator.pop(ctx, true), child: const Text('Encerrar')),
+          ],
+        ),
+      );
+      if (ok != true || !mounted) return;
+    }
     _s.userData.clearRosaryProgress();
     setState(() => _session = null);
   }
@@ -114,7 +185,7 @@ class _RosaryScreenState extends State<RosaryScreen> {
     final t = Theme.of(context).textTheme;
     final pad = VsSpacing.page(context);
     final settings = context.watch<SettingsService>();
-    final today = LiturgicalCalendar.mysteriesFor(DateTime.now());
+    final today = LiturgicalCalendar.mysteriesFor(_today);
     final first = _s.content.mysteriesOf(_set).firstOrNull;
     final streak = settings.showStreak ? _s.userData.streak() : null;
 
@@ -184,7 +255,7 @@ class _RosaryScreenState extends State<RosaryScreen> {
           const CrossDivider(),
           const Eyebrow('Constância'),
           const SizedBox(height: VsSpacing.sm),
-          StreakCalendar(month: DateTime.now(), prayedDays: streak.daysThisMonth),
+          StreakCalendar(month: _today, prayedDays: streak.daysThisMonth),
           const SizedBox(height: VsSpacing.sm),
           Text(
             streak.best > 1
@@ -218,7 +289,7 @@ class _RosaryScreenState extends State<RosaryScreen> {
             children: [
               Text('✝', style: TextStyle(fontSize: 40, color: cs.secondary)),
               const SizedBox(height: VsSpacing.md),
-              Text('Terço concluído', style: t.headlineSmall),
+              Text(_mode == RosaryMode.rosario ? 'Rosário concluído' : 'Terço concluído', style: t.headlineSmall),
               const SizedBox(height: VsSpacing.sm),
               Text(prayers['oracao_final'] ?? '', style: t.bodyMedium, textAlign: TextAlign.center),
               const SizedBox(height: VsSpacing.lg),
@@ -268,7 +339,7 @@ class _RosaryScreenState extends State<RosaryScreen> {
             padding: EdgeInsets.fromLTRB(pad, VsSpacing.sm, pad, VsSpacing.md),
             child: Row(
               children: [
-                IconButton.outlined(tooltip: 'Voltar uma conta', onPressed: session.back, icon: const Icon(Icons.undo)),
+                IconButton.outlined(tooltip: 'Voltar uma conta', onPressed: _back, icon: const Icon(Icons.undo)),
                 const SizedBox(width: 12),
                 Expanded(
                   child: Semantics(

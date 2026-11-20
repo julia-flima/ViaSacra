@@ -41,6 +41,8 @@ void main() {
     await shot(tester, '4-contador');
     await tester.tap(find.byTooltip('Encerrar'));
     await settle(tester);
+    await tester.tap(find.widgetWithText(TextButton, 'Encerrar')); // confirmação
+    await settle(tester);
 
     // Aba 2 — Bíblia
     await tester.tap(find.text('Bíblia'));

@@ -191,6 +191,13 @@ class _ImitacaoChapterScreen extends StatefulWidget {
 class _ImitacaoChapterScreenState extends State<_ImitacaoChapterScreen> {
   late int _index = widget.initialIndex;
 
+  /// Troca de capítulo e volta a rolagem ao topo.
+  void _goTo(int index) {
+    setState(() => _index = index);
+    final scroll = PrimaryScrollController.of(context);
+    if (scroll.hasClients) scroll.jumpTo(0);
+  }
+
   void _listen(_ImitationChapter c) {
     final settings = context.read<SettingsService>();
     final speech = '${c.label}. ${c.title}. ${c.paragraphs.join(' ')}';
@@ -232,6 +239,7 @@ class _ImitacaoChapterScreenState extends State<_ImitacaoChapterScreen> {
         ],
       ),
       body: ListView(
+        controller: PrimaryScrollController.of(context),
         padding: EdgeInsets.fromLTRB(pad, VsSpacing.md, pad, VsSpacing.xxl),
         children: [
           SelectionArea(
@@ -254,14 +262,14 @@ class _ImitacaoChapterScreenState extends State<_ImitacaoChapterScreen> {
             children: [
               if (_index > 0)
                 OutlinedButton.icon(
-                  onPressed: () => setState(() => _index--),
+                  onPressed: () => _goTo(_index - 1),
                   icon: const Icon(Icons.chevron_left),
                   label: const Text('Anterior'),
                 ),
               const Spacer(),
               if (_index < widget.chapters.length - 1)
                 FilledButton.tonalIcon(
-                  onPressed: () => setState(() => _index++),
+                  onPressed: () => _goTo(_index + 1),
                   icon: const Icon(Icons.chevron_right),
                   label: const Text('Próximo'),
                 ),
