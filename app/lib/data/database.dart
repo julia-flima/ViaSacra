@@ -17,8 +17,9 @@ class AppDatabase {
   final CommonDatabase db;
 
   /// 1 = conteúdo inicial; 2 = Bíblia Sagrada; 3 = múltiplos catecismos (100% FOSS + importador);
-  /// 4 = remove as tabelas v1 do CIC (texto/temas), mantendo só o índice.
-  static const schemaVersion = 4;
+  /// 4 = remove as tabelas v1 do CIC (texto/temas), mantendo só o índice;
+  /// 5 = `favorite.kind` sem CHECK fixo (favoritos da Imitação de Cristo).
+  static const schemaVersion = 5;
 
   static const _bundledCatechismVersion = '2';
   static const _bundledCatechismWorks = <(String id, String asset, int version)>[
@@ -43,10 +44,12 @@ class AppDatabase {
   /// Grava alterações pendentes (relevante na web/IndexedDB).
   Future<void> flush() => flushPlatformDatabase();
 
-  /// Banco em memória para testes.
-  static Future<AppDatabase> memory({String? schema}) async {
+  /// Banco em memória para testes. [before] prepara um banco "antigo" antes da
+  /// migração (ex.: tabelas de uma versão anterior com `PRAGMA user_version`).
+  static Future<AppDatabase> memory({String? schema, @visibleForTesting void Function(CommonDatabase)? before}) async {
     final app = AppDatabase._(openMemoryDatabase());
     app.db.execute('PRAGMA foreign_keys = ON;');
+    before?.call(app.db);
     await app._migrate(schemaOverride: schema);
     return app;
   }
@@ -61,6 +64,7 @@ class AppDatabase {
     try {
       // O esquema é idempotente (CREATE … IF NOT EXISTS): reaplicá-lo cria as
       // tabelas novas de cada versão sem tocar nos dados existentes.
+      if (current >= 1 && current < 5) _relaxFavoriteKind();
       db.execute(schema);
       if (current < 2) _seedBibleBooks();
       db.execute('PRAGMA user_version = $schemaVersion');
@@ -69,6 +73,27 @@ class AppDatabase {
       db.execute('ROLLBACK');
       rethrow;
     }
+  }
+
+  /// Até a v4, `favorite.kind` tinha um CHECK com uma lista fixa de tipos, que
+  /// rejeitava os favoritos da Imitação de Cristo. O SQLite não remove CHECK com
+  /// ALTER TABLE: recria a tabela preservando os dados.
+  void _relaxFavoriteKind() {
+    final sql = db.select("SELECT sql FROM sqlite_master WHERE type = 'table' AND name = 'favorite'").firstOrNull;
+    if (sql == null || !(sql['sql'] as String).contains('CHECK')) return;
+    db.execute('ALTER TABLE favorite RENAME TO favorite_v4');
+    db.execute('''
+      CREATE TABLE favorite (
+        kind        TEXT NOT NULL,
+        ref         TEXT NOT NULL,
+        label       TEXT,
+        created_at  INTEGER NOT NULL,
+        PRIMARY KEY (kind, ref)
+      )''');
+    db.execute(
+      'INSERT INTO favorite(kind, ref, label, created_at) SELECT kind, ref, label, created_at FROM favorite_v4',
+    );
+    db.execute('DROP TABLE favorite_v4');
   }
 
   void _seedBibleBooks() {

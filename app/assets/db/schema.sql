@@ -46,7 +46,7 @@ CREATE INDEX IF NOT EXISTS idx_toc_parent ON catechism_toc(parent_id, sort_order
 -- Favoritos e anotações (Catecismo, orações, leituras)
 -- ---------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS favorite (
-  kind        TEXT NOT NULL CHECK (kind IN ('catechism', 'prayer', 'reading', 'homily')),
+  kind        TEXT NOT NULL,                   -- catechism | prayer | reading | homily | imitacao…
   ref         TEXT NOT NULL,                   -- nº do parágrafo, id da oração, "2026-11-19#evangelho"
   label       TEXT,
   created_at  INTEGER NOT NULL,

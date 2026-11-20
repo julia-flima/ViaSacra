@@ -386,9 +386,16 @@ ORACOES = [
             com tal propósito e intenção,
             como convém à salvação da minha alma.
 
-            Ó Deus de bondade, concedei-me receber
+            Concedei-me, eu vos peço, receber
             não só o sacramento do Corpo e do Sangue do Senhor,
-            mas também a sua graça e a sua força.
+            mas também a graça e a força do sacramento.
+
+            Ó Deus mansíssimo, concedei-me receber de tal modo
+            o Corpo do vosso Filho único, Nosso Senhor Jesus Cristo,
+            que ele tomou da Virgem Maria,
+            que eu mereça ser incorporado ao seu Corpo místico
+            e contado entre os seus membros.
+
             Ó Pai amantíssimo, concedei-me contemplar face a face,
             por toda a eternidade,
             o vosso Filho amado, que agora, peregrino,
@@ -416,18 +423,23 @@ ORACOES = [
             tali proposito et intentione,
             sicut expedit saluti animae meae.
 
-            O benignissime Deus,
-            da mihi Corporis et Sanguinis Domini
+            Da mihi, quaeso, Dominici Corporis et Sanguinis
             non solum suscipere sacramentum,
             sed etiam rem et virtutem sacramenti.
+
+            O mitissime Deus, da mihi corpus unigeniti Filii tui,
+            Domini nostri Iesu Christi, quod traxit de Virgine Maria,
+            sic suscipere, ut corpori suo mystico merear incorporari,
+            et inter eius membra connumerari.
+
             O amantissime Pater,
             concede mihi dilectum Filium tuum,
             quem nunc velatum in via suscipere propono,
             revelata tandem facie perpetuo contemplari:
-            Qui tecum vivit et regnat in unitate Spiritus Sancti, Deus,
+            Qui tecum vivit et regnat in unitate Spiritus Sancti Deus,
             per omnia saecula saeculorum. Amen.
         """),
-        "nota": "Texto condensado da oração tradicional (domínio público).",
+        "nota": "Texto integral da oração tradicional (domínio público). Latim conferido com o Praeparatio ad Missam.",
     },
     {
         "id": "sao_tomas_depois_comunhao", "categoria": "eucaristicas",
@@ -445,10 +457,14 @@ ORACOES = [
             mas intercessão salutar para o perdão.
             Seja para mim armadura da fé e escudo da boa vontade;
             seja a extinção dos meus vícios,
+            a eliminação da concupiscência e da sensualidade,
             o aumento da caridade e da paciência,
             da humildade, da obediência e de todas as virtudes;
-            firme defesa contra as ciladas de todos os inimigos;
-            perfeita união convosco, único e verdadeiro Deus,
+            firme defesa contra as ciladas de todos os inimigos,
+            tanto visíveis como invisíveis;
+            perfeita serenidade de todos os meus impulsos,
+            tanto da carne como do espírito;
+            firme adesão a vós, único e verdadeiro Deus,
             e feliz consumação do meu fim.
 
             E peço-vos que vos digneis conduzir-me, pecador,
@@ -472,10 +488,14 @@ ORACOES = [
             sed intercessio salutaris ad veniam.
             Sit mihi armatura fidei, et scutum bonae voluntatis.
             Sit vitiorum meorum evacuatio,
+            concupiscentiae et libidinis exterminatio,
             caritatis et patientiae,
             humilitatis et oboedientiae,
             omniumque virtutum augmentatio;
-            contra insidias inimicorum omnium firma defensio;
+            contra insidias inimicorum omnium,
+            tam visibilium quam invisibilium, firma defensio;
+            motuum meorum, tam carnalium quam spiritualium,
+            perfecta quietatio;
             in te uno ac vero Deo firma adhaesio,
             atque finis mei felix consummatio.
 
@@ -484,9 +504,9 @@ ORACOES = [
             ubi tu, cum Filio tuo et Spiritu Sancto,
             Sanctis tuis es lux vera, satietas plena,
             gaudium sempiternum, iucunditas consummata et felicitas perfecta.
-            Per eundem Christum Dominum nostrum. Amen.
+            Per Christum Dominum nostrum. Amen.
         """),
-        "nota": "Texto condensado da oração tradicional (domínio público).",
+        "nota": "Texto integral da oração tradicional (domínio público). Latim conferido com o Gratiarum actio post Missam.",
     },
     # ------------------------------------------------------------ Marianas
     {
@@ -938,6 +958,300 @@ ORACOES = [
             Termine com um Pai-Nosso, uma Ave-Maria e um Glória.
         """),
         "nota": "Inspirado no exame diário de Santo Inácio de Loyola (Exercícios Espirituais, n. 43).",
+    },
+    {
+        "id": "exame_confissao_mandamentos",
+        "categoria": "santos",
+        "titulo": "Exame de Consciência para a Confissão (10 Mandamentos)",
+        "texto_pt": t("""
+            Antes de se confessar, peça luz ao Espírito Santo e examine a consciência com sinceridade e confiança na misericórdia de Deus:
+
+            1º Mandamento — Amar a Deus sobre todas as coisas:
+            Coloquei Deus em primeiro lugar? Rezei diariamente? Caí em superstição, horóscopos ou falta de fé?
+
+            2º Mandamento — Não tomar o santo Nome de Deus em vão:
+            Usei o nome de Deus sem respeito, blasfemei ou fiz juramentos falsos?
+
+            3º Mandamento — Guardar domingos e festas de guarda:
+            Faltei à Santa Missa aos domingos ou dias santos por culpa própria? Trabalhei sem necessidade?
+
+            4º Mandamento — Honrar pai e mãe:
+            Desrespeitei meus pais, familiares ou superiores? Negligenciei o cuidado com minha família?
+
+            5º Mandamento — Não matar:
+            Guardei ódio, rancor ou desejo de vingança? Feri alguém com palavras duras, impaciência ou escândalo? Cuidei da minha saúde e da vida?
+
+            6º e 9º Mandamentos — Guardar a castidade e não cobiçar:
+            Consenti em pensamentos, olhares, conversas ou atos impuros? Busquei a pureza de coração e a fidelidade ao meu estado de vida?
+
+            7º e 10º Mandamentos — Não furtar nem cobiçar bens alheios:
+            Tomei algo que não me pertencia? Fui desonesto no trabalho ou nos estudos? Alimentei inveja ou apego desordenado aos bens materiais?
+
+            8º Mandamento — Não levantar falso testemunho:
+            Menti, caluniei, fiz fofocas ou julguei temerariamente o próximo?
+
+            Conclua com um Ato de Contrição sincero e o propósito firme de emenda.
+        """),
+        "nota": "Guia pastoral tradicional baseado no Decálogo (domínio público).",
+    },
+    {
+        "id": "sao_boaventura_comunhao",
+        "categoria": "eucaristicas",
+        "titulo": "Oração de São Boaventura depois da Comunhão",
+        "titulo_la": "Oratio S. Bonaventurae post Communionem",
+        "texto_pt": t("""
+            Traspassai, dulcíssimo Senhor Jesus, a medula e as entranhas da minha alma com a suavíssima e salutaríssima ferida do vosso amor, com a verdadeira, serena e santíssima caridade apostólica, para que a minha alma desfaleça e se derreta sempre só de amor e de desejo de vós; que por vós suspire e desfaleça pelos vossos átrios, e anseie por dissolver-se e estar convosco.
+
+            Concedei que a minha alma tenha fome de vós, Pão dos Anjos, alimento das almas santas, pão nosso de cada dia, supersubstancial, que tendes toda a doçura, todo o sabor e todo o deleite da suavidade.
+
+            Que o meu coração tenha sempre fome de vós, a quem os Anjos desejam contemplar, e de vós se alimente, e que as entranhas da minha alma se encham da doçura do vosso sabor; que tenha sempre sede de vós, fonte da vida, fonte da sabedoria e da ciência, fonte da luz eterna, torrente de delícias, abundância da casa de Deus.
+
+            Que sempre vos deseje, vos procure, vos encontre, para vós caminhe, a vós chegue, em vós medite, de vós fale, e tudo faça para louvor e glória do vosso nome, com humildade e discernimento, com amor e deleite, com prontidão e afeto, com perseverança até o fim; para que só vós sejais sempre a minha esperança, toda a minha confiança, a minha riqueza, o meu deleite, a minha alegria, o meu gozo, o meu repouso e tranquilidade, a minha paz, a minha suavidade, o meu perfume, a minha doçura, o meu alimento, o meu sustento, o meu refúgio, o meu auxílio, a minha sabedoria, a minha herança, a minha posse, o meu tesouro, no qual estejam sempre fixos, firmes e inabalavelmente enraizados a minha mente e o meu coração. Amém.
+        """),
+        "texto_la": t("""
+            Transfige, dulcissime Domine Iesu, medullas et viscera animae meae suavissimo ac saluberrimo amoris tui vulnere, vera serenaque et apostolica sanctissima caritate, ut langueat et liquefiat anima mea solo semper amore et desiderio tui; te concupiscat et deficiat in atria tua, cupiat dissolvi et esse tecum.
+
+            Da ut anima mea te esuriat, panem Angelorum, refectionem animarum sanctarum; panem nostrum cotidianum, supersubstantialem, habentem omnem dulcedinem et saporem et omne delectamentum suavitatis.
+
+            Te, in quem desiderant Angeli prospicere, semper esuriat et comedat cor meum, et dulcedine saporis tui repleantur viscera animae meae; te semper sitiat fontem vitae, fontem sapientiae et scientiae, fontem aeterni luminis, torrentem voluptatis, ubertatem domus Dei.
+
+            Te semper ambiat, te quaerat, te inveniat, ad te tendat, ad te perveniat, te meditetur, te loquatur, et omnia operetur in laudem et gloriam nominis tui, cum humilitate et discretione, cum dilectione et delectatione, cum facilitate et affectu, cum perseverantia usque in finem; ut tu sis solus semper spes mea, tota fiducia mea, divitiae meae, delectatio mea, iucunditas mea, gaudium meum, quies et tranquillitas mea, pax mea, suavitas mea, odor meus, dulcedo mea, cibus meus, refectio mea, refugium meum, auxilium meum, sapientia mea, portio mea, possessio mea, thesaurus meus, in quo fixa et firma et immobiliter semper sit radicata mens mea et cor meum. Amen.
+        """),
+        "nota": "Oração tradicional de São Boaventura (século XIII, domínio público). Texto integral; latim conferido com o Gratiarum actio post Missam.",
+    },
+    {
+        "id": "ladainha_sagrado_coracao",
+        "categoria": "eucaristicas",
+        "titulo": "Ladainha do Sagrado Coração de Jesus",
+        "titulo_la": "Litaniae Sacratissimi Cordis Iesu",
+        "texto_pt": t("""
+            Senhor, tende piedade de nós.
+            Jesus Cristo, tende piedade de nós.
+            Senhor, tende piedade de nós.
+            Jesus Cristo, ouvi-nos.
+            Jesus Cristo, atendei-nos.
+
+            Deus Pai do céu, tende piedade de nós.
+            Deus Filho, Redentor do mundo, tende piedade de nós.
+            Deus Espírito Santo, tende piedade de nós.
+            Santíssima Trindade, que sois um só Deus, tende piedade de nós.
+
+            Coração de Jesus, Filho do Pai eterno, tende piedade de nós.
+            Coração de Jesus, formado pelo Espírito Santo no seio da Virgem Mãe,
+            Coração de Jesus, unido substancialmente ao Verbo de Deus,
+            Coração de Jesus, de majestade infinita,
+            Coração de Jesus, templo santo de Deus,
+            Coração de Jesus, tabernáculo do Altíssimo,
+            Coração de Jesus, casa de Deus e porta do céu,
+            Coração de Jesus, fornalha ardente de caridade,
+            Coração de Jesus, receptáculo de justiça e de amor,
+            Coração de Jesus, cheio de bondade e de amor,
+            Coração de Jesus, abismo de todas as virtudes,
+            Coração de Jesus, digníssimo de todo louvor,
+            Coração de Jesus, Rei e centro de todos os corações,
+            Coração de Jesus, no qual estão todos os tesouros da sabedoria e da ciência,
+            Coração de Jesus, no qual habita toda a plenitude da divindade,
+            Coração de Jesus, no qual o Pai pôs as suas complacências,
+            Coração de Jesus, de cuja plenitude todos nós recebemos,
+            Coração de Jesus, desejo das colinas eternas,
+            Coração de Jesus, paciente e de muita misericórdia,
+            Coração de Jesus, rico para todos os que vos invocam,
+            Coração de Jesus, fonte de vida e de santidade,
+            Coração de Jesus, propiciação pelos nossos pecados,
+            Coração de Jesus, saturado de opróbrios,
+            Coração de Jesus, esmagado pelos nossos crimes,
+            Coração de Jesus, feito obediente até à morte,
+            Coração de Jesus, atravessado pela lança,
+            Coração de Jesus, fonte de toda consolação,
+            Coração de Jesus, nossa vida e ressurreição,
+            Coração de Jesus, nossa paz e reconciliação,
+            Coração de Jesus, vítima dos pecadores,
+            Coração de Jesus, salvação dos que em vós esperam,
+            Coração de Jesus, esperança dos que em vós morrem,
+            Coração de Jesus, delícia de todos os santos, tende piedade de nós.
+
+            Cordeiro de Deus, que tirais o pecado do mundo, perdoai-nos, Senhor.
+            Cordeiro de Deus, que tirais o pecado do mundo, ouvi-nos, Senhor.
+            Cordeiro de Deus, que tirais o pecado do mundo, tende piedade de nós.
+
+            V. Jesus, manso e humilde de coração.
+            R. Fazei o nosso coração semelhante ao vosso.
+
+            Oremos: Deus eterno e todo-poderoso, olhai para o Coração do vosso diletíssimo Filho e para os louvores e satisfações que Ele vos tributa em nome dos pecadores; e, aplacado, perdoai aos que imploram a vossa misericórdia, em nome do mesmo Jesus Cristo, vosso Filho, que convosco vive e reina para sempre. Amém.
+        """),
+        "texto_la": t("""
+            Kyrie, eleison.
+            Christe, eleison.
+            Kyrie, eleison.
+            Christe, audi nos.
+            Christe, exaudi nos.
+
+            Pater de caelis, Deus, miserere nobis.
+            Fili, Redemptor mundi, Deus, miserere nobis.
+            Spiritus Sancte, Deus, miserere nobis.
+            Sancta Trinitas, unus Deus, miserere nobis.
+
+            Cor Iesu, Filii Patris aeterni, miserere nobis.
+            Cor Iesu, in sinu Virginis Matris a Spiritu Sancto formatum,
+            Cor Iesu, Verbo Dei substantialiter unitum,
+            Cor Iesu, maiestatis infinitae,
+            Cor Iesu, templum Dei sanctum,
+            Cor Iesu, tabernaculum Altissimi,
+            Cor Iesu, domus Dei et porta caeli,
+            Cor Iesu, fornax ardens caritatis,
+            Cor Iesu, iustitiae et amoris receptaculum,
+            Cor Iesu, bonitate et amore plenum,
+            Cor Iesu, virtutum omnium abyssus,
+            Cor Iesu, omni laude dignissimum,
+            Cor Iesu, rex et centrum omnium cordium,
+            Cor Iesu, in quo sunt omnes thesauri sapientiae et scientiae,
+            Cor Iesu, in quo habitat omnis plenitudo divinitatis,
+            Cor Iesu, in quo Pater sibi bene complacuit,
+            Cor Iesu, de cuius plenitudine omnes nos accepimus,
+            Cor Iesu, desiderium collium aeternorum,
+            Cor Iesu, patiens et multae misericordiae,
+            Cor Iesu, dives in omnes qui invocant te,
+            Cor Iesu, fons vitae et sanctitatis,
+            Cor Iesu, propitiatio pro peccatis nostris,
+            Cor Iesu, saturatum opprobriis,
+            Cor Iesu, attritum propter scelera nostra,
+            Cor Iesu, usque ad mortem obediens factum,
+            Cor Iesu, lancea perforatum,
+            Cor Iesu, fons totius consolationis,
+            Cor Iesu, vita et resurrectio nostra,
+            Cor Iesu, pax et reconciliatio nostra,
+            Cor Iesu, victima peccatorum,
+            Cor Iesu, salus in te sperantium,
+            Cor Iesu, spes in te morientium,
+            Cor Iesu, deliciae Sanctorum omnium, miserere nobis.
+
+            Agnus Dei, qui tollis peccata mundi, parce nobis, Domine.
+            Agnus Dei, qui tollis peccata mundi, exaudi nos, Domine.
+            Agnus Dei, qui tollis peccata mundi, miserere nobis, Domine.
+
+            V. Iesu, mitis et humilis Corde,
+            R. Fac cor nostrum secundum Cor tuum.
+
+            Oremus: Omnipotens sempiterne Deus, respice in Cor dilectissimi Filii tui et in laudes et satisfactiones, quas in nomine peccatorum tibi persolvit, iisque misericordiam tuam petentibus, tu veniam concede placatus in nomine eiusdem Filii tui Iesu Christi: Qui tecum vivit et regnat in saecula saeculorum. Amen.
+        """),
+        "nota": "Aprovada pelo Papa Leão XIII em 1899 (domínio público).",
+    },
+    {
+        "id": "ladainha_sao_jose",
+        "categoria": "santos",
+        "titulo": "Ladainha de São José",
+        "titulo_la": "Litaniae Sancti Ioseph",
+        "texto_pt": t("""
+            Senhor, tende piedade de nós.
+            Jesus Cristo, tende piedade de nós.
+            Senhor, tende piedade de nós.
+            Jesus Cristo, ouvi-nos.
+            Jesus Cristo, atendei-nos.
+
+            Deus Pai do céu, tende piedade de nós.
+            Deus Filho, Redentor do mundo, tende piedade de nós.
+            Deus Espírito Santo, tende piedade de nós.
+            Santíssima Trindade, que sois um só Deus, tende piedade de nós.
+
+            Santa Maria, rogai por nós.
+            São José, rogai por nós.
+            Ilustre filho de Davi,
+            Luz dos patriarcas,
+            Esposo da Mãe de Deus,
+            Guarda do Redentor,
+            Casto guarda da Virgem,
+            Sustentador do Filho de Deus,
+            Zeloso defensor de Cristo,
+            Servo de Cristo,
+            Ministro da salvação,
+            Chefe da Sagrada Família,
+            José justíssimo,
+            José castíssimo,
+            José prudentíssimo,
+            José fortíssimo,
+            José obedientíssimo,
+            José fidelíssimo,
+            Espelho de paciência,
+            Amante da pobreza,
+            Modelo dos trabalhadores,
+            Honra da vida de família,
+            Guarda das virgens,
+            Sustentáculo das famílias,
+            Apoio nas dificuldades,
+            Alívio dos miseráveis,
+            Esperança dos doentes,
+            Patrono dos exilados,
+            Patrono dos aflitos,
+            Patrono dos pobres,
+            Patrono dos moribundos,
+            Terror dos demônios,
+            Protetor da santa Igreja, rogai por nós.
+
+            Cordeiro de Deus, que tirais o pecado do mundo, perdoai-nos, Senhor.
+            Cordeiro de Deus, que tirais o pecado do mundo, ouvi-nos, Senhor.
+            Cordeiro de Deus, que tirais o pecado do mundo, tende piedade de nós.
+
+            V. Ele o constituiu senhor de sua casa.
+            R. E administrador de todos os seus bens.
+
+            Oremos: Ó Deus, que por inefável providência vos dignastes escolher o bem-aventurado São José por esposo de vossa Mãe santíssima, concedei-nos que mereçamos ter por intercessor no céu aquele que veneramos na terra como protetor. Vós que viveis e reinais por todos os séculos dos séculos. Amém.
+        """),
+        "texto_la": t("""
+            Kyrie, eleison.
+            Christe, eleison.
+            Kyrie, eleison.
+            Christe, audi nos.
+            Christe, exaudi nos.
+
+            Pater de caelis, Deus, miserere nobis.
+            Fili, Redemptor mundi, Deus, miserere nobis.
+            Spiritus sancte, Deus, miserere nobis.
+            Sancta Trinitas, unus Deus, miserere nobis.
+
+            Sancta Maria, ora pro nobis.
+            Sancte Ioseph, ora pro nobis.
+            Proles David inclyta,
+            Lumen Patriarcharum,
+            Dei Genitricis sponse,
+            Custos Redemptoris,
+            Custos pudice Virginis,
+            Filii Dei nutritie,
+            Christi defensor sedule,
+            Serve Christi,
+            Minister salutis,
+            Almae Familiae praeses,
+            Ioseph iustissime,
+            Ioseph castissime,
+            Ioseph prudentissime,
+            Ioseph fortissime,
+            Ioseph obedientissime,
+            Ioseph fidelissime,
+            Speculum patientiae,
+            Amator paupertatis,
+            Exemplar opificum,
+            Domesticae vitae decus,
+            Custos virginum,
+            Familiarum columen,
+            Fulcimen in difficultatibus,
+            Solatium miserorum,
+            Spes aegrotantium,
+            Patrone exsulum,
+            Patrone afflictorum,
+            Patrone pauperum,
+            Patrone morientium,
+            Terror daemonum,
+            Protector sanctae Ecclesiae, ora pro nobis.
+
+            Agnus Dei, qui tollis peccata mundi, parce nobis, Domine.
+            Agnus Dei, qui tollis peccata mundi, exaudi nos, Domine.
+            Agnus Dei, qui tollis peccata mundi, miserere nobis.
+
+            V. Constituit eum dominum domus suae.
+            R. Et principem omnis possessionis suae.
+
+            Oremus: Deus, qui ineffabili providentia beatum Ioseph, sanctissimae Genitricis tuae sponsum eligere dignatus es, praesta, quaesumus, ut, quem protectorem veneramur in terris, intercessorem habere mereamur in caelis. Qui vivis et regnas in saecula saeculorum. Amen.
+        """),
+        "nota": "Aprovada por São Pio X em 1909, com as invocações acrescentadas pelo Papa Francisco em 2021.",
     },
 ]
 
