@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
 
 import '../core/liturgical_calendar.dart';
+import 'models/imitation.dart';
 import 'models/mystery.dart';
 import 'models/prayer.dart';
 
@@ -31,6 +32,21 @@ class ContentRepository {
       return Mystery.fromJson(map, art: art[map['arte'] ?? map['id']]);
     }).toList();
     rosaryPrayers = (mysteriesJson['oracoes_do_terco'] as Map).cast<String, String>();
+  }
+
+  Future<ImitationOfChrist>? _imitation;
+
+  /// "A Imitação de Cristo", carregada sob demanda uma única vez (não pesa no boot).
+  Future<ImitationOfChrist> imitation() => _imitation ??= _loadImitation();
+
+  Future<ImitationOfChrist> _loadImitation() async {
+    try {
+      final raw = await rootBundle.loadString('assets/data/imitacao_de_cristo.json');
+      return ImitationOfChrist.fromJson(jsonDecode(raw) as Map<String, dynamic>);
+    } catch (_) {
+      _imitation = null; // permite nova tentativa
+      rethrow;
+    }
   }
 
   Prayer? prayer(String id) => prayers.where((p) => p.id == id).firstOrNull;

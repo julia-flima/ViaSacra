@@ -122,14 +122,14 @@ class LiturgyScreen extends StatelessWidget {
                 children: [
                   SacredArtBanner(
                     title: l.day.celebration,
-                    subtitle: l.day.season.label.toUpperCase(),
+                    subtitle: LiturgyHeader.formatDate(l.day.date).toUpperCase(),
                     art: _seasonArt(services, l.day),
                     accentColor: l.day.color.swatch,
                   ),
                   const SizedBox(height: VsSpacing.md),
                   _QuickDateBar(selected: c.date, onSelect: (d) => c.load(d), onPickDate: () => _pickDate(context, c)),
                   const SizedBox(height: VsSpacing.md),
-                  LiturgyHeader(day: l.day),
+                  LiturgyHeader(day: l.day, showTitle: false),
                   const SizedBox(height: VsSpacing.md),
                   AudioPlayerBar(
                     expectedKey: key,

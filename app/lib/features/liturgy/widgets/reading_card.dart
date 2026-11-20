@@ -77,15 +77,16 @@ class ReadingCard extends StatelessWidget {
       ),
     );
   }
-
-  static void _share(Reading r) => SharePlus.instance.share(
-    ShareParams(
-      text:
-          '${r.kind.label}${r.reference != null ? ' — ${r.reference}' : ''}\n\n${r.text}\n\n'
-          'Fonte: ${r.source} · via app Via Sacra (open source)',
-    ),
-  );
 }
+
+/// Texto compartilhado de uma leitura (inclui o refrão do Salmo, se houver).
+String formatReadingForSharing(Reading r) {
+  final refrain = r.refrain != null ? 'R. ${r.refrain}\n\n' : '';
+  return '${r.kind.label}${r.reference != null ? ' — ${r.reference}' : ''}\n\n$refrain${r.text}\n\n'
+      'Fonte: ${r.source} · via app Via Sacra (open source)';
+}
+
+void _share(Reading r) => unawaited(SharePlus.instance.share(ShareParams(text: formatReadingForSharing(r))));
 
 /// Cartão do Salmo Responsorial com refrão em destaque e refrão cantado.
 class PsalmCard extends StatefulWidget {
@@ -221,6 +222,7 @@ class _PsalmCardState extends State<PsalmCard> {
               label: p.kind.label,
               reference: p.reference,
               onListen: widget.onListenFromHere,
+              onShare: () => _share(p),
               onOpenInBible: widget.onOpenInBible,
             ),
             if (p.refrain != null) ...[
