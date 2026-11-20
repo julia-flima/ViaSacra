@@ -1,6 +1,7 @@
 import 'dart:async' show unawaited;
 import 'dart:ui' show PointerDeviceKind;
 
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/services.dart' show HardwareKeyboard, KeyDownEvent, KeyRepeatEvent, LogicalKeyboardKey;
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
@@ -16,7 +17,9 @@ import 'features/rosary/rosary_screen.dart';
 import 'features/settings/onboarding_screen.dart';
 import 'features/settings/settings_screen.dart';
 import 'services/bible_service.dart';
+import 'services/reading_audio_service.dart';
 import 'services/settings_service.dart';
+import 'services/web_tts_types.dart';
 
 /// Comportamento de rolagem confortável em Desktop/Web (mouse, trackpad e toque).
 class _ViaSacraScrollBehavior extends MaterialScrollBehavior {
@@ -255,7 +258,7 @@ class _HomeShellState extends State<HomeShell> {
 
     // Cada aba possui seu próprio PrimaryScrollController (habilitando setas/PageUp/Home/End)
     // e ExcludeFocus nas abas ocultas para que TAB navegue apenas nos elementos visíveis.
-    final body = IndexedStack(
+    final pages = IndexedStack(
       index: nav.tab.index,
       children: [
         for (var i = 0; i < _pages.length; i++)
@@ -269,6 +272,15 @@ class _HomeShellState extends State<HomeShell> {
           ),
       ],
     );
+
+    final body = kIsWeb
+        ? Column(
+            children: [
+              Expanded(child: pages),
+              const _WebTtsProgressStrip(),
+            ],
+          )
+        : pages;
 
     final scaffold = Scaffold(
       body: useRail
@@ -336,6 +348,37 @@ class _HomeShellState extends State<HomeShell> {
         canRequestFocus: true,
         onKeyEvent: (_, event) => _handleKey(event, nav),
         child: scaffold,
+      ),
+    );
+  }
+}
+
+class _WebTtsProgressStrip extends StatelessWidget {
+  const _WebTtsProgressStrip();
+
+  @override
+  Widget build(BuildContext context) {
+    final status = context.select<ReadingAudioController, WebTtsStatus>((a) => a.webTtsStatus);
+    if (!status.isBusy) return const SizedBox.shrink();
+    final cs = Theme.of(context).colorScheme;
+    final t = Theme.of(context).textTheme;
+    return Material(
+      color: cs.surfaceContainerHigh,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          LinearProgressIndicator(value: status.progress, minHeight: 2),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: VsSpacing.md, vertical: 6),
+            child: Text(
+              status.label ?? 'Preparando voz neural Kokoro…',
+              style: t.bodySmall,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ],
       ),
     );
   }

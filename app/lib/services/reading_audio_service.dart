@@ -7,7 +7,7 @@ import 'package:flutter_tts/flutter_tts.dart';
 import 'package:just_audio/just_audio.dart';
 
 import '../data/models/liturgy.dart';
-import 'piper_web_tts.dart';
+import 'web_tts.dart';
 
 /// Um trecho da fila de leitura: texto (TTS local) ou URL de áudio aberto.
 class ReadingSegment {
@@ -107,16 +107,31 @@ List<String> splitForSpeech(String text, {int maxLen = 600}) {
 /// Handler de áudio integrado ao sistema (tela de bloqueio, fones Bluetooth,
 /// notificação de mídia e reprodução em segundo plano via `audio_service`).
 class ReadingAudioHandler extends BaseAudioHandler with QueueHandler {
-  ReadingAudioHandler() {
+  ReadingAudioHandler({
+    Future<bool> Function(String text, double speed, {String voice, String language, String? nextText})? webSpeak,
+    void Function()? webStop,
+    this.fallbackSpeak,
+    bool? useWebEngine,
+  }) : _webSpeak = webSpeak ?? webTtsSpeak,
+       _webStop = webStop ?? webTtsStop,
+       _useWebEngine = useWebEngine ?? kIsWeb {
     _player.playerStateStream.listen((s) {
       if (s.processingState == ProcessingState.completed && _current?.isRecorded == true) {
         _advance();
       }
     });
+    if (_useWebEngine) {
+      webTtsListenStatus((s) => webTtsStatus.value = s);
+    }
   }
 
   final FlutterTts _tts = FlutterTts();
   final AudioPlayer _player = AudioPlayer();
+  final Future<bool> Function(String text, double speed, {String voice, String language, String? nextText}) _webSpeak;
+  final void Function() _webStop;
+  @visibleForTesting
+  final Future<void> Function(String text, String language, double speed)? fallbackSpeak;
+  final bool _useWebEngine;
 
   List<ReadingSegment> _segments = const [];
   int _index = 0;
@@ -127,6 +142,20 @@ class ReadingAudioHandler extends BaseAudioHandler with QueueHandler {
   int _generation = 0; // invalida laços de TTS antigos
   bool _ttsReady = false;
   String? _ttsLanguage;
+  String _kokoroVoice = KokoroVoice.dora.id;
+  final ValueNotifier<WebTtsStatus> webTtsStatus = ValueNotifier(const WebTtsStatus());
+
+  /// flutter_tts normaliza 0.5 como velocidade "normal" no Android/iOS,
+  /// enquanto na Web Speech API o valor normal é 1.0.
+  @visibleForTesting
+  static double speechRateFor(double speed, {required bool isWeb}) =>
+      isWeb ? speed.clamp(0.5, 2.0) : (0.5 * speed).clamp(0.1, 1.0);
+
+  @visibleForTesting
+  static bool supportsWebKokoro(String lang) {
+    final l = lang.toLowerCase();
+    return l.startsWith('pt') || l.startsWith('en') || l.startsWith('la') || l.startsWith('it') || l.startsWith('es');
+  }
 
   /// Mapeia o idioma do texto para uma voz disponível. Não há vozes de latim
   /// nos sistemas; a voz italiana se aproxima da pronúncia eclesiástica.
@@ -177,8 +206,8 @@ class ReadingAudioHandler extends BaseAudioHandler with QueueHandler {
     _ttsReady = true;
   }
 
-  /// flutter_tts normaliza 0.5 como velocidade "normal" em Android e iOS.
-  Future<void> _applySpeed() => _tts.setSpeechRate((0.5 * _speed).clamp(0.1, 1.0));
+  /// flutter_tts normaliza 0.5 como velocidade "normal" em Android e iOS; na Web é 1.0.
+  Future<void> _applySpeed() => _tts.setSpeechRate(speechRateFor(_speed, isWeb: kIsWeb));
 
   Future<void> setVoice(String? name, String? locale) async {
     await _initTts();
@@ -219,7 +248,7 @@ class ReadingAudioHandler extends BaseAudioHandler with QueueHandler {
     _broadcast();
     final gen = ++_generation;
     if (seg.isRecorded) {
-      piperWebStop();
+      _webStop();
       await _tts.stop();
       try {
         if (_player.audioSource == null || _chunk == 0) {
@@ -239,21 +268,28 @@ class ReadingAudioHandler extends BaseAudioHandler with QueueHandler {
         }
       }
     }
-    final usePiperWeb = kIsWeb && seg.language.toLowerCase().startsWith('pt');
-    if (!usePiperWeb) {
+    final useWeb = _useWebEngine && supportsWebKokoro(seg.language);
+    if (!useWeb && fallbackSpeak == null) {
       await _initTts();
       await _useLanguage(seg.language);
     }
-    if (_chunks.isEmpty || _chunk == 0) _chunks = splitForSpeech(seg.text ?? '', maxLen: usePiperWeb ? 360 : 600);
+    if (_chunks.isEmpty || _chunk == 0) _chunks = splitForSpeech(seg.text ?? '', maxLen: useWeb ? 280 : 600);
+    var webFailed = false;
     while (_playing && gen == _generation && _chunk < _chunks.length) {
       var spoken = false;
-      if (usePiperWeb) {
-        spoken = await piperWebSpeak(_chunks[_chunk], _speed);
+      if (useWeb && !webFailed) {
+        final next = _chunk + 1 < _chunks.length ? _chunks[_chunk + 1] : null;
+        spoken = await _webSpeak(_chunks[_chunk], _speed, voice: _kokoroVoice, language: seg.language, nextText: next);
+        if (!spoken && _playing && gen == _generation) webFailed = true;
       }
       if (!spoken && _playing && gen == _generation) {
-        await _initTts();
-        await _useLanguage(seg.language);
-        await _tts.speak(_chunks[_chunk]);
+        if (fallbackSpeak != null) {
+          await fallbackSpeak!(_chunks[_chunk], seg.language, _speed);
+        } else {
+          await _initTts();
+          await _useLanguage(seg.language);
+          await _tts.speak(_chunks[_chunk]);
+        }
       }
       if (!_playing || gen != _generation) return; // pausado/pulado durante a fala
       _chunk++;
@@ -281,7 +317,7 @@ class ReadingAudioHandler extends BaseAudioHandler with QueueHandler {
   Future<void> pause() async {
     _playing = false;
     _generation++;
-    piperWebStop();
+    _webStop();
     await _tts.stop(); // retoma do início da frase atual
     await _player.pause();
     _broadcast();
@@ -293,7 +329,7 @@ class ReadingAudioHandler extends BaseAudioHandler with QueueHandler {
     _generation++;
     _chunk = 0;
     _chunks = const [];
-    piperWebStop();
+    _webStop();
     await _tts.stop();
     await _player.stop();
     _broadcast();
@@ -330,11 +366,47 @@ class ReadingAudioHandler extends BaseAudioHandler with QueueHandler {
     if (_playing && !(_current?.isRecorded ?? false)) {
       // Reaplica a nova velocidade a partir da frase atual.
       _generation++;
-      piperWebStop();
+      _webStop();
       await _tts.stop();
       unawaited(play());
     }
     _broadcast();
+  }
+
+  String get kokoroVoice => _kokoroVoice;
+
+  Future<void> setKokoroVoice(String voiceId) async {
+    final normalized = KokoroVoice.byId(voiceId).id;
+    if (_kokoroVoice == normalized) return;
+    _kokoroVoice = normalized;
+    if (_playing && _useWebEngine && !(_current?.isRecorded ?? false)) {
+      _generation++;
+      _webStop();
+      await _tts.stop();
+      unawaited(play());
+    }
+    _broadcast();
+  }
+
+  Future<bool> preloadWebTts() async {
+    if (!_useWebEngine) return false;
+    final ok = await webTtsPreload(voice: _kokoroVoice);
+    await refreshWebTtsStatus();
+    return ok;
+  }
+
+  Future<bool> clearWebTtsCache() async {
+    if (!_useWebEngine) return false;
+    final ok = await webTtsClearCache();
+    await refreshWebTtsStatus();
+    return ok;
+  }
+
+  Future<WebTtsStatus> refreshWebTtsStatus() async {
+    if (!_useWebEngine) return const WebTtsStatus();
+    final s = await webTtsRefreshStatus();
+    webTtsStatus.value = s;
+    return s;
   }
 
   void _broadcast({bool completed = false}) {
@@ -372,6 +444,7 @@ class ReadingAudioController extends ChangeNotifier {
       titles = q.map((m) => m.title).toList();
       notifyListeners();
     });
+    _handler.webTtsStatus.addListener(notifyListeners);
   }
 
   final ReadingAudioHandler _handler;
@@ -405,10 +478,22 @@ class ReadingAudioController extends ChangeNotifier {
 
   /// Controlador sem integração com o sistema (testes e plataformas sem audio_service).
   @visibleForTesting
-  factory ReadingAudioController.local() => ReadingAudioController._(ReadingAudioHandler());
+  factory ReadingAudioController.local({ReadingAudioHandler? handler}) =>
+      ReadingAudioController._(handler ?? ReadingAudioHandler());
+
+  @override
+  void dispose() {
+    _handler.webTtsStatus.removeListener(notifyListeners);
+    super.dispose();
+  }
 
   String? get currentTitle => index < titles.length ? titles[index] : null;
   bool get hasQueue => titles.isNotEmpty;
+  WebTtsStatus get webTtsStatus => _handler.webTtsStatus.value;
+
+  /// Atualiza diretamente o estado Web TTS em testes de widget.
+  @visibleForTesting
+  void setWebTtsStatusForTest(WebTtsStatus status) => _handler.webTtsStatus.value = status;
 
   Future<void> playQueue(String key, List<ReadingSegment> segments, {int startAt = 0, double? speed}) async {
     if (speed != null) await _handler.setSpeed(speed);
@@ -430,5 +515,9 @@ class ReadingAudioController extends ChangeNotifier {
   Future<void> stop() => _handler.stop();
   Future<void> setSpeed(double s) => _handler.setSpeed(s);
   Future<void> setVoice(String? name, String? locale) => _handler.setVoice(name, locale);
+  Future<void> setKokoroVoice(String voiceId) => _handler.setKokoroVoice(voiceId);
+  Future<bool> preloadWebTts() => _handler.preloadWebTts();
+  Future<bool> clearWebTtsCache() => _handler.clearWebTtsCache();
+  Future<WebTtsStatus> refreshWebTtsStatus() => _handler.refreshWebTtsStatus();
   Future<List<({String name, String locale})>> voices() => _handler.portugueseVoices();
 }
