@@ -114,6 +114,7 @@ class LiturgyController extends ChangeNotifier {
   Future<void> load(DateTime d, {bool force = false}) async {
     date = DateTime(d.year, d.month, d.day);
     loading = true;
+    error = null; // não carrega o erro da data anterior
     liturgy = _repo.cached(date) ?? DailyLiturgy.calendarOnly(date);
     notifyListeners();
     final result = await _repo.load(date, forceRefresh: force);

@@ -1,13 +1,11 @@
-import 'dart:async';
-
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import '../../app_state.dart';
 import '../../core/theme.dart';
-import '../../data/user_data_repository.dart';
 import '../../widgets/common.dart';
+import '../../widgets/local_note_field.dart';
 import '../../widgets/global_audio_mini_player.dart';
 import '../../widgets/reading_appearance_button.dart';
 import '../../widgets/sacred_art_header.dart';
@@ -46,27 +44,10 @@ class _LectioDivinaScreenState extends State<LectioDivinaScreen> {
     ('Oratio', 'O que eu digo a Deus a partir desta Palavra?'),
     ('Contemplatio', 'Permaneça em silêncio diante de Deus.'),
   ];
-  static const _noteKind = 'lectio';
   bool _immersive = false;
-  late final UserDataRepository _userData = context.read<AppServices>().userData;
-  late final String _noteRef = widget.noteRef ?? widget.title;
-  late final _note = TextEditingController(text: _userData.note(_noteKind, _noteRef) ?? '');
-  Timer? _saveDebounce;
-
-  void _onNoteChanged(String _) {
-    _saveDebounce?.cancel();
-    _saveDebounce = Timer(const Duration(milliseconds: 600), _saveNote);
-  }
-
-  void _saveNote() => _userData.saveNote(_noteKind, _noteRef, _note.text);
 
   @override
   void dispose() {
-    if (_saveDebounce?.isActive ?? false) {
-      _saveDebounce!.cancel();
-      _saveNote();
-    }
-    _note.dispose();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
     super.dispose();
   }
@@ -121,17 +102,10 @@ class _LectioDivinaScreenState extends State<LectioDivinaScreen> {
                     ],
                   ),
                 ),
-              TextField(
-                controller: _note,
-                onChanged: _onNoteChanged,
-                minLines: 3,
-                maxLines: 10,
-                textCapitalization: TextCapitalization.sentences,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Minha anotação (somente neste aparelho)',
-                  alignLabelWithHint: true,
-                ),
+              LocalNoteField(
+                kind: 'lectio',
+                noteRef: widget.noteRef ?? widget.title,
+                label: 'Minha anotação (somente neste aparelho)',
               ),
               const SizedBox(height: VsSpacing.md),
               if (widget.source != null)
