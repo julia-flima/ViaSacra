@@ -41,11 +41,18 @@ class ReadingSegment {
 }
 
 /// Monta a fila "Ouvir Liturgia": 1ª Leitura → Salmo → 2ª Leitura → Evangelho
-/// → (opcional) Homilia/Reflexão. Usa áudio narrado aberto quando houver e o
-/// usuário preferir; caso contrário, TTS pt-BR offline.
-List<ReadingSegment> buildLiturgyQueue(DailyLiturgy l, {bool preferRecorded = true, Homily? reflection}) {
+/// → (opcional) Homilia/Reflexão. Usa o áudio gravado completo somente quando
+/// `preferRecorded` é verdadeiro e a leitura começa do início (`startAt == 0`);
+/// caso contrário monta segmentos individuais para iniciar exatamente no ponto
+/// escolhido pelo usuário.
+List<ReadingSegment> buildLiturgyQueue(
+  DailyLiturgy l, {
+  bool preferRecorded = true,
+  int startAt = 0,
+  Homily? reflection,
+}) {
   final q = <ReadingSegment>[];
-  if (preferRecorded && l.audio.liturgyAudioUrl != null) {
+  if (preferRecorded && startAt == 0 && l.audio.liturgyAudioUrl != null) {
     q.add(
       ReadingSegment(
         id: '${l.date.toIso8601String()}#audio',
@@ -112,31 +119,39 @@ class ReadingAudioHandler extends BaseAudioHandler with QueueHandler {
     Future<bool> Function(String text, double speed, {String voice, String language, String? nextText})? neuralSpeak,
     void Function()? neuralStop,
     this.fallbackSpeak,
+    this.recordedPlay,
     bool? useNeuralEngine,
   }) : _neuralSpeak = neuralSpeak ?? (kIsWeb ? webTtsSpeak : nativeTtsSpeak),
        _neuralStop = neuralStop ?? (kIsWeb ? webTtsStop : nativeTtsStop),
        _useNeuralEngine = useNeuralEngine ?? (kIsWeb || nativeTtsIsSupported()) {
-    _player.playerStateStream.listen((s) {
-      if (s.processingState == ProcessingState.completed && _current?.isRecorded == true) {
-        _advance();
+    _playerStateSub = _player.playerStateStream.listen((s) {
+      if (!_disposed && s.processingState == ProcessingState.completed && _playingRecorded) {
+        unawaited(_advance());
       }
     });
     if (_useNeuralEngine && neuralSpeak == null) {
       if (kIsWeb) {
-        webTtsListenStatus((s) => neuralTtsStatus.value = s);
+        webTtsListenStatus((s) {
+          if (!_disposed) neuralTtsStatus.value = s;
+        });
       } else if (nativeTtsIsSupported()) {
-        nativeTtsListenStatus((s) => neuralTtsStatus.value = s);
+        nativeTtsListenStatus((s) {
+          if (!_disposed) neuralTtsStatus.value = s;
+        });
       }
     }
   }
 
   final FlutterTts _tts = FlutterTts();
   final AudioPlayer _player = AudioPlayer();
+  late final StreamSubscription<PlayerState> _playerStateSub;
   final Future<bool> Function(String text, double speed, {String voice, String language, String? nextText})
   _neuralSpeak;
   final void Function() _neuralStop;
   @visibleForTesting
   final Future<void> Function(String text, String language, double speed)? fallbackSpeak;
+  @visibleForTesting
+  final Future<void> Function(String url, double speed)? recordedPlay;
   final bool _useNeuralEngine;
 
   List<ReadingSegment> _segments = const [];
@@ -145,12 +160,18 @@ class ReadingAudioHandler extends BaseAudioHandler with QueueHandler {
   List<String> _chunks = const [];
   double _speed = 1.0;
   bool _playing = false;
+  bool _playingRecorded = false;
+  bool _recordedFailed = false;
+  bool _disposed = false;
   int _generation = 0; // invalida laços de TTS antigos
   bool _ttsReady = false;
   bool _audioSessionReady = false;
   String? _ttsLanguage;
   String _kokoroVoice = KokoroVoice.dora.id;
   final ValueNotifier<NeuralTtsStatus> neuralTtsStatus = ValueNotifier(const NeuralTtsStatus());
+
+  @visibleForTesting
+  bool get playingRecorded => _playingRecorded;
 
   /// flutter_tts normaliza 0.5 como velocidade "normal" no Android/iOS,
   /// enquanto na Web Speech API o valor normal é 1.0.
@@ -244,6 +265,7 @@ class ReadingAudioHandler extends BaseAudioHandler with QueueHandler {
   }
 
   Future<void> load(List<ReadingSegment> segments, {int startAt = 0}) async {
+    if (_disposed) return;
     await stop();
     _segments = segments;
     _index = startAt.clamp(0, segments.isEmpty ? 0 : segments.length - 1);
@@ -254,25 +276,35 @@ class ReadingAudioHandler extends BaseAudioHandler with QueueHandler {
 
   @override
   Future<void> play() async {
+    if (_disposed) return;
     final seg = _current;
     if (seg == null) return;
     _playing = true;
     mediaItem.add(seg.toMediaItem());
     _broadcast();
     final gen = ++_generation;
-    if (seg.isRecorded) {
+    if (seg.isRecorded && !_recordedFailed) {
       _neuralStop();
       await _tts.stop();
       try {
-        if (_player.audioSource == null || _chunk == 0) {
-          await _player.setUrl(seg.audioUrl!);
-          _chunk = 1; // marca como carregado
+        if (recordedPlay != null) {
+          _playingRecorded = true;
+          _chunk = 1;
+          await recordedPlay!(seg.audioUrl!, _speed);
+        } else {
+          if (_player.audioSource == null || _chunk == 0) {
+            await _player.setUrl(seg.audioUrl!);
+            _chunk = 1; // marca como carregado
+          }
+          await _player.setSpeed(_speed);
+          _playingRecorded = true;
+          unawaited(_player.play());
         }
-        await _player.setSpeed(_speed);
-        unawaited(_player.play());
         return;
       } catch (e) {
         debugPrint('Áudio gravado indisponível (${seg.audioUrl}), usando fallback TTS local: $e');
+        _playingRecorded = false;
+        _recordedFailed = true;
         _chunk = 0;
         if (seg.text == null || seg.text!.trim().isEmpty) {
           _playing = false;
@@ -281,6 +313,7 @@ class ReadingAudioHandler extends BaseAudioHandler with QueueHandler {
         }
       }
     }
+    _playingRecorded = false;
     final useNeural = _useNeuralEngine && supportsKokoro(seg.language);
     if (useNeural && !kIsWeb && fallbackSpeak == null) {
       await _ensureAudioSession();
@@ -319,6 +352,8 @@ class ReadingAudioHandler extends BaseAudioHandler with QueueHandler {
   }
 
   Future<void> _advance() async {
+    _playingRecorded = false;
+    _recordedFailed = false;
     if (_index < _segments.length - 1) {
       _index++;
       _chunk = 0;
@@ -347,6 +382,8 @@ class ReadingAudioHandler extends BaseAudioHandler with QueueHandler {
   @override
   Future<void> stop() async {
     _playing = false;
+    _playingRecorded = false;
+    _recordedFailed = false;
     _generation++;
     _chunk = 0;
     _chunks = const [];
@@ -362,29 +399,31 @@ class ReadingAudioHandler extends BaseAudioHandler with QueueHandler {
   @override
   Future<void> skipToPrevious() async {
     // Comportamento de player: se já avançou na leitura, volta ao início dela.
-    if (_chunk > 1 && !(_current?.isRecorded ?? false)) return _jump(_index);
+    if (_chunk > 1 && !_playingRecorded) return _jump(_index);
     return _jump(_index - 1);
   }
 
   @override
   Future<void> skipToQueueItem(int index) => _jump(index);
 
-  Future<void> _jump(int i) async {
-    if (_segments.isEmpty) return;
-    final wasPlaying = _playing;
+  Future<void> jumpTo(int index, {bool autoplay = false}) async {
+    if (_disposed || _segments.isEmpty) return;
     await stop();
-    _index = i.clamp(0, _segments.length - 1);
+    _index = index.clamp(0, _segments.length - 1);
     mediaItem.add(_segments[_index].toMediaItem());
     _broadcast();
-    if (wasPlaying) await play();
+    if (autoplay) await play();
   }
+
+  Future<void> _jump(int i) => jumpTo(i, autoplay: _playing);
 
   @override
   Future<void> setSpeed(double speed) async {
+    if (_speed == speed) return;
     _speed = speed;
-    await _applySpeed();
-    await _player.setSpeed(speed);
-    if (_playing && !(_current?.isRecorded ?? false)) {
+    if (_ttsReady) await _applySpeed();
+    if (_playingRecorded) await _player.setSpeed(speed);
+    if (_playing && !_playingRecorded) {
       // Reaplica a nova velocidade a partir da frase atual.
       _generation++;
       _neuralStop();
@@ -400,13 +439,28 @@ class ReadingAudioHandler extends BaseAudioHandler with QueueHandler {
     final normalized = KokoroVoice.byId(voiceId).id;
     if (_kokoroVoice == normalized) return;
     _kokoroVoice = normalized;
-    if (_playing && _useNeuralEngine && !(_current?.isRecorded ?? false)) {
+    if (_playing && _useNeuralEngine && !_playingRecorded) {
       _generation++;
       _neuralStop();
       await _tts.stop();
       unawaited(play());
     }
     _broadcast();
+  }
+
+  Future<void> dispose() async {
+    if (_disposed) return;
+    _disposed = true;
+    await _playerStateSub.cancel();
+    _playing = false;
+    _playingRecorded = false;
+    _recordedFailed = false;
+    _generation++;
+    _neuralStop();
+    await _tts.stop();
+    await _player.stop();
+    await _player.dispose();
+    neuralTtsStatus.dispose();
   }
 
   Future<bool> preloadNeuralTts() async {
@@ -431,6 +485,7 @@ class ReadingAudioHandler extends BaseAudioHandler with QueueHandler {
   }
 
   void _broadcast({bool completed = false}) {
+    if (_disposed) return;
     playbackState.add(
       PlaybackState(
         controls: [
@@ -454,26 +509,36 @@ class ReadingAudioHandler extends BaseAudioHandler with QueueHandler {
 
 /// Fachada observável para a UI (Provider).
 class ReadingAudioController extends ChangeNotifier {
-  ReadingAudioController._(this._handler) {
-    _handler.playbackState.listen((s) {
+  ReadingAudioController._(this._handler, {this.ownsHandler = true}) {
+    _playbackSub = _handler.playbackState.listen((s) {
+      if (_disposed) return;
       playing = s.playing;
       index = s.queueIndex ?? 0;
       speed = s.speed;
       notifyListeners();
     });
-    _handler.queue.listen((q) {
+    _queueSub = _handler.queue.listen((q) {
+      if (_disposed) return;
       titles = q.map((m) => m.title).toList();
       notifyListeners();
     });
-    _handler.neuralTtsStatus.addListener(notifyListeners);
+    _handler.neuralTtsStatus.addListener(_onStatusChanged);
   }
 
   final ReadingAudioHandler _handler;
+  final bool ownsHandler;
+  late final StreamSubscription<PlaybackState> _playbackSub;
+  late final StreamSubscription<List<MediaItem>> _queueSub;
+  bool _disposed = false;
   bool playing = false;
   int index = 0;
   double speed = 1.0;
   List<String> titles = const [];
   String? loadedKey;
+
+  void _onStatusChanged() {
+    if (!_disposed) notifyListeners();
+  }
 
   /// Inicializa o serviço de áudio do sistema. Se indisponível (ex.: testes),
   /// usa o handler localmente sem integração com a tela de bloqueio.
@@ -499,12 +564,17 @@ class ReadingAudioController extends ChangeNotifier {
 
   /// Controlador sem integração com o sistema (testes e plataformas sem audio_service).
   @visibleForTesting
-  factory ReadingAudioController.local({ReadingAudioHandler? handler}) =>
-      ReadingAudioController._(handler ?? ReadingAudioHandler());
+  factory ReadingAudioController.local({ReadingAudioHandler? handler, bool ownsHandler = true}) =>
+      ReadingAudioController._(handler ?? ReadingAudioHandler(), ownsHandler: ownsHandler);
 
   @override
   void dispose() {
-    _handler.neuralTtsStatus.removeListener(notifyListeners);
+    if (_disposed) return;
+    _disposed = true;
+    unawaited(_playbackSub.cancel());
+    unawaited(_queueSub.cancel());
+    _handler.neuralTtsStatus.removeListener(_onStatusChanged);
+    if (ownsHandler) unawaited(_handler.dispose());
     super.dispose();
   }
 
@@ -512,24 +582,34 @@ class ReadingAudioController extends ChangeNotifier {
   bool get hasQueue => titles.isNotEmpty;
   NeuralTtsStatus get neuralTtsStatus => _handler.neuralTtsStatus.value;
 
+  @visibleForTesting
+  bool get playingRecorded => _handler.playingRecorded;
+
+  bool isLoadedFor(String expectedKey) =>
+      hasQueue && loadedKey != null && (loadedKey == expectedKey || loadedKey!.startsWith('$expectedKey#'));
+
   /// Atualiza diretamente o estado do motor neural em testes de widget.
   @visibleForTesting
-  void setNeuralTtsStatusForTest(NeuralTtsStatus status) => _handler.neuralTtsStatus.value = status;
+  void setNeuralTtsStatusForTest(NeuralTtsStatus status) {
+    if (!_disposed) _handler.neuralTtsStatus.value = status;
+  }
 
   Future<void> playQueue(String key, List<ReadingSegment> segments, {int startAt = 0, double? speed}) async {
-    if (speed != null) await _handler.setSpeed(speed);
-    if (loadedKey != key || !hasQueue) {
+    if (_disposed) return;
+    if (loadedKey != key || !hasQueue || segments.length != titles.length) {
       await _handler.load(segments, startAt: startAt);
       loadedKey = key;
     } else {
-      await _handler.skipToQueueItem(startAt);
+      await _handler.jumpTo(startAt, autoplay: false);
     }
+    if (speed != null) await _handler.setSpeed(speed);
     await _handler.play();
   }
 
   /// Lê um único trecho (ex.: reflexão), substituindo a fila atual.
   Future<void> playSingle(ReadingSegment segment, {double? speed}) => playQueue(segment.id, [segment], speed: speed);
 
+  Future<void> pause() => _handler.pause();
   Future<void> toggle() => playing ? _handler.pause() : _handler.play();
   Future<void> next() => _handler.skipToNext();
   Future<void> previous() => _handler.skipToPrevious();

@@ -6,7 +6,7 @@ import '../../../services/settings_service.dart';
 
 /// Barra "Ouvir Liturgia": play/pause, leitura anterior/seguinte e velocidade.
 class AudioPlayerBar extends StatelessWidget {
-  const AudioPlayerBar({super.key, required this.onPlayAll, required this.recorded});
+  const AudioPlayerBar({super.key, required this.onPlayAll, required this.recorded, this.expectedKey});
 
   /// Inicia (ou retoma) a fila completa da liturgia.
   final VoidCallback onPlayAll;
@@ -14,13 +14,17 @@ class AudioPlayerBar extends StatelessWidget {
   /// Há áudio narrado aberto disponível (senão, TTS local).
   final bool recorded;
 
+  /// Chave base esperada (ex.: `liturgia-2026-11-19`) para não espelhar outra data ou módulo.
+  final String? expectedKey;
+
   @override
   Widget build(BuildContext context) {
     final audio = context.watch<ReadingAudioController>();
     final settings = context.read<SettingsService>();
     final cs = Theme.of(context).colorScheme;
     final t = Theme.of(context).textTheme;
-    final active = audio.hasQueue && audio.loadedKey != null;
+    final active = expectedKey != null ? audio.isLoadedFor(expectedKey!) : (audio.hasQueue && audio.loadedKey != null);
+    final playingThis = active && audio.playing;
     final neuralStatus = audio.neuralTtsStatus;
     final busy = neuralStatus.isBusy;
     final subtitle = busy
@@ -51,9 +55,9 @@ class AudioPlayerBar extends StatelessWidget {
                   icon: const Icon(Icons.skip_previous_rounded),
                 ),
                 IconButton.filled(
-                  tooltip: audio.playing ? 'Pausar' : 'Ouvir Liturgia',
+                  tooltip: playingThis ? 'Pausar' : 'Ouvir Liturgia',
                   onPressed: active ? audio.toggle : onPlayAll,
-                  icon: Icon(audio.playing ? Icons.pause_rounded : Icons.play_arrow_rounded),
+                  icon: Icon(playingThis ? Icons.pause_rounded : Icons.play_arrow_rounded),
                 ),
                 IconButton(
                   tooltip: 'Próxima leitura',
