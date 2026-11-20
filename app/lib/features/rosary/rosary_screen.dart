@@ -10,6 +10,7 @@ import '../../core/theme.dart';
 import '../../data/models/mystery.dart';
 import '../../data/user_data_repository.dart';
 import '../../services/settings_service.dart';
+import '../../widgets/reading_appearance_button.dart';
 import '../../widgets/common.dart';
 import '../../widgets/sacred_art_image.dart';
 import 'rosary_session.dart';
@@ -173,6 +174,7 @@ class _RosaryScreenState extends State<RosaryScreen> with WidgetsBindingObserver
         leading: session == null
             ? null
             : IconButton(tooltip: 'Encerrar', icon: const Icon(Icons.close), onPressed: _close),
+        actions: const [ReadingAppearanceButton()],
       ),
       body: session == null ? _buildChooser(context) : _buildPraying(context, session),
     );

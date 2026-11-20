@@ -311,15 +311,6 @@ class _BibleScreenState extends State<BibleScreen> {
                 SacredArtBanner(title: tr.name, subtitle: 'CÂNON CATÓLICO · 73 LIVROS', art: art),
                 const SizedBox(height: VsSpacing.md),
                 if (bible.progress != null) _ProgressBanner(bible: bible),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: ActionChip(
-                    avatar: const Icon(Icons.translate, size: 18),
-                    label: Text('${tr.abbreviation} · ${tr.name}'),
-                    onPressed: _pickTranslation,
-                  ),
-                ),
-                const SizedBox(height: VsSpacing.md),
                 if (pos != null && bookById(pos.bookId) != null)
                   Card(
                     child: ListTile(
@@ -451,19 +442,45 @@ class _BibleScreenState extends State<BibleScreen> {
             onPressed: _pickTranslation,
             child: Text(compare == null ? tr.abbreviation : '${tr.abbreviation}+${compare.abbreviation}'),
           ),
-          if (bible.translations.length > 1)
-            IconButton(
-              tooltip: compare == null ? 'Ativar leitura comparada' : 'Desativar leitura comparada',
-              icon: Icon(Icons.compare_arrows, color: compare != null ? cs.primary : null),
-              onPressed: () => _toggleCompare(bible),
-            ),
           IconButton(
             tooltip: 'Ouvir capítulo',
             icon: const Icon(Icons.headphones_outlined),
             onPressed: () => _listen(tr, book.id, pos.chapter, verses),
           ),
-          const ReadingAppearanceButton(),
-          IconButton(tooltip: 'Buscar', icon: const Icon(Icons.search), onPressed: () => _search(bible)),
+          // Em celulares (< 600dp) as ações secundárias vão para o menu ⋮,
+          // para o título caber em 360dp.
+          if (MediaQuery.sizeOf(context).width >= 600) ...[
+            if (bible.translations.length > 1)
+              IconButton(
+                tooltip: compare == null ? 'Ativar leitura comparada' : 'Desativar leitura comparada',
+                icon: Icon(Icons.compare_arrows, color: compare != null ? cs.primary : null),
+                onPressed: () => _toggleCompare(bible),
+              ),
+            const ReadingAppearanceButton(),
+            IconButton(tooltip: 'Buscar', icon: const Icon(Icons.search), onPressed: () => _search(bible)),
+          ] else
+            PopupMenuButton<void Function()>(
+              tooltip: 'Mais opções',
+              onSelected: (action) => action(),
+              itemBuilder: (_) => [
+                if (bible.translations.length > 1)
+                  PopupMenuItem(
+                    value: () => _toggleCompare(bible),
+                    child: ListTile(
+                      leading: Icon(Icons.compare_arrows, color: compare != null ? cs.primary : null),
+                      title: Text(compare == null ? 'Leitura comparada' : 'Desativar comparação'),
+                    ),
+                  ),
+                PopupMenuItem(
+                  value: () => showReadingAppearanceSheet(context),
+                  child: const ListTile(leading: Icon(Icons.text_fields_rounded), title: Text('Aparência da leitura')),
+                ),
+                PopupMenuItem(
+                  value: () => _search(bible),
+                  child: const ListTile(leading: Icon(Icons.search), title: Text('Buscar')),
+                ),
+              ],
+            ),
         ],
       ),
       body: CustomScrollView(

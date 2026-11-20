@@ -6,6 +6,7 @@ import '../../app_state.dart';
 import '../../core/theme.dart';
 import '../../data/models/prayer.dart';
 import '../../services/settings_service.dart';
+import '../../widgets/reading_appearance_button.dart';
 import '../../widgets/common.dart';
 import '../../widgets/global_audio_mini_player.dart';
 import 'imitacao_screen.dart';
@@ -132,6 +133,7 @@ class _PrayerScreenState extends State<PrayerScreen> {
             icon: const Icon(Icons.ios_share_outlined),
             onPressed: () => SharePlus.instance.share(ShareParams(text: '$title\n\n$text\n\n(via app Via Sacra)')),
           ),
+          const ReadingAppearanceButton(),
         ],
       ),
       body: ListView(

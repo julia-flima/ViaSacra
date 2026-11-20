@@ -1,44 +1,18 @@
 import 'dart:async';
-import 'dart:convert';
 
-import 'package:flutter/services.dart' show rootBundle;
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../app_state.dart';
 import '../../core/theme.dart';
+import '../../data/models/imitation.dart';
 import '../../services/reading_audio_service.dart';
 import '../../services/settings_service.dart';
 import '../../widgets/common.dart';
 import '../../widgets/global_audio_mini_player.dart';
 import '../../widgets/reading_appearance_button.dart';
 import '../../widgets/sacred_art_header.dart';
-
-class _ImitationBook {
-  const _ImitationBook({required this.number, required this.title, required this.subtitle, required this.chapters});
-
-  final String number;
-  final String title;
-  final String subtitle;
-  final List<_ImitationChapter> chapters;
-}
-
-class _ImitationChapter {
-  const _ImitationChapter({
-    required this.bookNumber,
-    required this.number,
-    required this.title,
-    required this.paragraphs,
-  });
-
-  final String bookNumber;
-  final int number;
-  final String title;
-  final List<String> paragraphs;
-
-  String get label => 'Livro $bookNumber · Cap. $number';
-}
 
 /// Leitor 100% offline de "A Imitação de Cristo" (Tomás de Kempis — 4 Livros, 114 capítulos).
 class ImitacaoScreen extends StatefulWidget {
@@ -49,9 +23,8 @@ class ImitacaoScreen extends StatefulWidget {
 }
 
 class _ImitacaoScreenState extends State<ImitacaoScreen> {
-  List<_ImitationBook>? _books;
-  String _source = '';
-  String _license = '';
+  static const favoriteKind = 'imitacao';
+  ImitationOfChrist? _work;
 
   @override
   void initState() {
@@ -60,54 +33,40 @@ class _ImitacaoScreenState extends State<ImitacaoScreen> {
   }
 
   Future<void> _load() async {
-    final raw = await rootBundle.loadString('assets/data/imitacao_de_cristo.json');
-    final data = jsonDecode(raw) as Map<String, dynamic>;
-    final books = [
-      for (final b in (data['livros'] as List).cast<Map<String, dynamic>>())
-        _ImitationBook(
-          number: b['numero'] as String,
-          title: b['titulo'] as String,
-          subtitle: b['subtitulo'] as String? ?? '',
-          chapters: [
-            for (final c in (b['capitulos'] as List).cast<Map<String, dynamic>>())
-              _ImitationChapter(
-                bookNumber: b['numero'] as String,
-                number: (c['numero'] as num).toInt(),
-                title: c['titulo'] as String? ?? '',
-                paragraphs: (c['paragrafos'] as List).cast<String>(),
-              ),
-          ],
-        ),
-    ];
-    if (mounted) {
-      setState(() {
-        _books = books;
-        _source = data['fonte'] as String? ?? 'Tomás de Kempis — A Imitação de Cristo';
-        _license = data['licenca'] as String? ?? 'Domínio público';
-      });
-    }
+    final work = await context.read<AppServices>().content.imitation();
+    if (mounted) setState(() => _work = work);
   }
 
-  void _openChapter(List<_ImitationChapter> all, int index) {
-    Navigator.of(context).push(
+  Future<void> _openChapter(ImitationOfChrist work, int index) async {
+    await Navigator.of(context).push(
       MaterialPageRoute<void>(
-        builder: (_) => _ImitacaoChapterScreen(chapters: all, initialIndex: index, source: _source, license: _license),
+        builder: (_) => _ImitacaoChapterScreen(work: work, initialIndex: index),
       ),
     );
+    if (mounted) setState(() {}); // atualiza "Continuar lendo" e favoritos
   }
 
   @override
   Widget build(BuildContext context) {
     final t = Theme.of(context).textTheme;
     final pad = VsSpacing.page(context);
-    final books = _books;
-    if (books == null) {
+    final work = _work;
+    if (work == null) {
       return Scaffold(
         appBar: AppBar(title: const Text('A Imitação de Cristo')),
         body: const Center(child: CircularProgressIndicator()),
       );
     }
-    final all = [for (final b in books) ...b.chapters];
+    final books = work.books;
+    final all = work.chapters;
+    final userData = context.read<AppServices>().userData;
+    final favRefs = userData.favorites(favoriteKind).toSet();
+    final favorites = [
+      for (final (i, c) in all.indexed)
+        if (favRefs.contains(c.ref)) (i, c),
+    ];
+    final lastRef = context.read<SettingsService>().imitationLastRef;
+    final lastIdx = all.indexWhere((c) => c.ref == lastRef);
     final dayOfYear = DateTime.now().difference(DateTime(DateTime.now().year, 1, 1)).inDays;
     final todayIdx = all.isEmpty ? 0 : dayOfYear % all.length;
     final today = all.isEmpty ? null : all[todayIdx];
@@ -124,6 +83,17 @@ class _ImitacaoScreenState extends State<ImitacaoScreen> {
               children: [
                 SacredArtBanner(title: 'Tomás de Kempis', subtitle: '4 LIVROS · 114 CAPÍTULOS OFFLINE', art: art),
                 const SizedBox(height: VsSpacing.md),
+                if (lastIdx >= 0)
+                  Card(
+                    child: ListTile(
+                      contentPadding: const EdgeInsets.symmetric(horizontal: VsSpacing.md, vertical: VsSpacing.sm),
+                      leading: Icon(Icons.bookmark_outline, color: Theme.of(context).colorScheme.primary),
+                      title: Text('Continuar lendo · ${all[lastIdx].label}', style: t.titleSmall),
+                      subtitle: Text(all[lastIdx].title, style: t.titleMedium),
+                      trailing: const Icon(Icons.arrow_forward),
+                      onTap: () => _openChapter(work, lastIdx),
+                    ),
+                  ),
                 if (today != null)
                   Card(
                     child: ListTile(
@@ -132,10 +102,28 @@ class _ImitacaoScreenState extends State<ImitacaoScreen> {
                       title: Text('Leitura sugerida de hoje · ${today.label}', style: t.titleSmall),
                       subtitle: Text(today.title, style: t.titleMedium),
                       trailing: const Icon(Icons.arrow_forward),
-                      onTap: () => _openChapter(all, todayIdx),
+                      onTap: () => _openChapter(work, todayIdx),
                     ),
                   ),
                 const SizedBox(height: VsSpacing.sm),
+                if (favorites.isNotEmpty)
+                  ExpansionTile(
+                    tilePadding: EdgeInsets.zero,
+                    shape: const Border(),
+                    leading: Icon(Icons.bookmark, color: Theme.of(context).colorScheme.primary),
+                    title: Text('Favoritos', style: t.titleLarge),
+                    subtitle: Text('${favorites.length} capítulo(s)', style: t.bodySmall),
+                    children: [
+                      for (final (i, c) in favorites)
+                        ListTile(
+                          contentPadding: EdgeInsets.zero,
+                          title: Text(c.title, style: t.bodyMedium),
+                          subtitle: Text(c.label, style: t.bodySmall),
+                          trailing: const Icon(Icons.chevron_right, size: 18),
+                          onTap: () => _openChapter(work, i),
+                        ),
+                    ],
+                  ),
                 for (final b in books)
                   ExpansionTile(
                     tilePadding: EdgeInsets.zero,
@@ -155,12 +143,12 @@ class _ImitacaoScreenState extends State<ImitacaoScreen> {
                           ),
                           title: Text(c.title, style: t.bodyMedium),
                           trailing: const Icon(Icons.chevron_right, size: 18),
-                          onTap: () => _openChapter(all, all.indexOf(c)),
+                          onTap: () => _openChapter(work, all.indexOf(c)),
                         ),
                     ],
                   ),
                 const CrossDivider(),
-                SourceAttribution(source: _source, license: _license),
+                SourceAttribution(source: work.source, license: work.license),
               ],
             ),
           ),
@@ -172,33 +160,37 @@ class _ImitacaoScreenState extends State<ImitacaoScreen> {
 }
 
 class _ImitacaoChapterScreen extends StatefulWidget {
-  const _ImitacaoChapterScreen({
-    required this.chapters,
-    required this.initialIndex,
-    required this.source,
-    required this.license,
-  });
+  const _ImitacaoChapterScreen({required this.work, required this.initialIndex});
 
-  final List<_ImitationChapter> chapters;
+  final ImitationOfChrist work;
   final int initialIndex;
-  final String source;
-  final String license;
 
   @override
   State<_ImitacaoChapterScreen> createState() => _ImitacaoChapterScreenState();
 }
 
 class _ImitacaoChapterScreenState extends State<_ImitacaoChapterScreen> {
+  late final List<ImitationChapter> _chapters = widget.work.chapters;
   late int _index = widget.initialIndex;
 
-  /// Troca de capítulo e volta a rolagem ao topo.
+  @override
+  void initState() {
+    super.initState();
+    _remember();
+  }
+
+  /// Guarda o capítulo atual para o "Continuar lendo".
+  void _remember() => context.read<SettingsService>().imitationLastRef = _chapters[_index].ref;
+
+  /// Troca de capítulo, guarda a posição e volta a rolagem ao topo.
   void _goTo(int index) {
     setState(() => _index = index);
+    _remember();
     final scroll = PrimaryScrollController.of(context);
     if (scroll.hasClients) scroll.jumpTo(0);
   }
 
-  void _listen(_ImitationChapter c) {
+  void _listen(ImitationChapter c) {
     final settings = context.read<SettingsService>();
     final speech = '${c.label}. ${c.title}. ${c.paragraphs.join(' ')}';
     context.read<ReadingAudioController>().playSingle(
@@ -215,7 +207,9 @@ class _ImitacaoChapterScreenState extends State<_ImitacaoChapterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final c = widget.chapters[_index];
+    final c = _chapters[_index];
+    final userData = context.read<AppServices>().userData;
+    final fav = userData.isFavorite(_ImitacaoScreenState.favoriteKind, c.ref);
     final t = Theme.of(context).textTheme;
     final pad = VsSpacing.page(context);
     return Scaffold(
@@ -228,6 +222,13 @@ class _ImitacaoChapterScreenState extends State<_ImitacaoChapterScreen> {
             onPressed: () => _listen(c),
           ),
           IconButton(
+            tooltip: fav ? 'Remover dos favoritos' : 'Favoritar',
+            icon: Icon(fav ? Icons.bookmark : Icons.bookmark_border),
+            onPressed: () => setState(
+              () => userData.toggleFavorite(_ImitacaoScreenState.favoriteKind, c.ref, label: '${c.label} — ${c.title}'),
+            ),
+          ),
+          IconButton(
             tooltip: 'Compartilhar',
             icon: const Icon(Icons.ios_share_outlined),
             onPressed: () {
@@ -236,6 +237,7 @@ class _ImitacaoChapterScreenState extends State<_ImitacaoChapterScreen> {
               unawaited(SharePlus.instance.share(ShareParams(text: text)));
             },
           ),
+          const ReadingAppearanceButton(),
         ],
       ),
       body: ListView(
@@ -267,7 +269,7 @@ class _ImitacaoChapterScreenState extends State<_ImitacaoChapterScreen> {
                   label: const Text('Anterior'),
                 ),
               const Spacer(),
-              if (_index < widget.chapters.length - 1)
+              if (_index < _chapters.length - 1)
                 FilledButton.tonalIcon(
                   onPressed: () => _goTo(_index + 1),
                   icon: const Icon(Icons.chevron_right),
@@ -276,7 +278,7 @@ class _ImitacaoChapterScreenState extends State<_ImitacaoChapterScreen> {
             ],
           ),
           const CrossDivider(),
-          SourceAttribution(source: widget.source, license: widget.license),
+          SourceAttribution(source: widget.work.source, license: widget.work.license),
         ],
       ),
       bottomNavigationBar: const GlobalAudioMiniPlayer(useSafeArea: true),
