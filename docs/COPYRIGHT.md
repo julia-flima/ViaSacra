@@ -9,7 +9,8 @@ cobertos pela GPL. O projeto não tem fins lucrativos e atribui todas as fontes 
 | Homilias do Papa (Vatican News) | © Libreria Editrice Vaticana / Dicastério para a Comunicação | Reprodução pastoral não comercial com citação e link para o original; quando apenas o RSS está disponível, só o resumo é exibido. |
 | Santos Padres | Domínio público | Traduções livres do projeto (`scraper/patristic.json`), revisáveis pela comunidade. |
 | Arte sacra | Domínio público / CC0 | Somente obras de artistas falecidos há mais de 70 anos, com licença verificada automaticamente no Commons (`tool/fetch_sacred_art.py`). |
-| Catecismo (CIC) | © Libreria Editrice Vaticana | O repositório inclui apenas o **índice** (dado factual) e 5 trechos breves de exemplo (citação, Lei 9.610/98, art. 46, III). O texto integral só entra com autorização por escrito, via `tool/import_catechism.py`. |
+| Catecismo (CIC) | © Libreria Editrice Vaticana | O repositório inclui apenas o **índice** (dado factual); o app abre o texto oficial no vatican.va. O usuário pode importar no aparelho um `.json` próprio (importador modular). |
+| Catecismo Maior de São Pio X | Original (1905) em domínio público; **tradução portuguesa não oficial** (Internet Archive), licença em verificação | Embutido provisoriamente, sem as notas do tradutor, até encontrarmos uma tradução comprovadamente em domínio público (ver [#29](https://github.com/julia-flima/ViaSacra/issues/29)). Gerado por `scripts/build_sao_pio_x.py`. |
 | Orações tradicionais | Domínio público | Textos litúrgicos tradicionais. |
 | Bíblia — Vulgata Clementina, Douay-Rheims | Domínio público | Embutidas (texto via github.com/mborders/vulgata, código MIT). |
 | Bíblia — Figueiredo | Domínio público | Pode ser embutida assim que houver texto-fonte digitalizado confiável. |

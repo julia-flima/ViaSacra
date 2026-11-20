@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:via_sacra/core/constants.dart';
 import 'package:via_sacra/data/catechism_repository.dart';
 import 'package:via_sacra/data/database.dart';
 import 'package:via_sacra/data/models/catechism.dart';
@@ -10,6 +11,7 @@ import 'package:via_sacra/data/user_data_repository.dart';
 import 'package:via_sacra/services/catechism_import_service.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized(); // rootBundle (assets) no seed
   late AppDatabase db;
 
   setUp(() async {
@@ -19,22 +21,16 @@ void main() {
 
   tearDown(() => db.close());
 
-  test('Busca por número exato e FTS5 sem acentos', () {
-    final repo = CatechismRepository(db);
-    expect(repo.search('1324').single.number, 1324);
-    expect(repo.search('§ 27').single.number, 27);
-    final graca = repo.search('graca');
-    expect(graca.map((p) => p.number), contains(1996));
-    expect(graca.first.snippet, contains('«'));
-    expect(repo.search('Eucaristia').first.number, 1324);
-    expect(repo.search('"(*'), isEmpty); // entrada malformada não quebra o FTS
-  });
-
   test('Índice do CIC com 4 partes + prólogo', () {
     final toc = CatechismRepository(db).toc();
     expect(toc, hasLength(5));
     expect(toc.last.last, 2865);
     expect(toc[2].children.last.children.first.children.last.title, 'O sacramento da Eucaristia');
+    // Cada parte (inclusive o Prólogo, id "prologo") abre a sua página oficial.
+    final urls = [for (final n in toc) ExternalLinks.catechismPartUrl(n.id)];
+    expect(urls.toSet(), hasLength(5));
+    expect(urls, isNot(contains(ExternalLinks.catechismVatican)));
+    expect(urls.first, contains('prologo'));
   });
 
   test('Favoritos, anotações e constância', () {
@@ -58,28 +54,20 @@ void main() {
     expect(u.streak(today: DateTime(2026, 11, 22)).current, 0);
   });
 
-  test('Catecismos embutidos (São Pio X + Catecismo Romano) e importador modular JSON', () async {
-    await db.importCatechismWork(
-      jsonDecode(File('assets/db/sao_pio_x.json').readAsStringSync()) as Map<String, dynamic>,
-      bundled: true,
-    );
-    await db.importCatechismWork(
-      jsonDecode(File('assets/db/catecismo_romano.json').readAsStringSync()) as Map<String, dynamic>,
-      bundled: true,
-    );
+  test('São Pio X embutido (994 perguntas) e importador modular JSON', () async {
+    final spx = jsonDecode(File('assets/db/sao_pio_x.json').readAsStringSync()) as Map<String, dynamic>;
+    await db.importCatechismWork(spx, bundled: true);
     final repo = CatechismRepository(db);
-    expect(db.catechismWorkVersion('sao_pio_x'), 2);
-    expect(db.catechismWorkVersion('romano_trento'), 1);
+    expect(db.catechismWorkVersion('sao_pio_x'), 3);
     expect(db.catechismWorkVersion('inexistente'), isNull);
-    expect(repo.works().map((w) => w.id), containsAll(['sao_pio_x', 'romano_trento']));
-    expect(repo.work('sao_pio_x')!.entryCount, greaterThan(900));
+    expect(repo.works().map((w) => w.id), ['sao_pio_x']);
+    expect(repo.work('sao_pio_x')!.entryCount, 994);
     expect(repo.parts('sao_pio_x'), isNotEmpty);
     final summaries = repo.partSummaries('sao_pio_x');
     expect(summaries.map((s) => s.part).toList(), repo.parts('sao_pio_x'));
     expect(summaries.fold<int>(0, (acc, s) => acc + s.count), repo.work('sao_pio_x')!.entryCount);
     expect(repo.searchEntries('sao_pio_x', '1').single.question, 'Sois cristão?');
     expect(repo.searchEntries('sao_pio_x', 'Eucaristia'), isNotEmpty);
-    expect(repo.searchEntries('romano_trento', 'transubstanciacao').single.number, 6);
 
     final importer = CatechismImportService(repo);
     final payload = utf8.encode(
@@ -110,5 +98,39 @@ void main() {
     await expectLater(importer.deleteWork('sao_pio_x'), throwsA(isA<CatechismModuleException>()));
     await importer.deleteWork('cic_local');
     expect(repo.work('cic_local'), isNull);
+  });
+
+  test('sao_pio_x.json: 994 perguntas em sequência, sem artefatos de OCR nem notas do tradutor', () {
+    final spx = jsonDecode(File('assets/db/sao_pio_x.json').readAsStringSync()) as Map<String, dynamic>;
+    final entries = (spx['entradas'] as List).cast<Map<String, dynamic>>();
+    expect([for (final e in entries) e['numero']], [for (var n = 1; n <= 994; n++) n]);
+    final artefato = RegExp(r'CATECISMO MAIOR|Pio X|Page \d|Nota d[oa] Tradutor|CAP[ÍI]TULO|\d{1,2}º\s*-\s*D[aoe]');
+    for (final e in entries) {
+      final texto = '${e['pergunta']} ${e['resposta']}';
+      expect(artefato.hasMatch(texto), isFalse, reason: 'P. ${e['numero']}: $texto');
+      expect((e['resposta'] as String).trim(), isNotEmpty, reason: 'P. ${e['numero']}');
+    }
+    // Perguntas imperativas antes perdidas pelo extrator.
+    expect(entries[17]['pergunta'], 'Dizei-os.');
+    expect(entries[284]['pergunta'], 'Rezai o Padre-Nosso.');
+  });
+
+  test('Catecismo Romano embutido (retirado) é apagado; importação do usuário é mantida', () async {
+    Map<String, dynamic> obra(String id) => {
+      'id': id,
+      'nome': 'Catecismo Romano',
+      'idioma': 'pt-BR',
+      'entradas': [
+        {'numero': 1, 'resposta': 'Texto.'},
+      ],
+    };
+    await db.importCatechismWork(obra('romano_trento'), bundled: true);
+    await db.importCatechismWork(obra('romano_usuario'));
+    await db.seedBundledCatechismWorks();
+    final repo = CatechismRepository(db);
+    expect(repo.work('romano_trento'), isNull);
+    expect(db.db.select("SELECT 1 FROM catechism_entries WHERE catechism_id = 'romano_trento'"), isEmpty);
+    expect(repo.work('romano_usuario'), isNotNull);
+    expect(db.catechismWorkVersion('sao_pio_x'), 3); // instalado pelo seed a partir do asset
   });
 }
