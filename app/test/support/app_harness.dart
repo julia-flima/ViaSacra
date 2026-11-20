@@ -94,24 +94,18 @@ void setUpScreens() {
     await _loadFont('MaterialIcons', ['$sdk/bin/cache/artifacts/material_fonts/MaterialIcons-Regular.otf']);
     if (_goldens) {
       // Mesmas fontes embutidas no app (assets/fonts), para capturas fiéis.
-      // A família primária do tema (EBGaramond/Inter) é opcional; nos testes ela
-      // aponta para as mesmas fontes embutidas usadas como fallback no app.
-      for (final family in ['EBGaramond', 'Merriweather']) {
-        await _loadFont(family, [
-          'assets/fonts/Merriweather-Regular.ttf',
-          'assets/fonts/Merriweather-Italic.ttf',
-          'assets/fonts/Merriweather-Light.ttf',
-          'assets/fonts/Merriweather-BoldItalic.ttf',
-        ]);
-      }
-      for (final family in ['Inter', 'Roboto']) {
-        await _loadFont(family, [
-          'assets/fonts/Roboto-Regular.ttf',
-          'assets/fonts/Roboto-Medium.ttf',
-          'assets/fonts/Roboto-Bold.ttf',
-          'assets/fonts/Roboto-Italic.ttf',
-        ]);
-      }
+      await _loadFont('Merriweather', [
+        'assets/fonts/Merriweather-Regular.ttf',
+        'assets/fonts/Merriweather-Italic.ttf',
+        'assets/fonts/Merriweather-Light.ttf',
+        'assets/fonts/Merriweather-BoldItalic.ttf',
+      ]);
+      await _loadFont('Roboto', [
+        'assets/fonts/Roboto-Regular.ttf',
+        'assets/fonts/Roboto-Medium.ttf',
+        'assets/fonts/Roboto-Bold.ttf',
+        'assets/fonts/Roboto-Italic.ttf',
+      ]);
       await _loadFont('ViaSacraSymbols', ['assets/fonts/ViaSacraSymbols.ttf']);
     }
   });

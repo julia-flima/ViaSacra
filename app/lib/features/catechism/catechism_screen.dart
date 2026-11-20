@@ -35,10 +35,25 @@ class _CatechismScreenState extends State<CatechismScreen> {
   final _query = TextEditingController();
   Timer? _debounce;
   _CatechismView _view = _CatechismView.offline;
+  bool _initialized = false;
   String? _selectedWorkId;
+  List<CatechismWork> _works = const [];
+  List<CatechismTocNode> _toc = const [];
+  List<({String part, int count})> _parts = const [];
+  List<CatechismEntry> _favorites = const [];
+  final Map<String, List<CatechismEntry>> _loadedParts = {};
+  final Set<String> _expandedParts = {};
   List<CatechismEntry>? _results;
   double? _importProgress;
   String? _importLabel;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_initialized) return;
+    _initialized = true;
+    _reloadAll();
+  }
 
   @override
   void dispose() {
@@ -47,10 +62,64 @@ class _CatechismScreenState extends State<CatechismScreen> {
     super.dispose();
   }
 
-  String? _activeWorkId(List<CatechismWork> works) {
+  CatechismWork? _resolveActiveWork(List<CatechismWork> works) {
     if (works.isEmpty) return null;
-    if (_selectedWorkId != null && works.any((w) => w.id == _selectedWorkId)) return _selectedWorkId;
-    return works.first.id;
+    if (_selectedWorkId != null) {
+      final match = works.where((w) => w.id == _selectedWorkId).firstOrNull;
+      if (match != null) return match;
+    }
+    return works.first;
+  }
+
+  void _reloadAll() {
+    final s = context.read<AppServices>();
+    _works = s.catechism.works();
+    _toc = s.catechism.toc();
+    final active = _resolveActiveWork(_works);
+    _selectedWorkId = active?.id;
+    _loadWorkData(active?.id);
+  }
+
+  void _loadWorkData(String? workId) {
+    final s = context.read<AppServices>();
+    _loadedParts.clear();
+    _expandedParts.clear();
+    if (workId == null) {
+      _parts = const [];
+      _favorites = const [];
+      return;
+    }
+    _parts = s.catechism.partSummaries(workId);
+    _loadFavorites(workId);
+  }
+
+  void _loadFavorites(String workId) {
+    final s = context.read<AppServices>();
+    final favRefs = s.userData.favorites('catechism').where((r) => r.startsWith('$workId:'));
+    _favorites = [
+      for (final ref in favRefs)
+        if (int.tryParse(ref.split(':').last) case final n?) ?s.catechism.entryByNumber(workId, n),
+    ];
+  }
+
+  void _selectWork(String workId) {
+    final repo = context.read<AppServices>().catechism;
+    setState(() {
+      _selectedWorkId = workId;
+      _loadWorkData(workId);
+      _results = _query.text.trim().isEmpty ? null : repo.searchEntries(workId, _query.text);
+    });
+  }
+
+  void _togglePart(String workId, String part) {
+    final repo = context.read<AppServices>().catechism;
+    setState(() {
+      if (!_expandedParts.add(part)) {
+        _expandedParts.remove(part);
+      } else {
+        _loadedParts.putIfAbsent(part, () => repo.entriesByPart(workId, part));
+      }
+    });
   }
 
   void _search(String q, String? workId) {
@@ -84,6 +153,7 @@ class _CatechismScreenState extends State<CatechismScreen> {
           _view = _CatechismView.offline;
           _query.clear();
           _results = null;
+          _reloadAll();
         });
         messenger.showSnackBar(SnackBar(content: Text('“${result.name}” importado (${result.entryCount} entradas).')));
       }
@@ -130,6 +200,7 @@ class _CatechismScreenState extends State<CatechismScreen> {
         setState(() {
           _selectedWorkId = null;
           _results = null;
+          _reloadAll();
         });
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('“${work.name}” removido.')));
       }
@@ -138,179 +209,264 @@ class _CatechismScreenState extends State<CatechismScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final s = context.read<AppServices>();
-    final repo = s.catechism;
-    final works = repo.works();
-    final activeId = _activeWorkId(works);
-    final activeWork = activeId == null ? null : works.where((w) => w.id == activeId).firstOrNull;
+    final activeWork = _resolveActiveWork(_works);
     final pad = VsSpacing.page(context);
     final t = Theme.of(context).textTheme;
 
     return Scaffold(
       appBar: widget.embedded ? null : AppBar(title: const Text('Catecismo')),
-      body: ListView(
-        padding: EdgeInsets.fromLTRB(pad, VsSpacing.sm, pad, VsSpacing.xxl),
-        children: [
-          SegmentedButton<_CatechismView>(
-            segments: const [
-              ButtonSegment(value: _CatechismView.offline, label: Text('Estudo Offline'), icon: Icon(Icons.menu_book)),
-              ButtonSegment(
-                value: _CatechismView.officialCic,
-                label: Text('CIC (1992) Oficial'),
-                icon: Icon(Icons.public),
+      body: CustomScrollView(
+        slivers: [
+          SliverPadding(
+            padding: EdgeInsets.fromLTRB(pad, VsSpacing.sm, pad, VsSpacing.md),
+            sliver: SliverToBoxAdapter(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  SegmentedButton<_CatechismView>(
+                    segments: const [
+                      ButtonSegment(
+                        value: _CatechismView.offline,
+                        label: Text('Estudo Offline'),
+                        icon: Icon(Icons.menu_book),
+                      ),
+                      ButtonSegment(
+                        value: _CatechismView.officialCic,
+                        label: Text('CIC (1992) Oficial'),
+                        icon: Icon(Icons.public),
+                      ),
+                    ],
+                    selected: {_view},
+                    onSelectionChanged: (v) => setState(() => _view = v.first),
+                  ),
+                  if (_importProgress != null) ...[
+                    const SizedBox(height: VsSpacing.sm),
+                    Text(_importLabel ?? 'Importando…', style: t.bodySmall),
+                    const SizedBox(height: 4),
+                    LinearProgressIndicator(value: _importProgress),
+                  ],
+                ],
               ),
-            ],
-            selected: {_view},
-            onSelectionChanged: (v) => setState(() => _view = v.first),
+            ),
           ),
-          if (_importProgress != null) ...[
-            const SizedBox(height: VsSpacing.sm),
-            Text(_importLabel ?? 'Importando…', style: t.bodySmall),
-            const SizedBox(height: 4),
-            LinearProgressIndicator(value: _importProgress),
-          ],
-          const SizedBox(height: VsSpacing.md),
           if (_view == _CatechismView.offline)
-            ..._buildOffline(context, s, works, activeWork)
+            ..._buildOfflineSlivers(context, pad, activeWork)
           else
-            ..._buildOfficialCic(context, s),
+            SliverPadding(
+              padding: EdgeInsets.fromLTRB(pad, 0, pad, VsSpacing.xxl),
+              sliver: SliverList.list(children: _buildOfficialCic(context)),
+            ),
         ],
       ),
     );
   }
 
-  List<Widget> _buildOffline(
-    BuildContext context,
-    AppServices s,
-    List<CatechismWork> works,
-    CatechismWork? activeWork,
-  ) {
-    final repo = s.catechism;
+  List<Widget> _buildOfflineSlivers(BuildContext context, double pad, CatechismWork? activeWork) {
     final t = Theme.of(context).textTheme;
     final workId = activeWork?.id;
-    final favRefs = workId == null
-        ? const <String>[]
-        : s.userData.favorites('catechism').where((r) => r.startsWith('$workId:')).toList();
 
     return [
-      Wrap(
-        spacing: 8,
-        runSpacing: 8,
-        children: [
-          for (final w in works)
-            ChoiceChip(
-              label: Text(w.shortName),
-              selected: w.id == workId,
-              onSelected: (_) => setState(() {
-                _selectedWorkId = w.id;
-                _results = _query.text.trim().isEmpty ? null : repo.searchEntries(w.id, _query.text);
-              }),
-            ),
-          ActionChip(
-            avatar: const Icon(Icons.file_open_outlined, size: 18),
-            label: const Text('Importar (.json)'),
-            onPressed: _importProgress != null ? null : _importJson,
-          ),
-        ],
-      ),
-      if (activeWork != null) ...[
-        const SizedBox(height: VsSpacing.sm),
-        Row(
-          children: [
-            Expanded(
-              child: Text(
-                '${activeWork.name} · ${activeWork.license} (${activeWork.entryCount} entradas)',
-                style: t.bodySmall,
+      SliverPadding(
+        padding: EdgeInsets.symmetric(horizontal: pad),
+        sliver: SliverToBoxAdapter(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: [
+                  for (final w in _works)
+                    ChoiceChip(
+                      label: Text(w.shortName),
+                      selected: w.id == workId,
+                      onSelected: (_) => _selectWork(w.id),
+                    ),
+                  ActionChip(
+                    avatar: const Icon(Icons.file_open_outlined, size: 18),
+                    label: const Text('Importar (.json)'),
+                    onPressed: _importProgress != null ? null : _importJson,
+                  ),
+                ],
               ),
-            ),
-            if (!activeWork.bundled)
-              IconButton(
-                tooltip: 'Excluir catecismo importado',
-                icon: const Icon(Icons.delete_outline, size: 20),
-                onPressed: () => _deleteWork(activeWork),
-              ),
-          ],
-        ),
-      ],
-      const SizedBox(height: VsSpacing.sm),
-      SearchBar(
-        controller: _query,
-        hintText: activeWork == null
-            ? 'Buscar no Catecismo'
-            : 'Número (ex.: 1 ou §1324) ou palavra em ${activeWork.shortName}',
-        leading: const Icon(Icons.search),
-        elevation: const WidgetStatePropertyAll(0),
-        side: WidgetStatePropertyAll(BorderSide(color: Theme.of(context).colorScheme.outline)),
-        onChanged: (q) => _search(q, workId),
-        trailing: [
-          if (_query.text.isNotEmpty)
-            IconButton(
-              tooltip: 'Limpar',
-              icon: const Icon(Icons.close),
-              onPressed: () {
-                _query.clear();
-                _search('', workId);
-              },
-            ),
-        ],
-      ),
-      const SizedBox(height: VsSpacing.sm),
-      Wrap(
-        spacing: 8,
-        children: [
-          for (final topic in ['Eucaristia', 'Maria', 'Graça', 'Oração', 'Mandamentos'])
-            ActionChip(
-              label: Text(topic),
-              onPressed: () {
-                _query.text = topic;
-                _search(topic, workId);
-              },
-            ),
-        ],
-      ),
-      const SizedBox(height: VsSpacing.md),
-      if (activeWork == null)
-        Text('Nenhum catecismo offline instalado. Toque em "Importar (.json)" para adicionar um.', style: t.bodyMedium)
-      else if (_results != null) ...[
-        Eyebrow('${_results!.length} resultado${_results!.length == 1 ? '' : 's'} em ${activeWork.shortName}'),
-        if (_results!.isEmpty)
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: VsSpacing.lg),
-            child: Text('Nada encontrado em ${activeWork.name}.', style: t.bodyMedium),
-          ),
-        for (final entry in _results!)
-          _EntryTile(entry: entry, label: activeWork.entryLabel, onTap: () => _openEntry(context, activeWork, entry)),
-      ] else ...[
-        if (favRefs.isNotEmpty) ...[
-          const Eyebrow('Favoritos'),
-          for (final ref in favRefs)
-            if (int.tryParse(ref.split(':').last) case final n?)
-              if (repo.entryByNumber(activeWork.id, n) case final entry?)
-                _EntryTile(
-                  entry: entry,
-                  label: activeWork.entryLabel,
-                  onTap: () => _openEntry(context, activeWork, entry),
+              if (activeWork != null) ...[
+                const SizedBox(height: VsSpacing.sm),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        '${activeWork.name} · ${activeWork.license} (${activeWork.entryCount} entradas)',
+                        style: t.bodySmall,
+                      ),
+                    ),
+                    if (!activeWork.bundled)
+                      IconButton(
+                        tooltip: 'Excluir catecismo importado',
+                        icon: const Icon(Icons.delete_outline, size: 20),
+                        onPressed: () => _deleteWork(activeWork),
+                      ),
+                  ],
                 ),
-          const CrossDivider(),
-        ],
-        Eyebrow('Partes — ${activeWork.shortName}'),
-        const SizedBox(height: VsSpacing.sm),
-        for (final part in repo.parts(activeWork.id))
-          _PartTile(
-            part: part,
-            work: activeWork,
-            entries: repo.entriesByPart(activeWork.id, part),
-            onOpen: (e) => _openEntry(context, activeWork, e),
+              ],
+              const SizedBox(height: VsSpacing.sm),
+              SearchBar(
+                controller: _query,
+                hintText: activeWork == null
+                    ? 'Buscar no Catecismo'
+                    : 'Número (ex.: 1 ou §1324) ou palavra em ${activeWork.shortName}',
+                leading: const Icon(Icons.search),
+                elevation: const WidgetStatePropertyAll(0),
+                side: WidgetStatePropertyAll(BorderSide(color: Theme.of(context).colorScheme.outline)),
+                onChanged: (q) => _search(q, workId),
+                trailing: [
+                  if (_query.text.isNotEmpty)
+                    IconButton(
+                      tooltip: 'Limpar',
+                      icon: const Icon(Icons.close),
+                      onPressed: () {
+                        _query.clear();
+                        _search('', workId);
+                      },
+                    ),
+                ],
+              ),
+              const SizedBox(height: VsSpacing.sm),
+              Wrap(
+                spacing: 8,
+                children: [
+                  for (final topic in ['Eucaristia', 'Maria', 'Graça', 'Oração', 'Mandamentos'])
+                    ActionChip(
+                      label: Text(topic),
+                      onPressed: () {
+                        _query.text = topic;
+                        _search(topic, workId);
+                      },
+                    ),
+                ],
+              ),
+              const SizedBox(height: VsSpacing.md),
+              if (activeWork == null)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: VsSpacing.xxl),
+                  child: Text(
+                    'Nenhum catecismo offline instalado. Toque em "Importar (.json)" para adicionar um.',
+                    style: t.bodyMedium,
+                  ),
+                ),
+            ],
           ),
-        const CrossDivider(),
-        SourceAttribution(source: activeWork.source ?? activeWork.name, license: activeWork.license),
+        ),
+      ),
+      if (activeWork != null && _results != null) ...[
+        SliverPadding(
+          padding: EdgeInsets.symmetric(horizontal: pad),
+          sliver: SliverToBoxAdapter(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Eyebrow('${_results!.length} resultado${_results!.length == 1 ? '' : 's'} em ${activeWork.shortName}'),
+                if (_results!.isEmpty)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: VsSpacing.lg),
+                    child: Text('Nada encontrado em ${activeWork.name}.', style: t.bodyMedium),
+                  ),
+              ],
+            ),
+          ),
+        ),
+        SliverPadding(
+          padding: EdgeInsets.fromLTRB(pad, 0, pad, VsSpacing.xxl),
+          sliver: SliverList.builder(
+            itemCount: _results!.length,
+            itemBuilder: (context, index) {
+              final entry = _results![index];
+              return _EntryTile(
+                entry: entry,
+                label: activeWork.entryLabel,
+                onTap: () => _openEntry(context, activeWork, entry),
+              );
+            },
+          ),
+        ),
+      ] else if (activeWork != null) ...[
+        if (_favorites.isNotEmpty) ...[
+          SliverPadding(
+            padding: EdgeInsets.symmetric(horizontal: pad),
+            sliver: SliverList.list(
+              children: [
+                const Eyebrow('Favoritos'),
+                for (final entry in _favorites)
+                  _EntryTile(
+                    entry: entry,
+                    label: activeWork.entryLabel,
+                    onTap: () => _openEntry(context, activeWork, entry),
+                  ),
+                const CrossDivider(),
+              ],
+            ),
+          ),
+        ],
+        SliverPadding(
+          padding: EdgeInsets.symmetric(horizontal: pad),
+          sliver: SliverToBoxAdapter(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Eyebrow('Partes — ${activeWork.shortName}'),
+                const SizedBox(height: VsSpacing.sm),
+              ],
+            ),
+          ),
+        ),
+        for (final summary in _parts) ...[
+          SliverPadding(
+            padding: EdgeInsets.symmetric(horizontal: pad),
+            sliver: SliverToBoxAdapter(
+              child: ListTile(
+                contentPadding: EdgeInsets.zero,
+                title: Text(summary.part, style: t.titleMedium),
+                subtitle: Text('${summary.count} entrada(s)', style: t.bodySmall),
+                trailing: Icon(_expandedParts.contains(summary.part) ? Icons.expand_less : Icons.expand_more),
+                onTap: () => _togglePart(activeWork.id, summary.part),
+              ),
+            ),
+          ),
+          if (_expandedParts.contains(summary.part))
+            Builder(
+              builder: (_) {
+                final entries = _loadedParts[summary.part] ?? const <CatechismEntry>[];
+                return SliverPadding(
+                  padding: EdgeInsets.symmetric(horizontal: pad),
+                  sliver: SliverList.builder(
+                    itemCount: entries.length,
+                    itemBuilder: (context, index) => _EntryTile(
+                      entry: entries[index],
+                      label: activeWork.entryLabel,
+                      onTap: () => _openEntry(context, activeWork, entries[index]),
+                    ),
+                  ),
+                );
+              },
+            ),
+        ],
+        SliverPadding(
+          padding: EdgeInsets.fromLTRB(pad, 0, pad, VsSpacing.xxl),
+          sliver: SliverToBoxAdapter(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const CrossDivider(),
+                SourceAttribution(source: activeWork.source ?? activeWork.name, license: activeWork.license),
+              ],
+            ),
+          ),
+        ),
       ],
     ];
   }
 
-  List<Widget> _buildOfficialCic(BuildContext context, AppServices s) {
+  List<Widget> _buildOfficialCic(BuildContext context) {
     final t = Theme.of(context).textTheme;
-    final toc = s.catechism.toc();
     return [
       Card(
         child: Padding(
@@ -364,7 +520,7 @@ class _CatechismScreenState extends State<CatechismScreen> {
       const SizedBox(height: VsSpacing.md),
       const Eyebrow('Índice das 4 Partes do CIC (1992)'),
       const SizedBox(height: VsSpacing.sm),
-      for (final part in toc)
+      for (final part in _toc)
         _OfficialTocTile(
           node: part,
           onOpen: (n) => openVaticanDocument(context, title: n.title, url: ExternalLinks.catechismPartUrl(n.id)),
@@ -377,28 +533,11 @@ class _CatechismScreenState extends State<CatechismScreen> {
       builder: (_) => CatechismEntryScreen(work: work, entry: entry),
     );
     await Navigator.of(context).push(route);
-    if (mounted) setState(() {});
-  }
-}
-
-class _PartTile extends StatelessWidget {
-  const _PartTile({required this.part, required this.work, required this.entries, required this.onOpen});
-
-  final String part;
-  final CatechismWork work;
-  final List<CatechismEntry> entries;
-  final void Function(CatechismEntry) onOpen;
-
-  @override
-  Widget build(BuildContext context) {
-    final t = Theme.of(context).textTheme;
-    return ExpansionTile(
-      tilePadding: EdgeInsets.zero,
-      shape: const Border(),
-      title: Text(part, style: t.titleMedium),
-      subtitle: Text('${entries.length} entrada(s)', style: t.bodySmall),
-      children: [for (final e in entries) _EntryTile(entry: e, label: work.entryLabel, onTap: () => onOpen(e))],
-    );
+    if (mounted) {
+      setState(() {
+        if (work.id == _selectedWorkId) _loadFavorites(work.id);
+      });
+    }
   }
 }
 
@@ -545,8 +684,18 @@ class _CatechismEntryScreenState extends State<CatechismEntryScreen> {
           Eyebrow(e.part),
           if (e.chapter != null) ...[const SizedBox(height: 4), Text(e.chapter!, style: t.bodySmall)],
           const SizedBox(height: VsSpacing.md),
-          if (e.question != null) ...[Text(e.question!, style: t.titleLarge), const SizedBox(height: VsSpacing.sm)],
-          SelectableText(e.answer, style: t.bodyLarge),
+          SelectionArea(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (e.question != null) ...[
+                  Text(e.question!, style: t.titleLarge),
+                  const SizedBox(height: VsSpacing.sm),
+                ],
+                Text(e.answer, style: t.bodyLarge),
+              ],
+            ),
+          ),
           const SizedBox(height: VsSpacing.md),
           SourceAttribution(source: widget.work.source ?? widget.work.name, license: widget.work.license),
           const CrossDivider(),
@@ -584,7 +733,7 @@ class ParagraphScreen extends StatelessWidget {
           if (p == null)
             Text('O texto deste parágrafo ainda não está disponível offline.', style: t.bodyLarge)
           else
-            SelectableText(p.text, style: t.bodyLarge),
+            SelectionArea(child: Text(p.text, style: t.bodyLarge)),
         ],
       ),
     );

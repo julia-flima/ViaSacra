@@ -129,6 +129,13 @@ class CatechismRepository {
     return _db.db.select(sql, [catechismId]).map((r) => r['part'] as String).toList();
   }
 
+  /// Resumo das partes (título e total de entradas) sem carregar os textos.
+  List<({String part, int count})> partSummaries(String catechismId) {
+    const sql =
+        'SELECT part, COUNT(*) AS c FROM catechism_entries WHERE catechism_id = ? GROUP BY part ORDER BY MIN(number)';
+    return _db.db.select(sql, [catechismId]).map((r) => (part: r['part'] as String, count: r['c'] as int)).toList();
+  }
+
   List<CatechismEntry> entriesByPart(String catechismId, String part) {
     const sql = 'SELECT * FROM catechism_entries WHERE catechism_id = ? AND part = ? ORDER BY number';
     return _db.db.select(sql, [catechismId, part]).map(CatechismEntry.fromRow).toList();

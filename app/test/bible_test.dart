@@ -163,7 +163,10 @@ void main() {
       repo.saveAnnotation('jo', 3, 16, const VerseAnnotation(color: HighlightColor.ouro, favorite: true, note: 'Amor'));
       final a = repo.annotations('jo', 3)[16]!;
       expect((a.color, a.favorite, a.note), (HighlightColor.ouro, true, 'Amor'));
-      expect(repo.marked(favoritesOnly: true).single.verse, 16);
+      final m = repo.marked(favoritesOnly: true, translationId: 'vulgata').single;
+      expect(m.verse, 16);
+      expect(m.text, contains('Sic enim Deus dilexit mundum'));
+      expect(repo.marked(translationId: 'vulgata', favoritesOnly: false).single.a.note, 'Amor');
       repo.saveAnnotation('jo', 3, 16, const VerseAnnotation());
       expect(repo.annotations('jo', 3), isEmpty);
     });

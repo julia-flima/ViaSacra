@@ -34,91 +34,92 @@ class SacredArtBanner extends StatelessWidget {
     final bannerHeight = height ?? (wide ? 240.0 : 185.0);
     final a = art;
 
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(16),
-      child: SizedBox(
-        height: bannerHeight,
-        width: double.infinity,
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            if (a?.assetPath != null)
-              Image.asset(
-                a!.assetPath!,
-                fit: BoxFit.cover,
-                alignment: alignment,
-                cacheWidth: 960,
-                filterQuality: FilterQuality.medium,
-                errorBuilder: (_, _, _) => _ArtFallback(cs: cs),
-              )
-            else
-              _ArtFallback(cs: cs),
-            DecoratedBox(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Colors.black.withValues(alpha: 0.12),
-                    Colors.black.withValues(alpha: 0.22),
-                    Colors.black.withValues(alpha: 0.80),
-                  ],
-                  stops: const [0.0, 0.45, 1.0],
-                ),
-              ),
-            ),
-            if (a != null)
-              Positioned(
-                top: 10,
-                right: 10,
-                child: Material(
-                  color: Colors.black.withValues(alpha: 0.48),
-                  shape: const CircleBorder(),
-                  child: IconButton(
-                    tooltip: 'Sobre esta obra',
-                    visualDensity: VisualDensity.compact,
-                    icon: const Icon(Icons.info_outline, size: 18, color: Colors.white),
-                    onPressed: () => showSacredArtCreditsSheet(context, a),
+    return RepaintBoundary(
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(16),
+        child: SizedBox(
+          height: bannerHeight,
+          width: double.infinity,
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              if (a?.assetPath != null)
+                Image.asset(
+                  a!.assetPath!,
+                  fit: BoxFit.cover,
+                  alignment: alignment,
+                  cacheWidth: 800,
+                  filterQuality: FilterQuality.medium,
+                  errorBuilder: (_, _, _) => _ArtFallback(cs: cs),
+                )
+              else
+                _ArtFallback(cs: cs),
+              DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Colors.black.withValues(alpha: 0.12),
+                      Colors.black.withValues(alpha: 0.22),
+                      Colors.black.withValues(alpha: 0.80),
+                    ],
+                    stops: const [0.0, 0.45, 1.0],
                   ),
                 ),
               ),
-            Positioned(
-              left: 18,
-              right: 18,
-              bottom: 14,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  if (subtitle != null)
+              if (a != null)
+                Positioned(
+                  top: 10,
+                  right: 10,
+                  child: Material(
+                    color: Colors.black.withValues(alpha: 0.48),
+                    shape: const CircleBorder(),
+                    child: IconButton(
+                      tooltip: 'Sobre esta obra',
+                      visualDensity: VisualDensity.compact,
+                      icon: const Icon(Icons.info_outline, size: 18, color: Colors.white),
+                      onPressed: () => showSacredArtCreditsSheet(context, a),
+                    ),
+                  ),
+                ),
+              Positioned(
+                left: 18,
+                right: 18,
+                bottom: 14,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (subtitle != null)
+                      Text(
+                        subtitle!,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: t.labelSmall?.copyWith(
+                          color: Colors.white.withValues(alpha: 0.90),
+                          letterSpacing: 1.1,
+                          fontWeight: FontWeight.w700,
+                          shadows: const [Shadow(offset: Offset(0, 1), blurRadius: 3, color: Colors.black54)],
+                        ),
+                      ),
+                    if (subtitle != null) const SizedBox(height: 3),
                     Text(
-                      subtitle!,
-                      maxLines: 1,
+                      title,
+                      maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      style: t.labelSmall?.copyWith(
-                        color: Colors.white.withValues(alpha: 0.90),
-                        letterSpacing: 1.1,
-                        fontWeight: FontWeight.w600,
-                        shadows: const [Shadow(offset: Offset(0, 1), blurRadius: 3, color: Colors.black54)],
+                      style: t.titleLarge?.copyWith(
+                        color: Colors.white,
+                        shadows: const [Shadow(offset: Offset(0, 1), blurRadius: 4, color: Colors.black54)],
                       ),
                     ),
-                  if (subtitle != null) const SizedBox(height: 3),
-                  Text(
-                    title,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: t.titleLarge?.copyWith(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600,
-                      shadows: const [Shadow(offset: Offset(0, 1), blurRadius: 4, color: Colors.black54)],
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            if (accentColor != null)
-              Positioned(left: 0, right: 0, bottom: 0, child: Container(height: 3, color: accentColor)),
-          ],
+              if (accentColor != null)
+                Positioned(left: 0, right: 0, bottom: 0, child: Container(height: 3, color: accentColor)),
+            ],
+          ),
         ),
       ),
     );
@@ -154,99 +155,100 @@ class SacredArtCard extends StatelessWidget {
     final t = Theme.of(context).textTheme;
     final a = art;
 
-    return Semantics(
-      button: true,
-      label: '$title. $subtitle',
-      child: Material(
-        color: cs.surfaceContainerLow,
-        borderRadius: BorderRadius.circular(16),
-        clipBehavior: Clip.antiAlias,
-        child: InkWell(
-          onTap: onTap,
-          child: SizedBox(
-            height: height,
-            child: Stack(
-              fit: StackFit.expand,
-              children: [
-                if (a?.assetPath != null)
-                  Image.asset(
-                    a!.assetPath!,
-                    fit: BoxFit.cover,
-                    alignment: alignment,
-                    cacheWidth: 800,
-                    filterQuality: FilterQuality.medium,
-                    errorBuilder: (_, _, _) => _ArtFallback(cs: cs),
-                  )
-                else
-                  _ArtFallback(cs: cs),
-                DecoratedBox(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                        Colors.black.withValues(alpha: 0.14),
-                        Colors.black.withValues(alpha: 0.38),
-                        Colors.black.withValues(alpha: 0.86),
-                      ],
-                      stops: const [0.0, 0.48, 1.0],
-                    ),
-                  ),
-                ),
-                if (badge != null)
-                  Positioned(
-                    top: 12,
-                    left: 12,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                      decoration: BoxDecoration(
-                        color: Colors.black.withValues(alpha: 0.55),
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(color: Colors.white.withValues(alpha: 0.25)),
-                      ),
-                      child: Text(
-                        badge!,
-                        style: t.labelSmall?.copyWith(color: Colors.white, fontWeight: FontWeight.w600),
+    return RepaintBoundary(
+      child: Semantics(
+        button: true,
+        label: '$title. $subtitle',
+        child: Material(
+          color: cs.surfaceContainerLow,
+          borderRadius: BorderRadius.circular(16),
+          clipBehavior: Clip.antiAlias,
+          child: InkWell(
+            onTap: onTap,
+            child: SizedBox(
+              height: height,
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  if (a?.assetPath != null)
+                    Image.asset(
+                      a!.assetPath!,
+                      fit: BoxFit.cover,
+                      alignment: alignment,
+                      cacheWidth: 800,
+                      filterQuality: FilterQuality.medium,
+                      errorBuilder: (_, _, _) => _ArtFallback(cs: cs),
+                    )
+                  else
+                    _ArtFallback(cs: cs),
+                  DecoratedBox(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Colors.black.withValues(alpha: 0.14),
+                          Colors.black.withValues(alpha: 0.38),
+                          Colors.black.withValues(alpha: 0.86),
+                        ],
+                        stops: const [0.0, 0.48, 1.0],
                       ),
                     ),
                   ),
-                if (icon != null)
-                  Positioned(
-                    top: 12,
-                    right: 12,
-                    child: Container(
-                      padding: const EdgeInsets.all(6),
-                      decoration: BoxDecoration(color: Colors.black.withValues(alpha: 0.45), shape: BoxShape.circle),
-                      child: Icon(icon, size: 18, color: Colors.white),
-                    ),
-                  ),
-                Positioned(
-                  left: 16,
-                  right: 16,
-                  bottom: 14,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        title,
-                        style: t.titleLarge?.copyWith(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                          shadows: const [Shadow(offset: Offset(0, 1), blurRadius: 3, color: Colors.black54)],
+                  if (badge != null)
+                    Positioned(
+                      top: 12,
+                      left: 12,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: Colors.black.withValues(alpha: 0.55),
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(color: Colors.white.withValues(alpha: 0.25)),
+                        ),
+                        child: Text(
+                          badge!,
+                          style: t.labelSmall?.copyWith(color: Colors.white, fontWeight: FontWeight.w700),
                         ),
                       ),
-                      const SizedBox(height: 3),
-                      Text(
-                        subtitle,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: t.bodySmall?.copyWith(color: Colors.white.withValues(alpha: 0.90), height: 1.3),
+                    ),
+                  if (icon != null)
+                    Positioned(
+                      top: 12,
+                      right: 12,
+                      child: Container(
+                        padding: const EdgeInsets.all(6),
+                        decoration: BoxDecoration(color: Colors.black.withValues(alpha: 0.45), shape: BoxShape.circle),
+                        child: Icon(icon, size: 18, color: Colors.white),
                       ),
-                    ],
+                    ),
+                  Positioned(
+                    left: 16,
+                    right: 16,
+                    bottom: 14,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          title,
+                          style: t.titleLarge?.copyWith(
+                            color: Colors.white,
+                            shadows: const [Shadow(offset: Offset(0, 1), blurRadius: 3, color: Colors.black54)],
+                          ),
+                        ),
+                        const SizedBox(height: 3),
+                        Text(
+                          subtitle,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: t.bodySmall?.copyWith(color: Colors.white.withValues(alpha: 0.90), height: 1.3),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

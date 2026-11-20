@@ -42,23 +42,30 @@ class ReadingCard extends StatelessWidget {
               onShare: () => _share(reading),
               onOpenInBible: onOpenInBible,
             ),
-            if (gospel && reading.acclamation != null) ...[
-              const SizedBox(height: 12),
-              Text(
-                reading.acclamation!,
-                style: t.bodyMedium?.copyWith(fontStyle: FontStyle.italic, color: t.bodySmall?.color),
+            SelectionArea(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (gospel && reading.acclamation != null) ...[
+                    const SizedBox(height: 12),
+                    Text(
+                      reading.acclamation!,
+                      style: t.bodyMedium?.copyWith(fontStyle: FontStyle.italic, color: t.bodySmall?.color),
+                    ),
+                  ],
+                  if (reading.introduction != null) ...[
+                    const SizedBox(height: 12),
+                    Text(reading.introduction!, style: t.bodyMedium?.copyWith(fontStyle: FontStyle.italic)),
+                  ],
+                  const SizedBox(height: 12),
+                  Text(reading.text, style: t.bodyLarge),
+                  const SizedBox(height: 12),
+                  Text(
+                    gospel ? '— Palavra da Salvação.' : '— Palavra do Senhor.',
+                    style: t.bodyMedium?.copyWith(fontStyle: FontStyle.italic),
+                  ),
+                ],
               ),
-            ],
-            if (reading.introduction != null) ...[
-              const SizedBox(height: 12),
-              Text(reading.introduction!, style: t.bodyMedium?.copyWith(fontStyle: FontStyle.italic)),
-            ],
-            const SizedBox(height: 12),
-            SelectableText(reading.text, style: t.bodyLarge),
-            const SizedBox(height: 12),
-            Text(
-              gospel ? '— Palavra da Salvação.' : '— Palavra do Senhor.',
-              style: t.bodyMedium?.copyWith(fontStyle: FontStyle.italic),
             ),
             SourceAttribution(source: reading.source, url: sourceUrl),
           ],
@@ -237,16 +244,23 @@ class _PsalmCardState extends State<PsalmCard> {
               Text(widget.audio.psalmChordsOrMelody!, style: t.bodySmall?.copyWith(fontFamily: 'Roboto')),
             ],
             const SizedBox(height: 12),
-            for (final (i, s) in (p.stanzas.isEmpty ? [p.text] : p.stanzas).indexed) ...[
-              SelectableText(s, style: t.bodyLarge),
-              if (p.refrain != null)
-                Padding(
-                  padding: const EdgeInsets.only(top: 6, bottom: 14),
-                  child: Text('R.', style: t.labelLarge?.copyWith(color: cs.primary)),
-                )
-              else if (i < p.stanzas.length - 1)
-                const SizedBox(height: 14),
-            ],
+            SelectionArea(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  for (final (i, s) in (p.stanzas.isEmpty ? [p.text] : p.stanzas).indexed) ...[
+                    Text(s, style: t.bodyLarge),
+                    if (p.refrain != null)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 6, bottom: 14),
+                        child: Text('R.', style: t.labelLarge?.copyWith(color: cs.primary)),
+                      )
+                    else if (i < p.stanzas.length - 1)
+                      const SizedBox(height: 14),
+                  ],
+                ],
+              ),
+            ),
             SourceAttribution(source: p.source, url: widget.sourceUrl),
           ],
         ),
