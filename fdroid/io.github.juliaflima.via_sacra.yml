@@ -1,5 +1,17 @@
 # Receita de exemplo para fdroiddata (https://gitlab.com/fdroid/fdroiddata).
 # Enviar como Merge Request em metadata/io.github.juliaflima.via_sacra.yml
+#
+# Estratégia F-Droid para TTS neural offline (sherpa_onnx 1.13.8):
+# - O pacote sherpa_onnx está fixado em 1.13.8 (Apache-2.0; última versão 1.x com
+#   espeak-ng GPL-3.0 embutido, pois v2.0.0+ removeu o espeak-ng). É 100% FOSS
+#   e pronto para GitHub Releases / Obtainium / iOS, sem SDKs proprietários.
+# - Como o pacote pub.dev distribui bibliotecas `.so` pré-compiladas para Android,
+#   o repositório oficial fdroiddata (build 100% a partir do código-fonte) tem
+#   dois caminhos antes do Merge Request:
+#     1. Compilar sherpa-onnx + onnxruntime a partir dos fontes no bloco
+#        `prebuild:` com Android NDK/CMake (substituindo os .so em .pub-cache); ou
+#     2. Remover/desabilitar `sherpa_onnx` no `prebuild:` para o flavor F-Droid,
+#        mantendo o fallback automático via `flutter_tts` + áudio MP3 narrado.
 Categories:
   - Reading
   - Religion

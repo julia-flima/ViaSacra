@@ -1,2 +1,2 @@
-export 'web_tts_types.dart';
+export 'neural_tts_types.dart';
 export 'web_tts_stub.dart' if (dart.library.js_interop) 'web_tts_web.dart';

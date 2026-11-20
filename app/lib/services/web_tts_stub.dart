@@ -1,4 +1,4 @@
-import 'web_tts_types.dart';
+import 'neural_tts_types.dart';
 
 /// Stub para plataformas nativas (Android/iOS/VM): retorna false para usar o TTS do sistema.
 Future<bool> webTtsSpeak(
@@ -15,6 +15,6 @@ Future<bool> webTtsPreload({String voice = 'pf_dora'}) async => false;
 
 Future<bool> webTtsClearCache() async => false;
 
-Future<WebTtsStatus> webTtsRefreshStatus() async => const WebTtsStatus();
+Future<NeuralTtsStatus> webTtsRefreshStatus() async => const NeuralTtsStatus();
 
-void webTtsListenStatus(void Function(WebTtsStatus status) onChange) {}
+void webTtsListenStatus(void Function(NeuralTtsStatus status) onChange) {}

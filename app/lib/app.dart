@@ -1,7 +1,6 @@
 import 'dart:async' show unawaited;
 import 'dart:ui' show PointerDeviceKind;
 
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/services.dart' show HardwareKeyboard, KeyDownEvent, KeyRepeatEvent, LogicalKeyboardKey;
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
@@ -17,9 +16,9 @@ import 'features/rosary/rosary_screen.dart';
 import 'features/settings/onboarding_screen.dart';
 import 'features/settings/settings_screen.dart';
 import 'services/bible_service.dart';
+import 'services/neural_tts_types.dart';
 import 'services/reading_audio_service.dart';
 import 'services/settings_service.dart';
-import 'services/web_tts_types.dart';
 
 /// Comportamento de rolagem confortável em Desktop/Web (mouse, trackpad e toque).
 class _ViaSacraScrollBehavior extends MaterialScrollBehavior {
@@ -273,14 +272,12 @@ class _HomeShellState extends State<HomeShell> {
       ],
     );
 
-    final body = kIsWeb
-        ? Column(
-            children: [
-              Expanded(child: pages),
-              const _WebTtsProgressStrip(),
-            ],
-          )
-        : pages;
+    final body = Column(
+      children: [
+        Expanded(child: pages),
+        const _NeuralTtsProgressStrip(),
+      ],
+    );
 
     final scaffold = Scaffold(
       body: useRail
@@ -353,12 +350,12 @@ class _HomeShellState extends State<HomeShell> {
   }
 }
 
-class _WebTtsProgressStrip extends StatelessWidget {
-  const _WebTtsProgressStrip();
+class _NeuralTtsProgressStrip extends StatelessWidget {
+  const _NeuralTtsProgressStrip();
 
   @override
   Widget build(BuildContext context) {
-    final status = context.select<ReadingAudioController, WebTtsStatus>((a) => a.webTtsStatus);
+    final status = context.select<ReadingAudioController, NeuralTtsStatus>((a) => a.neuralTtsStatus);
     if (!status.isBusy) return const SizedBox.shrink();
     final cs = Theme.of(context).colorScheme;
     final t = Theme.of(context).textTheme;

@@ -59,6 +59,11 @@ class AboutScreen extends StatelessWidget {
             url: ExternalLinks.catechismVatican,
             license: '© Libreria Editrice Vaticana.',
           ),
+          const SourceAttribution(
+            source: 'Kokoro-82M, sherpa-onnx & eSpeak-NG (leitura neural offline)',
+            url: 'https://github.com/k2-fsa/sherpa-onnx',
+            license: 'Apache-2.0 (Kokoro-82M / sherpa-onnx) e GPL-3.0 (eSpeak-NG).',
+          ),
           const CrossDivider(),
           const Eyebrow('Código aberto'),
           ListTile(
