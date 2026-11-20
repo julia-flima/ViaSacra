@@ -64,13 +64,25 @@ jobs:
           touch .nojekyll
           du -sh .
 
+      # Publica com keep_files: false para não acumular arquivos obsoletos na raiz
+      # do gh-pages; a prévia da `dev` (pasta dev/) é copiada do deploy atual para
+      # dentro do build, e assim é preservada.
+      - name: Preservar a prévia da dev (gh-pages/dev)
+        run: |
+          if git fetch --depth 1 origin gh-pages 2>/dev/null && git cat-file -e FETCH_HEAD:dev 2>/dev/null; then
+            git archive FETCH_HEAD dev | tar -x -C app/build/web
+            echo "Prévia dev/ preservada ($(find app/build/web/dev -type f | wc -l) arquivos)."
+          else
+            echo "Sem prévia dev/ publicada."
+          fi
+
       - name: Publicar no GitHub Pages (branch gh-pages)
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: app/build/web
           publish_branch: gh-pages
-          keep_files: true
+          keep_files: false
           user_name: via-sacra-bot
           user_email: 41898282+github-actions[bot]@users.noreply.github.com
           commit_message: "web: deploy ${{ github.sha }}"

@@ -29,7 +29,7 @@ Idealizado e desenvolvido por **Júlia Lima**.
   - [Android](#android)
   - [iOS (iPhone / iPad)](#ios-iphone--ipad)
 - [Instalação para desenvolvedores](#instalação-para-desenvolvedores)
-- [Traduções da Bíblia Sagrada e Importador JSON](#traduções-da-bíblia-sagrada-e-importador-json)
+- [Traduções da Bíblia e catecismos](#traduções-da-bíblia-e-catecismos)
 - [Arquitetura](#arquitetura)
 - [Fontes, direitos autorais e créditos](#fontes-direitos-autorais-e-créditos)
 - [Contribuindo](#contribuindo)
@@ -54,7 +54,10 @@ O Via Sacra nasceu para ser um companheiro de oração **silencioso e respeitoso
 2. **Bíblia Sagrada (73 livros, cânon católico)** — Antigo Testamento com os deuterocanônicos e Novo Testamento; seletor Livro › Capítulo, "Continuar lendo", busca offline por referência ("Jo 3,16") ou palavra (FTS5), leitura comparada versículo a versículo, marcações em cores suaves, favoritos e anotações locais, compartilhamento formatado e áudio do capítulo (TTS). Traduções modulares: **Bíblia Portuguesa Mundial (pt-BR)**, **Vulgata Clementina (Latim)** e **Douay-Rheims (Inglês)** embutidas (domínio público) e importação local de módulos — ver [`docs/BIBLE.md`](docs/BIBLE.md). Na Liturgia, tocar na referência de uma leitura abre o capítulo completo.
 3. **Santo Terço & Rosário** — mistérios do dia automáticos, Rosário completo (20 mistérios), arte sacra em domínio público, contador tátil com vibração e registro opcional de constância.
 4. **Biblioteca** — duas sub-abas: **Catecismo** — índice das 4 partes do CIC (texto oficial no vatican.va) e Catecismo Maior de São Pio X com busca offline (SQLite FTS5) por número ou palavra, favoritos e anotações locais; e **Devocionário**, com orações fundamentais, eucarísticas, marianas e de proteção, com alternância Português ⇄ Latim.
-5. **Ajustes** — lembretes locais (Liturgia e Terço), voz e velocidade do narrador, tipografia, temas Pergaminho / Modo Igreja / Automático, e página "Sobre & Licenças".
+   A Biblioteca traz também **A Imitação de Cristo** (114 capítulos, com "Continuar lendo" e favoritos) e a **Via Sacra** de Santo Afonso (14 estações).
+5. **Ajustes** — lembretes locais (Liturgia e Terço), voz e velocidade do narrador, tipografia, temas Pergaminho / Modo Igreja / Automático, **backup** (exportar/importar favoritos, anotações, constância e marcações) e página "Sobre & Licenças".
+
+O áudio usa a voz neural **Kokoro-82M** (offline no celular, Web Worker no navegador), e um **mini-player** acompanha a leitura em todas as telas.
 
 ## Instalação para usuários (sem programar)
 
@@ -203,126 +206,14 @@ Veja todas as opções com `python scraper.py --help`.
 
 O workflow de release assina os APKs se estes *secrets* existirem no repositório: `ANDROID_KEYSTORE_BASE64`, `ANDROID_KEYSTORE_PASSWORD`, `ANDROID_KEY_ALIAS`, `ANDROID_KEY_PASSWORD`. Sem eles, os APKs são assinados com a chave de debug (funcionam, mas não atualizam por cima de uma versão assinada com outra chave). Para o F-Droid, o próprio F-Droid compila e assina a partir do código-fonte.
 
-## Traduções da Bíblia Sagrada e Importador JSON
+## Traduções da Bíblia e catecismos
 
-O módulo da Bíblia Sagrada (cânon católico de **73 livros**: 46 AT com deuterocanônicos + 27 NT) oferece suporte nativo a duas traduções clássicas em **Domínio Público** (100% compatíveis com o F-Droid) — **Pe. Antônio Pereira de Figueiredo** (Português) e **Vulgata Clementina** (Latim) — e um **importador modular local (`.json`)** acessível pela aba **Bíblia** e pelos **Ajustes → Gerenciar e Importar Traduções**.
+A Bíblia traz embutidas a **Bíblia Portuguesa Mundial** (pt-BR), a **Vulgata Clementina** e a
+**Douay-Rheims**, todas em domínio público. Outras traduções (inclusive as protegidas, com
+autorização do titular) podem ser importadas no aparelho em **Ajustes → Gerenciar e Importar
+Traduções**. Formato dos módulos e scripts de conversão: [`docs/BIBLE.md`](docs/BIBLE.md).
 
-### Consolidando traduções com `scripts/build_bible_db.py`
-
-O script [`scripts/build_bible_db.py`](scripts/build_bible_db.py) padroniza arquivos `.json` ou `.txt` de Figueiredo e da Vulgata (mapeando os 73 livros pelo cânon em [`tool/bible/canon.py`](tool/bible/canon.py)) e gera os módulos JSON padronizados e o banco SQLite otimizado com índice FTS5:
-
-```bash
-# Gera o banco SQLite/FTS5 consolidando Figueiredo e Vulgata (Domínio Público):
-python3 scripts/build_bible_db.py \
-  --figueiredo fontes/figueiredo.json \
-  --vulgata app/assets/bible/vulgata.json \
-  --db-out app/assets/db/bible.db \
-  --write-json \
-  --update-bundled
-```
-
-### Esquema JSON padrão aceito pelo Importador
-
-Qualquer arquivo `.json` no formato abaixo pode ser importado diretamente no aparelho via **Gerenciar e Importar Traduções** (usando `file_picker` — compatível com Android, iOS, Web e F-Droid):
-
-```json
-{
-  "formato": "viasacra-biblia",
-  "versao": 1,
-  "id": "cnbb",
-  "nome": "Bíblia Sagrada — Tradução Oficial da CNBB",
-  "sigla": "CNBB",
-  "idioma": "pt-BR",
-  "licenca": "Uso pessoal (importação local)",
-  "fonte": "Edições CNBB",
-  "descricao": "Tradução oficial da Conferência Nacional dos Bispos do Brasil.",
-  "numeracao_salmos": "grega",
-  "versao_modulo": 1,
-  "livros": [
-    {
-      "id": "gn",
-      "capitulos": [
-        [
-          "No princípio, Deus criou o céu e a terra.",
-          "A terra estava deserta e vazia..."
-        ],
-        {
-          "1": "Assim foram concluídos o céu e a terra...",
-          "2": "No sétimo dia, Deus concluiu toda a obra..."
-        }
-      ]
-    },
-    {
-      "id": "jo",
-      "capitulos": {
-        "3": {
-          "16": "Com efeito, de tal modo Deus amou o mundo, que lhe deu seu Filho único..."
-        }
-      }
-    }
-  ]
-}
-```
-
-| Campo | Obrigatório | Descrição |
-|---|---|---|
-| `formato` | Recomendado | Deve ser `"viasacra-biblia"` (quando informado). |
-| `versao` | Recomendado | Versão do esquema (`1`). |
-| `id` | **Sim** | Identificador único (`2` a `32` caracteres: `[a-z0-9_-]`). Reimportar o mesmo `id` atualiza a tradução. |
-| `nome` | **Sim** | Nome completo exibido no seletor e nas atribuições. |
-| `sigla` (ou `abreviacao`) | **Sim** | Sigla curta exibida na barra superior (ex.: `FIG`, `MS`, `VUL`, `CNBB`, `AM`, `BJ`). |
-| `idioma` | **Sim** | Código BCP-47 (ex.: `pt-BR`, `pt-PT`, `la`, `en`). Define a voz do TTS. |
-| `licenca` | Não | Nota de licença/origem (padrão: `"Importada localmente pelo usuário"`). |
-| `numeracao_salmos` | Não | `"grega"` (padrão — Vulgata/lecionários) ou `"hebraica"`. |
-| `livros` | **Sim** | Lista de livros com `id` pertencente aos 73 livros do cânon católico ([`app/assets/bible/canon.json`](app/assets/bible/canon.json)). |
-| `livros[].capitulos` | **Sim** | Lista de capítulos (cada capítulo como lista de versículos `["v1", "v2"]`, pares `[[1, "v1"], [3, "v3"]]` ou objeto `{"1": "v1"}`), ou objeto numerado por capítulo (`{"1": {"1": "v1"}}`). |
-
-Detalhes completos sobre o cânon de 73 livros e armazenamento SQLite/FTS5 estão em [`docs/BIBLE.md`](docs/BIBLE.md).
-
-## Módulo Catecismo (100% FOSS + Portal Oficial e Importador JSON)
-
-Na sub-aba **Biblioteca → Catecismo**, o Via Sacra oferece:
-
-- **Estudo Offline:** **Catecismo Maior de São Pio X (1905)** — as 994 perguntas e respostas, indexadas localmente com SQLite FTS5, busca por número ou palavra-chave, favoritos, anotações pessoais e leitura em voz alta (TTS offline). O original é de domínio público; a tradução portuguesa usada é não oficial e está em verificação (ver [`docs/COPYRIGHT.md`](docs/COPYRIGHT.md)). O Catecismo Romano (Trento, 1566) voltará quando houver uma edição integral e fidedigna em domínio público.
-- **CIC (1992) — Portal Oficial:** índice estruturado das 4 Partes com atalho direto para o portal oficial em português no site da Santa Sé (`vatican.va`), sem hospedar texto protegido no repositório.
-- **Importador Modular Local (`.json`):** permite importar no próprio aparelho um arquivo `.json` do CIC (1992) ou do Compêndio do Catecismo, habilitando busca offline por número (`§1324`) e leitura em voz alta (TTS).
-
-### Esquema JSON padrão para importação de Catecismos
-
-```json
-{
-  "formato": "viasacra-catecismo",
-  "versao": 1,
-  "id": "cic_1992",
-  "nome": "Catecismo da Igreja Católica",
-  "nome_curto": "CIC (1992)",
-  "sigla": "CIC",
-  "ano": 1992,
-  "idioma": "pt-BR",
-  "licenca": "Uso pessoal (importação local)",
-  "rotulo_entrada": "§",
-  "entradas": [
-    {
-      "numero": 1324,
-      "parte": "Segunda Parte — A Celebração do Mistério Cristão",
-      "capitulo": "O Sacramento da Eucaristia",
-      "pergunta": "A Eucaristia — fonte e ápice da vida eclesial",
-      "resposta": "A Eucaristia é fonte e ápice de toda a vida cristã..."
-    }
-  ]
-}
-```
-
-| Campo | Obrigatório | Descrição |
-|---|---|---|
-| `formato` | Recomendado | Deve ser `"viasacra-catecismo"` (quando informado). |
-| `versao` | Recomendado | Versão do esquema (`1`). |
-| `id` | **Sim** | Identificador único (`2` a `32` caracteres: `[a-z0-9_-]`). |
-| `nome` | **Sim** | Nome completo da obra. |
-| `nome_curto` / `sigla` | Não | Rótulo curto exibido no seletor de obras. |
-| `idioma` | Não | Código BCP-47 (padrão: `"pt-BR"`). Define a voz do TTS. |
-| `rotulo_entrada` | Não | Prefixo do número (ex.: `"§"` ou `"P."`). |
-| `entradas` (ou `paragrafos`) | **Sim** | Lista de objetos com `numero` (inteiro positivo), `parte`, `capitulo` (opcional), `pergunta` / `titulo` (opcional) e `resposta` / `texto` (obrigatório). |
+Catecismos (São Pio X embutido, índice do CIC e importador local): [`docs/CATECHISM.md`](docs/CATECHISM.md).
 
 ## Arquitetura
 
@@ -340,7 +231,7 @@ ViaSacra/
 ├── scraper/                # Coletor Python (requests + BeautifulSoup4)
 ├── data/                   # JSONs gerados (branch `data`, servidos via jsDelivr)
 ├── fastlane/metadata/      # Metadados do F-Droid
-├── docs/                   # Arquitetura, banco de dados, arte sacra, design system
+├── docs/                   # Arquitetura, banco, Bíblia, catecismos, direitos autorais, notas das releases
 └── .github/workflows/      # update-liturgy.yml · build-release.yml · deploy-web.yml · ci.yml
 ```
 
@@ -354,7 +245,7 @@ GitHub Actions (00:05 BRT) ─► scraper.py ─► data/liturgia/AAAA-MM-DD.jso
                     └─► SQLite local (cache litúrgico, CIC FTS5, favoritos, constância)
 ```
 
-Documentação detalhada: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) · [`docs/DATABASE.md`](docs/DATABASE.md) · [`docs/DESIGN_SYSTEM.md`](docs/DESIGN_SYSTEM.md) · [`docs/BIBLE.md`](docs/BIBLE.md) · [`docs/SACRED_ART.md`](docs/SACRED_ART.md) · [`docs/COPYRIGHT.md`](docs/COPYRIGHT.md)
+Documentação detalhada: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) · [`docs/DATABASE.md`](docs/DATABASE.md) · [`docs/DESIGN_SYSTEM.md`](docs/DESIGN_SYSTEM.md) · [`docs/BIBLE.md`](docs/BIBLE.md) · [`docs/CATECHISM.md`](docs/CATECHISM.md) · [`docs/SACRED_ART.md`](docs/SACRED_ART.md) · [`docs/COPYRIGHT.md`](docs/COPYRIGHT.md) · [`docs/releases/`](docs/releases/)
 
 ## Fontes, direitos autorais e créditos
 
@@ -371,6 +262,9 @@ O Via Sacra **não tem fins lucrativos** e atribui todas as fontes explicitament
 | Bíblia — CNBB, Ave-Maria, Jerusalém, Pastoral | © respectivas editoras | **Não incluídas**; apenas importação local de módulos autorizados — ver [`docs/BIBLE.md`](docs/BIBLE.md) e [`docs/autorizacoes/`](docs/autorizacoes/) |
 | Fontes tipográficas | Merriweather (SIL OFL), Roboto (Apache-2.0), DejaVu (livre) | Embutidas — nenhuma fonte é baixada da internet |
 | Catecismo da Igreja Católica | © Libreria Editrice Vaticana | **Não incluído** no repositório; importável mediante licença — ver [`docs/COPYRIGHT.md`](docs/COPYRIGHT.md) |
+| Catecismo Maior de São Pio X | Original de 1905; tradução portuguesa não oficial (Internet Archive) | Embutido; licença da tradução em verificação ([#29](https://github.com/julia-flima/ViaSacra/issues/29)) |
+| A Imitação de Cristo | Trad. E. L. de Souza Campos, © 2023 Valdemar Teodoro Editor | Embutida — cópia e divulgação permitidas com citação da fonte |
+| Voz neural | Kokoro-82M, sherpa-onnx (Apache-2.0), eSpeak-NG (GPL-3.0) | Modelo baixado sob demanda; nada é enviado para fora |
 
 Se você é titular de algum conteúdo e deseja ajustes ou remoção, abra uma *issue* ou escreva para a mantenedora — atenderemos prontamente.
 

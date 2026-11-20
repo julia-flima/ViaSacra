@@ -57,7 +57,31 @@ class AboutScreen extends StatelessWidget {
           const SourceAttribution(
             source: 'Catecismo da Igreja Católica',
             url: ExternalLinks.catechismVatican,
-            license: '© Libreria Editrice Vaticana.',
+            license: '© Libreria Editrice Vaticana. Aberto no portal oficial; não é copiado no app.',
+          ),
+          const SourceAttribution(
+            source: 'Bíblia Portuguesa Mundial (eBible.org), Vulgata Clementina e Douay-Rheims',
+            url: 'https://ebible.org/find/details.php?id=porbrbsl',
+            license: 'Domínio público. Vulgata e Douay-Rheims via github.com/mborders/vulgata (código MIT).',
+          ),
+          const SourceAttribution(
+            source: 'Catecismo Maior de São Pio X (Tipografia Vaticana, 1905)',
+            url: 'https://archive.org/details/catecismo-maior-de-sc3a3o-pio-x',
+            license: 'Original em domínio público; tradução portuguesa não oficial (Internet Archive), em verificação.',
+          ),
+          const SourceAttribution(
+            source: 'Tomás de Kempis — A Imitação de Cristo (trad. E. L. de Souza Campos)',
+            url: 'https://archive.org/details/tomas-de-kempis-imitacao-de-cristo',
+            license: '© 2023 Valdemar Teodoro Editor — cópia e divulgação permitidas, desde que citada a fonte.',
+          ),
+          const SourceAttribution(
+            source: 'Santo Afonso Maria de Ligório — Via Sacra (1761)',
+            license: 'Domínio público.',
+          ),
+          const SourceAttribution(
+            source: 'Salmo Responsorial cantado — vídeos de canais do YouTube',
+            url: 'https://www.youtube-nocookie.com',
+            license: 'Incorporação oficial (youtube-nocookie), sem hospedar os vídeos; canal e intérprete citados em cada Salmo.',
           ),
           const SourceAttribution(
             source: 'Kokoro-82M, sherpa-onnx & eSpeak-NG (leitura neural offline)',
