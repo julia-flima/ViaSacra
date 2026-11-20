@@ -11,6 +11,7 @@ import '../../data/models/catechism.dart';
 import '../../services/catechism_import_service.dart';
 import '../../services/reading_audio_service.dart';
 import '../../services/settings_service.dart';
+import '../../widgets/reading_appearance_button.dart';
 import '../../widgets/common.dart';
 import '../../widgets/global_audio_mini_player.dart';
 import 'vatican_reader_screen.dart';
@@ -677,6 +678,7 @@ class _CatechismEntryScreenState extends State<CatechismEntryScreen> {
               unawaited(SharePlus.instance.share(ShareParams(text: body)));
             },
           ),
+          const ReadingAppearanceButton(),
         ],
       ),
       body: ListView(
@@ -728,7 +730,7 @@ class ParagraphScreen extends StatelessWidget {
     final pad = VsSpacing.page(context);
     final t = Theme.of(context).textTheme;
     return Scaffold(
-      appBar: AppBar(title: Text('CIC § $number')),
+      appBar: AppBar(title: Text('CIC § $number'), actions: const [ReadingAppearanceButton()]),
       body: ListView(
         padding: EdgeInsets.fromLTRB(pad, VsSpacing.lg, pad, VsSpacing.xxl),
         children: [

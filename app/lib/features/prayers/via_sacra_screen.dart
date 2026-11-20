@@ -214,10 +214,6 @@ class _ViaSacraScreenState extends State<ViaSacraScreen> {
             art: art,
           ),
           const SizedBox(height: VsSpacing.md),
-          Eyebrow('${st.number}ª Estação'),
-          const SizedBox(height: 6),
-          Text(st.title, style: t.headlineMedium),
-          const SizedBox(height: VsSpacing.md),
           Card(
             child: Padding(
               padding: const EdgeInsets.all(VsSpacing.md),
