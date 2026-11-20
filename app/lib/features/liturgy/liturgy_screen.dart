@@ -17,23 +17,14 @@ import '../../services/settings_service.dart';
 import '../../widgets/common.dart';
 import '../../widgets/reading_appearance_button.dart';
 import '../../widgets/sacred_art_header.dart';
-import 'lectio_divina_screen.dart';
 import 'widgets/audio_player_bar.dart';
 import 'widgets/homily_section.dart';
 import 'widgets/liturgy_header.dart';
 import 'widgets/reading_card.dart';
 
 /// Aba 1 — Liturgia & Homilias.
-class LiturgyScreen extends StatefulWidget {
+class LiturgyScreen extends StatelessWidget {
   const LiturgyScreen({super.key});
-
-  @override
-  State<LiturgyScreen> createState() => _LiturgyScreenState();
-}
-
-class _LiturgyScreenState extends State<LiturgyScreen> {
-  final _psalmKey = GlobalKey();
-  final _homilyKey = GlobalKey();
 
   SacredArt? _seasonArt(AppServices services, LiturgicalDay day) {
     final art = services.content.art;
@@ -47,13 +38,6 @@ class _LiturgyScreenState extends State<LiturgyScreen> {
       LiturgicalSeason.comum => 'header-tempo-comum',
     };
     return art[id] ?? art['header-tempo-comum'];
-  }
-
-  void _scrollTo(GlobalKey key) {
-    final ctx = key.currentContext;
-    if (ctx != null) {
-      Scrollable.ensureVisible(ctx, duration: const Duration(milliseconds: 350), curve: Curves.easeOutCubic);
-    }
   }
 
   @override
@@ -76,15 +60,22 @@ class _LiturgyScreenState extends State<LiturgyScreen> {
       );
     }
 
-    void listenHomily(Homily h) => audio.playSingle(
-      ReadingSegment(
-        id: '$key#${h.title.hashCode}',
-        title: h.work ?? h.title,
-        subtitle: h.author,
-        text: '${h.work ?? h.title}. ${h.author != null ? '${h.author}. ' : ''}${h.text}',
-      ),
-      speed: settings.ttsSpeed,
-    );
+    void listenHomily(Homily h) {
+      // Usa o áudio neural Piper pré-gerado para a homilia principal do dia (Vatican News)
+      // quando disponível e preferido; com fallback automático para Piper Web / TTS local.
+      final isDailyHomily = l.vaticanHomily != null && h.text == l.vaticanHomily!.text;
+      final recordedUrl = (settings.preferRecordedAudio && isDailyHomily) ? l.audio.homilyAudioUrl : null;
+      audio.playSingle(
+        ReadingSegment(
+          id: '$key#${h.title.hashCode}',
+          title: h.work ?? h.title,
+          subtitle: h.author,
+          text: '${h.work ?? h.title}. ${h.author != null ? '${h.author}. ' : ''}${h.text}',
+          audioUrl: recordedUrl,
+        ),
+        speed: settings.ttsSpeed,
+      );
+    }
 
     void openInBible(Reading r) {
       final ref = BibleRef.parse(r.reference ?? '');
@@ -97,75 +88,46 @@ class _LiturgyScreenState extends State<LiturgyScreen> {
       context.read<NavigationController>().go(AppTab.biblia);
     }
 
-    void openLectioDivina() {
-      if (!l.hasReadings) return;
-      final gospel = l.readings.where((r) => r.kind == ReadingKind.evangelho).firstOrNull ?? l.readings.last;
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (_) => LectioDivinaScreen(
-            title: '${gospel.kind.label}${gospel.reference != null ? ' · ${gospel.reference}' : ''}',
-            text: gospel.text,
-            source: 'CNBB — Liturgia Diária',
-            url: l.originalUrl,
-          ),
-        ),
-      );
-    }
-
-    final hasPsalm = l.readings.any((r) => r.isPsalm);
-
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Liturgia Diária'),
+        leading: IconButton(
+          tooltip: 'Escolher data',
+          icon: const Icon(Icons.calendar_month_outlined),
+          onPressed: () => _pickDate(context, c),
+        ),
+        actions: [
+          const ReadingAppearanceButton(),
+          IconButton(
+            tooltip: 'Baixar semana offline',
+            onPressed: c.downloadProgress != null ? null : () => _downloadWeek(context, c, services),
+            icon: c.downloadProgress != null
+                ? SizedBox.square(
+                    dimension: 20,
+                    child: CircularProgressIndicator(strokeWidth: 2, value: c.downloadProgress),
+                  )
+                : const Icon(Icons.download_for_offline_outlined),
+          ),
+        ],
+      ),
       body: RefreshIndicator(
         onRefresh: () => c.load(c.date, force: true),
         child: CustomScrollView(
           slivers: [
-            SacredArtSliverHeader(
-              title: 'Liturgia Diária',
-              subtitle: l.day.season.label.toUpperCase(),
-              art: _seasonArt(services, l.day),
-              expandedHeight: 220,
-              accentColor: l.day.color.swatch,
-              actions: [
-                const ReadingAppearanceButton(),
-                IconButton(
-                  tooltip: 'Escolher data',
-                  icon: const Icon(Icons.calendar_month_outlined),
-                  onPressed: () => _pickDate(context, c),
-                ),
-                IconButton(
-                  tooltip: 'Baixar semana offline',
-                  onPressed: c.downloadProgress != null ? null : () => _downloadWeek(context, c, services),
-                  icon: c.downloadProgress != null
-                      ? SizedBox.square(
-                          dimension: 20,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            color: Colors.white,
-                            value: c.downloadProgress,
-                          ),
-                        )
-                      : const Icon(Icons.download_for_offline_outlined),
-                ),
-              ],
-            ),
             SliverPadding(
-              padding: EdgeInsets.fromLTRB(pad, VsSpacing.md, pad, 0),
+              padding: EdgeInsets.fromLTRB(pad, VsSpacing.sm, pad, 0),
               sliver: SliverList.list(
                 children: [
+                  SacredArtBanner(
+                    title: l.day.celebration,
+                    subtitle: l.day.season.label.toUpperCase(),
+                    art: _seasonArt(services, l.day),
+                    accentColor: l.day.color.swatch,
+                  ),
+                  const SizedBox(height: VsSpacing.md),
                   _QuickDateBar(selected: c.date, onSelect: (d) => c.load(d), onPickDate: () => _pickDate(context, c)),
                   const SizedBox(height: VsSpacing.md),
                   LiturgyHeader(day: l.day),
-                  if (l.hasReadings) ...[
-                    const SizedBox(height: VsSpacing.md),
-                    _QuickActionsStrip(
-                      hasPsalm: hasPsalm,
-                      hasSungPsalm: l.audio.psalmAudioUrl != null,
-                      onListen: () => playFrom(0),
-                      onPsalm: () => _scrollTo(_psalmKey),
-                      onLectio: openLectioDivina,
-                      onHomily: () => _scrollTo(_homilyKey),
-                    ),
-                  ],
                   const SizedBox(height: VsSpacing.md),
                   AudioPlayerBar(onPlayAll: () => playFrom(0), recorded: l.audio.liturgyAudioUrl != null),
                   if (c.loading && !l.hasReadings)
@@ -194,15 +156,12 @@ class _LiturgyScreenState extends State<LiturgyScreen> {
                   children: [
                     for (final (i, r) in l.readings.indexed) ...[
                       if (r.isPsalm)
-                        KeyedSubtree(
-                          key: _psalmKey,
-                          child: PsalmCard(
-                            psalm: r,
-                            audio: l.audio,
-                            sourceUrl: l.originalUrl,
-                            onListenFromHere: () => playFrom(i),
-                            onOpenInBible: () => openInBible(r),
-                          ),
+                        PsalmCard(
+                          psalm: r,
+                          audio: l.audio,
+                          sourceUrl: l.originalUrl,
+                          onListenFromHere: () => playFrom(i),
+                          onOpenInBible: () => openInBible(r),
                         )
                       else
                         ReadingCard(
@@ -213,7 +172,7 @@ class _LiturgyScreenState extends State<LiturgyScreen> {
                         ),
                     ],
                     const SizedBox(height: VsSpacing.md),
-                    KeyedSubtree(key: _homilyKey, child: const Eyebrow('Homilias e reflexões')),
+                    const Eyebrow('Homilias e reflexões'),
                     const SizedBox(height: VsSpacing.sm),
                     HomilySection(liturgy: l, onListen: listenHomily),
                     const SizedBox(height: VsSpacing.lg),
@@ -303,60 +262,6 @@ class _QuickDateBar extends StatelessWidget {
             avatar: const Icon(Icons.calendar_today_outlined, size: 16),
             label: const Text('Outra data'),
             onPressed: onPickDate,
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _QuickActionsStrip extends StatelessWidget {
-  const _QuickActionsStrip({
-    required this.hasPsalm,
-    required this.hasSungPsalm,
-    required this.onListen,
-    required this.onPsalm,
-    required this.onLectio,
-    required this.onHomily,
-  });
-
-  final bool hasPsalm;
-  final bool hasSungPsalm;
-  final VoidCallback onListen;
-  final VoidCallback onPsalm;
-  final VoidCallback onLectio;
-  final VoidCallback onHomily;
-
-  @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        children: [
-          ActionChip(
-            avatar: const Icon(Icons.play_arrow_rounded, size: 18),
-            label: const Text('Ouvir'),
-            onPressed: onListen,
-          ),
-          if (hasPsalm) ...[
-            const SizedBox(width: 8),
-            ActionChip(
-              avatar: Icon(hasSungPsalm ? Icons.music_note_rounded : Icons.menu_book_outlined, size: 16),
-              label: Text(hasSungPsalm ? 'Salmo Cantado' : 'Salmo'),
-              onPressed: onPsalm,
-            ),
-          ],
-          const SizedBox(width: 8),
-          ActionChip(
-            avatar: const Icon(Icons.auto_stories_outlined, size: 16),
-            label: const Text('Lectio Divina'),
-            onPressed: onLectio,
-          ),
-          const SizedBox(width: 8),
-          ActionChip(
-            avatar: const Icon(Icons.record_voice_over_outlined, size: 16),
-            label: const Text('Homilia'),
-            onPressed: onHomily,
           ),
         ],
       ),

@@ -73,7 +73,7 @@ class BibleRepository {
           }
         }
         onProgress?.call(++done / total);
-        await Future<void>.delayed(Duration.zero);
+        await Future<void>.delayed(const Duration(milliseconds: 12));
       }
       insV.close();
       insC.close();

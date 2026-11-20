@@ -146,6 +146,7 @@ class LiturgyAudio {
     this.psalmVideoId,
     this.psalmVideoTitle,
     this.liturgyAudioUrl,
+    this.homilyAudioUrl,
     this.credits = const [],
   });
 
@@ -154,6 +155,7 @@ class LiturgyAudio {
   final String? psalmVideoId;
   final String? psalmVideoTitle;
   final String? liturgyAudioUrl;
+  final String? homilyAudioUrl;
   final List<AudioCredit> credits;
 
   factory LiturgyAudio.fromJson(Map<String, dynamic>? j) => j == null
@@ -164,6 +166,7 @@ class LiturgyAudio {
           psalmVideoId: _s(j['salmo_video_id']),
           psalmVideoTitle: _s(j['salmo_video_titulo']),
           liturgyAudioUrl: _s(j['liturgia_audio_url']),
+          homilyAudioUrl: _s(j['homilia_audio_url']),
           credits:
               (j['creditos'] as List?)?.whereType<Map<String, dynamic>>().map(AudioCredit.fromJson).toList() ??
               const [],

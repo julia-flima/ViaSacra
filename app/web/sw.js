@@ -15,6 +15,7 @@ const PRECACHE = [
   './',
   'index.html',
   'manifest.json',
+  'piper_tts.js',
   'flutter_bootstrap.js',
   'main.dart.js',
   'sqlite3.wasm',

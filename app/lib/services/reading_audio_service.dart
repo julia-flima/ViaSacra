@@ -7,6 +7,7 @@ import 'package:flutter_tts/flutter_tts.dart';
 import 'package:just_audio/just_audio.dart';
 
 import '../data/models/liturgy.dart';
+import 'piper_web_tts.dart';
 
 /// Um trecho da fila de leitura: texto (TTS local) ou URL de áudio aberto.
 class ReadingSegment {
@@ -218,6 +219,7 @@ class ReadingAudioHandler extends BaseAudioHandler with QueueHandler {
     _broadcast();
     final gen = ++_generation;
     if (seg.isRecorded) {
+      piperWebStop();
       await _tts.stop();
       try {
         if (_player.audioSource == null || _chunk == 0) {
@@ -237,11 +239,22 @@ class ReadingAudioHandler extends BaseAudioHandler with QueueHandler {
         }
       }
     }
-    await _initTts();
-    await _useLanguage(seg.language);
-    if (_chunks.isEmpty || _chunk == 0) _chunks = splitForSpeech(seg.text ?? '');
+    final usePiperWeb = kIsWeb && seg.language.toLowerCase().startsWith('pt');
+    if (!usePiperWeb) {
+      await _initTts();
+      await _useLanguage(seg.language);
+    }
+    if (_chunks.isEmpty || _chunk == 0) _chunks = splitForSpeech(seg.text ?? '', maxLen: usePiperWeb ? 360 : 600);
     while (_playing && gen == _generation && _chunk < _chunks.length) {
-      await _tts.speak(_chunks[_chunk]);
+      var spoken = false;
+      if (usePiperWeb) {
+        spoken = await piperWebSpeak(_chunks[_chunk], _speed);
+      }
+      if (!spoken && _playing && gen == _generation) {
+        await _initTts();
+        await _useLanguage(seg.language);
+        await _tts.speak(_chunks[_chunk]);
+      }
       if (!_playing || gen != _generation) return; // pausado/pulado durante a fala
       _chunk++;
     }
@@ -268,6 +281,7 @@ class ReadingAudioHandler extends BaseAudioHandler with QueueHandler {
   Future<void> pause() async {
     _playing = false;
     _generation++;
+    piperWebStop();
     await _tts.stop(); // retoma do início da frase atual
     await _player.pause();
     _broadcast();
@@ -279,6 +293,7 @@ class ReadingAudioHandler extends BaseAudioHandler with QueueHandler {
     _generation++;
     _chunk = 0;
     _chunks = const [];
+    piperWebStop();
     await _tts.stop();
     await _player.stop();
     _broadcast();
@@ -315,6 +330,7 @@ class ReadingAudioHandler extends BaseAudioHandler with QueueHandler {
     if (_playing && !(_current?.isRecorded ?? false)) {
       // Reaplica a nova velocidade a partir da frase atual.
       _generation++;
+      piperWebStop();
       await _tts.stop();
       unawaited(play());
     }

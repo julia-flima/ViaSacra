@@ -114,7 +114,7 @@ class _LibraryShowcase extends StatelessWidget {
             crossAxisCount: 2,
             mainAxisSpacing: VsSpacing.md,
             crossAxisSpacing: VsSpacing.md,
-            childAspectRatio: 1.75,
+            childAspectRatio: 1.45,
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             children: cards,

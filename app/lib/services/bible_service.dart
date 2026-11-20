@@ -34,6 +34,7 @@ class BibleService extends ChangeNotifier {
   /// Progresso da preparação inicial/importação (null = ocioso).
   double? progress;
   String? progressLabel;
+  Future<void>? _bundledFuture;
 
   /// Referência pedida por outra aba (ex.: leitura da Liturgia) — consumida pela tela.
   BibleRef? pendingRef;
@@ -51,19 +52,28 @@ class BibleService extends ChangeNotifier {
 
   BibleTranslation? get current => translations.where((t) => t.id == currentTranslationId).firstOrNull;
 
-  /// Instala/atualiza os módulos embutidos que faltam.
-  Future<void> ensureBundled() async {
-    final manifest = _decode(await rootBundle.loadString('assets/bible/bundled.json'));
-    final ids = (manifest['modulos'] as List).cast<String>();
-    for (final id in ids) {
-      final raw = await rootBundle.loadString('assets/bible/$id.json');
-      final module = BibleModule.parse(await compute(_decode, raw));
-      final installed = repo.installedVersion(id);
-      if (installed != null && installed >= module.version) continue;
-      _setProgress(0, 'Preparando ${module.name}…');
-      await repo.install(module, bundled: true, onProgress: (p) => _setProgress(p, 'Preparando ${module.name}…'));
+  /// Instala/atualiza os módulos embutidos que faltam (executado sob demanda
+  /// ao abrir a aba Bíblia, sem travar a abertura inicial da Liturgia).
+  Future<void> ensureBundled() => _bundledFuture ??= _runEnsureBundled();
+
+  Future<void> _runEnsureBundled() async {
+    try {
+      final manifest = _decode(await rootBundle.loadString('assets/bible/bundled.json'));
+      final ids = (manifest['modulos'] as List).cast<String>();
+      for (final id in ids) {
+        final raw = await rootBundle.loadString('assets/bible/$id.json');
+        final module = BibleModule.parse(await compute(_decode, raw));
+        final installed = repo.installedVersion(id);
+        if (installed != null && installed >= module.version) continue;
+        _setProgress(0, 'Preparando ${module.name}…');
+        await repo.install(module, bundled: true, onProgress: (p) => _setProgress(p, 'Preparando ${module.name}…'));
+        // Atualiza a lista logo após cada tradução (Português fica pronto primeiro).
+        translations = repo.translations();
+        notifyListeners();
+      }
+    } finally {
+      _done();
     }
-    _done();
   }
 
   /// Importa um módulo a partir de um arquivo `.json` escolhido pelo usuário.
@@ -107,6 +117,7 @@ class BibleService extends ChangeNotifier {
   /// Pedido de abertura vindo de outra aba (a navegação troca para a Bíblia).
   void requestOpen(BibleRef ref) {
     pendingRef = ref;
+    ensureBundled();
     notifyListeners();
   }
 

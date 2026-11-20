@@ -37,6 +37,14 @@ class _BibleScreenState extends State<BibleScreen> {
   BibleService get _bible => context.read<BibleService>();
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) _bible.ensureBundled();
+    });
+  }
+
+  @override
   void dispose() {
     _scroll.dispose();
     super.dispose();
@@ -173,28 +181,26 @@ class _BibleScreenState extends State<BibleScreen> {
     final tr = bible.current!;
     final art = context.read<AppServices>().content.art['header-biblia'];
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Bíblia Sagrada'),
+        actions: [
+          TextButton.icon(
+            onPressed: _pickTranslation,
+            icon: const Icon(Icons.translate, size: 18),
+            label: Text(tr.abbreviation),
+          ),
+          const ReadingAppearanceButton(),
+          IconButton(tooltip: 'Buscar na Bíblia', icon: const Icon(Icons.search), onPressed: () => _search(bible)),
+        ],
+      ),
       body: CustomScrollView(
         slivers: [
-          SacredArtSliverHeader(
-            title: 'Bíblia Sagrada',
-            subtitle: 'CÂNON CATÓLICO · 73 LIVROS',
-            art: art,
-            expandedHeight: 190,
-            actions: [
-              TextButton.icon(
-                style: TextButton.styleFrom(foregroundColor: Colors.white),
-                onPressed: _pickTranslation,
-                icon: const Icon(Icons.translate, size: 18),
-                label: Text(tr.abbreviation),
-              ),
-              const ReadingAppearanceButton(),
-              IconButton(tooltip: 'Buscar na Bíblia', icon: const Icon(Icons.search), onPressed: () => _search(bible)),
-            ],
-          ),
           SliverPadding(
-            padding: EdgeInsets.fromLTRB(pad, VsSpacing.md, pad, VsSpacing.xxl),
+            padding: EdgeInsets.fromLTRB(pad, VsSpacing.sm, pad, VsSpacing.xxl),
             sliver: SliverList.list(
               children: [
+                SacredArtBanner(title: tr.name, subtitle: 'CÂNON CATÓLICO · 73 LIVROS', art: art),
+                const SizedBox(height: VsSpacing.md),
                 if (bible.progress != null) _ProgressBanner(bible: bible),
                 Align(
                   alignment: Alignment.centerLeft,

@@ -61,8 +61,6 @@ class AppServices {
       }
     }
     final bible = BibleService(BibleRepository(db));
-    // Instala as traduções embutidas em segundo plano (primeira execução).
-    unawaited(bible.ensureBundled().catchError((Object e) => debugPrint('Bíblia: $e')));
     return AppServices(
       settings: settings,
       database: db,

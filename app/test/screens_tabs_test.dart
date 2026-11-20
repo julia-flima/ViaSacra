@@ -53,7 +53,7 @@ void main() {
     await tester.tap(find.text('Biblioteca'));
     await settle(tester);
     expect(find.text('Via Sacra'), findsWidgets);
-    expect(find.text('A Imitação de Cristo'), findsOneWidget);
+    expect(find.text('Orações & Ladainhas'), findsOneWidget);
     await tester.tap(find.widgetWithText(Tab, 'Catecismo'));
     await settle(tester);
     await tester.enterText(find.byType(TextField), 'graça');

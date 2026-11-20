@@ -114,19 +114,15 @@ class _ImitacaoScreenState extends State<ImitacaoScreen> {
     final art = context.read<AppServices>().content.art['header-imitacao'];
 
     return Scaffold(
+      appBar: AppBar(title: const Text('A Imitação de Cristo'), actions: const [ReadingAppearanceButton()]),
       body: CustomScrollView(
         slivers: [
-          SacredArtSliverHeader(
-            title: 'A Imitação de Cristo',
-            subtitle: 'TOMÁS DE KEMPIS · 4 LIVROS',
-            art: art,
-            expandedHeight: 190,
-            actions: const [ReadingAppearanceButton()],
-          ),
           SliverPadding(
-            padding: EdgeInsets.fromLTRB(pad, VsSpacing.md, pad, VsSpacing.xxl),
+            padding: EdgeInsets.fromLTRB(pad, VsSpacing.sm, pad, VsSpacing.xxl),
             sliver: SliverList.list(
               children: [
+                SacredArtBanner(title: 'Tomás de Kempis', subtitle: '4 LIVROS · 114 CAPÍTULOS OFFLINE', art: art),
+                const SizedBox(height: VsSpacing.md),
                 if (today != null)
                   Card(
                     child: ListTile(

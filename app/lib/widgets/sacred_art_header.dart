@@ -4,137 +4,122 @@ import '../core/theme.dart';
 import '../data/models/mystery.dart';
 import 'common.dart';
 
-/// Cabeçalho editorial expansível com arte sacra em domínio público,
-/// efeito parallax, degradê duplo (contraste garantido) e botão discreto de créditos.
-class SacredArtSliverHeader extends StatelessWidget {
-  const SacredArtSliverHeader({
+/// Banner editorial enquadrado com arte sacra em domínio público.
+///
+/// Projetado para manter enquadramento equilibrado tanto no navegador desktop
+/// quanto no celular (sem cortar pinturas em faixas finas) e rolagem fluida.
+class SacredArtBanner extends StatelessWidget {
+  const SacredArtBanner({
     super.key,
     required this.title,
     this.subtitle,
     this.art,
-    this.expandedHeight = 220,
     this.accentColor,
-    this.leading,
-    this.actions = const [],
-    this.bottom,
-    this.imageAlignment = Alignment.topCenter,
+    this.height,
+    this.alignment = const Alignment(0, -0.22),
   });
 
   final String title;
   final String? subtitle;
   final SacredArt? art;
-  final double expandedHeight;
   final Color? accentColor;
-  final Widget? leading;
-  final List<Widget> actions;
-  final PreferredSizeWidget? bottom;
-  final Alignment imageAlignment;
+  final double? height;
+  final Alignment alignment;
 
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
     final t = Theme.of(context).textTheme;
+    final wide = MediaQuery.sizeOf(context).width >= 600;
+    final bannerHeight = height ?? (wide ? 240.0 : 185.0);
     final a = art;
 
-    final allActions = [
-      ...actions,
-      if (a != null)
-        IconButton(
-          tooltip: 'Sobre esta obra',
-          icon: const Icon(Icons.info_outline, size: 20),
-          onPressed: () => showSacredArtCreditsSheet(context, a),
-        ),
-    ];
-
-    return SliverAppBar(
-      expandedHeight: expandedHeight,
-      pinned: true,
-      stretch: true,
-      elevation: 0,
-      scrolledUnderElevation: 2,
-      backgroundColor: cs.surface,
-      foregroundColor: Colors.white,
-      iconTheme: const IconThemeData(color: Colors.white),
-      actionsIconTheme: const IconThemeData(color: Colors.white),
-      leading: leading,
-      actions: allActions,
-      bottom: bottom,
-      flexibleSpace: LayoutBuilder(
-        builder: (context, constraints) {
-          final topPadding = MediaQuery.paddingOf(context).top;
-          final minH = kToolbarHeight + topPadding + (bottom?.preferredSize.height ?? 0);
-          final ratio = ((constraints.maxHeight - minH) / (expandedHeight - minH).clamp(1, 999)).clamp(0.0, 1.0);
-          final collapsed = ratio < 0.25;
-
-          return FlexibleSpaceBar(
-            collapseMode: CollapseMode.parallax,
-            titlePadding: EdgeInsetsDirectional.only(
-              start: leading != null || Navigator.canPop(context) ? 56 : 20,
-              end: 56,
-              bottom: (bottom?.preferredSize.height ?? 0) + 14,
-            ),
-            title: AnimatedDefaultTextStyle(
-              duration: const Duration(milliseconds: 180),
-              style: (t.titleMedium ?? const TextStyle(fontSize: 18)).copyWith(
-                color: collapsed ? cs.onSurface : Colors.white,
-                fontWeight: FontWeight.w600,
-                shadows: collapsed ? null : const [Shadow(offset: Offset(0, 1), blurRadius: 4, color: Colors.black54)],
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(16),
+      child: SizedBox(
+        height: bannerHeight,
+        width: double.infinity,
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            if (a?.assetPath != null)
+              Image.asset(
+                a!.assetPath!,
+                fit: BoxFit.cover,
+                alignment: alignment,
+                cacheWidth: 960,
+                filterQuality: FilterQuality.medium,
+                errorBuilder: (_, _, _) => _ArtFallback(cs: cs),
+              )
+            else
+              _ArtFallback(cs: cs),
+            DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Colors.black.withValues(alpha: 0.12),
+                    Colors.black.withValues(alpha: 0.22),
+                    Colors.black.withValues(alpha: 0.80),
+                  ],
+                  stops: const [0.0, 0.45, 1.0],
+                ),
               ),
-              child: Text(title, maxLines: 1, overflow: TextOverflow.ellipsis),
             ),
-            background: Stack(
-              fit: StackFit.expand,
-              children: [
-                if (a?.assetPath != null)
-                  Image.asset(
-                    a!.assetPath!,
-                    fit: BoxFit.cover,
-                    alignment: imageAlignment,
-                    errorBuilder: (_, _, _) => _ArtFallback(cs: cs),
-                  )
-                else
-                  _ArtFallback(cs: cs),
-                // Degradê duplo: protege barra superior/ícones e ancora o título na base
-                DecoratedBox(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                        Colors.black.withValues(alpha: 0.52),
-                        Colors.black.withValues(alpha: 0.14),
-                        Colors.black.withValues(alpha: 0.78),
-                      ],
-                      stops: const [0.0, 0.42, 1.0],
-                    ),
+            if (a != null)
+              Positioned(
+                top: 10,
+                right: 10,
+                child: Material(
+                  color: Colors.black.withValues(alpha: 0.48),
+                  shape: const CircleBorder(),
+                  child: IconButton(
+                    tooltip: 'Sobre esta obra',
+                    visualDensity: VisualDensity.compact,
+                    icon: const Icon(Icons.info_outline, size: 18, color: Colors.white),
+                    onPressed: () => showSacredArtCreditsSheet(context, a),
                   ),
                 ),
-                if (subtitle != null && ratio > 0.35)
-                  Positioned(
-                    left: leading != null || Navigator.canPop(context) ? 56 : 20,
-                    right: 20,
-                    bottom: (bottom?.preferredSize.height ?? 0) + 46,
-                    child: Opacity(
-                      opacity: ((ratio - 0.35) / 0.65).clamp(0.0, 1.0),
-                      child: Text(
-                        subtitle!,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: t.labelSmall?.copyWith(
-                          color: Colors.white.withValues(alpha: 0.92),
-                          letterSpacing: 1.1,
-                          fontWeight: FontWeight.w600,
-                          shadows: const [Shadow(offset: Offset(0, 1), blurRadius: 3, color: Colors.black54)],
-                        ),
+              ),
+            Positioned(
+              left: 18,
+              right: 18,
+              bottom: 14,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (subtitle != null)
+                    Text(
+                      subtitle!,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: t.labelSmall?.copyWith(
+                        color: Colors.white.withValues(alpha: 0.90),
+                        letterSpacing: 1.1,
+                        fontWeight: FontWeight.w600,
+                        shadows: const [Shadow(offset: Offset(0, 1), blurRadius: 3, color: Colors.black54)],
                       ),
                     ),
+                  if (subtitle != null) const SizedBox(height: 3),
+                  Text(
+                    title,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: t.titleLarge?.copyWith(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                      shadows: const [Shadow(offset: Offset(0, 1), blurRadius: 4, color: Colors.black54)],
+                    ),
                   ),
-                if (accentColor != null)
-                  Positioned(left: 0, right: 0, bottom: 0, child: Container(height: 3, color: accentColor)),
-              ],
+                ],
+              ),
             ),
-          );
-        },
+            if (accentColor != null)
+              Positioned(left: 0, right: 0, bottom: 0, child: Container(height: 3, color: accentColor)),
+          ],
+        ),
       ),
     );
   }
@@ -150,7 +135,8 @@ class SacredArtCard extends StatelessWidget {
     this.art,
     this.badge,
     this.icon,
-    this.height = 168,
+    this.height = 190,
+    this.alignment = const Alignment(0, -0.2),
   });
 
   final String title;
@@ -160,6 +146,7 @@ class SacredArtCard extends StatelessWidget {
   final String? badge;
   final IconData? icon;
   final double height;
+  final Alignment alignment;
 
   @override
   Widget build(BuildContext context) {
@@ -185,7 +172,9 @@ class SacredArtCard extends StatelessWidget {
                   Image.asset(
                     a!.assetPath!,
                     fit: BoxFit.cover,
-                    alignment: Alignment.topCenter,
+                    alignment: alignment,
+                    cacheWidth: 800,
+                    filterQuality: FilterQuality.medium,
                     errorBuilder: (_, _, _) => _ArtFallback(cs: cs),
                   )
                 else
@@ -196,8 +185,8 @@ class SacredArtCard extends StatelessWidget {
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                       colors: [
-                        Colors.black.withValues(alpha: 0.18),
-                        Colors.black.withValues(alpha: 0.45),
+                        Colors.black.withValues(alpha: 0.14),
+                        Colors.black.withValues(alpha: 0.38),
                         Colors.black.withValues(alpha: 0.86),
                       ],
                       stops: const [0.0, 0.48, 1.0],
