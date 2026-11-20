@@ -31,6 +31,13 @@ class ViaSacraScreen extends StatefulWidget {
 class _ViaSacraScreenState extends State<ViaSacraScreen> {
   int _index = 0;
 
+  /// Troca de estação e volta a rolagem ao topo.
+  void _goTo(int index) {
+    setState(() => _index = index);
+    final scroll = PrimaryScrollController.of(context);
+    if (scroll.hasClients) scroll.jumpTo(0);
+  }
+
   static const _stations = <_Station>[
     _Station(
       1,
@@ -160,7 +167,7 @@ class _ViaSacraScreenState extends State<ViaSacraScreen> {
         ],
       ),
     );
-    if (chosen != null && mounted) setState(() => _index = chosen);
+    if (chosen != null && mounted) _goTo(chosen);
   }
 
   @override
@@ -198,6 +205,7 @@ class _ViaSacraScreenState extends State<ViaSacraScreen> {
         ),
       ),
       body: ListView(
+        controller: PrimaryScrollController.of(context),
         padding: EdgeInsets.fromLTRB(pad, VsSpacing.sm, pad, VsSpacing.xxl),
         children: [
           SacredArtBanner(
@@ -205,10 +213,6 @@ class _ViaSacraScreenState extends State<ViaSacraScreen> {
             subtitle: 'SANTO AFONSO MARIA DE LIGÓRIO',
             art: art,
           ),
-          const SizedBox(height: VsSpacing.md),
-          Eyebrow('${st.number}ª Estação'),
-          const SizedBox(height: 6),
-          Text(st.title, style: t.headlineMedium),
           const SizedBox(height: VsSpacing.md),
           Card(
             child: Padding(
@@ -251,14 +255,14 @@ class _ViaSacraScreenState extends State<ViaSacraScreen> {
             children: [
               if (_index > 0)
                 OutlinedButton.icon(
-                  onPressed: () => setState(() => _index--),
+                  onPressed: () => _goTo(_index - 1),
                   icon: const Icon(Icons.chevron_left),
                   label: Text('$_indexª Estação'),
                 ),
               const Spacer(),
               if (_index < _stations.length - 1)
                 FilledButton.icon(
-                  onPressed: () => setState(() => _index++),
+                  onPressed: () => _goTo(_index + 1),
                   icon: const Icon(Icons.chevron_right),
                   label: Text('${_index + 2}ª Estação'),
                 )

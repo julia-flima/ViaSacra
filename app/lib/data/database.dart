@@ -16,14 +16,20 @@ class AppDatabase {
 
   final CommonDatabase db;
 
-  /// 1 = conteúdo inicial; 2 = Bíblia Sagrada; 3 = múltiplos catecismos (100% FOSS + importador).
-  static const schemaVersion = 3;
+  /// 1 = conteúdo inicial; 2 = Bíblia Sagrada; 3 = múltiplos catecismos (100% FOSS + importador);
+  /// 4 = remove as tabelas v1 do CIC (texto/temas), mantendo só o índice;
+  /// 5 = `favorite.kind` sem CHECK fixo (favoritos da Imitação de Cristo).
+  static const schemaVersion = 5;
 
-  static const _bundledCatechismVersion = '1';
+  static const _bundledCatechismVersion = '2';
   static const _bundledCatechismWorks = <(String id, String asset, int version)>[
-    ('sao_pio_x', 'assets/db/sao_pio_x.json', 2),
-    ('romano_trento', 'assets/db/catecismo_romano.json', 1),
+    ('sao_pio_x', 'assets/db/sao_pio_x.json', 3),
   ];
+
+  /// Obras que já vieram embutidas e foram retiradas do app: são apagadas das
+  /// instalações existentes (só a cópia embutida; importações do usuário ficam).
+  /// `romano_trento`: eram 11 resumos, não o texto integral do Catecismo Romano (issue #12).
+  static const _retiredBundledCatechismWorks = ['romano_trento'];
 
   static Future<AppDatabase> open() async {
     final db = await openPlatformDatabase('via_sacra');
@@ -31,16 +37,19 @@ class AppDatabase {
     final app = AppDatabase._(db);
     await app._migrate();
     await app._seedCatechism();
-    await app._seedBundledCatechismWorks();
+    await app.seedBundledCatechismWorks();
     return app;
   }
 
   /// Grava alterações pendentes (relevante na web/IndexedDB).
   Future<void> flush() => flushPlatformDatabase();
 
-  /// Banco em memória para testes.
-  static Future<AppDatabase> memory({String? schema}) async {
+  /// Banco em memória para testes. [before] prepara um banco "antigo" antes da
+  /// migração (ex.: tabelas de uma versão anterior com `PRAGMA user_version`).
+  static Future<AppDatabase> memory({String? schema, @visibleForTesting void Function(CommonDatabase)? before}) async {
     final app = AppDatabase._(openMemoryDatabase());
+    app.db.execute('PRAGMA foreign_keys = ON;');
+    before?.call(app.db);
     await app._migrate(schemaOverride: schema);
     return app;
   }
@@ -55,6 +64,7 @@ class AppDatabase {
     try {
       // O esquema é idempotente (CREATE … IF NOT EXISTS): reaplicá-lo cria as
       // tabelas novas de cada versão sem tocar nos dados existentes.
+      if (current >= 1 && current < 5) _relaxFavoriteKind();
       db.execute(schema);
       if (current < 2) _seedBibleBooks();
       db.execute('PRAGMA user_version = $schemaVersion');
@@ -63,6 +73,27 @@ class AppDatabase {
       db.execute('ROLLBACK');
       rethrow;
     }
+  }
+
+  /// Até a v4, `favorite.kind` tinha um CHECK com uma lista fixa de tipos, que
+  /// rejeitava os favoritos da Imitação de Cristo. O SQLite não remove CHECK com
+  /// ALTER TABLE: recria a tabela preservando os dados.
+  void _relaxFavoriteKind() {
+    final sql = db.select("SELECT sql FROM sqlite_master WHERE type = 'table' AND name = 'favorite'").firstOrNull;
+    if (sql == null || !(sql['sql'] as String).contains('CHECK')) return;
+    db.execute('ALTER TABLE favorite RENAME TO favorite_v4');
+    db.execute('''
+      CREATE TABLE favorite (
+        kind        TEXT NOT NULL,
+        ref         TEXT NOT NULL,
+        label       TEXT,
+        created_at  INTEGER NOT NULL,
+        PRIMARY KEY (kind, ref)
+      )''');
+    db.execute(
+      'INSERT INTO favorite(kind, ref, label, created_at) SELECT kind, ref, label, created_at FROM favorite_v4',
+    );
+    db.execute('DROP TABLE favorite_v4');
   }
 
   void _seedBibleBooks() {
@@ -92,36 +123,25 @@ class AppDatabase {
   int? catechismWorkVersion(String id) =>
       db.select('SELECT module_version FROM catechisms WHERE id = ?', [id]).firstOrNull?['module_version'] as int?;
 
-  /// Importa `assets/db/catechism.json` (se presente) e o índice temático.
-  /// O texto integral do CIC é protegido por direitos autorais (LEV) e só é
-  /// distribuído mediante licença — ver docs/COPYRIGHT.md.
+  /// Importa o índice do CIC (`assets/db/catechism.json`). O texto do CIC é
+  /// protegido (LEV) e não é distribuído — ver docs/COPYRIGHT.md.
   Future<void> _seedCatechism() async {
     if (meta('catechism_version') == _bundledCatechismVersion) return;
     try {
       final raw = await rootBundle.loadString('assets/db/catechism.json');
       await importCatechism(jsonDecode(raw) as Map<String, dynamic>);
     } on FlutterError {
-      debugPrint('catechism.json ausente — Catecismo sem texto offline.');
+      debugPrint('catechism.json ausente — sem índice do CIC.');
     }
   }
 
+  /// Grava o índice (Partes → Seções → Capítulos → Artigos) do CIC.
   Future<void> importCatechism(Map<String, dynamic> data, {bool force = false}) async {
     final version = '${data['versao'] ?? 1}';
     if (!force && meta('catechism_version') == version) return;
     db.execute('BEGIN');
     try {
-      db.execute('DELETE FROM catechism_paragraph');
       db.execute('DELETE FROM catechism_toc');
-      db.execute('DELETE FROM catechism_topic');
-      final insP = db.prepare(
-        'INSERT INTO catechism_paragraph(number, part, section, chapter, article, heading, text) VALUES (?,?,?,?,?,?,?)',
-      );
-      for (final pg in (data['paragrafos'] as List? ?? const [])) {
-        final m = (pg as Map).cast<String, dynamic>();
-        insP.execute([m['n'], m['parte'] ?? 0, m['secao'], m['capitulo'], m['artigo'], m['titulo'], m['texto']]);
-      }
-      insP.close();
-
       final insT = db.prepare(
         'INSERT INTO catechism_toc(id, parent_id, level, title, first_paragraph, last_paragraph, sort_order) VALUES (?,?,?,?,?,?,?)',
       );
@@ -136,19 +156,7 @@ class AppDatabase {
 
       walk(data['indice'] as List<dynamic>? ?? const [], null);
       insT.close();
-
-      final insTopic = db.prepare('INSERT OR IGNORE INTO catechism_topic(topic, number) VALUES (?, ?)');
-      (data['temas'] as Map? ?? const {}).forEach((topic, ranges) {
-        for (final r in (ranges as List)) {
-          final parts = '$r'.split('-').map(int.parse).toList();
-          for (var n = parts.first; n <= parts.last; n++) {
-            insTopic.execute([topic, n]);
-          }
-        }
-      });
-      insTopic.close();
       setMeta('catechism_version', version);
-      setMeta('catechism_has_text', '${(data['paragrafos'] as List? ?? const []).isNotEmpty}');
       db.execute('COMMIT');
     } catch (e) {
       db.execute('ROLLBACK');
@@ -157,8 +165,22 @@ class AppDatabase {
     await flush();
   }
 
-  /// Instala os catecismos clássicos em Domínio Público (São Pio X e Catecismo Romano).
-  Future<void> _seedBundledCatechismWorks() async {
+  /// Instala/atualiza os catecismos embutidos e remove os retirados do app.
+  @visibleForTesting
+  Future<void> seedBundledCatechismWorks() async {
+    for (final id in _retiredBundledCatechismWorks) {
+      if (db.select('SELECT 1 FROM catechisms WHERE id = ? AND bundled = 1', [id]).isEmpty) continue;
+      db.execute('BEGIN');
+      try {
+        db.execute('DELETE FROM catechism_entries WHERE catechism_id = ?', [id]);
+        db.execute('DELETE FROM catechisms WHERE id = ?', [id]);
+        db.execute('COMMIT');
+      } catch (_) {
+        db.execute('ROLLBACK');
+        rethrow;
+      }
+      await flush();
+    }
     for (final (id, asset, version) in _bundledCatechismWorks) {
       final current = catechismWorkVersion(id);
       if (current != null && current >= version) continue;

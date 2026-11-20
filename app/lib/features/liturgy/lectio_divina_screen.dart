@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../../app_state.dart';
 import '../../core/theme.dart';
 import '../../widgets/common.dart';
+import '../../widgets/local_note_field.dart';
 import '../../widgets/global_audio_mini_player.dart';
 import '../../widgets/reading_appearance_button.dart';
 import '../../widgets/sacred_art_header.dart';
@@ -19,6 +20,7 @@ class LectioDivinaScreen extends StatefulWidget {
     this.source,
     this.url,
     this.license,
+    this.noteRef,
   });
 
   final String title;
@@ -27,6 +29,9 @@ class LectioDivinaScreen extends StatefulWidget {
   final String? source;
   final String? url;
   final String? license;
+
+  /// Chave da anotação pessoal (tabela `note`, kind 'lectio'). Padrão: o título.
+  final String? noteRef;
 
   @override
   State<LectioDivinaScreen> createState() => _LectioDivinaScreenState();
@@ -97,6 +102,12 @@ class _LectioDivinaScreenState extends State<LectioDivinaScreen> {
                     ],
                   ),
                 ),
+              LocalNoteField(
+                kind: 'lectio',
+                noteRef: widget.noteRef ?? widget.title,
+                label: 'Minha anotação (somente neste aparelho)',
+              ),
+              const SizedBox(height: VsSpacing.md),
               if (widget.source != null)
                 SourceAttribution(source: widget.source!, url: widget.url, license: widget.license),
               if (_immersive)

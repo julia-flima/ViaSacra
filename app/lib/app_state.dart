@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 
+import 'app_navigation.dart';
 import 'core/liturgical_calendar.dart';
 import 'core/liturgical_color.dart';
 import 'data/bible/bible_repository.dart';
@@ -29,7 +30,8 @@ class AppServices {
     required this.audio,
     required this.notifications,
     required this.bible,
-  });
+    NavigationController? navigation,
+  }) : navigation = navigation ?? NavigationController();
 
   final SettingsService settings;
   final AppDatabase database;
@@ -43,6 +45,9 @@ class AppServices {
   final NotificationService? notifications;
   final BibleService bible;
 
+  /// Aba atual; criada antes do app para que o toque num lembrete abra a aba certa.
+  final NavigationController navigation;
+
   static Future<AppServices> bootstrap() async {
     final settings = await SettingsService.load();
     final db = await AppDatabase.open();
@@ -54,11 +59,14 @@ class AppServices {
     await audio.setKokoroVoice(settings.kokoroVoice);
     if (settings.ttsVoiceName != null) await audio.setVoice(settings.ttsVoiceName, settings.ttsVoiceLocale);
     if (kIsWeb || nativeTtsIsSupported()) unawaited(audio.refreshNeuralTtsStatus());
+    final navigation = NavigationController();
     NotificationService? notifications;
     if (!kIsWeb) {
       try {
-        notifications = await NotificationService.create();
+        notifications = await NotificationService.create(onTap: navigation.openFromNotification);
         await notifications.reschedule(settings, liturgy);
+        // App aberto a frio pelo toque no lembrete.
+        navigation.openFromNotification(await notifications.launchPayload());
       } catch (e) {
         debugPrint('Notificações indisponíveis: $e');
       }
@@ -74,6 +82,7 @@ class AppServices {
       audio: audio,
       notifications: notifications,
       bible: bible,
+      navigation: navigation,
     );
   }
 }
@@ -105,6 +114,7 @@ class LiturgyController extends ChangeNotifier {
   Future<void> load(DateTime d, {bool force = false}) async {
     date = DateTime(d.year, d.month, d.day);
     loading = true;
+    error = null; // não carrega o erro da data anterior
     liturgy = _repo.cached(date) ?? DailyLiturgy.calendarOnly(date);
     notifyListeners();
     final result = await _repo.load(date, forceRefresh: force);

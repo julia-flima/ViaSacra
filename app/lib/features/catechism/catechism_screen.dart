@@ -11,7 +11,9 @@ import '../../data/models/catechism.dart';
 import '../../services/catechism_import_service.dart';
 import '../../services/reading_audio_service.dart';
 import '../../services/settings_service.dart';
+import '../../widgets/reading_appearance_button.dart';
 import '../../widgets/common.dart';
+import '../../widgets/local_note_field.dart';
 import '../../widgets/global_audio_mini_player.dart';
 import 'vatican_reader_screen.dart';
 
@@ -624,16 +626,6 @@ class CatechismEntryScreen extends StatefulWidget {
 }
 
 class _CatechismEntryScreenState extends State<CatechismEntryScreen> {
-  late final _note = TextEditingController(
-    text: context.read<AppServices>().userData.note('catechism', widget.entry.favRef) ?? '',
-  );
-
-  @override
-  void dispose() {
-    _note.dispose();
-    super.dispose();
-  }
-
   void _listen() {
     final e = widget.entry;
     final settings = context.read<SettingsService>();
@@ -677,6 +669,7 @@ class _CatechismEntryScreenState extends State<CatechismEntryScreen> {
               unawaited(SharePlus.instance.share(ShareParams(text: body)));
             },
           ),
+          const ReadingAppearanceButton(),
         ],
       ),
       body: ListView(
@@ -702,40 +695,7 @@ class _CatechismEntryScreenState extends State<CatechismEntryScreen> {
           const CrossDivider(),
           const Eyebrow('Minha anotação (somente neste aparelho)'),
           const SizedBox(height: 8),
-          TextField(
-            controller: _note,
-            minLines: 3,
-            maxLines: 10,
-            decoration: const InputDecoration(border: OutlineInputBorder(), hintText: 'Escreva sua meditação…'),
-            onChanged: (v) => s.userData.saveNote('catechism', e.favRef, v),
-          ),
-        ],
-      ),
-      bottomNavigationBar: const GlobalAudioMiniPlayer(useSafeArea: true),
-    );
-  }
-}
-
-/// Parágrafo legado do CIC (mantido para compatibilidade).
-class ParagraphScreen extends StatelessWidget {
-  const ParagraphScreen({super.key, required this.number});
-  final int number;
-
-  @override
-  Widget build(BuildContext context) {
-    final s = context.read<AppServices>();
-    final p = s.catechism.byNumber(number);
-    final pad = VsSpacing.page(context);
-    final t = Theme.of(context).textTheme;
-    return Scaffold(
-      appBar: AppBar(title: Text('CIC § $number')),
-      body: ListView(
-        padding: EdgeInsets.fromLTRB(pad, VsSpacing.lg, pad, VsSpacing.xxl),
-        children: [
-          if (p == null)
-            Text('O texto deste parágrafo ainda não está disponível offline.', style: t.bodyLarge)
-          else
-            SelectionArea(child: Text(p.text, style: t.bodyLarge)),
+          LocalNoteField(kind: 'catechism', noteRef: e.favRef, hint: 'Escreva sua meditação…'),
         ],
       ),
       bottomNavigationBar: const GlobalAudioMiniPlayer(useSafeArea: true),

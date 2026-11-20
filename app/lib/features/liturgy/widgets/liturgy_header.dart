@@ -6,15 +6,23 @@ import '../../../widgets/common.dart';
 
 /// Cabeçalho: data, Tempo Litúrgico, cor do dia e celebração.
 class LiturgyHeader extends StatelessWidget {
-  const LiturgyHeader({super.key, required this.day});
+  const LiturgyHeader({super.key, required this.day, this.showTitle = true});
 
   final LiturgicalDay day;
+
+  /// false quando a data e a celebração já aparecem no banner acima.
+  final bool showTitle;
+
+  static String formatDate(DateTime d) {
+    final s = DateFormat("EEEE, d 'de' MMMM 'de' y", 'pt_BR').format(d);
+    return s[0].toUpperCase() + s.substring(1);
+  }
 
   @override
   Widget build(BuildContext context) {
     final t = Theme.of(context).textTheme;
     final cs = Theme.of(context).colorScheme;
-    final date = DateFormat("EEEE, d 'de' MMMM 'de' y", 'pt_BR').format(day.date);
+    final date = formatDate(day.date);
     final cycle = day.rank == 'domingo' || day.rank == 'solenidade'
         ? 'Ano ${day.sundayCycle}'
         : 'Ano ${day.sundayCycle} · Ano ${day.weekdayCycle}';
@@ -25,10 +33,12 @@ class LiturgyHeader extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Eyebrow(date[0].toUpperCase() + date.substring(1), color: cs.onSurfaceVariant),
-            const SizedBox(height: 10),
-            Text(day.celebration, style: t.headlineMedium),
-            const SizedBox(height: 14),
+            if (showTitle) ...[
+              Eyebrow(date, color: cs.onSurfaceVariant),
+              const SizedBox(height: 10),
+              Text(day.celebration, style: t.headlineMedium),
+              const SizedBox(height: 14),
+            ],
             Wrap(
               spacing: 10,
               runSpacing: 8,

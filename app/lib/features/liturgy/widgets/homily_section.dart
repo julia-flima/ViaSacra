@@ -53,7 +53,7 @@ class _HomilySectionState extends State<HomilySection> with SingleTickerProvider
               padding: const EdgeInsets.all(VsSpacing.lg),
               child: _tabs.index == 0
                   ? (l.vaticanHomily != null
-                        ? _HomilyView(homily: l.vaticanHomily!, onListen: widget.onListen)
+                        ? _HomilyView(homily: l.vaticanHomily!, onListen: widget.onListen, date: l.date)
                         : const _Empty(
                             'A homilia ou reflexão do Santo Padre para esta data ainda não está disponível.',
                           ))
@@ -64,7 +64,7 @@ class _HomilySectionState extends State<HomilySection> with SingleTickerProvider
                             children: [
                               for (final (i, h) in second.indexed) ...[
                                 if (i > 0) const CrossDivider(),
-                                _HomilyView(homily: h, onListen: widget.onListen),
+                                _HomilyView(homily: h, onListen: widget.onListen, date: l.date),
                               ],
                             ],
                           )),
@@ -76,17 +76,36 @@ class _HomilySectionState extends State<HomilySection> with SingleTickerProvider
   }
 }
 
-class _HomilyView extends StatelessWidget {
-  const _HomilyView({required this.homily, required this.onListen});
+/// Prévia de [text] com até [max] caracteres, cortada no fim de uma palavra.
+/// Retorna o texto inteiro se já couber.
+String homilyPreview(String text, {int max = 700}) {
+  if (text.length <= max) return text;
+  var cut = text.lastIndexOf(RegExp(r'\s'), max);
+  if (cut <= 0) cut = max; // palavra única gigantesca: corta onde der
+  return '${text.substring(0, cut).trimRight().replaceFirst(RegExp(r'[,;:.!?—–-]+$'), '')}…';
+}
+
+class _HomilyView extends StatefulWidget {
+  const _HomilyView({required this.homily, required this.onListen, required this.date});
 
   final Homily homily;
+  final DateTime date;
   final void Function(Homily h) onListen;
+
+  @override
+  State<_HomilyView> createState() => _HomilyViewState();
+}
+
+class _HomilyViewState extends State<_HomilyView> {
+  bool _expanded = false;
 
   @override
   Widget build(BuildContext context) {
     final t = Theme.of(context).textTheme;
-    final h = homily;
-    final preview = h.text.length > 700 ? '${h.text.substring(0, 700).trimRight()}…' : h.text;
+    final h = widget.homily;
+    final onListen = widget.onListen;
+    final preview = homilyPreview(h.text);
+    final truncated = preview.length != h.text.length;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -94,7 +113,16 @@ class _HomilyView extends StatelessWidget {
         const SizedBox(height: 4),
         Text(h.work ?? h.title, style: t.titleLarge),
         const SizedBox(height: 12),
-        Text(preview, style: t.bodyLarge),
+        SelectionArea(child: Text(_expanded ? h.text : preview, style: t.bodyLarge)),
+        if (truncated)
+          Align(
+            alignment: Alignment.centerLeft,
+            child: TextButton.icon(
+              onPressed: () => setState(() => _expanded = !_expanded),
+              icon: Icon(_expanded ? Icons.expand_less : Icons.expand_more),
+              label: Text(_expanded ? 'Mostrar menos' : 'Ler completo'),
+            ),
+          ),
         const SizedBox(height: 12),
         Wrap(
           spacing: 8,
@@ -111,6 +139,7 @@ class _HomilyView extends StatelessWidget {
                     source: h.source,
                     url: h.url,
                     license: h.license,
+                    noteRef: '${widget.date.toIso8601String().substring(0, 10)}|${h.work ?? h.title}',
                   ),
                 ),
               ),

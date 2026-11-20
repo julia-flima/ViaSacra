@@ -1,10 +1,15 @@
 #!/usr/bin/env python3
 """Gera `app/assets/data/imitacao_de_cristo.json` (4 Livros, 114 capítulos) a partir
-da edição livre de 'A Imitação de Cristo' (Tomás de Kempis) no Internet Archive.
+da edição de 'A Imitação de Cristo' (Tomás de Kempis) no Internet Archive.
 
-Créditos da fonte:
-  Tomás de Kempis — A Imitação de Cristo (tradução de E. L. de Souza Campos,
-  Valdemar Teodoro Editor, 2023 — cópia e divulgação permitidas com citação da fonte).
+Créditos e licença da fonte (folha de rosto da edição):
+  Tradução de E. L. de Souza Campos a partir da edição francesa do Pe. Marcel Bouix SJ
+  (Paris, Henri Oudin, 1864). © 2023 Valdemar Teodoro Editor (Niterói – RJ).
+  "Toda cópia e divulgação são permitidas, desde que citada a fonte."
+  A obra original é de domínio público; esta tradução não. É uma permissão de cópia
+  com citação, não uma licença livre (decisão do projeto: manter, com atribuição).
+
+Uso: python scripts/build_imitacao.py [arquivo.txt]
 """
 
 from __future__ import annotations
@@ -38,6 +43,7 @@ def parse_imitacao(texto: str) -> list[dict[str, object]]:
         if cap_atual is not None and paragrafo_buf:
             bloco = re.sub(r"\s+", " ", " ".join(paragrafo_buf)).strip()
             bloco = re.sub(r"\[\d+\]", "", bloco)
+            bloco = re.sub(r"\s*__\s*", " — ", bloco)  # travessões vieram como "__" no TXT
             bloco = re.sub(r"\s+([.,;:!?])", r"\1", bloco).strip()
             if bloco:
                 cap_atual["paragrafos"].append(bloco)
@@ -70,6 +76,8 @@ def parse_imitacao(texto: str) -> list[dict[str, object]]:
             esperando_titulo_cap = True
             continue
         if esperando_titulo_cap and cap_atual is not None:
+            if re.fullmatch(r"\d{1,2}", ln):  # Livro I, Cap. 11: o "01" vem antes do título
+                continue
             cap_atual["titulo"] = ln.rstrip(".")
             esperando_titulo_cap = False
             continue
@@ -85,17 +93,32 @@ def parse_imitacao(texto: str) -> list[dict[str, object]]:
 
 
 def main() -> int:
-    print("Baixando 'A Imitação de Cristo' do Internet Archive…")
-    req = urllib.request.Request(TXT_URL, headers={"User-Agent": "ViaSacraBot/1.0"})
-    texto = urllib.request.urlopen(req, timeout=45).read().decode("utf-8", "replace")
+    if len(sys.argv) > 1:
+        texto = Path(sys.argv[1]).read_text(encoding="utf-8")
+    else:
+        print("Baixando 'A Imitação de Cristo' do Internet Archive…")
+        req = urllib.request.Request(TXT_URL, headers={"User-Agent": "ViaSacraBot/1.0"})
+        texto = urllib.request.urlopen(req, timeout=45).read().decode("utf-8", "replace")
     livros = parse_imitacao(texto)
     total_caps = sum(len(lv["capitulos"]) for lv in livros)
+    if total_caps != 114:
+        raise RuntimeError(f"Esperados 114 capítulos; encontrados {total_caps}.")
+    sem_titulo = [f"{lv['numero']},{c['numero']}" for lv in livros for c in lv["capitulos"]
+                  if not c["titulo"] or re.fullmatch(r"\d+", c["titulo"])]
+    if sem_titulo:
+        raise RuntimeError(f"Capítulos sem título: {sem_titulo}")
     doc = {
-        "versao": 1,
+        "versao": 2,
         "titulo": "A Imitação de Cristo",
         "autor": "Tomás de Kempis",
-        "fonte": "Tomás de Kempis — A Imitação de Cristo (trad. E. L. de Souza Campos, Valdemar Teodoro Editor, 2023)",
-        "licenca": "Obra em domínio público; edição com cópia e divulgação permitidas com citação da fonte.",
+        "fonte": (
+            "Tomás de Kempis — A Imitação de Cristo. Tradução de E. L. de Souza Campos (a partir da "
+            "edição francesa do Pe. Marcel Bouix SJ, 1864). © 2023 Valdemar Teodoro Editor, Niterói – RJ."
+        ),
+        "licenca": (
+            "Original em domínio público. Tradução © 2023 Valdemar Teodoro Editor — "
+            "\"Toda cópia e divulgação são permitidas, desde que citada a fonte.\""
+        ),
         "livros": livros,
     }
     SAIDA.write_text(json.dumps(doc, ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8")

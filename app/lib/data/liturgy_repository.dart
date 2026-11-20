@@ -57,18 +57,28 @@ class LiturgyRepository {
     return row == null ? null : DateTime.fromMillisecondsSinceEpoch(row['fetched_at'] as int);
   }
 
-  Future<LiturgyResult> load(DateTime date, {bool forceRefresh = false}) async {
+  /// Liturgia com leituras e Salmo: não precisa de nova busca para ser exibida.
+  static bool isComplete(DailyLiturgy? l) => l != null && l.hasReadings && l.readings.any((r) => r.isPsalm);
+
+  Future<LiturgyResult> load(DateTime date, {bool forceRefresh = false, DateTime? now}) async {
     final local = cached(date);
+    final complete = isComplete(local);
+    final n = now ?? DateTime.now();
+    final past = DateTime(date.year, date.month, date.day).isBefore(DateTime(n.year, n.month, n.day));
     final fetched = _fetchedAt(date);
-    final stale = fetched == null || DateTime.now().difference(fetched) > _refreshAfter;
-    final complete = local != null && local.hasReadings && local.readings.any((r) => r.isPsalm);
+    // Datas passadas completas não mudam mais; hoje/futuro podem receber
+    // correções e são atualizados após _refreshAfter.
+    final stale = !past && (fetched == null || n.difference(fetched) > _refreshAfter);
     if (complete && !forceRefresh && !stale) {
-      return LiturgyResult(local, LiturgyOrigin.cache);
+      return LiturgyResult(local!, LiturgyOrigin.cache);
     }
     try {
       final remote = await _fetch(date);
       return LiturgyResult(remote, LiturgyOrigin.network);
     } catch (e) {
+      // Offline com cache completo (ex.: "Semana Offline"): segue em silêncio,
+      // exceto quando o usuário pediu explicitamente para atualizar.
+      if (complete && !forceRefresh) return LiturgyResult(local!, LiturgyOrigin.cache);
       if (local != null) return LiturgyResult(local, LiturgyOrigin.cache, error: '$e');
       return LiturgyResult(DailyLiturgy.calendarOnly(date), LiturgyOrigin.calendarOnly, error: '$e');
     }
@@ -122,5 +132,6 @@ class LiturgyRepository {
   void prune({Duration keep = const Duration(days: 120)}) {
     final limit = isoDate(DateTime.now().subtract(keep));
     _db.db.execute('DELETE FROM liturgy_cache WHERE date < ?', [limit]);
+    unawaited(_db.flush());
   }
 }

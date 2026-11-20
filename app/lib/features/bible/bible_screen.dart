@@ -7,6 +7,7 @@ import '../../app_state.dart';
 import '../../core/theme.dart';
 import '../../data/bible/bible_canon.dart';
 import '../../data/bible/bible_models.dart';
+import '../../data/bible/psalm_numbering.dart';
 import '../../data/bible/bible_reference.dart';
 import '../../services/bible_service.dart';
 import '../../services/reading_audio_service.dart';
@@ -33,9 +34,12 @@ class _BibleScreenState extends State<BibleScreen> {
   bool _reading = false;
   String? _compareId;
   BibleRef? _highlightRef; // trecho vindo da Liturgia
+  int _highlightChapter = 0; // capítulo (já na numeração da tradução) onde o trecho começa
   int? _scrollTargetVerse;
   final _targetVerseKey = GlobalKey();
-  final _scroll = ScrollController();
+  // Usa o PrimaryScrollController da aba/rota para que setas, PageUp/PageDown,
+  // Home/End e Espaço (HomeShell / KeyboardScroll) rolem o leitor.
+  ScrollController get _scroll => PrimaryScrollController.of(context);
 
   (String trId, int version, int verseCount)? _booksCacheKey;
   List<BibleBook> _cachedBooks = const [];
@@ -60,12 +64,6 @@ class _BibleScreenState extends State<BibleScreen> {
     });
   }
 
-  @override
-  void dispose() {
-    _scroll.dispose();
-    super.dispose();
-  }
-
   /// Abre a referência pedida por outra aba (ex.: leitura da Liturgia).
   void _consumePendingRef(BibleService bible) {
     final ref = bible.pendingRef;
@@ -83,6 +81,7 @@ class _BibleScreenState extends State<BibleScreen> {
     setState(() {
       _reading = true;
       _highlightRef = highlight;
+      _highlightChapter = chapter;
       _scrollTargetVerse = verse;
     });
     WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToTargetVerse(verse));
@@ -240,15 +239,9 @@ class _BibleScreenState extends State<BibleScreen> {
 
   /// Alinha o capítulo dos Salmos quando as duas traduções comparadas usam
   /// numerações diferentes (grega vs hebraica).
-  int _alignedChapter(BibleTranslation primary, BibleTranslation compare, String bookId, int chapter) {
-    if (bookId != 'sl' || primary.psalmNumbering == compare.psalmNumbering) return chapter;
-    if (primary.psalmNumbering == 'grega' && compare.psalmNumbering == 'hebraica') {
-      if (chapter >= 10 && chapter <= 146) return chapter + 1;
-    } else if (primary.psalmNumbering == 'hebraica' && compare.psalmNumbering == 'grega') {
-      if (chapter >= 11 && chapter <= 147) return chapter - 1;
-    }
-    return chapter;
-  }
+  int _alignedChapter(BibleTranslation primary, BibleTranslation compare, String bookId, int chapter) => bookId == 'sl'
+      ? PsalmNumbering.convert(chapter, from: primary.psalmNumbering, to: compare.psalmNumbering)
+      : chapter;
 
   void _listen(BibleTranslation tr, String bookId, int chapter, List<BibleVerse> verses) {
     final book = bookById(bookId)!;
@@ -315,15 +308,6 @@ class _BibleScreenState extends State<BibleScreen> {
                 SacredArtBanner(title: tr.name, subtitle: 'CÂNON CATÓLICO · 73 LIVROS', art: art),
                 const SizedBox(height: VsSpacing.md),
                 if (bible.progress != null) _ProgressBanner(bible: bible),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: ActionChip(
-                    avatar: const Icon(Icons.translate, size: 18),
-                    label: Text('${tr.abbreviation} · ${tr.name}'),
-                    onPressed: _pickTranslation,
-                  ),
-                ),
-                const SizedBox(height: VsSpacing.md),
                 if (pos != null && bookById(pos.bookId) != null)
                   Card(
                     child: ListTile(
@@ -455,19 +439,45 @@ class _BibleScreenState extends State<BibleScreen> {
             onPressed: _pickTranslation,
             child: Text(compare == null ? tr.abbreviation : '${tr.abbreviation}+${compare.abbreviation}'),
           ),
-          if (bible.translations.length > 1)
-            IconButton(
-              tooltip: compare == null ? 'Ativar leitura comparada' : 'Desativar leitura comparada',
-              icon: Icon(Icons.compare_arrows, color: compare != null ? cs.primary : null),
-              onPressed: () => _toggleCompare(bible),
-            ),
           IconButton(
             tooltip: 'Ouvir capítulo',
             icon: const Icon(Icons.headphones_outlined),
             onPressed: () => _listen(tr, book.id, pos.chapter, verses),
           ),
-          const ReadingAppearanceButton(),
-          IconButton(tooltip: 'Buscar', icon: const Icon(Icons.search), onPressed: () => _search(bible)),
+          // Em celulares (< 600dp) as ações secundárias vão para o menu ⋮,
+          // para o título caber em 360dp.
+          if (MediaQuery.sizeOf(context).width >= 600) ...[
+            if (bible.translations.length > 1)
+              IconButton(
+                tooltip: compare == null ? 'Ativar leitura comparada' : 'Desativar leitura comparada',
+                icon: Icon(Icons.compare_arrows, color: compare != null ? cs.primary : null),
+                onPressed: () => _toggleCompare(bible),
+              ),
+            const ReadingAppearanceButton(),
+            IconButton(tooltip: 'Buscar', icon: const Icon(Icons.search), onPressed: () => _search(bible)),
+          ] else
+            PopupMenuButton<void Function()>(
+              tooltip: 'Mais opções',
+              onSelected: (action) => action(),
+              itemBuilder: (_) => [
+                if (bible.translations.length > 1)
+                  PopupMenuItem(
+                    value: () => _toggleCompare(bible),
+                    child: ListTile(
+                      leading: Icon(Icons.compare_arrows, color: compare != null ? cs.primary : null),
+                      title: Text(compare == null ? 'Leitura comparada' : 'Desativar comparação'),
+                    ),
+                  ),
+                PopupMenuItem(
+                  value: () => showReadingAppearanceSheet(context),
+                  child: const ListTile(leading: Icon(Icons.text_fields_rounded), title: Text('Aparência da leitura')),
+                ),
+                PopupMenuItem(
+                  value: () => _search(bible),
+                  child: const ListTile(leading: Icon(Icons.search), title: Text('Buscar')),
+                ),
+              ],
+            ),
         ],
       ),
       body: CustomScrollView(
@@ -506,7 +516,7 @@ class _BibleScreenState extends State<BibleScreen> {
                   annotation: notes[v.verse],
                   compareText: compareVerses[v.verse],
                   compareLabel: compare?.abbreviation,
-                  emphasized: highlight?.contains(v.verse) ?? false,
+                  emphasized: highlight?.containsAt(pos.chapter - _highlightChapter, v.verse) ?? false,
                   dark: dark,
                   onTap: () async {
                     bible.open(tr.id, book.id, pos.chapter, verse: v.verse);

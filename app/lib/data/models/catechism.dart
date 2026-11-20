@@ -1,24 +1,3 @@
-/// Parágrafo do Catecismo da Igreja Católica.
-class CatechismParagraph {
-  const CatechismParagraph({required this.number, required this.text, this.part, this.heading, this.snippet});
-
-  final int number;
-  final String text;
-  final int? part;
-  final String? heading;
-
-  /// Trecho com destaques `«…»` retornado pela busca FTS5.
-  final String? snippet;
-
-  factory CatechismParagraph.fromRow(Map<String, Object?> r) => CatechismParagraph(
-    number: r['number'] as int,
-    text: r['text'] as String? ?? '',
-    part: r['part'] as int?,
-    heading: r['heading'] as String?,
-    snippet: r['snippet'] as String?,
-  );
-}
-
 /// Nó do índice (Partes → Seções → Capítulos → Artigos).
 class CatechismTocNode {
   const CatechismTocNode({

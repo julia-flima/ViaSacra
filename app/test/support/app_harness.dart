@@ -43,7 +43,6 @@ Future<AppServices> buildServices({required bool onboardingDone, bool dark = fal
   final db = await AppDatabase.memory(schema: File('assets/db/schema.sql').readAsStringSync());
   await db.importCatechism((await _json('assets/db/catechism.json')));
   await db.importCatechismWork((await _json('assets/db/sao_pio_x.json')), bundled: true);
-  await db.importCatechismWork((await _json('assets/db/catecismo_romano.json')), bundled: true);
   final fixture = File('test/fixtures/liturgia-2026-11-19.json').readAsStringSync();
   final client = MockClient((_) async => http.Response.bytes(fixture.codeUnits.isEmpty ? [] : _utf8(fixture), 200));
   final content = ContentRepository();

@@ -1,9 +1,13 @@
-import 'package:flutter/foundation.dart' show kIsWeb;
+import 'dart:convert';
+
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart' show Uint8List, kIsWeb;
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 
 import '../../app_state.dart';
 import '../../core/theme.dart';
+import '../../data/backup_repository.dart';
 import '../../services/bible_service.dart';
 import '../../services/native_tts.dart';
 import '../../services/notification_service.dart';
@@ -189,8 +193,8 @@ class SettingsScreen extends StatelessWidget {
           Text('Tamanho da letra', style: t.titleSmall),
           Slider(
             value: st.textScale,
-            min: 0.85,
-            max: 1.6,
+            min: SettingsService.minTextScale,
+            max: SettingsService.maxTextScale,
             divisions: 15,
             label: '${(st.textScale * 100).round()}%',
             onChanged: (v) => st.textScale = v,
@@ -233,6 +237,10 @@ class SettingsScreen extends StatelessWidget {
             },
           ),
 
+          // ------------------------------------------------ Backup
+          const _Section('Backup dos seus dados'),
+          const _BackupTiles(),
+
           // ------------------------------------------------ Sobre
           const _Section('Sobre'),
           ListTile(
@@ -265,6 +273,7 @@ class SettingsScreen extends StatelessWidget {
               trailing: st.ttsVoiceName == null ? const Icon(Icons.check) : null,
               onTap: () {
                 st.setTtsVoice(null, null);
+                audio.setVoice(null, null); // volta o player ativo à voz padrão
                 Navigator.pop(ctx);
               },
             ),
@@ -350,6 +359,80 @@ class _NeuralKokoroCacheTile extends StatelessWidget {
             ),
     );
   }
+}
+
+/// Exportar / importar um `.json` com favoritos, anotações, constância e
+/// marcações da Bíblia — para trocar de aparelho ou limpar o navegador sem perder nada.
+class _BackupTiles extends StatelessWidget {
+  const _BackupTiles();
+
+  Future<void> _export(BuildContext context) async {
+    final messenger = ScaffoldMessenger.of(context);
+    final backup = BackupRepository(context.read<AppServices>().database).export();
+    final bytes = utf8.encode(const JsonEncoder.withIndent('  ').convert(backup));
+    final day = DateTime.now().toIso8601String().substring(0, 10);
+    try {
+      final saved = await FilePicker.saveFile(
+        fileName: 'via-sacra-backup-$day.json',
+        bytes: Uint8List.fromList(bytes),
+        mimeType: 'application/json',
+        dialogTitle: 'Salvar backup do Via Sacra',
+      );
+      if (saved != null) messenger.showSnackBar(const SnackBar(content: Text('Backup salvo.')));
+    } catch (e) {
+      messenger.showSnackBar(SnackBar(content: Text('Não foi possível salvar o backup: $e')));
+    }
+  }
+
+  Future<void> _import(BuildContext context) async {
+    final messenger = ScaffoldMessenger.of(context);
+    final repo = BackupRepository(context.read<AppServices>().database);
+    try {
+      final file = await FilePicker.pickFile(
+        dialogTitle: 'Escolha o backup do Via Sacra (.json)',
+        type: FileType.custom,
+        allowedExtensions: const ['json'],
+      );
+      if (file == null) return;
+      final json = jsonDecode(utf8.decode(await file.readAsBytes()));
+      if (json is! Map<String, dynamic>) throw BackupException('Este arquivo não é um backup do Via Sacra.');
+      final r = await repo.import(json);
+      messenger.showSnackBar(
+        SnackBar(
+          content: Text(
+            r.total == 0
+                ? 'Nada novo: tudo deste backup já estava no aparelho.'
+                : 'Backup restaurado: ${r.favorites} favorito(s), ${r.notes} anotação(ões), '
+                      '${r.prayers} oração(ões) e ${r.bible} marcação(ões) da Bíblia.',
+          ),
+        ),
+      );
+    } on FormatException {
+      messenger.showSnackBar(const SnackBar(content: Text('O arquivo não é um JSON válido.')));
+    } catch (e) {
+      messenger.showSnackBar(SnackBar(content: Text('Não foi possível restaurar: $e')));
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) => Column(
+    children: [
+      ListTile(
+        contentPadding: EdgeInsets.zero,
+        leading: const Icon(Icons.file_download_outlined),
+        title: const Text('Exportar backup (.json)'),
+        subtitle: const Text('Favoritos, anotações, constância e marcações da Bíblia'),
+        onTap: () => _export(context),
+      ),
+      ListTile(
+        contentPadding: EdgeInsets.zero,
+        leading: const Icon(Icons.file_upload_outlined),
+        title: const Text('Importar backup'),
+        subtitle: const Text('Junta com o que já está no aparelho, sem apagar nada'),
+        onTap: () => _import(context),
+      ),
+    ],
+  );
 }
 
 class _Section extends StatelessWidget {

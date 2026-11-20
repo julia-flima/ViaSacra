@@ -100,24 +100,26 @@ class _TranslationsScreenState extends State<TranslationsScreen> {
   }
 
   Future<void> _importUrl(BuildContext context, BibleService bible) async {
-    final ctrl = TextEditingController();
+    // Sem TextEditingController: evita vazar um controller não descartado.
+    var typed = '';
     final url = await showDialog<String>(
       context: context,
       builder: (ctx) => AlertDialog(
         title: const Text('Importar de um endereço'),
         content: TextField(
-          controller: ctrl,
+          onChanged: (v) => typed = v,
+          onSubmitted: (v) => Navigator.pop(ctx, v),
           keyboardType: TextInputType.url,
           decoration: const InputDecoration(hintText: 'https://…/minha-traducao.json'),
         ),
         actions: [
           TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Cancelar')),
-          FilledButton(onPressed: () => Navigator.pop(ctx, ctrl.text), child: const Text('Importar')),
+          FilledButton(onPressed: () => Navigator.pop(ctx, typed), child: const Text('Importar')),
         ],
       ),
     );
     if (url != null && url.trim().isNotEmpty && context.mounted) {
-      await _run(context, () => bible.importFromUrl(url));
+      await _run(context, () => bible.importFromUrl(url.trim()));
     }
   }
 

@@ -250,6 +250,14 @@ class ReadingAudioHandler extends BaseAudioHandler with QueueHandler {
     if (name != null) {
       await _tts.setVoice({'name': name, 'locale': locale ?? 'pt-BR'});
       _ttsLanguage = locale ?? 'pt-BR';
+    } else {
+      // "Padrão do sistema": limpa a voz escolhida e reaplica o idioma na próxima fala.
+      try {
+        await _tts.clearVoice();
+      } catch (e) {
+        debugPrint('clearVoice indisponível: $e');
+      }
+      _ttsLanguage = null;
     }
   }
 

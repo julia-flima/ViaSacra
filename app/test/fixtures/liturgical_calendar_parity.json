@@ -1,0 +1,106 @@
+{
+  "_comentario": "Gerado por scraper/tests/test_liturgical_calendar.py — não editar à mão.",
+  "anos": {
+    "2023": "182420fd",
+    "2024": "c02dfbab",
+    "2025": "ee636713",
+    "2026": "72610110",
+    "2027": "7bf5c45b",
+    "2028": "25eac52a",
+    "2029": "41dd45bd",
+    "2030": "062e6524",
+    "2031": "869e4fd3"
+  },
+  "casos": [
+    {
+      "data": "2023-01-16",
+      "celebracao": "Segunda-feira da 2ª Semana do Tempo Comum",
+      "semana": 2
+    },
+    {
+      "data": "2024-01-15",
+      "celebracao": "Segunda-feira da 2ª Semana do Tempo Comum",
+      "semana": 2
+    },
+    {
+      "data": "2029-01-15",
+      "celebracao": "Segunda-feira da 2ª Semana do Tempo Comum",
+      "semana": 2
+    },
+    {
+      "data": "2030-01-14",
+      "celebracao": "Segunda-feira da 1ª Semana do Tempo Comum",
+      "semana": 1
+    },
+    {
+      "data": "2024-01-09",
+      "celebracao": "Terça-feira da 1ª Semana do Tempo Comum",
+      "semana": 1
+    },
+    {
+      "data": "2026-01-12",
+      "celebracao": "Segunda-feira da 1ª Semana do Tempo Comum",
+      "semana": 1
+    },
+    {
+      "data": "2025-11-01",
+      "celebracao": "Todos os Santos",
+      "semana": 30
+    },
+    {
+      "data": "2025-11-02",
+      "celebracao": "Comemoração de Todos os Fiéis Defuntos",
+      "semana": 31
+    },
+    {
+      "data": "2031-11-01",
+      "celebracao": "Todos os Santos",
+      "semana": 30
+    },
+    {
+      "data": "2031-11-02",
+      "celebracao": "Comemoração de Todos os Fiéis Defuntos",
+      "semana": 31
+    },
+    {
+      "data": "2025-12-28",
+      "celebracao": "Sagrada Família de Jesus, Maria e José",
+      "semana": null
+    },
+    {
+      "data": "2022-12-30",
+      "celebracao": "Sagrada Família de Jesus, Maria e José",
+      "semana": null
+    },
+    {
+      "data": "2023-03-20",
+      "celebracao": "São José, Esposo da Virgem Maria",
+      "semana": 4
+    },
+    {
+      "data": "2024-04-08",
+      "celebracao": "Anunciação do Senhor",
+      "semana": 2
+    },
+    {
+      "data": "2027-04-05",
+      "celebracao": "Anunciação do Senhor",
+      "semana": 2
+    },
+    {
+      "data": "2024-12-09",
+      "celebracao": "Imaculada Conceição de Nossa Senhora",
+      "semana": 2
+    },
+    {
+      "data": "2026-11-19",
+      "celebracao": "Quinta-feira da 33ª Semana do Tempo Comum",
+      "semana": 33
+    },
+    {
+      "data": "2026-11-22",
+      "celebracao": "Nosso Senhor Jesus Cristo, Rei do Universo",
+      "semana": 34
+    }
+  ]
+}

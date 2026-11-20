@@ -1,0 +1,6 @@
+• Backup local: exporte e importe favoritos, anotações, constância e marcações da Bíblia (.json)
+• Catecismo de São Pio X completo (994 perguntas) e orações com o texto integral
+• Calendário litúrgico mais preciso (Sagrada Família, transferências, Tempo Comum)
+• Botão Aa em todas as leituras, "Continuar lendo" na Imitação e anotações na Lectio Divina
+• Lembretes abrem a aba certa; Terço confirma antes de encerrar
+• Dados da versão Web não se perdem mais

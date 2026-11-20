@@ -77,9 +77,9 @@ Future<void> showReadingAppearanceSheet(BuildContext context) {
                     Expanded(
                       child: Slider(
                         value: s.textScale,
-                        min: 0.85,
-                        max: 1.5,
-                        divisions: 13,
+                        min: SettingsService.minTextScale,
+                        max: SettingsService.maxTextScale,
+                        divisions: 15,
                         onChanged: (v) => s.textScale = v,
                       ),
                     ),
