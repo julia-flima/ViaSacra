@@ -127,13 +127,19 @@ jobs:
           fi
           git commit -m "data: liturgia de $(date +%F)"
           git push origin data
+          # Arquivos alterados (JSON e MP3) para limpar do cache do jsDelivr.
+          git diff-tree --no-commit-id --name-only -r HEAD > "$RUNNER_TEMP/alterados.txt"
 
-      - name: Limpar cache do jsDelivr (índice e próximos dias)
+      # Limpa do jsDelivr exatamente o que mudou neste run — inclusive MP3s
+      # regerados (ex.: --force ou texto corrigido), que antes ficavam em cache.
+      - name: Limpar cache do jsDelivr (arquivos alterados)
         continue-on-error: true
+        env:
+          REPO: ${{ github.repository }}
         run: |
-          base="https://purge.jsdelivr.net/gh/${{ github.repository }}@data/liturgia"
-          curl -fsS "$base/index.json" > /dev/null
-          for i in $(seq 0 6); do
-            d=$(date -d "+$i day" +%F)
-            curl -fsS "$base/$d.json" > /dev/null || true
+          base="https://purge.jsdelivr.net/gh/${REPO}@data"
+          curl -fsS "$base/liturgia/index.json" > /dev/null || true
+          [ -f "$RUNNER_TEMP/alterados.txt" ] || { echo "Sem alterações publicadas."; exit 0; }
+          grep -E '^(liturgia|audio)/[0-9A-Za-z._-]+$' "$RUNNER_TEMP/alterados.txt" | while read -r f; do
+            curl -fsS "$base/$f" > /dev/null && echo "purge: $f" || echo "falhou: $f"
           done

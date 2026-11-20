@@ -20,8 +20,24 @@ env:
   FLUTTER_VERSION: "3.50.0"
 
 jobs:
+  versao:
+    name: Conferir versão
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # tags das releases anteriores
+      - name: Tag ↔ pubspec.yaml e versionCode
+        env:
+          TAG: ${{ github.event.inputs.tag || github.ref_name }}
+        run: |
+          # Sem tag (workflow_dispatch só para gerar artefatos) não há o que conferir.
+          if [[ "$TAG" != v* ]]; then echo "Sem tag de release: verificação ignorada."; exit 0; fi
+          bash tool/check_release_version.sh "$TAG"
+
   android:
     name: Android (APKs)
+    needs: versao
     runs-on: ubuntu-latest
     timeout-minutes: 45
     defaults:
@@ -84,6 +100,7 @@ jobs:
 
   ios:
     name: iOS (.ipa sem assinatura)
+    needs: versao
     runs-on: macos-latest
     timeout-minutes: 60
     defaults:
