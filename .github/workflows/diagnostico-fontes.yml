@@ -7,7 +7,7 @@ on:
     inputs:
       host:
         description: "Host a diagnosticar"
-        default: "liturgiadiaria.cnbb.org.br"
+        default: "api-liturgia.edicoescnbb.com.br"
 
 permissions:
   contents: read
@@ -16,12 +16,18 @@ jobs:
   diagnostico:
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    # O host chega por env: (nunca interpolado no script) e é validado antes do uso.
+    env:
+      H: ${{ github.event.inputs.host }}
     steps:
+      - name: Validar host
+        run: |
+          [[ "$H" =~ ^[A-Za-z0-9]([A-Za-z0-9-]{0,62}[A-Za-z0-9])?(\.[A-Za-z0-9]([A-Za-z0-9-]{0,62}[A-Za-z0-9])?)+$ ]] \
+            || { echo "::error::Host inválido: '$H'"; exit 1; }
       - name: DNS
-        run: getent hosts "${{ github.event.inputs.host }}" || true
+        run: getent hosts "$H" || true
       - name: openssl — versões de TLS
         run: |
-          H="${{ github.event.inputs.host }}"
           openssl version
           for v in tls1_3 tls1_2 tls1_1 tls1; do
             echo "=== -$v ==="
@@ -33,7 +39,6 @@ jobs:
           timeout 20 openssl s_client -connect "$H:443" -noservername -brief </dev/null 2>&1 | head -8 || true
       - name: curl
         run: |
-          H="${{ github.event.inputs.host }}"
           curl -sv --max-time 20 -o /dev/null "https://$H/" 2>&1 | grep -E "^\* |^< HTTP|SSL|TLS" | head -30 || true
           echo "=== http:// ==="
           curl -sv --max-time 20 -o /dev/null "http://$H/" 2>&1 | grep -E "^< |^\* " | head -15 || true

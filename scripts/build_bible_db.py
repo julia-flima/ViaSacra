@@ -4,7 +4,8 @@
 Padroniza arquivos de texto ou JSON das duas traduções católicas clássicas em
 Domínio Público (100% compatíveis com o F-Droid):
   1. Pe. Antônio Pereira de Figueiredo (Português — 73 livros, Domínio Público)
-  2. Vulgata Clementina                (Latim — 73 livros, Domínio Público, já disponível em app/assets/bible/vulgata.json)
+  2. Vulgata Clementina                (Latim — 73 livros, Domínio Público,
+                                       já disponível em app/assets/bible/vulgata.json)
 
 Mapeia os 73 livros do cânon católico (46 AT com deuterocanônicos + 27 NT) com
 as abreviações católicas padrão (`tool/bible/canon.py`) e gera:
