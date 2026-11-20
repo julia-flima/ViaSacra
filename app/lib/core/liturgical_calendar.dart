@@ -114,6 +114,41 @@ class LiturgicalCalendar {
     return ep.day >= 7 ? _add(ep, 1) : _add(ep, 7);
   }
 
+  /// São José (19/3): num domingo da Quaresma vai para a segunda-feira; na
+  /// Semana Santa é antecipado para o sábado antes de Ramos (Normas Universais, n. 60).
+  static DateTime saintJoseph(int year) {
+    final d = _d(year, 3, 19), p = easter(year), palm = _add(p, -7);
+    if (!d.isBefore(palm) && d.isBefore(p)) return _add(palm, -1);
+    return d.weekday == DateTime.sunday ? _add(d, 1) : d;
+  }
+
+  /// Anunciação (25/3): na Semana Santa ou Oitava da Páscoa vai para a segunda
+  /// depois do 2º Domingo da Páscoa; num domingo da Quaresma, para a segunda-feira.
+  static DateTime annunciation(int year) {
+    final d = _d(year, 3, 25), p = easter(year);
+    if (!d.isBefore(_add(p, -7)) && !d.isAfter(_add(p, 7))) return _add(p, 8);
+    return d.weekday == DateTime.sunday ? _add(d, 1) : d;
+  }
+
+  /// Imaculada Conceição (8/12): num domingo do Advento vai para a segunda-feira.
+  static DateTime immaculateConception(int year) {
+    final d = _d(year, 12, 8);
+    return d.weekday == DateTime.sunday ? _add(d, 1) : d;
+  }
+
+  /// Todos os Santos: no Brasil vai para o domingo seguinte, exceto quando 1º/11
+  /// é sábado — o domingo 2/11 fica com Finados (Diretório Litúrgico CNBB 2025).
+  static DateTime allSaints(int year) {
+    final d = _d(year, 11, 1);
+    return d.weekday == DateTime.saturday ? d : _sundayOnOrAfter(d);
+  }
+
+  /// Sagrada Família: domingo na Oitava do Natal ou, se não houver, 30/12.
+  static DateTime holyFamily(int year) {
+    final sunday = _sundayOnOrAfter(_d(year, 12, 26));
+    return sunday.year == year ? sunday : _d(year, 12, 30);
+  }
+
   static (String, String) cycles(DateTime date) {
     final d = _only(date);
     final endYear = d.isBefore(adventStart(d.year)) ? d.year : d.year + 1;
@@ -151,8 +186,8 @@ class LiturgicalCalendar {
       _d(y, 1, 1): ('Santa Maria, Mãe de Deus', LiturgicalColor.branco, 'solenidade'),
       _d(y, 2, 2): ('Apresentação do Senhor', LiturgicalColor.branco, 'festa'),
       _d(y, 2, 22): ('Cátedra de São Pedro', LiturgicalColor.branco, 'festa'),
-      _d(y, 3, 19): ('São José, Esposo da Virgem Maria', LiturgicalColor.branco, 'solenidade'),
-      _d(y, 3, 25): ('Anunciação do Senhor', LiturgicalColor.branco, 'solenidade'),
+      saintJoseph(y): ('São José, Esposo da Virgem Maria', LiturgicalColor.branco, 'solenidade'),
+      annunciation(y): ('Anunciação do Senhor', LiturgicalColor.branco, 'solenidade'),
       _d(y, 6, 24): ('Natividade de São João Batista', LiturgicalColor.branco, 'solenidade'),
       _d(y, 8, 6): ('Transfiguração do Senhor', LiturgicalColor.branco, 'festa'),
       _d(y, 9, 14): ('Exaltação da Santa Cruz', LiturgicalColor.vermelho, 'festa'),
@@ -162,17 +197,19 @@ class LiturgicalCalendar {
         'solenidade',
       ),
       _d(y, 11, 2): ('Comemoração de Todos os Fiéis Defuntos', LiturgicalColor.roxo, 'solenidade'),
-      _d(y, 12, 8): ('Imaculada Conceição de Nossa Senhora', LiturgicalColor.branco, 'solenidade'),
+      immaculateConception(y): ('Imaculada Conceição de Nossa Senhora', LiturgicalColor.branco, 'solenidade'),
       _d(y, 12, 25): ('Natal do Senhor', LiturgicalColor.branco, 'solenidade'),
       _d(y, 12, 26): ('Santo Estêvão, primeiro mártir', LiturgicalColor.vermelho, 'festa'),
       _d(y, 12, 27): ('São João, Apóstolo e Evangelista', LiturgicalColor.branco, 'festa'),
       _d(y, 12, 28): ('Santos Inocentes, mártires', LiturgicalColor.vermelho, 'festa'),
       _sundayOnOrAfter(_d(y, 6, 29)): ('São Pedro e São Paulo, Apóstolos', LiturgicalColor.vermelho, 'solenidade'),
       _sundayOnOrAfter(_d(y, 8, 15)): ('Assunção de Nossa Senhora', LiturgicalColor.branco, 'solenidade'),
-      _sundayOnOrAfter(_d(y, 11, 1)): ('Todos os Santos', LiturgicalColor.branco, 'solenidade'),
+      allSaints(y): ('Todos os Santos', LiturgicalColor.branco, 'solenidade'),
       epiphany(y): ('Epifania do Senhor', LiturgicalColor.branco, 'solenidade'),
       baptismOfTheLord(y): ('Batismo do Senhor', LiturgicalColor.branco, 'festa'),
     };
+    // Festa do Senhor: prevalece sobre Santo Estêvão, São João e Inocentes.
+    map[holyFamily(y)] = ('Sagrada Família de Jesus, Maria e José', LiturgicalColor.branco, 'festa');
     return map[d];
   }
 
@@ -216,7 +253,10 @@ class LiturgicalCalendar {
         week = _diff(d, p) ~/ 7 + 1;
       case LiturgicalSeason.comum:
         if (d.isBefore(ash)) {
-          week = _diff(d, _add(baptism, 1)) ~/ 7 + 1 + (sunday ? 1 : 0);
+          // O 2º Domingo é o primeiro depois do Batismo; cada semana começa no domingo.
+          final secondSunday = _sundayOnOrAfter(_add(baptism, 1));
+          final weekSunday = _add(d, -(d.weekday % 7));
+          week = d.isBefore(secondSunday) ? 1 : _diff(weekSunday, secondSunday) ~/ 7 + 2;
         } else {
           final christKing = _add(advent, -7);
           week = 34 - (_diff(christKing, d) + 6) ~/ 7;
