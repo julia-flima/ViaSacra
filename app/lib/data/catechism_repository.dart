@@ -112,9 +112,14 @@ class CatechismRepository {
 
   Future<void> removeWork(String id) async {
     _db.db.execute('BEGIN');
-    _db.db.execute('DELETE FROM catechism_entries WHERE catechism_id = ?', [id]);
-    _db.db.execute('DELETE FROM catechisms WHERE id = ?', [id]);
-    _db.db.execute('COMMIT');
+    try {
+      _db.db.execute('DELETE FROM catechism_entries WHERE catechism_id = ?', [id]);
+      _db.db.execute('DELETE FROM catechisms WHERE id = ?', [id]);
+      _db.db.execute('COMMIT');
+    } catch (_) {
+      _db.db.execute('ROLLBACK');
+      rethrow;
+    }
     await _db.flush();
   }
 

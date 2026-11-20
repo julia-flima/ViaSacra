@@ -44,6 +44,43 @@ class BibleTranslation {
   );
 }
 
+/// Metadados leves de uma tradução embutida no catálogo (`assets/bible/bundled.json`).
+class BundledTranslationInfo {
+  const BundledTranslationInfo({
+    required this.id,
+    required this.name,
+    required this.abbreviation,
+    required this.language,
+    required this.license,
+    this.description,
+    this.psalmNumbering = 'grega',
+    this.version = 1,
+    this.sizeMb,
+  });
+
+  final String id;
+  final String name;
+  final String abbreviation;
+  final String language;
+  final String license;
+  final String? description;
+  final String psalmNumbering;
+  final int version;
+  final double? sizeMb;
+
+  factory BundledTranslationInfo.fromJson(Map<String, dynamic> j) => BundledTranslationInfo(
+    id: j['id'] as String,
+    name: (j['nome'] as String?) ?? (j['id'] as String),
+    abbreviation: (j['abreviacao'] as String?) ?? (j['sigla'] as String?) ?? (j['id'] as String).toUpperCase(),
+    language: (j['idioma'] as String?) ?? 'pt-BR',
+    license: (j['licenca'] as String?) ?? 'Domínio público',
+    description: j['descricao'] as String?,
+    psalmNumbering: (j['numeracao_salmos'] as String?) ?? 'grega',
+    version: (j['versao_modulo'] as num?)?.toInt() ?? 1,
+    sizeMb: (j['tamanho_mb'] as num?)?.toDouble(),
+  );
+}
+
 class BibleVerse {
   const BibleVerse({
     required this.bookId,
