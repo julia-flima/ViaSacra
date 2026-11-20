@@ -7,7 +7,7 @@
  *
  * VERSION é substituída no deploy (deploy-web.yml) para invalidar caches antigos.
  */
-const VERSION = 'preview-beb8ffbe5f57';
+const VERSION = 'preview-5167aee62bb8';
 const APP_CACHE = `via-sacra-dev-app-${VERSION}`;
 const DATA_CACHE = 'via-sacra-dev-dados';
 
@@ -47,7 +47,8 @@ self.addEventListener('activate', (event) => {
 });
 
 function isLiturgyData(url) {
-  return url.hostname === 'cdn.jsdelivr.net' || url.hostname === 'raw.githubusercontent.com';
+  const isDataHost = url.hostname === 'cdn.jsdelivr.net' || url.hostname === 'raw.githubusercontent.com';
+  return isDataHost && /\/liturgia\/[^/]+\.json$/.test(url.pathname);
 }
 
 function isAppShell(req, url) {

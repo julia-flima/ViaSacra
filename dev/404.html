@@ -44,9 +44,10 @@
   <script>
     // Service worker próprio: guarda o app e os dados para uso offline (ver sw.js).
     if ('serviceWorker' in navigator) {
+      var hadController = Boolean(navigator.serviceWorker.controller);
       var reloading = false;
       navigator.serviceWorker.addEventListener('controllerchange', function () {
-        if (reloading) return;
+        if (!hadController || reloading) return;
         reloading = true;
         window.location.reload();
       });
