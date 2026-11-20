@@ -8,6 +8,7 @@ import '../../services/bible_service.dart';
 import '../../services/notification_service.dart';
 import '../../services/reading_audio_service.dart';
 import '../../services/settings_service.dart';
+import '../../services/web_tts_types.dart';
 import '../../widgets/common.dart';
 import '../bible/translations_screen.dart';
 import 'about_screen.dart';
@@ -107,13 +108,27 @@ class SettingsScreen extends StatelessWidget {
               context.read<ReadingAudioController>().setSpeed(v.first);
             },
           ),
-          ListTile(
-            contentPadding: EdgeInsets.zero,
-            title: const Text('Voz do narrador'),
-            subtitle: Text(st.ttsVoiceName ?? 'Padrão do sistema (português)'),
-            trailing: const Icon(Icons.chevron_right),
-            onTap: () => _pickVoice(context),
-          ),
+          if (kIsWeb) ...[
+            const SizedBox(height: VsSpacing.md),
+            Text('Voz neural (Kokoro-82M · pt-BR)', style: t.titleSmall),
+            const SizedBox(height: 8),
+            SegmentedButton<String>(
+              segments: [for (final v in KokoroVoice.all) ButtonSegment(value: v.id, label: Text(v.label))],
+              selected: {st.kokoroVoice},
+              onSelectionChanged: (v) {
+                st.kokoroVoice = v.first;
+                context.read<ReadingAudioController>().setKokoroVoice(v.first);
+              },
+            ),
+            const _WebKokoroCacheTile(),
+          ] else
+            ListTile(
+              contentPadding: EdgeInsets.zero,
+              title: const Text('Voz do narrador'),
+              subtitle: Text(st.ttsVoiceName ?? 'Padrão do sistema (português)'),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: () => _pickVoice(context),
+            ),
           SwitchListTile(
             contentPadding: EdgeInsets.zero,
             title: const Text('Preferir áudio narrado quando disponível'),
@@ -271,6 +286,65 @@ class SettingsScreen extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class _WebKokoroCacheTile extends StatelessWidget {
+  const _WebKokoroCacheTile();
+
+  @override
+  Widget build(BuildContext context) {
+    final status = context.select<ReadingAudioController, WebTtsStatus>((a) => a.webTtsStatus);
+    final audio = context.read<ReadingAudioController>();
+    final t = Theme.of(context).textTheme;
+
+    if (status.isBusy) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: VsSpacing.sm),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(status.label ?? 'Preparando voz neural offline…', style: t.bodySmall),
+            const SizedBox(height: 6),
+            LinearProgressIndicator(value: status.progress),
+          ],
+        ),
+      );
+    }
+
+    final subtitle = status.cached
+        ? 'Salvo no navegador (${status.cacheSizeLabel})'
+              '${status.deviceLabel.isNotEmpty ? ' · ${status.deviceLabel}' : ''}'
+        : status.error != null
+        ? 'Falha no download · tente novamente (~92 MB offline)'
+        : '~92 MB · baixado uma única vez para uso offline';
+
+    return ListTile(
+      contentPadding: EdgeInsets.zero,
+      title: const Text('Modelo de voz offline (Kokoro-82M)'),
+      subtitle: Text(subtitle),
+      trailing: status.cached
+          ? TextButton(
+              onPressed: () async {
+                final messenger = ScaffoldMessenger.of(context);
+                await audio.clearWebTtsCache();
+                messenger.showSnackBar(const SnackBar(content: Text('Cache da voz neural removido.')));
+              },
+              child: const Text('Limpar cache'),
+            )
+          : OutlinedButton(
+              onPressed: () async {
+                final messenger = ScaffoldMessenger.of(context);
+                final ok = await audio.preloadWebTts();
+                if (!ok) {
+                  messenger.showSnackBar(
+                    const SnackBar(content: Text('Não foi possível baixar o modelo de voz agora.')),
+                  );
+                }
+              },
+              child: const Text('Baixar agora'),
+            ),
     );
   }
 }
