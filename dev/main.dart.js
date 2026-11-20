@@ -132725,7 +132725,7 @@ else{if(a1.m(0,l))h=n
 else h=s.b
 h=s.aLR(h,0)}a6.push(A.f4(B.ag,A.M(""+l,g,g,g,g,h,g,g,g),B.G,g,g,new A.dc(k,g,i,g,g,g,B.dY),g,g,g,g,g,g,g))}return A.b4(g,g,g,new A.ho(!0,A.bt(A.b([a4,B.a7,A.beV(1,a6,7,6,6,B.Qs,!0)],a5),B.a_,B.r,B.x,0,B.B),g),!1,g,g,g,!1,g,!1,g,g,g,g,g,g,g,g,g,g,"Calend\xe1rio de const\xe2ncia: "+a2+" dias de ora\xe7\xe3o em "+a3,g,g,g,g,g,g,g,g,g,g,g,g,g,g,g,g,g,g,g,g,g,g,g,g,g,g,g,g,B.t,g)}}
 A.yg.prototype={
-F(a){var s=null,r=A.u(a).ok,q=A.fe(a),p=A.eA(s,s,s,!0,!0,s,s,1,s,s,s,!1,s,!1,s,s,s,s,!0,s,s,s,s,s,B.av9,s,s,s,1,s,!0),o=A.ej(A.M("\u271d",s,s,s,s,A.eX(s,s,A.u(a).ax.y,s,s,s,s,s,s,s,s,40,s,s,s,s,s,!0,s,s,s,s,s,s,s,s),s,s,s),s,s),n=A.ej(A.M("Via Sacra",s,s,s,s,r.c,s,s,s),s,s),m=r.Q,l=A.ej(A.M("Vers\xe3o 1.0.0",s,s,s,s,m,s,s,s),s,s),k=A.M("Idealizado e desenvolvido por J\xfalia Lima.\n\nO Via Sacra \xe9 100% gratuito, sem an\xfancios, sem rastreadores e de c\xf3digo aberto. Funciona offline e n\xe3o coleta nenhum dado: favoritos, anota\xe7\xf5es e const\xe2ncia ficam somente no seu aparelho.",s,s,s,s,r.y,s,s,s),j=A.df(!1,B.J,s,s,!0,s,s,s,!0,s,B.a6I,s,s,s,s,new A.ajq(a),!1,s,s,s,s,s,B.auF,s,B.avg,s,s),i=A.df(!1,B.J,s,s,!0,s,s,s,!0,s,B.a66,s,s,s,s,new A.ajr(a),!1,s,s,s,s,s,s,s,B.av6,s,s),h=A.df(!1,B.J,s,s,!0,s,s,s,!0,s,B.a6t,s,s,s,s,new A.ajs(a),!1,s,s,s,s,s,s,s,B.auP,s,s),g=A.df(!1,B.J,s,s,!0,s,s,s,!0,s,B.a6x,s,s,s,s,new A.ajt(a),!1,s,s,s,s,s,s,s,B.avj,s,s)
+F(a){var s=null,r=A.u(a).ok,q=A.fe(a),p=A.eA(s,s,s,!0,!0,s,s,1,s,s,s,!1,s,!1,s,s,s,s,!0,s,s,s,s,s,B.av9,s,s,s,1,s,!0),o=A.ej(A.M("\u271d",s,s,s,s,A.eX(s,s,A.u(a).ax.y,s,s,s,s,s,s,s,s,40,s,s,s,s,s,!0,s,s,s,s,s,s,s,s),s,s,s),s,s),n=A.ej(A.M("Via Sacra",s,s,s,s,r.c,s,s,s),s,s),m=r.Q,l=A.ej(A.M("Vers\xe3o 1.2.0",s,s,s,s,m,s,s,s),s,s),k=A.M("Idealizado e desenvolvido por J\xfalia Lima.\n\nO Via Sacra \xe9 100% gratuito, sem an\xfancios, sem rastreadores e de c\xf3digo aberto. Funciona offline e n\xe3o coleta nenhum dado: favoritos, anota\xe7\xf5es e const\xe2ncia ficam somente no seu aparelho.",s,s,s,s,r.y,s,s,s),j=A.df(!1,B.J,s,s,!0,s,s,s,!0,s,B.a6I,s,s,s,s,new A.ajq(a),!1,s,s,s,s,s,B.auF,s,B.avg,s,s),i=A.df(!1,B.J,s,s,!0,s,s,s,!0,s,B.a66,s,s,s,s,new A.ajr(a),!1,s,s,s,s,s,s,s,B.av6,s,s),h=A.df(!1,B.J,s,s,!0,s,s,s,!0,s,B.a6t,s,s,s,s,new A.ajs(a),!1,s,s,s,s,s,s,s,B.auP,s,s),g=A.df(!1,B.J,s,s,!0,s,s,s,!0,s,B.a6x,s,s,s,s,new A.ajt(a),!1,s,s,s,s,s,s,s,B.avj,s,s)
 return A.ee(p,A.hu(A.b([o,B.a7,n,l,B.d4,k,B.bz,B.a4u,B.a7,B.aps,B.apr,B.apt,B.apq,B.apo,B.apu,B.bz,B.a4C,j,i,h,g,B.d4,A.ej(A.M("Ad maiorem Dei gloriam",s,s,s,s,m==null?s:m.nt(B.cJ),s,s,s),s,s)],t.p),new A.a6(q,24,q,48),s,!1),s,s)}}
 A.ajq.prototype={
 $0(){return A.qa(this.a,"https://github.com/julia-flima/ViaSacra")},
@@ -132740,7 +132740,7 @@ A.ajp.prototype={
 $1(a){return B.aA9},
 $S:855}
 A.ajt.prototype={
-$0(){return A.bEx("\xa9 2026 J\xfalia Lima \u2014 GPL-3.0","Via Sacra","1.0.0",this.a)},
+$0(){return A.bEx("\xa9 2026 J\xfalia Lima \u2014 GPL-3.0","Via Sacra","1.2.0",this.a)},
 $S:0}
 A.D1.prototype={
 F(a){var s=null,r=A.fe(a)
