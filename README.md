@@ -262,7 +262,7 @@ O Via Sacra **não tem fins lucrativos** e atribui todas as fontes explicitament
 | Bíblia — CNBB, Ave-Maria, Jerusalém, Pastoral | © respectivas editoras | **Não incluídas**; apenas importação local de módulos autorizados — ver [`docs/BIBLE.md`](docs/BIBLE.md) e [`docs/autorizacoes/`](docs/autorizacoes/) |
 | Fontes tipográficas | Merriweather (SIL OFL), Roboto (Apache-2.0), DejaVu (livre) | Embutidas — nenhuma fonte é baixada da internet |
 | Catecismo da Igreja Católica | © Libreria Editrice Vaticana | **Não incluído** no repositório; importável mediante licença — ver [`docs/COPYRIGHT.md`](docs/COPYRIGHT.md) |
-| Catecismo Maior de São Pio X | Original de 1905; tradução portuguesa não oficial (Internet Archive) | Embutido; licença da tradução em verificação ([#29](https://github.com/julia-flima/ViaSacra/issues/29)) |
+| Catecismo Maior de São Pio X | Original de 1905 (Tipografia Vaticana), domínio público | Embutido — tradução do projeto, em domínio público (CC0) |
 | A Imitação de Cristo | Trad. E. L. de Souza Campos, © 2023 Valdemar Teodoro Editor | Embutida — cópia e divulgação permitidas com citação da fonte |
 | Voz neural | Kokoro-82M, sherpa-onnx (Apache-2.0), eSpeak-NG (GPL-3.0) | Modelo baixado sob demanda; nada é enviado para fora |
 
