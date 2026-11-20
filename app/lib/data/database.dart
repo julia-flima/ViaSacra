@@ -41,6 +41,7 @@ class AppDatabase {
   /// Banco em memória para testes.
   static Future<AppDatabase> memory({String? schema}) async {
     final app = AppDatabase._(openMemoryDatabase());
+    app.db.execute('PRAGMA foreign_keys = ON;');
     await app._migrate(schemaOverride: schema);
     return app;
   }

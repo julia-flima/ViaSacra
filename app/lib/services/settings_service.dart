@@ -12,31 +12,52 @@ class SettingsService extends ChangeNotifier {
 
   static Future<SettingsService> load() async => SettingsService(await SharedPreferences.getInstance());
 
-  T _get<T>(String k, T def) => (_prefs.get(k) as T?) ?? def;
-
-  Future<void> _set(String k, Object v) async {
-    switch (v) {
-      case final bool b:
-        await _prefs.setBool(k, b);
-      case final int i:
-        await _prefs.setInt(k, i);
-      case final double d:
-        await _prefs.setDouble(k, d);
-      case final String s:
-        await _prefs.setString(k, s);
-    }
-    notifyListeners();
+  /// Valor salvo, ou [def] se ausente ou de outro tipo (ex.: preferência corrompida).
+  T _get<T>(String k, T def) {
+    final v = _prefs.get(k);
+    if (v is T) return v;
+    // Web (JSON no localStorage) pode devolver 1 em vez de 1.0.
+    if (v is num && def is double) return v.toDouble() as T;
+    return def;
   }
+
+  /// Valor de enum salvo pelo índice; [def] se o índice for inválido.
+  E _enum<E extends Enum>(String k, List<E> values, E def) {
+    final i = _get<int>(k, def.index);
+    return i >= 0 && i < values.length ? values[i] : def;
+  }
+
+  /// O SharedPreferences atualiza o cache em memória de forma síncrona, então
+  /// os getters já refletem o novo valor e a UI é notificada imediatamente.
+  /// A gravação em disco segue em segundo plano; quem precisar esperar por ela
+  /// (ex.: antes de `NotificationService.reschedule`) pode usar [saved].
+  Future<void> _set(String k, Object v) {
+    final Future<bool> write = switch (v) {
+      final bool b => _prefs.setBool(k, b),
+      final int i => _prefs.setInt(k, i),
+      final double d => _prefs.setDouble(k, d),
+      final String s => _prefs.setString(k, s),
+      _ => throw ArgumentError.value(v, k, 'tipo de preferência não suportado'),
+    };
+    _pending = Future.wait([_pending, write]);
+    notifyListeners();
+    return write;
+  }
+
+  Future<void> _pending = Future.value();
+
+  /// Conclui quando todas as gravações pendentes chegaram ao disco.
+  Future<void> get saved => _pending;
 
   // ---------- Onboarding ----------
   bool get onboardingDone => _get('onboarding_done', false);
   Future<void> setOnboardingDone() => _set('onboarding_done', true);
 
   // ---------- Tema e tipografia ----------
-  ThemeMode get themeMode => ThemeMode.values[_get('theme_mode', ThemeMode.system.index)];
+  ThemeMode get themeMode => _enum('theme_mode', ThemeMode.values, ThemeMode.system);
   set themeMode(ThemeMode m) => _set('theme_mode', m.index);
 
-  ReadingFont get readingFont => ReadingFont.values[_get('reading_font', ReadingFont.serif.index)];
+  ReadingFont get readingFont => _enum('reading_font', ReadingFont.values, ReadingFont.serif);
   set readingFont(ReadingFont f) => _set('reading_font', f.index);
 
   static const minTextScale = 0.85;
@@ -44,7 +65,7 @@ class SettingsService extends ChangeNotifier {
   double get textScale => _get('text_scale', 1.0).clamp(minTextScale, maxTextScale);
   set textScale(double v) => _set('text_scale', v.clamp(minTextScale, maxTextScale));
 
-  double get lineHeight => _get('line_height', 1.6);
+  double get lineHeight => _get('line_height', 1.6).clamp(1.3, 2.1);
   set lineHeight(double v) => _set('line_height', v.clamp(1.3, 2.1));
 
   // ---------- Leitura ----------
@@ -105,7 +126,7 @@ class SettingsService extends ChangeNotifier {
   set rosaryReminderTime(TimeOfDay t) => _set('notif_rosary_time', t.hour * 60 + t.minute);
 
   TimeOfDay _time(String k, TimeOfDay def) {
-    final v = _prefs.getInt(k);
-    return v == null ? def : TimeOfDay(hour: v ~/ 60, minute: v % 60);
+    final v = _get<int?>(k, null);
+    return v == null || v < 0 || v >= 24 * 60 ? def : TimeOfDay(hour: v ~/ 60, minute: v % 60);
   }
 }

@@ -265,6 +265,7 @@ class SettingsScreen extends StatelessWidget {
               trailing: st.ttsVoiceName == null ? const Icon(Icons.check) : null,
               onTap: () {
                 st.setTtsVoice(null, null);
+                audio.setVoice(null, null); // volta o player ativo à voz padrão
                 Navigator.pop(ctx);
               },
             ),

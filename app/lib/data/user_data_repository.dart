@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:intl/intl.dart';
 
 import 'database.dart';
@@ -19,6 +21,10 @@ class UserDataRepository {
   static final _iso = DateFormat('yyyy-MM-dd');
   int get _now => DateTime.now().millisecondsSinceEpoch;
 
+  /// Na Web (IndexedDB) as páginas só são gravadas no flush; sem ele os dados
+  /// do usuário podem sumir ao fechar a aba. No nativo é um no-op.
+  void _persist() => unawaited(_db.flush());
+
   // ---------------- Favoritos ----------------
   bool isFavorite(String kind, String ref) =>
       _db.db.select('SELECT 1 FROM favorite WHERE kind = ? AND ref = ?', [kind, ref]).isNotEmpty;
@@ -26,9 +32,11 @@ class UserDataRepository {
   bool toggleFavorite(String kind, String ref, {String? label}) {
     if (isFavorite(kind, ref)) {
       _db.db.execute('DELETE FROM favorite WHERE kind = ? AND ref = ?', [kind, ref]);
+      _persist();
       return false;
     }
     _db.db.execute('INSERT INTO favorite(kind, ref, label, created_at) VALUES (?,?,?,?)', [kind, ref, label, _now]);
+    _persist();
     return true;
   }
 
@@ -45,17 +53,48 @@ class UserDataRepository {
           ]).firstOrNull?['body']
           as String?;
 
+  /// Grava (ou apaga, se vazia) a anotação, preservando o `created_at` original.
   void saveNote(String kind, String ref, String body) {
-    _db.db.execute('DELETE FROM note WHERE kind = ? AND ref = ?', [kind, ref]);
-    if (body.trim().isEmpty) return;
-    _db.db.execute('INSERT INTO note(kind, ref, body, created_at, updated_at) VALUES (?,?,?,?,?)', [
-      kind,
-      ref,
-      body.trim(),
-      _now,
-      _now,
-    ]);
+    final text = body.trim();
+    final db = _db.db;
+    db.execute('BEGIN');
+    try {
+      if (text.isEmpty) {
+        db.execute('DELETE FROM note WHERE kind = ? AND ref = ?', [kind, ref]);
+      } else {
+        final id = db.select('SELECT id FROM note WHERE kind = ? AND ref = ? ORDER BY updated_at DESC LIMIT 1', [
+          kind,
+          ref,
+        ]).firstOrNull?['id'];
+        if (id == null) {
+          db.execute('INSERT INTO note(kind, ref, body, created_at, updated_at) VALUES (?,?,?,?,?)', [
+            kind,
+            ref,
+            text,
+            _now,
+            _now,
+          ]);
+        } else {
+          db.execute('UPDATE note SET body = ?, updated_at = ? WHERE id = ?', [text, _now, id]);
+          // Remove duplicatas antigas (versões anteriores faziam DELETE + INSERT).
+          db.execute('DELETE FROM note WHERE kind = ? AND ref = ? AND id != ?', [kind, ref, id]);
+        }
+      }
+      db.execute('COMMIT');
+    } catch (_) {
+      db.execute('ROLLBACK');
+      rethrow;
+    }
+    _persist();
   }
+
+  /// Data de criação da anotação (ms desde a época), se existir.
+  int? noteCreatedAt(String kind, String ref) =>
+      _db.db.select('SELECT created_at FROM note WHERE kind = ? AND ref = ? LIMIT 1', [
+            kind,
+            ref,
+          ]).firstOrNull?['created_at']
+          as int?;
 
   // ---------------- Constância ----------------
   void logPrayer(PrayerKind kind, {DateTime? day, String? mysterySet, int? decades}) {
@@ -63,6 +102,7 @@ class UserDataRepository {
       'INSERT OR REPLACE INTO prayer_log(day, kind, mystery_set, decades, completed_at) VALUES (?,?,?,?,?)',
       [_iso.format(day ?? DateTime.now()), kind.name, mysterySet, decades, _now],
     );
+    _persist();
   }
 
   bool prayedOn(DateTime day, {PrayerKind? kind}) => _db.db.select(
@@ -104,6 +144,7 @@ class UserDataRepository {
       'INSERT OR REPLACE INTO rosary_progress(id, day, mode, mystery_set, decade, bead, updated_at) VALUES (1,?,?,?,?,?,?)',
       [_iso.format(DateTime.now()), mode, set, decade, bead, _now],
     );
+    _persist();
   }
 
   ({String mode, String set, int decade, int bead})? rosaryProgress() {
@@ -119,5 +160,8 @@ class UserDataRepository {
     );
   }
 
-  void clearRosaryProgress() => _db.db.execute('DELETE FROM rosary_progress');
+  void clearRosaryProgress() {
+    _db.db.execute('DELETE FROM rosary_progress');
+    _persist();
+  }
 }
