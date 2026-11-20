@@ -7,15 +7,17 @@
  *
  * VERSION é substituída no deploy (deploy-web.yml) para invalidar caches antigos.
  */
-const VERSION = 'preview-d7d0e3e42228';
+const VERSION = 'preview-c942e40a0688';
 const APP_CACHE = `via-sacra-dev-app-${VERSION}`;
 const DATA_CACHE = 'via-sacra-dev-dados';
+const KOKORO_CACHE = 'via-sacra-kokoro-v1';
 
 const PRECACHE = [
   './',
   'index.html',
   'manifest.json',
-  'piper_tts.js',
+  'kokoro_tts.js',
+  'kokoro_worker.js',
   'flutter_bootstrap.js',
   'main.dart.js',
   'sqlite3.wasm',
@@ -51,15 +53,39 @@ function isLiturgyData(url) {
   return isDataHost && /\/liturgia\/[^/]+\.json$/.test(url.pathname);
 }
 
+function isKokoroRuntime(url) {
+  return (
+    url.hostname === 'cdn.jsdelivr.net' &&
+    /^\/npm\/(ephone@1\.0\.2|onnxruntime-web@1\.22\.0)\//.test(url.pathname)
+  );
+}
+
 function isAppShell(req, url) {
   if (req.mode === 'navigate') return true;
-  return /\/(index\.html|flutter_bootstrap\.js|main\.dart\.js|manifest\.json)$/.test(url.pathname);
+  return /\/(index\.html|flutter_bootstrap\.js|main\.dart\.js|manifest\.json|kokoro_tts\.js|kokoro_worker\.js)$/.test(
+    url.pathname,
+  );
 }
 
 self.addEventListener('fetch', (event) => {
   const req = event.request;
   if (req.method !== 'GET') return;
   const url = new URL(req.url);
+
+  if (isKokoroRuntime(url)) {
+    event.respondWith(
+      caches.open(KOKORO_CACHE).then((cache) =>
+        cache.match(req).then((cached) => {
+          if (cached) return cached;
+          return fetch(req).then((resp) => {
+            if (resp.ok) cache.put(req, resp.clone());
+            return resp;
+          });
+        }),
+      ),
+    );
+    return;
+  }
 
   if (isLiturgyData(url)) {
     event.respondWith(
