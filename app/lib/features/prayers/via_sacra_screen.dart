@@ -6,6 +6,7 @@ import '../../core/theme.dart';
 import '../../services/reading_audio_service.dart';
 import '../../services/settings_service.dart';
 import '../../widgets/common.dart';
+import '../../widgets/global_audio_mini_player.dart';
 import '../../widgets/reading_appearance_button.dart';
 import '../../widgets/sacred_art_header.dart';
 
@@ -276,6 +277,7 @@ class _ViaSacraScreenState extends State<ViaSacraScreen> {
           ),
         ],
       ),
+      bottomNavigationBar: const GlobalAudioMiniPlayer(useSafeArea: true),
     );
   }
 }
