@@ -5,10 +5,10 @@ import 'package:provider/provider.dart';
 import '../../app_state.dart';
 import '../../core/theme.dart';
 import '../../services/bible_service.dart';
+import '../../services/native_tts.dart';
 import '../../services/notification_service.dart';
 import '../../services/reading_audio_service.dart';
 import '../../services/settings_service.dart';
-import '../../services/web_tts_types.dart';
 import '../../widgets/common.dart';
 import '../bible/translations_screen.dart';
 import 'about_screen.dart';
@@ -108,7 +108,7 @@ class SettingsScreen extends StatelessWidget {
               context.read<ReadingAudioController>().setSpeed(v.first);
             },
           ),
-          if (kIsWeb) ...[
+          if (kIsWeb || nativeTtsIsSupported()) ...[
             const SizedBox(height: VsSpacing.md),
             Text('Voz neural (Kokoro-82M · pt-BR)', style: t.titleSmall),
             const SizedBox(height: 8),
@@ -120,19 +120,20 @@ class SettingsScreen extends StatelessWidget {
                 context.read<ReadingAudioController>().setKokoroVoice(v.first);
               },
             ),
-            const _WebKokoroCacheTile(),
-          ] else
+            const _NeuralKokoroCacheTile(),
+          ],
+          if (!kIsWeb)
             ListTile(
               contentPadding: EdgeInsets.zero,
-              title: const Text('Voz do narrador'),
-              subtitle: Text(st.ttsVoiceName ?? 'Padrão do sistema (português)'),
+              title: const Text('Voz de reserva do aparelho'),
+              subtitle: Text(st.ttsVoiceName ?? 'Padrão do sistema (usada caso a voz neural não esteja baixada)'),
               trailing: const Icon(Icons.chevron_right),
               onTap: () => _pickVoice(context),
             ),
           SwitchListTile(
             contentPadding: EdgeInsets.zero,
             title: const Text('Preferir áudio narrado quando disponível'),
-            subtitle: const Text('Caso contrário, usa sempre a voz do aparelho (offline).'),
+            subtitle: const Text('Áudio MP3 pronto da Liturgia e Homilia; senão usa a voz neural offline.'),
             value: st.preferRecordedAudio,
             onChanged: (v) => st.preferRecordedAudio = v,
           ),
@@ -290,12 +291,12 @@ class SettingsScreen extends StatelessWidget {
   }
 }
 
-class _WebKokoroCacheTile extends StatelessWidget {
-  const _WebKokoroCacheTile();
+class _NeuralKokoroCacheTile extends StatelessWidget {
+  const _NeuralKokoroCacheTile();
 
   @override
   Widget build(BuildContext context) {
-    final status = context.select<ReadingAudioController, WebTtsStatus>((a) => a.webTtsStatus);
+    final status = context.select<ReadingAudioController, NeuralTtsStatus>((a) => a.neuralTtsStatus);
     final audio = context.read<ReadingAudioController>();
     final t = Theme.of(context).textTheme;
 
@@ -313,12 +314,14 @@ class _WebKokoroCacheTile extends StatelessWidget {
       );
     }
 
+    final sizeHint = kIsWeb ? '~92 MB' : '~126 MB';
+    final cachedWhere = kIsWeb ? 'Salvo no navegador' : 'Salvo neste aparelho';
     final subtitle = status.cached
-        ? 'Salvo no navegador (${status.cacheSizeLabel})'
+        ? '$cachedWhere (${status.cacheSizeLabel})'
               '${status.deviceLabel.isNotEmpty ? ' · ${status.deviceLabel}' : ''}'
         : status.error != null
-        ? 'Falha no download · tente novamente (~92 MB offline)'
-        : '~92 MB · baixado uma única vez para uso offline';
+        ? 'Falha no download · tente novamente ($sizeHint offline)'
+        : '$sizeHint · baixado uma única vez para uso offline';
 
     return ListTile(
       contentPadding: EdgeInsets.zero,
@@ -328,7 +331,7 @@ class _WebKokoroCacheTile extends StatelessWidget {
           ? TextButton(
               onPressed: () async {
                 final messenger = ScaffoldMessenger.of(context);
-                await audio.clearWebTtsCache();
+                await audio.clearNeuralTtsCache();
                 messenger.showSnackBar(const SnackBar(content: Text('Cache da voz neural removido.')));
               },
               child: const Text('Limpar cache'),
@@ -336,7 +339,7 @@ class _WebKokoroCacheTile extends StatelessWidget {
           : OutlinedButton(
               onPressed: () async {
                 final messenger = ScaffoldMessenger.of(context);
-                final ok = await audio.preloadWebTts();
+                final ok = await audio.preloadNeuralTts();
                 if (!ok) {
                   messenger.showSnackBar(
                     const SnackBar(content: Text('Não foi possível baixar o modelo de voz agora.')),

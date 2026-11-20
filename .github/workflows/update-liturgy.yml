@@ -31,7 +31,7 @@ concurrency:
 jobs:
   scrape:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 30
     env:
       TZ: America/Sao_Paulo
     steps:
@@ -69,23 +69,23 @@ jobs:
           if [ "${{ github.event.inputs.force }}" = "true" ]; then ARGS="$ARGS --force"; fi
           python scraper.py $ARGS
 
-      - name: Cache do modelo Piper TTS (pt_BR-cadu-medium)
+      - name: Cache do modelo Kokoro-82M (pf_dora pt-BR)
         uses: actions/cache@v4
         with:
-          path: ~/.cache/viasacra-piper
-          key: piper-pt-br-cadu-medium-v1
+          path: ~/.cache/viasacra-kokoro
+          key: kokoro-v1.0-onnx-v1
 
-      - name: Gerar áudios neurais MP3 da Liturgia e Homilia (Piper pt-BR)
+      - name: Gerar áudios neurais MP3 da Liturgia e Homilia (Kokoro-82M pt-BR)
         continue-on-error: true
         working-directory: scraper
         run: |
-          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
-          pip install -q piper-tts
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg espeak-ng
+          pip install -q "kokoro-onnx>=0.6.1,<1"
           EXTRA=""
           if [ "${{ github.event.inputs.force }}" = "true" ]; then EXTRA="--force"; fi
           python generate_audio.py \
             --dir ../data-branch \
-            --model-dir "$HOME/.cache/viasacra-piper" \
+            --model-dir "$HOME/.cache/viasacra-kokoro" \
             $EXTRA
 
       - name: Validar JSON gerado
