@@ -2,6 +2,7 @@ import 'package:material_ui/material_ui.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../core/theme.dart';
+import 'web_tts_types.dart';
 
 /// Preferências do usuário (locais, via SharedPreferences).
 class SettingsService extends ChangeNotifier {
@@ -61,6 +62,9 @@ class SettingsService extends ChangeNotifier {
     await _prefs.setString('tts_voice_name', name);
     await _set('tts_voice_locale', locale ?? 'pt-BR');
   }
+
+  String get kokoroVoice => KokoroVoice.byId(_prefs.getString('kokoro_voice')).id;
+  set kokoroVoice(String v) => _set('kokoro_voice', KokoroVoice.byId(v).id);
 
   /// Usar áudio narrado aberto quando disponível (senão, sempre TTS).
   bool get preferRecordedAudio => _get('prefer_recorded_audio', true);

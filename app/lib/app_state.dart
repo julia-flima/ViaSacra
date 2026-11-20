@@ -50,7 +50,9 @@ class AppServices {
     final liturgy = LiturgyRepository(db)..prune();
     final audio = await ReadingAudioController.create();
     await audio.setSpeed(settings.ttsSpeed);
+    await audio.setKokoroVoice(settings.kokoroVoice);
     if (settings.ttsVoiceName != null) await audio.setVoice(settings.ttsVoiceName, settings.ttsVoiceLocale);
+    if (kIsWeb) unawaited(audio.refreshWebTtsStatus());
     NotificationService? notifications;
     if (!kIsWeb) {
       try {
