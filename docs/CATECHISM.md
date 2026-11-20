@@ -2,10 +2,11 @@
 
 Na **Biblioteca → Catecismo**:
 
-- **Catecismo Maior de São Pio X (1905)**, embutido: 994 perguntas e respostas, com busca offline
-  (FTS5) por número ou palavra, favoritos, anotações e leitura em voz alta. O original é de domínio
-  público; a tradução portuguesa usada é não oficial e está em verificação
-  ([#29](https://github.com/julia-flima/ViaSacra/issues/29)). Gerado por `scripts/build_sao_pio_x.py`.
+- **Catecismo Maior de São Pio X (1905)**, embutido: as 993 perguntas e respostas do *Compendio della
+  Dottrina Cristiana*, com busca offline (FTS5) por número ou palavra, favoritos, anotações e leitura
+  em voz alta. Tradução do italiano feita pelo projeto e dedicada ao domínio público (CC0). O texto
+  italiano fica ao lado, pergunta a pergunta, em `scripts/data/sao_pio_x_1905.json`: para sugerir
+  uma correção, edite esse arquivo e rode `scripts/build_sao_pio_x.py`.
 - **Catecismo da Igreja Católica (1992)**: só o índice das 4 partes vem no app; o texto abre no
   portal oficial da Santa Sé (`vatican.va`), sem cópia no repositório.
 - **Importador local**: qualquer obra no formato abaixo (por exemplo, um CIC ou Compêndio que o

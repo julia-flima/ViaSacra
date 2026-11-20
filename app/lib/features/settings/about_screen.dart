@@ -66,8 +66,8 @@ class AboutScreen extends StatelessWidget {
           ),
           const SourceAttribution(
             source: 'Catecismo Maior de São Pio X (Tipografia Vaticana, 1905)',
-            url: 'https://archive.org/details/catecismo-maior-de-sc3a3o-pio-x',
-            license: 'Original em domínio público; tradução portuguesa não oficial (Internet Archive), em verificação.',
+            license:
+                'Original em domínio público. Tradução do italiano pelo projeto Via Sacra, em domínio público (CC0).',
           ),
           const SourceAttribution(
             source: 'Tomás de Kempis — A Imitação de Cristo (trad. E. L. de Souza Campos)',
