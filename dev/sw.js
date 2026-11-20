@@ -7,7 +7,7 @@
  *
  * VERSION é substituída no deploy (deploy-web.yml) para invalidar caches antigos.
  */
-const VERSION = 'preview-dab0e0b699ed';
+const VERSION = 'preview-beb8ffbe5f57';
 const APP_CACHE = `via-sacra-dev-app-${VERSION}`;
 const DATA_CACHE = 'via-sacra-dev-dados';
 
@@ -15,6 +15,7 @@ const PRECACHE = [
   './',
   'index.html',
   'manifest.json',
+  'piper_tts.js',
   'flutter_bootstrap.js',
   'main.dart.js',
   'sqlite3.wasm',
