@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "data": "2026-11-23",
-  "gerado_em": "2026-11-19T22:17:18-03:00",
+  "gerado_em": "2026-11-19T22:20:59-03:00",
   "calendario": {
     "data": "2026-11-23",
     "dia_semana": "Segunda-feira",
@@ -68,9 +68,15 @@
         "campo": "liturgia_audio_url",
         "canal": "Via Sacra — Voz Neural Piper (pt_BR-cadu-medium, pt-BR)",
         "licenca": "CC0 / Domínio Público (Piper TTS)"
+      },
+      {
+        "campo": "homilia_audio_url",
+        "canal": "Via Sacra — Voz Neural Piper (pt_BR-cadu-medium, pt-BR)",
+        "licenca": "CC0 / Domínio Público (Piper TTS)"
       }
     ],
-    "fallback": "tts_local_pt_BR"
+    "fallback": "tts_local_pt_BR",
+    "homilia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-23-homilia.mp3"
   },
   "homilias": {
     "vaticano": {
