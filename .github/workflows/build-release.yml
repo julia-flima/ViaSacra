@@ -122,6 +122,10 @@ jobs:
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/tags/v') || github.event.inputs.tag != ''
     steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: docs/releases
+
       - uses: actions/download-artifact@v4
         with:
           path: dist
@@ -131,6 +135,34 @@ jobs:
         working-directory: dist
         run: sha256sum * > SHA256SUMS.txt && cat SHA256SUMS.txt
 
+      # Notas da versão: docs/releases/<tag>.md (obrigatório para releases estáveis)
+      # seguidas das instruções de instalação.
+      - name: Montar notas da release
+        env:
+          TAG: ${{ github.event.inputs.tag || github.ref_name }}
+        run: |
+          notas="docs/releases/${TAG}.md"
+          if [ -f "$notas" ]; then
+            cat "$notas" > release-body.md
+          elif [[ "$TAG" == *-* ]]; then
+            echo "Pré-release de teste da próxima versão." > release-body.md
+          else
+            echo "::error::Faltam as notas da versão em $notas"
+            exit 1
+          fi
+          cat >> release-body.md <<'MD'
+
+          ## Instalação
+
+          **Android** — baixe `ViaSacra-universal.apk` (funciona em qualquer aparelho) ou o APK da sua arquitetura
+          (`arm64-v8a` para a maioria dos celulares atuais). Também funciona com o [Obtainium](https://github.com/ImranR98/Obtainium).
+
+          **iOS** — baixe `ViaSacra-unsigned.ipa` e instale com [AltStore](https://altstore.io),
+          [SideStore](https://sidestore.io) ou TrollStore. Veja o passo a passo no README.
+
+          Verifique a integridade com `SHA256SUMS.txt`.
+          MD
+
       - uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ github.event.inputs.tag || github.ref_name }}
@@ -138,13 +170,4 @@ jobs:
           prerelease: ${{ contains(github.event.inputs.tag || github.ref_name, '-') }}
           generate_release_notes: true
           files: dist/*
-          body: |
-            ## Instalação
-
-            **Android** — baixe `ViaSacra-universal.apk` (funciona em qualquer aparelho) ou o APK da sua arquitetura
-            (`arm64-v8a` para a maioria dos celulares atuais). Também funciona com o [Obtainium](https://github.com/ImranR98/Obtainium).
-
-            **iOS** — baixe `ViaSacra-unsigned.ipa` e instale com [AltStore](https://altstore.io),
-            [SideStore](https://sidestore.io) ou TrollStore. Veja o passo a passo no README.
-
-            Verifique a integridade com `SHA256SUMS.txt`.
+          body_path: release-body.md
