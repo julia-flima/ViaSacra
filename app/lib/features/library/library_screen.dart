@@ -67,7 +67,7 @@ class _LibraryShowcase extends StatelessWidget {
     final cards = [
       SacredArtCard(
         title: 'Catecismo',
-        subtitle: 'São Pio X (978 perguntas), Catecismo Romano e CIC (1992)',
+        subtitle: 'São Pio X (994 perguntas) e CIC (1992)',
         badge: 'Doutrina',
         icon: Icons.menu_book_outlined,
         art: art['header-catecismo'],

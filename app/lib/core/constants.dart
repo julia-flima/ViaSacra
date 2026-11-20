@@ -38,8 +38,10 @@ class ExternalLinks {
       'https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_po.html';
 
   /// Páginas oficiais das partes do CIC (1992) em português no portal da Santa Sé.
+  /// Os nós do índice (`assets/db/catechism.json`) são "prologo", "p1"…"p4" e seus
+  /// filhos ("p2.s2.c1.a3"); subseções abrem a página inicial da sua parte.
   static String catechismPartUrl(String nodeId) {
-    if (nodeId.startsWith('p0')) {
+    if (nodeId == 'prologo' || nodeId.startsWith('p0')) {
       return 'https://www.vatican.va/archive/cathechism_po/index_new/prologo%201-25_po.html';
     }
     if (nodeId.startsWith('p1')) {

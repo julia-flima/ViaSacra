@@ -53,7 +53,7 @@ O Via Sacra nasceu para ser um companheiro de oração **silencioso e respeitoso
 1. **Liturgia & Homilias** — leituras do dia (1ª Leitura, Salmo com refrão em destaque, 2ª Leitura, Evangelho), cabeçalho com Tempo e Cor Litúrgica, player "Ouvir Liturgia" (TTS offline ou áudio aberto), homilia do Vaticano e reflexões CNBB / Santos Padres, modo Lectio Divina em tela cheia, calendário e "Baixar Semana Offline".
 2. **Bíblia Sagrada (73 livros, cânon católico)** — Antigo Testamento com os deuterocanônicos e Novo Testamento; seletor Livro › Capítulo, "Continuar lendo", busca offline por referência ("Jo 3,16") ou palavra (FTS5), leitura comparada versículo a versículo, marcações em cores suaves, favoritos e anotações locais, compartilhamento formatado e áudio do capítulo (TTS). Traduções modulares: **Bíblia Portuguesa Mundial (pt-BR)**, **Vulgata Clementina (Latim)** e **Douay-Rheims (Inglês)** embutidas (domínio público) e importação local de módulos — ver [`docs/BIBLE.md`](docs/BIBLE.md). Na Liturgia, tocar na referência de uma leitura abre o capítulo completo.
 3. **Santo Terço & Rosário** — mistérios do dia automáticos, Rosário completo (20 mistérios), arte sacra em domínio público, contador tátil com vibração e registro opcional de constância.
-4. **Biblioteca** — duas sub-abas: **Catecismo da Igreja Católica** — navegação pelas 4 partes, busca instantânea offline (SQLite FTS5) por número ou palavra, favoritos e anotações locais; e **Devocionário**, com orações fundamentais, eucarísticas, marianas e de proteção, com alternância Português ⇄ Latim.
+4. **Biblioteca** — duas sub-abas: **Catecismo** — índice das 4 partes do CIC (texto oficial no vatican.va) e Catecismo Maior de São Pio X com busca offline (SQLite FTS5) por número ou palavra, favoritos e anotações locais; e **Devocionário**, com orações fundamentais, eucarísticas, marianas e de proteção, com alternância Português ⇄ Latim.
 5. **Ajustes** — lembretes locais (Liturgia e Terço), voz e velocidade do narrador, tipografia, temas Pergaminho / Modo Igreja / Automático, e página "Sobre & Licenças".
 
 ## Instalação para usuários (sem programar)
@@ -283,7 +283,7 @@ Detalhes completos sobre o cânon de 73 livros e armazenamento SQLite/FTS5 estã
 
 Na sub-aba **Biblioteca → Catecismo**, o Via Sacra oferece:
 
-- **Estudo Offline (100% Domínio Público / F-Droid):** **Catecismo Maior de São Pio X (1905)** (perguntas e respostas) e **Catecismo Romano (Concílio de Trento, 1566)** (mesma divisão em 4 partes do CIC de 1992), ambos indexados localmente com SQLite FTS5, busca por número ou palavra-chave, favoritos, anotações pessoais e leitura em voz alta (TTS offline).
+- **Estudo Offline:** **Catecismo Maior de São Pio X (1905)** — as 994 perguntas e respostas, indexadas localmente com SQLite FTS5, busca por número ou palavra-chave, favoritos, anotações pessoais e leitura em voz alta (TTS offline). O original é de domínio público; a tradução portuguesa usada é não oficial e está em verificação (ver [`docs/COPYRIGHT.md`](docs/COPYRIGHT.md)). O Catecismo Romano (Trento, 1566) voltará quando houver uma edição integral e fidedigna em domínio público.
 - **CIC (1992) — Portal Oficial:** índice estruturado das 4 Partes com atalho direto para o portal oficial em português no site da Santa Sé (`vatican.va`), sem hospedar texto protegido no repositório.
 - **Importador Modular Local (`.json`):** permite importar no próprio aparelho um arquivo `.json` do CIC (1992) ou do Compêndio do Catecismo, habilitando busca offline por número (`§1324`) e leitura em voz alta (TTS).
 
