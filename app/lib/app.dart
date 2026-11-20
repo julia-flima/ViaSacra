@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 
 import 'app_navigation.dart';
 import 'app_state.dart';
+import 'core/liturgical_color.dart';
 import 'core/theme.dart';
 import 'features/bible/bible_screen.dart';
 import 'features/library/library_screen.dart';
@@ -14,7 +15,9 @@ import 'features/liturgy/liturgy_screen.dart';
 import 'features/rosary/rosary_screen.dart';
 import 'features/settings/onboarding_screen.dart';
 import 'features/settings/settings_screen.dart';
+import 'services/bible_service.dart';
 import 'services/settings_service.dart';
+import 'widgets/global_audio_mini_player.dart';
 
 /// Comportamento de rolagem confortável em Desktop/Web (mouse, trackpad e toque).
 class _ViaSacraScrollBehavior extends MaterialScrollBehavior {
@@ -46,36 +49,52 @@ class ViaSacraApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => NavigationController()),
         ChangeNotifierProvider(create: (_) => LiturgyController(services.liturgyRepository)),
       ],
-      child: Consumer2<SettingsService, LiturgyController>(
-        builder: (context, settings, liturgy, _) {
-          ThemeData theme(Brightness b) => AppTheme.build(
-            brightness: b,
-            liturgicalColor: liturgy.color,
-            font: settings.readingFont,
-            lineHeight: settings.lineHeight,
-          );
-          return MaterialApp(
-            title: 'Via Sacra',
-            debugShowCheckedModeBanner: false,
-            scrollBehavior: const _ViaSacraScrollBehavior(),
-            theme: theme(Brightness.light),
-            darkTheme: theme(Brightness.dark),
-            themeMode: settings.themeMode,
-            themeAnimationDuration: const Duration(milliseconds: 600),
-            locale: const Locale('pt', 'BR'),
-            supportedLocales: const [Locale('pt', 'BR')],
-            localizationsDelegates: GlobalMaterialLocalizations.delegates,
-            builder: (context, child) {
-              final mq = MediaQuery.of(context);
-              return MediaQuery(
-                data: mq.copyWith(textScaler: TextScaler.linear(mq.textScaler.scale(1) * settings.textScale)),
-                child: child!,
+      child:
+          Selector2<
+            SettingsService,
+            LiturgyController,
+            ({LiturgicalColor color, ReadingFont font, double lineHeight, ThemeMode themeMode, bool onboardingDone})
+          >(
+            selector: (_, settings, liturgy) => (
+              color: liturgy.color,
+              font: settings.readingFont,
+              lineHeight: settings.lineHeight,
+              themeMode: settings.themeMode,
+              onboardingDone: settings.onboardingDone,
+            ),
+            builder: (context, state, _) {
+              ThemeData theme(Brightness b) => AppTheme.build(
+                brightness: b,
+                liturgicalColor: state.color,
+                font: state.font,
+                lineHeight: state.lineHeight,
+              );
+              return MaterialApp(
+                title: 'Via Sacra',
+                debugShowCheckedModeBanner: false,
+                scrollBehavior: const _ViaSacraScrollBehavior(),
+                theme: theme(Brightness.light),
+                darkTheme: theme(Brightness.dark),
+                themeMode: state.themeMode,
+                themeAnimationDuration: const Duration(milliseconds: 600),
+                locale: const Locale('pt', 'BR'),
+                supportedLocales: const [Locale('pt', 'BR')],
+                localizationsDelegates: GlobalMaterialLocalizations.delegates,
+                builder: (context, child) => Selector<SettingsService, double>(
+                  selector: (_, s) => s.textScale,
+                  builder: (context, textScale, child) {
+                    final mq = MediaQuery.of(context);
+                    return MediaQuery(
+                      data: mq.copyWith(textScaler: TextScaler.linear(mq.textScaler.scale(1) * textScale)),
+                      child: child!,
+                    );
+                  },
+                  child: child!,
+                ),
+                home: state.onboardingDone ? const HomeShell() : const OnboardingScreen(),
               );
             },
-            home: settings.onboardingDone ? const HomeShell() : const OnboardingScreen(),
-          );
-        },
-      ),
+          ),
     );
   }
 }
@@ -108,9 +127,35 @@ class _HomeShellState extends State<HomeShell> {
   };
 
   late final List<ScrollController> _scrollControllers = List.generate(_pages.length, (_) => ScrollController());
+  NavigationController? _nav;
+  bool _bibleTriggered = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final nav = context.read<NavigationController>();
+    if (_nav != nav) {
+      _nav?.removeListener(_onTabChanged);
+      _nav = nav;
+      nav.addListener(_onTabChanged);
+      _onTabChanged();
+    }
+  }
+
+  void _onTabChanged() {
+    if (_bibleTriggered || _nav?.tab != AppTab.biblia) return;
+    _bibleTriggered = true;
+    unawaited(
+      context.read<BibleService>().ensureBundled().catchError((Object e) {
+        _bibleTriggered = false;
+        debugPrint('Erro ao preparar Bíblia: $e');
+      }),
+    );
+  }
 
   @override
   void dispose() {
+    _nav?.removeListener(_onTabChanged);
     for (final c in _scrollControllers) {
       c.dispose();
     }
@@ -202,7 +247,7 @@ class _HomeShellState extends State<HomeShell> {
   @override
   Widget build(BuildContext context) {
     final nav = context.watch<NavigationController>();
-    final liturgy = context.watch<LiturgyController>();
+    final seasonLabel = context.select<LiturgyController, String>((c) => c.day.season.label);
     final width = MediaQuery.sizeOf(context).width;
     final useRail = width >= 600;
     final extendedRail = width >= 1024;
@@ -211,7 +256,7 @@ class _HomeShellState extends State<HomeShell> {
 
     // Cada aba possui seu próprio PrimaryScrollController (habilitando setas/PageUp/Home/End)
     // e ExcludeFocus nas abas ocultas para que TAB navegue apenas nos elementos visíveis.
-    final body = IndexedStack(
+    final pages = IndexedStack(
       index: nav.tab.index,
       children: [
         for (var i = 0; i < _pages.length; i++)
@@ -223,6 +268,13 @@ class _HomeShellState extends State<HomeShell> {
               child: _pages[i],
             ),
           ),
+      ],
+    );
+
+    final body = Column(
+      children: [
+        Expanded(child: pages),
+        GlobalAudioMiniPlayer(useSafeArea: useRail),
       ],
     );
 
@@ -253,7 +305,7 @@ class _HomeShellState extends State<HomeShell> {
                               ),
                               const SizedBox(height: 4),
                               Text(
-                                liturgy.day.season.label,
+                                seasonLabel,
                                 style: t.bodySmall?.copyWith(color: cs.primary),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,

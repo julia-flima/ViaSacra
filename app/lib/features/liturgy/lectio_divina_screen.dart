@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../../app_state.dart';
 import '../../core/theme.dart';
 import '../../widgets/common.dart';
+import '../../widgets/global_audio_mini_player.dart';
 import '../../widgets/reading_appearance_button.dart';
 import '../../widgets/sacred_art_header.dart';
 
@@ -80,7 +81,9 @@ class _LectioDivinaScreenState extends State<LectioDivinaScreen> {
               const SizedBox(height: 8),
               Text(widget.title, style: t.headlineSmall),
               const CrossDivider(),
-              SelectableText(widget.text, style: t.bodyLarge?.copyWith(fontSize: (t.bodyLarge?.fontSize ?? 18) + 2)),
+              SelectionArea(
+                child: Text(widget.text, style: t.bodyLarge?.copyWith(fontSize: (t.bodyLarge?.fontSize ?? 18) + 2)),
+              ),
               const CrossDivider(),
               for (final (name, prompt) in _steps)
                 Padding(
@@ -105,6 +108,7 @@ class _LectioDivinaScreenState extends State<LectioDivinaScreen> {
           ),
         ),
       ),
+      bottomNavigationBar: _immersive ? null : const GlobalAudioMiniPlayer(useSafeArea: true),
     );
   }
 }

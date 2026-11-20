@@ -1,10 +1,14 @@
-import 'package:material_ui/material_ui.dart';
+import 'dart:async';
+
 import 'package:just_audio/just_audio.dart';
+import 'package:material_ui/material_ui.dart';
+import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../core/theme.dart';
 import '../../../data/models/liturgy.dart';
+import '../../../services/reading_audio_service.dart';
 import '../../../widgets/common.dart';
 import 'psalm_video_player.dart';
 
@@ -42,23 +46,30 @@ class ReadingCard extends StatelessWidget {
               onShare: () => _share(reading),
               onOpenInBible: onOpenInBible,
             ),
-            if (gospel && reading.acclamation != null) ...[
-              const SizedBox(height: 12),
-              Text(
-                reading.acclamation!,
-                style: t.bodyMedium?.copyWith(fontStyle: FontStyle.italic, color: t.bodySmall?.color),
+            SelectionArea(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (gospel && reading.acclamation != null) ...[
+                    const SizedBox(height: 12),
+                    Text(
+                      reading.acclamation!,
+                      style: t.bodyMedium?.copyWith(fontStyle: FontStyle.italic, color: t.bodySmall?.color),
+                    ),
+                  ],
+                  if (reading.introduction != null) ...[
+                    const SizedBox(height: 12),
+                    Text(reading.introduction!, style: t.bodyMedium?.copyWith(fontStyle: FontStyle.italic)),
+                  ],
+                  const SizedBox(height: 12),
+                  Text(reading.text, style: t.bodyLarge),
+                  const SizedBox(height: 12),
+                  Text(
+                    gospel ? '— Palavra da Salvação.' : '— Palavra do Senhor.',
+                    style: t.bodyMedium?.copyWith(fontStyle: FontStyle.italic),
+                  ),
+                ],
               ),
-            ],
-            if (reading.introduction != null) ...[
-              const SizedBox(height: 12),
-              Text(reading.introduction!, style: t.bodyMedium?.copyWith(fontStyle: FontStyle.italic)),
-            ],
-            const SizedBox(height: 12),
-            SelectableText(reading.text, style: t.bodyLarge),
-            const SizedBox(height: 12),
-            Text(
-              gospel ? '— Palavra da Salvação.' : '— Palavra do Senhor.',
-              style: t.bodyMedium?.copyWith(fontStyle: FontStyle.italic),
             ),
             SourceAttribution(source: reading.source, url: sourceUrl),
           ],
@@ -85,6 +96,7 @@ class PsalmCard extends StatefulWidget {
     this.audio = const LiturgyAudio(),
     this.sourceUrl,
     this.onOpenInBible,
+    this.playerFactory,
   });
 
   final Reading psalm;
@@ -92,6 +104,7 @@ class PsalmCard extends StatefulWidget {
   final VoidCallback onListenFromHere;
   final String? sourceUrl;
   final VoidCallback? onOpenInBible;
+  final AudioPlayer Function()? playerFactory;
 
   @override
   State<PsalmCard> createState() => _PsalmCardState();
@@ -99,8 +112,34 @@ class PsalmCard extends StatefulWidget {
 
 class _PsalmCardState extends State<PsalmCard> {
   AudioPlayer? _player;
+  StreamSubscription<PlayerState>? _playerSub;
+  ReadingAudioController? _mainAudio;
+  String? _loadedUrl;
   bool _playing = false;
   bool _showVideo = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    ReadingAudioController? audio;
+    try {
+      audio = Provider.of<ReadingAudioController>(context, listen: false);
+    } on ProviderNotFoundException {
+      audio = null;
+    }
+    if (!identical(_mainAudio, audio)) {
+      _mainAudio?.removeListener(_onMainAudioChanged);
+      _mainAudio = audio;
+      _mainAudio?.addListener(_onMainAudioChanged);
+    }
+  }
+
+  void _onMainAudioChanged() {
+    if ((_mainAudio?.playing ?? false) && _playing) {
+      unawaited(_player?.pause());
+      if (mounted) setState(() => _playing = false);
+    }
+  }
 
   @override
   void didUpdateWidget(covariant PsalmCard oldWidget) {
@@ -108,11 +147,18 @@ class _PsalmCardState extends State<PsalmCard> {
     if (oldWidget.audio.psalmVideoId != widget.audio.psalmVideoId) {
       _showVideo = false;
     }
+    if (oldWidget.audio.psalmAudioUrl != widget.audio.psalmAudioUrl) {
+      unawaited(_player?.stop());
+      _loadedUrl = null;
+      _playing = false;
+    }
   }
 
   @override
   void dispose() {
-    _player?.dispose();
+    _mainAudio?.removeListener(_onMainAudioChanged);
+    unawaited(_playerSub?.cancel());
+    unawaited(_player?.dispose());
     super.dispose();
   }
 
@@ -129,18 +175,29 @@ class _PsalmCardState extends State<PsalmCard> {
     if (url == null) return;
     if (_playing) {
       await _player?.pause();
-      setState(() => _playing = false);
+      if (mounted) setState(() => _playing = false);
       return;
     }
     try {
-      _player ??= AudioPlayer()
-        ..playerStateStream.listen((s) {
-          if (s.processingState == ProcessingState.completed && mounted) setState(() => _playing = false);
-        });
-      await _player!.setUrl(url);
-      setState(() => _playing = true);
-      await _player!.play();
+      if (_mainAudio?.playing == true) {
+        await _mainAudio!.pause();
+      }
+      final player = _player ??= (widget.playerFactory?.call() ?? AudioPlayer());
+      _playerSub ??= player.playerStateStream.listen((s) {
+        if (s.processingState == ProcessingState.completed && mounted) {
+          setState(() => _playing = false);
+        }
+      });
+      if (_loadedUrl != url) {
+        await player.setUrl(url);
+        _loadedUrl = url;
+      } else if (player.processingState == ProcessingState.completed) {
+        await player.seek(Duration.zero);
+      }
+      if (mounted) setState(() => _playing = true);
+      await player.play();
     } catch (_) {
+      _loadedUrl = null;
       if (!mounted) return;
       setState(() => _playing = false);
       ScaffoldMessenger.of(context)
@@ -213,7 +270,12 @@ class _PsalmCardState extends State<PsalmCard> {
             ] else if (widget.audio.psalmVideoId != null) ...[
               const SizedBox(height: 10),
               OutlinedButton.icon(
-                onPressed: () => setState(() => _showVideo = !_showVideo),
+                onPressed: () {
+                  if (!_showVideo && _mainAudio?.playing == true) {
+                    unawaited(_mainAudio!.pause());
+                  }
+                  setState(() => _showVideo = !_showVideo);
+                },
                 icon: Icon(_showVideo ? Icons.close_rounded : Icons.music_note_outlined),
                 label: Text(_showVideo ? 'Fechar Salmo Cantado' : 'Ouvir Salmo Cantado'),
               ),
@@ -237,16 +299,23 @@ class _PsalmCardState extends State<PsalmCard> {
               Text(widget.audio.psalmChordsOrMelody!, style: t.bodySmall?.copyWith(fontFamily: 'Roboto')),
             ],
             const SizedBox(height: 12),
-            for (final (i, s) in (p.stanzas.isEmpty ? [p.text] : p.stanzas).indexed) ...[
-              SelectableText(s, style: t.bodyLarge),
-              if (p.refrain != null)
-                Padding(
-                  padding: const EdgeInsets.only(top: 6, bottom: 14),
-                  child: Text('R.', style: t.labelLarge?.copyWith(color: cs.primary)),
-                )
-              else if (i < p.stanzas.length - 1)
-                const SizedBox(height: 14),
-            ],
+            SelectionArea(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  for (final (i, s) in (p.stanzas.isEmpty ? [p.text] : p.stanzas).indexed) ...[
+                    Text(s, style: t.bodyLarge),
+                    if (p.refrain != null)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 6, bottom: 14),
+                        child: Text('R.', style: t.labelLarge?.copyWith(color: cs.primary)),
+                      )
+                    else if (i < p.stanzas.length - 1)
+                      const SizedBox(height: 14),
+                  ],
+                ],
+              ),
+            ),
             SourceAttribution(source: p.source, url: widget.sourceUrl),
           ],
         ),

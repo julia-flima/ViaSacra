@@ -7,6 +7,7 @@ import '../../core/theme.dart';
 import '../../data/models/prayer.dart';
 import '../../services/settings_service.dart';
 import '../../widgets/common.dart';
+import '../../widgets/global_audio_mini_player.dart';
 import 'imitacao_screen.dart';
 import 'via_sacra_screen.dart';
 
@@ -152,7 +153,7 @@ class _PrayerScreenState extends State<PrayerScreen> {
             ),
           ],
           const CrossDivider(),
-          SelectableText(text, style: t.bodyLarge),
+          SelectionArea(child: Text(text, style: t.bodyLarge)),
           if (p.note != null) ...[
             const SizedBox(height: VsSpacing.lg),
             Text(p.note!, style: t.bodySmall?.copyWith(fontStyle: FontStyle.italic)),
@@ -160,6 +161,7 @@ class _PrayerScreenState extends State<PrayerScreen> {
           if (p.source != null) SourceAttribution(source: p.source!),
         ],
       ),
+      bottomNavigationBar: const GlobalAudioMiniPlayer(useSafeArea: true),
     );
   }
 }

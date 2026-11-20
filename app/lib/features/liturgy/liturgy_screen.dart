@@ -52,22 +52,24 @@ class LiturgyScreen extends StatelessWidget {
 
     Future<void> playFrom(int index) async {
       if (!l.hasReadings) return;
+      final useRecorded = settings.preferRecordedAudio && index == 0 && l.audio.liturgyAudioUrl != null;
+      final queueKey = useRecorded ? '$key#recorded' : '$key#segmented';
       await audio.playQueue(
-        key,
-        buildLiturgyQueue(l, preferRecorded: settings.preferRecordedAudio),
+        queueKey,
+        buildLiturgyQueue(l, preferRecorded: settings.preferRecordedAudio, startAt: index),
         startAt: index,
         speed: settings.ttsSpeed,
       );
     }
 
     void listenHomily(Homily h) {
-      // Usa o áudio neural Piper pré-gerado para a homilia principal do dia (Vatican News)
-      // quando disponível e preferido; com fallback automático para Piper Web / TTS local.
+      // Usa o áudio neural Kokoro-82M pré-gerado para a homilia principal do dia (Vatican News)
+      // quando disponível e preferido; com fallback automático para TTS neural / sistema.
       final isDailyHomily = l.vaticanHomily != null && h.text == l.vaticanHomily!.text;
       final recordedUrl = (settings.preferRecordedAudio && isDailyHomily) ? l.audio.homilyAudioUrl : null;
       audio.playSingle(
         ReadingSegment(
-          id: '$key#${h.title.hashCode}',
+          id: 'homilia-${LiturgyRepository.isoDate(c.date)}#${h.title.hashCode}',
           title: h.work ?? h.title,
           subtitle: h.author,
           text: '${h.work ?? h.title}. ${h.author != null ? '${h.author}. ' : ''}${h.text}',
@@ -129,7 +131,11 @@ class LiturgyScreen extends StatelessWidget {
                   const SizedBox(height: VsSpacing.md),
                   LiturgyHeader(day: l.day),
                   const SizedBox(height: VsSpacing.md),
-                  AudioPlayerBar(onPlayAll: () => playFrom(0), recorded: l.audio.liturgyAudioUrl != null),
+                  AudioPlayerBar(
+                    expectedKey: key,
+                    onPlayAll: () => playFrom(0),
+                    recorded: l.audio.liturgyAudioUrl != null,
+                  ),
                   if (c.loading && !l.hasReadings)
                     const Padding(
                       padding: EdgeInsets.all(VsSpacing.xl),

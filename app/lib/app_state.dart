@@ -12,6 +12,7 @@ import 'data/liturgy_repository.dart';
 import 'data/models/liturgy.dart';
 import 'data/user_data_repository.dart';
 import 'services/bible_service.dart';
+import 'services/native_tts.dart';
 import 'services/notification_service.dart';
 import 'services/reading_audio_service.dart';
 import 'services/settings_service.dart';
@@ -50,7 +51,9 @@ class AppServices {
     final liturgy = LiturgyRepository(db)..prune();
     final audio = await ReadingAudioController.create();
     await audio.setSpeed(settings.ttsSpeed);
+    await audio.setKokoroVoice(settings.kokoroVoice);
     if (settings.ttsVoiceName != null) await audio.setVoice(settings.ttsVoiceName, settings.ttsVoiceLocale);
+    if (kIsWeb || nativeTtsIsSupported()) unawaited(audio.refreshNeuralTtsStatus());
     NotificationService? notifications;
     if (!kIsWeb) {
       try {

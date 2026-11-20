@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart' show kIsWeb;
+
 import '../database.dart';
 import 'bible_canon.dart';
 import 'bible_models.dart';
@@ -16,13 +18,14 @@ class BibleRepository {
   // ---------------------------------------------------------------- traduções
   List<BibleTranslation> translations() => _db.db
       .select(
-        "SELECT * FROM bible_translations ORDER BY bundled DESC, CASE WHEN language LIKE 'pt%' THEN 0 ELSE 1 END, language, name",
+        'SELECT * FROM bible_translations WHERE module_version > 0 '
+        "ORDER BY bundled DESC, CASE WHEN language LIKE 'pt%' THEN 0 ELSE 1 END, language, name",
       )
       .map(BibleTranslation.fromRow)
       .toList();
 
   BibleTranslation? translation(String id) {
-    final r = _db.db.select('SELECT * FROM bible_translations WHERE id = ?', [id]).firstOrNull;
+    final r = _db.db.select('SELECT * FROM bible_translations WHERE id = ? AND module_version > 0', [id]).firstOrNull;
     return r == null ? null : BibleTranslation.fromRow(r);
   }
 
@@ -30,67 +33,99 @@ class BibleRepository {
       _db.db.select('SELECT module_version FROM bible_translations WHERE id = ?', [id]).firstOrNull?['module_version']
           as int?;
 
-  /// Instala (ou substitui) um módulo. Insere em lotes, cedendo a vez à UI
-  /// entre os livros para não travar a tela (importante na web).
-  Future<void> install(BibleModule m, {bool bundled = false, void Function(double progress)? onProgress}) async {
+  void _runTx(void Function() fn) {
     final db = _db.db;
     db.execute('BEGIN');
     try {
-      db.execute('DELETE FROM bible_verses WHERE translation_id = ?', [m.id]);
-      db.execute('DELETE FROM bible_chapters WHERE translation_id = ?', [m.id]);
-      db.execute(
-        '''INSERT OR REPLACE INTO bible_translations
-          (id, name, abbreviation, language, license, source, description, psalm_numbering, bundled,
-           verse_count, module_version, installed_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)''',
-        [
-          m.id,
-          m.name,
-          m.meta['abreviacao'],
-          m.meta['idioma'],
-          m.meta['licenca'],
-          m.meta['fonte'],
-          m.meta['descricao'],
-          m.meta['numeracao_salmos'] == 'hebraica' ? 'hebraica' : 'grega',
-          bundled ? 1 : 0,
-          m.verseCount,
-          m.version,
-          DateTime.now().millisecondsSinceEpoch,
-        ],
-      );
-      final insV = db.prepare(
-        'INSERT INTO bible_verses(translation_id, book_id, chapter, verse, text) VALUES (?,?,?,?,?)',
-      );
-      final insC = db.prepare(
-        'INSERT INTO bible_chapters(translation_id, book_id, chapter, verse_count) VALUES (?,?,?,?)',
-      );
-      var done = 0;
-      final total = m.books.length;
-      for (final entry in m.books.entries) {
-        for (final (ci, chapter) in entry.value.indexed) {
-          insC.execute([m.id, entry.key, ci + 1, chapter.length]);
-          for (final (v, text) in chapter) {
-            insV.execute([m.id, entry.key, ci + 1, v, text]);
-          }
-        }
-        onProgress?.call(++done / total);
-        await Future<void>.delayed(const Duration(milliseconds: 12));
-      }
-      insV.close();
-      insC.close();
+      fn();
       db.execute('COMMIT');
     } catch (_) {
       db.execute('ROLLBACK');
+      rethrow;
+    }
+  }
+
+  void _deleteSync(String translationId) {
+    _runTx(() {
+      final db = _db.db;
+      db.execute('DELETE FROM bible_verses WHERE translation_id = ?', [translationId]);
+      db.execute('DELETE FROM bible_chapters WHERE translation_id = ?', [translationId]);
+      db.execute('DELETE FROM bible_translations WHERE id = ?', [translationId]);
+    });
+  }
+
+  /// Instala (ou substitui) um módulo com transações síncronas por livro,
+  /// cedendo o event loop entre livros sem manter transação SQLite aberta.
+  Future<void> install(BibleModule m, {bool bundled = false, void Function(double progress)? onProgress}) async {
+    final db = _db.db;
+    try {
+      _runTx(() {
+        db.execute('DELETE FROM bible_verses WHERE translation_id = ?', [m.id]);
+        db.execute('DELETE FROM bible_chapters WHERE translation_id = ?', [m.id]);
+        db.execute(
+          '''INSERT OR REPLACE INTO bible_translations
+            (id, name, abbreviation, language, license, source, description, psalm_numbering, bundled,
+             verse_count, module_version, installed_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)''',
+          [
+            m.id,
+            m.name,
+            m.meta['abreviacao'],
+            m.meta['idioma'],
+            m.meta['licenca'],
+            m.meta['fonte'],
+            m.meta['descricao'],
+            m.meta['numeracao_salmos'] == 'hebraica' ? 'hebraica' : 'grega',
+            bundled ? 1 : 0,
+            0,
+            0, // sentinela: só visível após concluir todos os livros
+            DateTime.now().millisecondsSinceEpoch,
+          ],
+        );
+      });
+
+      var done = 0;
+      final total = m.books.length;
+      for (final entry in m.books.entries) {
+        _runTx(() {
+          final insV = db.prepare(
+            'INSERT INTO bible_verses(translation_id, book_id, chapter, verse, text) VALUES (?,?,?,?,?)',
+          );
+          final insC = db.prepare(
+            'INSERT INTO bible_chapters(translation_id, book_id, chapter, verse_count) VALUES (?,?,?,?)',
+          );
+          try {
+            for (final (ci, chapter) in entry.value.indexed) {
+              insC.execute([m.id, entry.key, ci + 1, chapter.length]);
+              for (final (v, text) in chapter) {
+                insV.execute([m.id, entry.key, ci + 1, v, text]);
+              }
+            }
+          } finally {
+            insV.close();
+            insC.close();
+          }
+        });
+        onProgress?.call(++done / total);
+        await Future<void>.delayed(kIsWeb ? const Duration(milliseconds: 4) : Duration.zero);
+      }
+
+      _runTx(() {
+        db.execute('UPDATE bible_translations SET verse_count = ?, module_version = ?, installed_at = ? WHERE id = ?', [
+          m.verseCount,
+          m.version,
+          DateTime.now().millisecondsSinceEpoch,
+          m.id,
+        ]);
+      });
+    } catch (_) {
+      _deleteSync(m.id);
       rethrow;
     }
     await _db.flush();
   }
 
   Future<void> remove(String translationId) async {
-    _db.db.execute('BEGIN');
-    _db.db.execute('DELETE FROM bible_verses WHERE translation_id = ?', [translationId]);
-    _db.db.execute('DELETE FROM bible_chapters WHERE translation_id = ?', [translationId]);
-    _db.db.execute('DELETE FROM bible_translations WHERE id = ?', [translationId]);
-    _db.db.execute('COMMIT');
+    _deleteSync(translationId);
     await _db.flush();
   }
 
@@ -209,24 +244,40 @@ class BibleRepository {
   }
 
   /// Versículos favoritos/marcados/anotados (mais recentes primeiro).
-  List<({String bookId, int chapter, int verse, VerseAnnotation a})> marked({bool favoritesOnly = false}) => _db.db
-      .select(
-        'SELECT * FROM bible_highlights_notes ${favoritesOnly ? 'WHERE favorite = 1' : ''} '
-        'ORDER BY updated_at DESC LIMIT 500',
-      )
-      .map(
-        (r) => (
-          bookId: r['book_id'] as String,
-          chapter: r['chapter'] as int,
-          verse: r['verse'] as int,
-          a: VerseAnnotation(
-            color: HighlightColor.fromName(r['color'] as String?),
-            favorite: (r['favorite'] as int) == 1,
-            note: r['note'] as String?,
+  /// Quando [translationId] é informado, traz o texto via JOIN único (sem N+1).
+  List<({String bookId, int chapter, int verse, VerseAnnotation a, String? text})> marked({
+    bool favoritesOnly = false,
+    String? translationId,
+  }) {
+    final where = favoritesOnly ? 'WHERE h.favorite = 1' : '';
+    final sql = translationId == null
+        ? 'SELECT h.book_id, h.chapter, h.verse, h.color, h.favorite, h.note, NULL AS text '
+              'FROM bible_highlights_notes h $where ORDER BY h.updated_at DESC LIMIT 500'
+        : '''
+          SELECT h.book_id, h.chapter, h.verse, h.color, h.favorite, h.note, v.text
+          FROM bible_highlights_notes h
+          LEFT JOIN bible_verses v
+            ON v.translation_id = ? AND v.book_id = h.book_id AND v.chapter = h.chapter AND v.verse = h.verse
+          $where
+          ORDER BY h.updated_at DESC LIMIT 500''';
+    final params = translationId == null ? const <Object?>[] : <Object?>[translationId];
+    return _db.db
+        .select(sql, params)
+        .map(
+          (r) => (
+            bookId: r['book_id'] as String,
+            chapter: r['chapter'] as int,
+            verse: r['verse'] as int,
+            a: VerseAnnotation(
+              color: HighlightColor.fromName(r['color'] as String?),
+              favorite: (r['favorite'] as int) == 1,
+              note: r['note'] as String?,
+            ),
+            text: r['text'] as String?,
           ),
-        ),
-      )
-      .toList();
+        )
+        .toList();
+  }
 
   // ---------------------------------------------------------------- posição
   ReadingPosition? lastPosition() => ReadingPosition.decode(_db.meta('bible_last_position'));

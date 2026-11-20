@@ -68,9 +68,15 @@ void main() {
       bundled: true,
     );
     final repo = CatechismRepository(db);
+    expect(db.catechismWorkVersion('sao_pio_x'), 2);
+    expect(db.catechismWorkVersion('romano_trento'), 1);
+    expect(db.catechismWorkVersion('inexistente'), isNull);
     expect(repo.works().map((w) => w.id), containsAll(['sao_pio_x', 'romano_trento']));
     expect(repo.work('sao_pio_x')!.entryCount, greaterThan(900));
     expect(repo.parts('sao_pio_x'), isNotEmpty);
+    final summaries = repo.partSummaries('sao_pio_x');
+    expect(summaries.map((s) => s.part).toList(), repo.parts('sao_pio_x'));
+    expect(summaries.fold<int>(0, (acc, s) => acc + s.count), repo.work('sao_pio_x')!.entryCount);
     expect(repo.searchEntries('sao_pio_x', '1').single.question, 'Sois cristão?');
     expect(repo.searchEntries('sao_pio_x', 'Eucaristia'), isNotEmpty);
     expect(repo.searchEntries('romano_trento', 'transubstanciacao').single.number, 6);

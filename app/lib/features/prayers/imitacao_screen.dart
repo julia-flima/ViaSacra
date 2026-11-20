@@ -11,6 +11,7 @@ import '../../core/theme.dart';
 import '../../services/reading_audio_service.dart';
 import '../../services/settings_service.dart';
 import '../../widgets/common.dart';
+import '../../widgets/global_audio_mini_player.dart';
 import '../../widgets/reading_appearance_button.dart';
 import '../../widgets/sacred_art_header.dart';
 
@@ -165,6 +166,7 @@ class _ImitacaoScreenState extends State<ImitacaoScreen> {
           ),
         ],
       ),
+      bottomNavigationBar: const GlobalAudioMiniPlayer(useSafeArea: true),
     );
   }
 }
@@ -232,14 +234,21 @@ class _ImitacaoChapterScreenState extends State<_ImitacaoChapterScreen> {
       body: ListView(
         padding: EdgeInsets.fromLTRB(pad, VsSpacing.md, pad, VsSpacing.xxl),
         children: [
-          Eyebrow(c.label),
-          const SizedBox(height: 6),
-          Text(c.title, style: t.headlineSmall),
-          const SizedBox(height: VsSpacing.md),
-          for (var i = 0; i < c.paragraphs.length; i++) ...[
-            SelectableText('${i + 1}. ${c.paragraphs[i]}', style: t.bodyLarge),
-            const SizedBox(height: VsSpacing.md),
-          ],
+          SelectionArea(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Eyebrow(c.label),
+                const SizedBox(height: 6),
+                Text(c.title, style: t.headlineSmall),
+                const SizedBox(height: VsSpacing.md),
+                for (var i = 0; i < c.paragraphs.length; i++) ...[
+                  Text('${i + 1}. ${c.paragraphs[i]}', style: t.bodyLarge),
+                  const SizedBox(height: VsSpacing.md),
+                ],
+              ],
+            ),
+          ),
           const SizedBox(height: VsSpacing.sm),
           Row(
             children: [
@@ -262,6 +271,7 @@ class _ImitacaoChapterScreenState extends State<_ImitacaoChapterScreen> {
           SourceAttribution(source: widget.source, license: widget.license),
         ],
       ),
+      bottomNavigationBar: const GlobalAudioMiniPlayer(useSafeArea: true),
     );
   }
 }

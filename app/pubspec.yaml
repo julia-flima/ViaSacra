@@ -9,7 +9,7 @@ issue_tracker: https://github.com/julia-flima/ViaSacra/issues
 
 # versão semântica + build number (usado como versionCode no Android).
 # Para APKs por ABI o Flutter soma 1000*ABI automaticamente.
-version: 1.0.0+1
+version: 1.2.0+2
 
 environment:
   sdk: ^3.13.0
@@ -43,6 +43,9 @@ dependencies:
   just_audio: ^0.10.6 # MIT — ExoPlayer/Media3 (Apache-2.0) e AVPlayer
   audio_service: ^0.18.19 # MIT — reprodução em 2º plano + tela de bloqueio
   audio_session: ^0.2.4 # MIT
+  # Última versão 1.x com espeak-ng embutido (v2+ removeu); Apache-2.0 + espeak-ng GPL-3.0.
+  sherpa_onnx: 1.13.8
+  archive: ^4.7.1 # MIT — extração streaming do pacote de voz Kokoro (.tar.bz2)
 
   # Notificações 100% locais (sem FCM/APNs remoto)
   flutter_local_notifications: ^23.0.3 # BSD-3-Clause

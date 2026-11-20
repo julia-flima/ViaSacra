@@ -59,6 +59,11 @@ class AboutScreen extends StatelessWidget {
             url: ExternalLinks.catechismVatican,
             license: '© Libreria Editrice Vaticana.',
           ),
+          const SourceAttribution(
+            source: 'Kokoro-82M, sherpa-onnx & eSpeak-NG (leitura neural offline)',
+            url: 'https://github.com/k2-fsa/sherpa-onnx',
+            license: 'Apache-2.0 (Kokoro-82M / sherpa-onnx) e GPL-3.0 (eSpeak-NG).',
+          ),
           const CrossDivider(),
           const Eyebrow('Código aberto'),
           ListTile(
@@ -114,9 +119,8 @@ class _LicenseText extends StatelessWidget {
         builder: (context, snap) => snap.hasData
             ? SingleChildScrollView(
                 padding: EdgeInsets.fromLTRB(pad, VsSpacing.md, pad, VsSpacing.xxl),
-                child: SelectableText(
-                  snap.data!,
-                  style: const TextStyle(fontFamily: 'Roboto', fontSize: 12, height: 1.4),
+                child: SelectionArea(
+                  child: Text(snap.data!, style: const TextStyle(fontFamily: 'Roboto', fontSize: 12, height: 1.4)),
                 ),
               )
             : const Center(child: CircularProgressIndicator()),

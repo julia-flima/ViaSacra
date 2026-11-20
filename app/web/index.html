@@ -44,9 +44,10 @@
   <script>
     // Service worker próprio: guarda o app e os dados para uso offline (ver sw.js).
     if ('serviceWorker' in navigator) {
+      var hadController = Boolean(navigator.serviceWorker.controller);
       var reloading = false;
       navigator.serviceWorker.addEventListener('controllerchange', function () {
-        if (reloading) return;
+        if (!hadController || reloading) return;
         reloading = true;
         window.location.reload();
       });
@@ -63,7 +64,7 @@
       if (s) { s.style.opacity = '0'; setTimeout(function () { s.remove(); }, 450); }
     });
   </script>
-  <script src="piper_tts.js" defer></script>
+  <script src="kokoro_tts.js" defer></script>
   <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>
