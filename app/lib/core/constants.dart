@@ -4,7 +4,7 @@ library;
 class AppInfo {
   static const name = 'Via Sacra';
   static const author = 'Júlia Lima';
-  static const version = '1.2.0';
+  static const version = '1.3.0';
   static const license = 'GPL-3.0';
   static const repositoryUrl = 'https://github.com/julia-flima/ViaSacra';
   static const issuesUrl = 'https://github.com/julia-flima/ViaSacra/issues';
