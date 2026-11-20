@@ -47,6 +47,11 @@ class SettingsService extends ChangeNotifier {
   double get lineHeight => _get('line_height', 1.6);
   set lineHeight(double v) => _set('line_height', v.clamp(1.3, 2.1));
 
+  // ---------- Leitura ----------
+  /// Último capítulo aberto da Imitação de Cristo (ex.: "I-12").
+  String? get imitationLastRef => _prefs.getString('imitacao_last');
+  set imitationLastRef(String? ref) => ref == null ? _prefs.remove('imitacao_last') : _set('imitacao_last', ref);
+
   // ---------- Áudio / TTS ----------
   static const speeds = [0.75, 1.0, 1.25, 1.5];
   double get ttsSpeed => _get('tts_speed', 1.0);
