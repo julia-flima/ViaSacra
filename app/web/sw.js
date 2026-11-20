@@ -47,7 +47,8 @@ self.addEventListener('activate', (event) => {
 });
 
 function isLiturgyData(url) {
-  return url.hostname === 'cdn.jsdelivr.net' || url.hostname === 'raw.githubusercontent.com';
+  const isDataHost = url.hostname === 'cdn.jsdelivr.net' || url.hostname === 'raw.githubusercontent.com';
+  return isDataHost && /\/liturgia\/[^/]+\.json$/.test(url.pathname);
 }
 
 function isAppShell(req, url) {

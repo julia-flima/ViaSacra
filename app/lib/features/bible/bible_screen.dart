@@ -1,3 +1,5 @@
+import 'dart:async' show unawaited;
+
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 
@@ -40,7 +42,16 @@ class _BibleScreenState extends State<BibleScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted) _bible.ensureBundled();
+      if (!mounted) return;
+      final b = _bible;
+      if (!b.autoInstallBundled && b.bundledCatalog.isEmpty && !b.ready) {
+        unawaited(
+          b.ensureCatalog().catchError((Object e) {
+            debugPrint('Erro ao carregar catálogo da Bíblia: $e');
+            return const <BundledTranslationInfo>[];
+          }),
+        );
+      }
     });
   }
 
@@ -91,17 +102,47 @@ class _BibleScreenState extends State<BibleScreen> {
     if (r != null) _open(r.$1, r.$2);
   }
 
+  Future<void> _downloadBundled(String id, {bool switchTo = false}) async {
+    final b = _bible;
+    final messenger = ScaffoldMessenger.of(context);
+    try {
+      await b.installBundled(id);
+      if (!mounted) return;
+      if (switchTo) {
+        final p = b.position;
+        if (p != null) {
+          final count = b.repo.chapterCount(id, p.bookId);
+          _open(p.bookId, p.chapter.clamp(1, count < 1 ? 1 : count), verse: p.verse, translationId: id);
+        } else {
+          b.open(id, 'mt', 1);
+        }
+        if (_compareId == id) setState(() => _compareId = null);
+      }
+    } catch (e) {
+      if (mounted) {
+        messenger.showSnackBar(SnackBar(content: Text('Não foi possível baixar a tradução: $e')));
+      }
+    }
+  }
+
   Future<void> _pickTranslation() async {
     final b = _bible;
+    await b.ensureCatalog();
+    if (!mounted) return;
     final choice = await showTranslationSelector(
       context,
       translations: b.translations,
+      availableBundled: b.availableBundled,
       currentId: b.currentTranslationId,
       compareId: _compareId,
     );
     if (choice == null || !mounted) return;
     if (choice.manage) {
-      await Navigator.of(context).push(MaterialPageRoute(builder: (_) => const TranslationsScreen()));
+      await Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => const TranslationsScreen()));
+      return;
+    }
+    if (choice.downloadBundledId != null) {
+      await _downloadBundled(choice.downloadBundledId!, switchTo: true);
       return;
     }
     if (choice.clearCompare) setState(() => _compareId = null);
@@ -166,7 +207,17 @@ class _BibleScreenState extends State<BibleScreen> {
   @override
   Widget build(BuildContext context) {
     final bible = context.watch<BibleService>();
-    if (!bible.ready) return _Preparing(bible: bible);
+    if (!bible.ready) {
+      if (!bible.autoInstallBundled && bible.progress == null) {
+        return _WebBibleCatalog(
+          bible: bible,
+          onDownload: (id) => _downloadBundled(id),
+          onOpenTranslations: () =>
+              Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => const TranslationsScreen())),
+        );
+      }
+      return _Preparing(bible: bible);
+    }
     _consumePendingRef(bible);
     final pos = bible.position;
     if (!_reading || pos == null) return _home(context, bible);
@@ -487,6 +538,101 @@ class _VerseTile extends StatelessWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _WebBibleCatalog extends StatelessWidget {
+  const _WebBibleCatalog({required this.bible, required this.onDownload, required this.onOpenTranslations});
+
+  final BibleService bible;
+  final ValueChanged<String> onDownload;
+  final VoidCallback onOpenTranslations;
+
+  @override
+  Widget build(BuildContext context) {
+    final t = Theme.of(context).textTheme;
+    final pad = VsSpacing.page(context);
+    final art = context.read<AppServices>().content.art['header-biblia'];
+    final catalog = bible.bundledCatalog;
+
+    return Scaffold(
+      appBar: AppBar(title: const Text('Bíblia Sagrada'), actions: const [ReadingAppearanceButton()]),
+      body: ListView(
+        padding: EdgeInsets.fromLTRB(pad, VsSpacing.sm, pad, VsSpacing.xxl),
+        children: [
+          SacredArtBanner(title: 'Bíblia Sagrada', subtitle: 'CÂNON CATÓLICO · 73 LIVROS', art: art),
+          const SizedBox(height: VsSpacing.md),
+          Text(
+            'Na versão Web, cada tradução é baixada e indexada uma única vez ao clicar e fica salva offline no navegador.',
+            style: t.bodyMedium,
+          ),
+          const SizedBox(height: VsSpacing.md),
+          const Eyebrow('Traduções disponíveis (domínio público)'),
+          const SizedBox(height: VsSpacing.sm),
+          if (catalog.isEmpty)
+            const Padding(
+              padding: EdgeInsets.all(VsSpacing.lg),
+              child: Center(child: CircularProgressIndicator()),
+            )
+          else
+            for (final item in catalog)
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(VsSpacing.md),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          CircleAvatar(
+                            radius: 18,
+                            child: Text(item.abbreviation, style: t.labelSmall?.copyWith(letterSpacing: 0)),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(item.name, style: t.titleMedium),
+                                Text(
+                                  '${item.language} · ${item.license}'
+                                  '${item.sizeMb != null ? ' · ~${item.sizeMb!.toStringAsFixed(1).replaceAll('.', ',')} MB' : ''}',
+                                  style: t.bodySmall,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      if (item.description != null) ...[
+                        const SizedBox(height: VsSpacing.sm),
+                        Text(item.description!, style: t.bodyMedium),
+                      ],
+                      const SizedBox(height: VsSpacing.md),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: FilledButton.icon(
+                          onPressed: bible.progress != null ? null : () => onDownload(item.id),
+                          icon: const Icon(Icons.download_outlined, size: 18),
+                          label: const Text('Baixar e ler'),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+          const SizedBox(height: VsSpacing.md),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: OutlinedButton.icon(
+              onPressed: onOpenTranslations,
+              icon: const Icon(Icons.file_open_outlined, size: 18),
+              label: const Text('Importar arquivo (.json)'),
+            ),
+          ),
+        ],
       ),
     );
   }

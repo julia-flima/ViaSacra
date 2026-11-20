@@ -1,4 +1,39 @@
 {
   "_comentario": "Traduções embutidas no app — SOMENTE domínio público (73 livros do cânon católico). Geradas por scripts/build_ptbr_bible.py (BPM) e tool/bible/build_modules.py (Vulgata / Douay-Rheims).",
-  "modulos": ["bpm", "vulgata", "douay_rheims"]
+  "modulos": ["bpm", "vulgata", "douay_rheims"],
+  "catalogo": [
+    {
+      "id": "bpm",
+      "nome": "Bíblia Portuguesa Mundial",
+      "abreviacao": "BPM",
+      "idioma": "pt-BR",
+      "licenca": "Domínio público",
+      "descricao": "Tradução em português brasileiro de domínio público (eBible.org), com o cânon católico completo de 73 livros.",
+      "numeracao_salmos": "hebraica",
+      "versao_modulo": 1,
+      "tamanho_mb": 4.5
+    },
+    {
+      "id": "vulgata",
+      "nome": "Vulgata Clementina",
+      "abreviacao": "VUL",
+      "idioma": "la",
+      "licenca": "Domínio público",
+      "descricao": "Texto latino oficial da Igreja (edição Clementina, 1592/1598).",
+      "numeracao_salmos": "grega",
+      "versao_modulo": 1,
+      "tamanho_mb": 3.9
+    },
+    {
+      "id": "douay_rheims",
+      "nome": "Douay-Rheims (Challoner)",
+      "abreviacao": "DRB",
+      "idioma": "en",
+      "licenca": "Domínio público",
+      "descricao": "Tradução católica inglesa da Vulgata (revisão de Challoner, 1749–1752).",
+      "numeracao_salmos": "grega",
+      "versao_modulo": 1,
+      "tamanho_mb": 4.5
+    }
+  ]
 }

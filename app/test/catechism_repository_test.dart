@@ -68,6 +68,9 @@ void main() {
       bundled: true,
     );
     final repo = CatechismRepository(db);
+    expect(db.catechismWorkVersion('sao_pio_x'), 2);
+    expect(db.catechismWorkVersion('romano_trento'), 1);
+    expect(db.catechismWorkVersion('inexistente'), isNull);
     expect(repo.works().map((w) => w.id), containsAll(['sao_pio_x', 'romano_trento']));
     expect(repo.work('sao_pio_x')!.entryCount, greaterThan(900));
     expect(repo.parts('sao_pio_x'), isNotEmpty);
