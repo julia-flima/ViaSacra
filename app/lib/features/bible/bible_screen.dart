@@ -35,7 +35,9 @@ class _BibleScreenState extends State<BibleScreen> {
   BibleRef? _highlightRef; // trecho vindo da Liturgia
   int? _scrollTargetVerse;
   final _targetVerseKey = GlobalKey();
-  final _scroll = ScrollController();
+  // Usa o PrimaryScrollController da aba/rota para que setas, PageUp/PageDown,
+  // Home/End e Espaço (HomeShell / KeyboardScroll) rolem o leitor.
+  ScrollController get _scroll => PrimaryScrollController.of(context);
 
   (String trId, int version, int verseCount)? _booksCacheKey;
   List<BibleBook> _cachedBooks = const [];
@@ -58,12 +60,6 @@ class _BibleScreenState extends State<BibleScreen> {
         );
       }
     });
-  }
-
-  @override
-  void dispose() {
-    _scroll.dispose();
-    super.dispose();
   }
 
   /// Abre a referência pedida por outra aba (ex.: leitura da Liturgia).

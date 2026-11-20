@@ -39,8 +39,10 @@ class SettingsService extends ChangeNotifier {
   ReadingFont get readingFont => ReadingFont.values[_get('reading_font', ReadingFont.serif.index)];
   set readingFont(ReadingFont f) => _set('reading_font', f.index);
 
-  double get textScale => _get('text_scale', 1.0);
-  set textScale(double v) => _set('text_scale', v.clamp(0.85, 1.6));
+  static const minTextScale = 0.85;
+  static const maxTextScale = 1.6;
+  double get textScale => _get('text_scale', 1.0).clamp(minTextScale, maxTextScale);
+  set textScale(double v) => _set('text_scale', v.clamp(minTextScale, maxTextScale));
 
   double get lineHeight => _get('line_height', 1.6);
   set lineHeight(double v) => _set('line_height', v.clamp(1.3, 2.1));

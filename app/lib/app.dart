@@ -18,6 +18,7 @@ import 'features/settings/settings_screen.dart';
 import 'services/bible_service.dart';
 import 'services/settings_service.dart';
 import 'widgets/global_audio_mini_player.dart';
+import 'widgets/keyboard_scroll.dart';
 
 /// Comportamento de rolagem confortável em Desktop/Web (mouse, trackpad e toque).
 class _ViaSacraScrollBehavior extends MaterialScrollBehavior {
@@ -46,7 +47,7 @@ class ViaSacraApp extends StatelessWidget {
         ChangeNotifierProvider<SettingsService>.value(value: services.settings),
         ChangeNotifierProvider.value(value: services.audio),
         ChangeNotifierProvider.value(value: services.bible),
-        ChangeNotifierProvider(create: (_) => NavigationController()),
+        ChangeNotifierProvider.value(value: services.navigation),
         ChangeNotifierProvider(create: (_) => LiturgyController(services.liturgyRepository)),
       ],
       child:
@@ -72,6 +73,7 @@ class ViaSacraApp extends StatelessWidget {
               return MaterialApp(
                 title: 'Via Sacra',
                 debugShowCheckedModeBanner: false,
+                navigatorKey: services.navigation.navigatorKey,
                 scrollBehavior: const _ViaSacraScrollBehavior(),
                 theme: theme(Brightness.light),
                 darkTheme: theme(Brightness.dark),
@@ -86,7 +88,7 @@ class ViaSacraApp extends StatelessWidget {
                     final mq = MediaQuery.of(context);
                     return MediaQuery(
                       data: mq.copyWith(textScaler: TextScaler.linear(mq.textScaler.scale(1) * textScale)),
-                      child: child!,
+                      child: KeyboardScrollScope(child: child!),
                     );
                   },
                   child: child!,
@@ -162,86 +164,23 @@ class _HomeShellState extends State<HomeShell> {
     super.dispose();
   }
 
-  bool _isEditingText() {
-    final primary = FocusManager.instance.primaryFocus;
-    final ctx = primary?.context;
-    if (ctx == null) return false;
-    return ctx.widget is EditableText || ctx.findAncestorWidgetOfExactType<EditableText>() != null;
-  }
-
-  void _scrollActive(int tabIndex, double delta, {bool toStart = false, bool toEnd = false}) {
-    final ctrl = _scrollControllers[tabIndex];
-    if (!ctrl.hasClients) return;
-    final pos = ctrl.position;
-    final target = toStart
-        ? pos.minScrollExtent
-        : toEnd
-        ? pos.maxScrollExtent
-        : (pos.pixels + delta).clamp(pos.minScrollExtent, pos.maxScrollExtent);
-    unawaited(ctrl.animateTo(target, duration: const Duration(milliseconds: 140), curve: Curves.easeOut));
-  }
-
   KeyEventResult _handleKey(KeyEvent event, NavigationController nav) {
     if (event is! KeyDownEvent && event is! KeyRepeatEvent) return KeyEventResult.ignored;
-    if (_isEditingText()) return KeyEventResult.ignored;
-
-    final key = event.logicalKey;
-    final hw = HardwareKeyboard.instance;
-    final viewport = MediaQuery.sizeOf(context).height * 0.8;
-    final idx = nav.tab.index;
-
-    if (hw.isAltPressed) {
-      if (key == LogicalKeyboardKey.digit1) {
-        nav.go(AppTab.liturgia);
-        return KeyEventResult.handled;
-      }
-      if (key == LogicalKeyboardKey.digit2) {
-        nav.go(AppTab.biblia);
-        return KeyEventResult.handled;
-      }
-      if (key == LogicalKeyboardKey.digit3) {
-        nav.go(AppTab.terco);
-        return KeyEventResult.handled;
-      }
-      if (key == LogicalKeyboardKey.digit4) {
-        nav.go(AppTab.biblioteca);
-        return KeyEventResult.handled;
-      }
-      if (key == LogicalKeyboardKey.digit5) {
-        nav.go(AppTab.ajustes);
+    if (HardwareKeyboard.instance.isAltPressed) {
+      const keys = [
+        LogicalKeyboardKey.digit1,
+        LogicalKeyboardKey.digit2,
+        LogicalKeyboardKey.digit3,
+        LogicalKeyboardKey.digit4,
+        LogicalKeyboardKey.digit5,
+      ];
+      final i = keys.indexOf(event.logicalKey);
+      if (i >= 0) {
+        nav.go(AppTab.values[i]);
         return KeyEventResult.handled;
       }
     }
-
-    if (key == LogicalKeyboardKey.arrowDown) {
-      _scrollActive(idx, 120);
-      return KeyEventResult.handled;
-    }
-    if (key == LogicalKeyboardKey.arrowUp) {
-      _scrollActive(idx, -120);
-      return KeyEventResult.handled;
-    }
-    if (key == LogicalKeyboardKey.pageDown) {
-      _scrollActive(idx, viewport);
-      return KeyEventResult.handled;
-    }
-    if (key == LogicalKeyboardKey.pageUp) {
-      _scrollActive(idx, -viewport);
-      return KeyEventResult.handled;
-    }
-    if (key == LogicalKeyboardKey.space && !hw.isControlPressed && !hw.isMetaPressed) {
-      _scrollActive(idx, hw.isShiftPressed ? -viewport : viewport);
-      return KeyEventResult.handled;
-    }
-    if (key == LogicalKeyboardKey.home) {
-      _scrollActive(idx, 0, toStart: true);
-      return KeyEventResult.handled;
-    }
-    if (key == LogicalKeyboardKey.end) {
-      _scrollActive(idx, 0, toEnd: true);
-      return KeyEventResult.handled;
-    }
-    return KeyEventResult.ignored;
+    return KeyboardScroll.handle(event, _scrollControllers[nav.tab.index], MediaQuery.sizeOf(context).height);
   }
 
   @override

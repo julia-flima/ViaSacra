@@ -66,6 +66,12 @@ class NotificationService {
     return NotificationService(plugin);
   }
 
+  /// Payload do lembrete que abriu o app (null se aberto normalmente).
+  Future<String?> launchPayload() async {
+    final details = await _plugin.getNotificationAppLaunchDetails();
+    return details?.didNotificationLaunchApp == true ? details?.notificationResponse?.payload : null;
+  }
+
   /// Pede permissão ao sistema (Android 13+ / iOS). Retorna se foi concedida.
   Future<bool> requestPermission() async {
     if (defaultTargetPlatform == TargetPlatform.android) {
