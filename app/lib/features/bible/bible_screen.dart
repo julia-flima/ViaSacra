@@ -1,6 +1,7 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 
+import '../../app_state.dart';
 import '../../core/theme.dart';
 import '../../data/bible/bible_canon.dart';
 import '../../data/bible/bible_models.dart';
@@ -9,6 +10,8 @@ import '../../services/bible_service.dart';
 import '../../services/reading_audio_service.dart';
 import '../../services/settings_service.dart';
 import '../../widgets/common.dart';
+import '../../widgets/reading_appearance_button.dart';
+import '../../widgets/sacred_art_header.dart';
 import 'bible_search_screen.dart';
 import 'marked_verses_screen.dart';
 import 'translations_screen.dart';
@@ -168,88 +171,107 @@ class _BibleScreenState extends State<BibleScreen> {
     final pad = VsSpacing.page(context);
     final pos = bible.position;
     final tr = bible.current!;
+    final art = context.read<AppServices>().content.art['header-biblia'];
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Bíblia Sagrada'),
-        actions: [
-          TextButton.icon(
-            onPressed: _pickTranslation,
-            icon: const Icon(Icons.translate, size: 18),
-            label: Text(tr.abbreviation),
-          ),
-          IconButton(tooltip: 'Buscar na Bíblia', icon: const Icon(Icons.search), onPressed: () => _search(bible)),
-        ],
-      ),
-      body: ListView(
-        padding: EdgeInsets.fromLTRB(pad, VsSpacing.sm, pad, VsSpacing.xxl),
-        children: [
-          if (bible.progress != null) _ProgressBanner(bible: bible),
-          ActionChip(
-            avatar: const Icon(Icons.translate, size: 18),
-            label: Text('${tr.abbreviation} · ${tr.name}'),
-            onPressed: _pickTranslation,
-          ),
-          const SizedBox(height: VsSpacing.md),
-          if (pos != null && bookById(pos.bookId) != null)
-            Card(
-              child: ListTile(
-                contentPadding: const EdgeInsets.symmetric(horizontal: VsSpacing.md, vertical: VsSpacing.sm),
-                leading: Icon(Icons.bookmark_outline, color: Theme.of(context).colorScheme.primary),
-                title: const Text('Continuar lendo'),
-                subtitle: Text('${bookById(pos.bookId)!.name} ${pos.chapter}', style: t.titleLarge),
-                trailing: const Icon(Icons.arrow_forward),
-                onTap: () => _open(pos.bookId, pos.chapter, verse: pos.verse),
+      body: CustomScrollView(
+        slivers: [
+          SacredArtSliverHeader(
+            title: 'Bíblia Sagrada',
+            subtitle: 'CÂNON CATÓLICO · 73 LIVROS',
+            art: art,
+            expandedHeight: 190,
+            actions: [
+              TextButton.icon(
+                style: TextButton.styleFrom(foregroundColor: Colors.white),
+                onPressed: _pickTranslation,
+                icon: const Icon(Icons.translate, size: 18),
+                label: Text(tr.abbreviation),
               ),
-            ),
-          ListTile(
-            contentPadding: EdgeInsets.zero,
-            leading: const Icon(Icons.collections_bookmark_outlined),
-            title: const Text('Favoritos, marcações e anotações'),
-            trailing: const Icon(Icons.chevron_right),
-            onTap: () async {
-              final r = await Navigator.of(context)
-                  .push<(String, int, int)>(MaterialPageRoute(builder: (_) => const MarkedVersesScreen()));
-              if (r != null) _open(r.$1, r.$2, verse: r.$3);
-            },
+              const ReadingAppearanceButton(),
+              IconButton(tooltip: 'Buscar na Bíblia', icon: const Icon(Icons.search), onPressed: () => _search(bible)),
+            ],
           ),
-          ListTile(
-            contentPadding: EdgeInsets.zero,
-            leading: const Icon(Icons.library_add_outlined),
-            title: const Text('Gerenciar e Importar Traduções'),
-            subtitle: Text('${bible.translations.length} instalada(s) neste aparelho'),
-            trailing: const Icon(Icons.chevron_right),
-            onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => const TranslationsScreen())),
-          ),
-          for (final te in Testament.values) ...[
-            const SizedBox(height: VsSpacing.md),
-            Eyebrow(te.label),
-            const SizedBox(height: VsSpacing.sm),
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
+          SliverPadding(
+            padding: EdgeInsets.fromLTRB(pad, VsSpacing.md, pad, VsSpacing.xxl),
+            sliver: SliverList.list(
               children: [
-                for (final b in bible.repo.books(tr.id).where((b) => b.testament == te))
-                  Tooltip(
-                    message: b.name,
-                    child: ActionChip(
-                      label: Text(b.abbreviation),
-                      onPressed: () async {
-                        final r = await showBookPicker(
-                          context,
-                          repo: bible.repo,
-                          translationId: tr.id,
-                          currentBookId: b.id,
-                          openChapters: true,
-                        );
-                        if (r != null) _open(r.$1, r.$2);
-                      },
+                if (bible.progress != null) _ProgressBanner(bible: bible),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: ActionChip(
+                    avatar: const Icon(Icons.translate, size: 18),
+                    label: Text('${tr.abbreviation} · ${tr.name}'),
+                    onPressed: _pickTranslation,
+                  ),
+                ),
+                const SizedBox(height: VsSpacing.md),
+                if (pos != null && bookById(pos.bookId) != null)
+                  Card(
+                    child: ListTile(
+                      contentPadding: const EdgeInsets.symmetric(horizontal: VsSpacing.md, vertical: VsSpacing.sm),
+                      leading: Icon(Icons.bookmark_outline, color: Theme.of(context).colorScheme.primary),
+                      title: const Text('Continuar lendo'),
+                      subtitle: Text('${bookById(pos.bookId)!.name} ${pos.chapter}', style: t.titleLarge),
+                      trailing: const Icon(Icons.arrow_forward),
+                      onTap: () => _open(pos.bookId, pos.chapter, verse: pos.verse),
                     ),
                   ),
+                ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  leading: const Icon(Icons.collections_bookmark_outlined),
+                  title: const Text('Favoritos, marcações e anotações'),
+                  trailing: const Icon(Icons.chevron_right),
+                  onTap: () async {
+                    final r = await Navigator.of(context)
+                        .push<(String, int, int)>(MaterialPageRoute(builder: (_) => const MarkedVersesScreen()));
+                    if (r != null) _open(r.$1, r.$2, verse: r.$3);
+                  },
+                ),
+                ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  leading: const Icon(Icons.library_add_outlined),
+                  title: const Text('Gerenciar e Importar Traduções'),
+                  subtitle: Text('${bible.translations.length} instalada(s) neste aparelho'),
+                  trailing: const Icon(Icons.chevron_right),
+                  onTap: () =>
+                      Navigator.of(context).push(MaterialPageRoute(builder: (_) => const TranslationsScreen())),
+                ),
+                for (final te in Testament.values) ...[
+                  const SizedBox(height: VsSpacing.md),
+                  Eyebrow(te.label),
+                  const SizedBox(height: VsSpacing.sm),
+                  Wrap(
+                    spacing: 8,
+                    runSpacing: 8,
+                    children: [
+                      for (final b in bible.repo.books(tr.id).where((b) => b.testament == te))
+                        Tooltip(
+                          message: b.name,
+                          child: ActionChip(
+                            label: Text(b.abbreviation),
+                            onPressed: () async {
+                              final r = await showBookPicker(
+                                context,
+                                repo: bible.repo,
+                                translationId: tr.id,
+                                currentBookId: b.id,
+                                openChapters: true,
+                              );
+                              if (r != null) _open(r.$1, r.$2);
+                            },
+                          ),
+                        ),
+                    ],
+                  ),
+                ],
+                const CrossDivider(),
+                SourceAttribution(
+                  source: tr.name,
+                  license: '${tr.license}${tr.source != null ? ' · ${tr.source}' : ''}',
+                ),
               ],
             ),
-          ],
-          const CrossDivider(),
-          SourceAttribution(source: tr.name, license: '${tr.license}${tr.source != null ? ' · ${tr.source}' : ''}'),
+          ),
         ],
       ),
     );
@@ -317,6 +339,7 @@ class _BibleScreenState extends State<BibleScreen> {
             icon: const Icon(Icons.headphones_outlined),
             onPressed: () => _listen(tr, book.id, pos.chapter, verses),
           ),
+          const ReadingAppearanceButton(),
           IconButton(tooltip: 'Buscar', icon: const Icon(Icons.search), onPressed: () => _search(bible)),
         ],
       ),

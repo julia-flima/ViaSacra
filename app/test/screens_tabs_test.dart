@@ -49,10 +49,12 @@ void main() {
     expect(find.text('ANTIGO TESTAMENTO'), findsOneWidget);
     await shot(tester, '9-biblia');
 
-    // Aba 4 — Biblioteca › Catecismo
+    // Aba 4 — Biblioteca › Vitrine Visual & Catecismo
     await tester.tap(find.text('Biblioteca'));
     await settle(tester);
-    await tester.tap(find.text('Catecismo'));
+    expect(find.text('Via Sacra'), findsWidgets);
+    expect(find.text('A Imitação de Cristo'), findsOneWidget);
+    await tester.tap(find.widgetWithText(Tab, 'Catecismo'));
     await settle(tester);
     await tester.enterText(find.byType(TextField), 'graça');
     await tester.pump(const Duration(milliseconds: 300));

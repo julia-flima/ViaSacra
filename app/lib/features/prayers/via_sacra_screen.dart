@@ -1,10 +1,13 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 
+import '../../app_state.dart';
 import '../../core/theme.dart';
 import '../../services/reading_audio_service.dart';
 import '../../services/settings_service.dart';
 import '../../widgets/common.dart';
+import '../../widgets/reading_appearance_button.dart';
+import '../../widgets/sacred_art_header.dart';
 
 class _Station {
   const _Station(this.number, this.title, this.meditation, this.prayer);
@@ -165,96 +168,102 @@ class _ViaSacraScreenState extends State<ViaSacraScreen> {
     final t = Theme.of(context).textTheme;
     final cs = Theme.of(context).colorScheme;
     final pad = VsSpacing.page(context);
+    final art = context.read<AppServices>().content.art['dolorosos-4'];
 
     return Scaffold(
-      appBar: AppBar(
-        title: InkWell(
-          onTap: _pickStation,
-          borderRadius: BorderRadius.circular(8),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [Text('Via Sacra · ${st.number}/14'), const Icon(Icons.arrow_drop_down)],
-            ),
-          ),
-        ),
-        actions: [
-          IconButton(
-            tooltip: 'Ouvir estação (TTS)',
-            icon: const Icon(Icons.headphones_outlined),
-            onPressed: () => _listen(st),
-          ),
-        ],
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(3),
-          child: LinearProgressIndicator(value: (st.number) / _stations.length),
-        ),
-      ),
-      body: ListView(
-        padding: EdgeInsets.fromLTRB(pad, VsSpacing.md, pad, VsSpacing.xxl),
-        children: [
-          Eyebrow('${st.number}ª Estação'),
-          const SizedBox(height: 6),
-          Text(st.title, style: t.headlineMedium),
-          const SizedBox(height: VsSpacing.md),
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(VsSpacing.md),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'V. Nós vos adoramos, ó Cristo, e vos bendizemos.',
-                    style: t.titleSmall?.copyWith(color: cs.primary),
-                  ),
-                  const SizedBox(height: 4),
-                  Text('R. Porque pela vossa Santa Cruz remistes o mundo.', style: t.titleSmall),
-                ],
+      body: CustomScrollView(
+        slivers: [
+          SacredArtSliverHeader(
+            title: 'Via Sacra · ${st.number}/14',
+            subtitle: 'SANTO AFONSO MARIA DE LIGÓRIO',
+            art: art,
+            expandedHeight: 190,
+            actions: [
+              IconButton(
+                tooltip: 'Escolher estação',
+                icon: const Icon(Icons.format_list_numbered_rounded),
+                onPressed: _pickStation,
               ),
+              IconButton(
+                tooltip: 'Ouvir estação (TTS)',
+                icon: const Icon(Icons.headphones_outlined),
+                onPressed: () => _listen(st),
+              ),
+              const ReadingAppearanceButton(),
+            ],
+            bottom: PreferredSize(
+              preferredSize: const Size.fromHeight(3),
+              child: LinearProgressIndicator(value: st.number / _stations.length),
             ),
           ),
-          const SizedBox(height: VsSpacing.md),
-          const Eyebrow('Meditação'),
-          const SizedBox(height: 6),
-          SelectableText(st.meditation, style: t.bodyLarge),
-          const SizedBox(height: VsSpacing.md),
-          const Eyebrow('Oração'),
-          const SizedBox(height: 6),
-          SelectableText(st.prayer, style: t.bodyLarge),
-          const SizedBox(height: VsSpacing.md),
-          Text(
-            'Reza-se: 1 Pai-Nosso · 1 Ave-Maria · 1 Glória ao Pai.',
-            style: t.bodySmall?.copyWith(fontStyle: FontStyle.italic),
-          ),
-          const SizedBox(height: VsSpacing.lg),
-          Row(
-            children: [
-              if (_index > 0)
-                OutlinedButton.icon(
-                  onPressed: () => setState(() => _index--),
-                  icon: const Icon(Icons.chevron_left),
-                  label: Text('$_indexª Estação'),
+          SliverPadding(
+            padding: EdgeInsets.fromLTRB(pad, VsSpacing.md, pad, VsSpacing.xxl),
+            sliver: SliverList.list(
+              children: [
+                Eyebrow('${st.number}ª Estação'),
+                const SizedBox(height: 6),
+                Text(st.title, style: t.headlineMedium),
+                const SizedBox(height: VsSpacing.md),
+                Card(
+                  child: Padding(
+                    padding: const EdgeInsets.all(VsSpacing.md),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'V. Nós vos adoramos, ó Cristo, e vos bendizemos.',
+                          style: t.titleSmall?.copyWith(color: cs.primary),
+                        ),
+                        const SizedBox(height: 4),
+                        Text('R. Porque pela vossa Santa Cruz remistes o mundo.', style: t.titleSmall),
+                      ],
+                    ),
+                  ),
                 ),
-              const Spacer(),
-              if (_index < _stations.length - 1)
-                FilledButton.icon(
-                  onPressed: () => setState(() => _index++),
-                  icon: const Icon(Icons.chevron_right),
-                  label: Text('${_index + 2}ª Estação'),
-                )
-              else
-                FilledButton.icon(
-                  onPressed: () => Navigator.pop(context),
-                  icon: const Icon(Icons.check),
-                  label: const Text('Concluir Via Sacra'),
+                const SizedBox(height: VsSpacing.md),
+                const Eyebrow('Meditação'),
+                const SizedBox(height: 6),
+                SelectableText(st.meditation, style: t.bodyLarge),
+                const SizedBox(height: VsSpacing.md),
+                const Eyebrow('Oração'),
+                const SizedBox(height: 6),
+                SelectableText(st.prayer, style: t.bodyLarge),
+                const SizedBox(height: VsSpacing.md),
+                Text(
+                  'Reza-se: 1 Pai-Nosso · 1 Ave-Maria · 1 Glória ao Pai.',
+                  style: t.bodySmall?.copyWith(fontStyle: FontStyle.italic),
                 ),
-            ],
-          ),
-          const CrossDivider(),
-          const SourceAttribution(
-            source: 'Santo Afonso Maria de Ligório — Via Sacra (1761)',
-            license: 'Domínio público',
+                const SizedBox(height: VsSpacing.lg),
+                Row(
+                  children: [
+                    if (_index > 0)
+                      OutlinedButton.icon(
+                        onPressed: () => setState(() => _index--),
+                        icon: const Icon(Icons.chevron_left),
+                        label: Text('$_indexª Estação'),
+                      ),
+                    const Spacer(),
+                    if (_index < _stations.length - 1)
+                      FilledButton.icon(
+                        onPressed: () => setState(() => _index++),
+                        icon: const Icon(Icons.chevron_right),
+                        label: Text('${_index + 2}ª Estação'),
+                      )
+                    else
+                      FilledButton.icon(
+                        onPressed: () => Navigator.pop(context),
+                        icon: const Icon(Icons.check),
+                        label: const Text('Concluir Via Sacra'),
+                      ),
+                  ],
+                ),
+                const CrossDivider(),
+                const SourceAttribution(
+                  source: 'Santo Afonso Maria de Ligório — Via Sacra (1761)',
+                  license: 'Domínio público',
+                ),
+              ],
+            ),
           ),
         ],
       ),

@@ -6,10 +6,13 @@ import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 
+import '../../app_state.dart';
 import '../../core/theme.dart';
 import '../../services/reading_audio_service.dart';
 import '../../services/settings_service.dart';
 import '../../widgets/common.dart';
+import '../../widgets/reading_appearance_button.dart';
+import '../../widgets/sacred_art_header.dart';
 
 class _ImitationBook {
   const _ImitationBook({required this.number, required this.title, required this.subtitle, required this.chapters});
@@ -108,45 +111,62 @@ class _ImitacaoScreenState extends State<ImitacaoScreen> {
     final todayIdx = all.isEmpty ? 0 : dayOfYear % all.length;
     final today = all.isEmpty ? null : all[todayIdx];
 
+    final art = context.read<AppServices>().content.art['header-imitacao'];
+
     return Scaffold(
-      appBar: AppBar(title: const Text('A Imitação de Cristo')),
-      body: ListView(
-        padding: EdgeInsets.fromLTRB(pad, VsSpacing.sm, pad, VsSpacing.xxl),
-        children: [
-          if (today != null)
-            Card(
-              child: ListTile(
-                contentPadding: const EdgeInsets.symmetric(horizontal: VsSpacing.md, vertical: VsSpacing.sm),
-                leading: Icon(Icons.auto_stories_outlined, color: Theme.of(context).colorScheme.primary),
-                title: Text('Leitura sugerida de hoje · ${today.label}', style: t.titleSmall),
-                subtitle: Text(today.title, style: t.titleMedium),
-                trailing: const Icon(Icons.arrow_forward),
-                onTap: () => _openChapter(all, todayIdx),
-              ),
-            ),
-          const SizedBox(height: VsSpacing.sm),
-          for (final b in books)
-            ExpansionTile(
-              tilePadding: EdgeInsets.zero,
-              shape: const Border(),
-              title: Text(b.title, style: t.titleLarge),
-              subtitle: Text(b.subtitle.isEmpty ? '${b.chapters.length} capítulos' : b.subtitle, style: t.bodySmall),
+      body: CustomScrollView(
+        slivers: [
+          SacredArtSliverHeader(
+            title: 'A Imitação de Cristo',
+            subtitle: 'TOMÁS DE KEMPIS · 4 LIVROS',
+            art: art,
+            expandedHeight: 190,
+            actions: const [ReadingAppearanceButton()],
+          ),
+          SliverPadding(
+            padding: EdgeInsets.fromLTRB(pad, VsSpacing.md, pad, VsSpacing.xxl),
+            sliver: SliverList.list(
               children: [
-                for (final c in b.chapters)
-                  ListTile(
-                    contentPadding: EdgeInsets.zero,
-                    leading: Text(
-                      '${c.number}',
-                      style: t.titleSmall?.copyWith(color: Theme.of(context).colorScheme.primary),
+                if (today != null)
+                  Card(
+                    child: ListTile(
+                      contentPadding: const EdgeInsets.symmetric(horizontal: VsSpacing.md, vertical: VsSpacing.sm),
+                      leading: Icon(Icons.auto_stories_outlined, color: Theme.of(context).colorScheme.primary),
+                      title: Text('Leitura sugerida de hoje · ${today.label}', style: t.titleSmall),
+                      subtitle: Text(today.title, style: t.titleMedium),
+                      trailing: const Icon(Icons.arrow_forward),
+                      onTap: () => _openChapter(all, todayIdx),
                     ),
-                    title: Text(c.title, style: t.bodyMedium),
-                    trailing: const Icon(Icons.chevron_right, size: 18),
-                    onTap: () => _openChapter(all, all.indexOf(c)),
                   ),
+                const SizedBox(height: VsSpacing.sm),
+                for (final b in books)
+                  ExpansionTile(
+                    tilePadding: EdgeInsets.zero,
+                    shape: const Border(),
+                    title: Text(b.title, style: t.titleLarge),
+                    subtitle: Text(
+                      b.subtitle.isEmpty ? '${b.chapters.length} capítulos' : b.subtitle,
+                      style: t.bodySmall,
+                    ),
+                    children: [
+                      for (final c in b.chapters)
+                        ListTile(
+                          contentPadding: EdgeInsets.zero,
+                          leading: Text(
+                            '${c.number}',
+                            style: t.titleSmall?.copyWith(color: Theme.of(context).colorScheme.primary),
+                          ),
+                          title: Text(c.title, style: t.bodyMedium),
+                          trailing: const Icon(Icons.chevron_right, size: 18),
+                          onTap: () => _openChapter(all, all.indexOf(c)),
+                        ),
+                    ],
+                  ),
+                const CrossDivider(),
+                SourceAttribution(source: _source, license: _license),
               ],
             ),
-          const CrossDivider(),
-          SourceAttribution(source: _source, license: _license),
+          ),
         ],
       ),
     );
