@@ -7,6 +7,7 @@ import '../../app_state.dart';
 import '../../core/theme.dart';
 import '../../data/bible/bible_canon.dart';
 import '../../data/bible/bible_models.dart';
+import '../../data/bible/psalm_numbering.dart';
 import '../../data/bible/bible_reference.dart';
 import '../../services/bible_service.dart';
 import '../../services/reading_audio_service.dart';
@@ -33,6 +34,7 @@ class _BibleScreenState extends State<BibleScreen> {
   bool _reading = false;
   String? _compareId;
   BibleRef? _highlightRef; // trecho vindo da Liturgia
+  int _highlightChapter = 0; // capítulo (já na numeração da tradução) onde o trecho começa
   int? _scrollTargetVerse;
   final _targetVerseKey = GlobalKey();
   // Usa o PrimaryScrollController da aba/rota para que setas, PageUp/PageDown,
@@ -79,6 +81,7 @@ class _BibleScreenState extends State<BibleScreen> {
     setState(() {
       _reading = true;
       _highlightRef = highlight;
+      _highlightChapter = chapter;
       _scrollTargetVerse = verse;
     });
     WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToTargetVerse(verse));
@@ -236,15 +239,9 @@ class _BibleScreenState extends State<BibleScreen> {
 
   /// Alinha o capítulo dos Salmos quando as duas traduções comparadas usam
   /// numerações diferentes (grega vs hebraica).
-  int _alignedChapter(BibleTranslation primary, BibleTranslation compare, String bookId, int chapter) {
-    if (bookId != 'sl' || primary.psalmNumbering == compare.psalmNumbering) return chapter;
-    if (primary.psalmNumbering == 'grega' && compare.psalmNumbering == 'hebraica') {
-      if (chapter >= 10 && chapter <= 146) return chapter + 1;
-    } else if (primary.psalmNumbering == 'hebraica' && compare.psalmNumbering == 'grega') {
-      if (chapter >= 11 && chapter <= 147) return chapter - 1;
-    }
-    return chapter;
-  }
+  int _alignedChapter(BibleTranslation primary, BibleTranslation compare, String bookId, int chapter) => bookId == 'sl'
+      ? PsalmNumbering.convert(chapter, from: primary.psalmNumbering, to: compare.psalmNumbering)
+      : chapter;
 
   void _listen(BibleTranslation tr, String bookId, int chapter, List<BibleVerse> verses) {
     final book = bookById(bookId)!;
@@ -519,7 +516,7 @@ class _BibleScreenState extends State<BibleScreen> {
                   annotation: notes[v.verse],
                   compareText: compareVerses[v.verse],
                   compareLabel: compare?.abbreviation,
-                  emphasized: highlight?.contains(v.verse) ?? false,
+                  emphasized: highlight?.containsAt(pos.chapter - _highlightChapter, v.verse) ?? false,
                   dark: dark,
                   onTap: () async {
                     bible.open(tr.id, book.id, pos.chapter, verse: v.verse);
