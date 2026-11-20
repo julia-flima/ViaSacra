@@ -1,0 +1,4 @@
+• Catecismo de São Pio X com tradução própria do original de 1905 (993 perguntas), em domínio público
+• Leitor do Catecismo e vídeo do Salmo com navegação restrita aos sites oficiais
+• Componentes baixados na compilação com verificação de checksum
+• Créditos completos na tela Sobre
