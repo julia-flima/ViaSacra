@@ -172,6 +172,8 @@ class ReadingAudioHandler extends BaseAudioHandler with QueueHandler {
 
   @visibleForTesting
   bool get playingRecorded => _playingRecorded;
+  int get chunkIndex => _chunk;
+  int get chunkCount => _chunks.length;
 
   /// flutter_tts normaliza 0.5 como velocidade "normal" no Android/iOS,
   /// enquanto na Web Speech API o valor normal é 1.0.
@@ -321,7 +323,10 @@ class ReadingAudioHandler extends BaseAudioHandler with QueueHandler {
       await _initTts();
       await _useLanguage(seg.language);
     }
-    if (_chunks.isEmpty || _chunk == 0) _chunks = splitForSpeech(seg.text ?? '', maxLen: useNeural ? 280 : 600);
+    if (_chunks.isEmpty || _chunk == 0) {
+      _chunks = splitForSpeech(seg.text ?? '', maxLen: useNeural ? 280 : 600);
+      _broadcast();
+    }
     var neuralFailed = false;
     while (_playing && gen == _generation && _chunk < _chunks.length) {
       var spoken = false;
@@ -347,6 +352,7 @@ class ReadingAudioHandler extends BaseAudioHandler with QueueHandler {
       }
       if (!_playing || gen != _generation) return; // pausado/pulado durante a fala
       _chunk++;
+      if (_chunk < _chunks.length) _broadcast();
     }
     if (_playing && gen == _generation) await _advance();
   }
@@ -390,6 +396,16 @@ class ReadingAudioHandler extends BaseAudioHandler with QueueHandler {
     _neuralStop();
     await _tts.stop();
     await _player.stop();
+    _broadcast();
+  }
+
+  /// Para a leitura e esvazia completamente a fila (usado ao fechar o mini-player).
+  Future<void> clear() async {
+    if (_disposed) return;
+    await stop();
+    _segments = const [];
+    _index = 0;
+    queue.add(const []);
     _broadcast();
   }
 
@@ -515,11 +531,14 @@ class ReadingAudioController extends ChangeNotifier {
       playing = s.playing;
       index = s.queueIndex ?? 0;
       speed = s.speed;
+      chunkIndex = _handler.chunkIndex;
+      chunkCount = _handler.chunkCount;
       notifyListeners();
     });
     _queueSub = _handler.queue.listen((q) {
       if (_disposed) return;
       titles = q.map((m) => m.title).toList();
+      subtitles = q.map((m) => m.artist).toList();
       notifyListeners();
     });
     _handler.neuralTtsStatus.addListener(_onStatusChanged);
@@ -532,8 +551,11 @@ class ReadingAudioController extends ChangeNotifier {
   bool _disposed = false;
   bool playing = false;
   int index = 0;
+  int chunkIndex = 0;
+  int chunkCount = 0;
   double speed = 1.0;
   List<String> titles = const [];
+  List<String?> subtitles = const [];
   String? loadedKey;
 
   void _onStatusChanged() {
@@ -579,10 +601,12 @@ class ReadingAudioController extends ChangeNotifier {
   }
 
   String? get currentTitle => index < titles.length ? titles[index] : null;
+  String? get currentSubtitle => index < subtitles.length ? subtitles[index] : null;
+  double? get chunkProgress => chunkCount > 0 ? ((chunkIndex + 1) / chunkCount).clamp(0.0, 1.0) : null;
+  bool get isSynthesizing => playing && !playingRecorded && neuralTtsStatus.state == NeuralTtsState.ready;
   bool get hasQueue => titles.isNotEmpty;
   NeuralTtsStatus get neuralTtsStatus => _handler.neuralTtsStatus.value;
 
-  @visibleForTesting
   bool get playingRecorded => _handler.playingRecorded;
 
   bool isLoadedFor(String expectedKey) =>
@@ -614,6 +638,21 @@ class ReadingAudioController extends ChangeNotifier {
   Future<void> next() => _handler.skipToNext();
   Future<void> previous() => _handler.skipToPrevious();
   Future<void> stop() => _handler.stop();
+
+  /// Encerra a reprodução atual e fecha o mini-player global.
+  Future<void> dismiss() async {
+    if (_disposed) return;
+    loadedKey = null;
+    titles = const [];
+    subtitles = const [];
+    index = 0;
+    chunkIndex = 0;
+    chunkCount = 0;
+    playing = false;
+    notifyListeners();
+    await _handler.clear();
+  }
+
   Future<void> setSpeed(double s) => _handler.setSpeed(s);
   Future<void> setVoice(String? name, String? locale) => _handler.setVoice(name, locale);
   Future<void> setKokoroVoice(String voiceId) => _handler.setKokoroVoice(voiceId);

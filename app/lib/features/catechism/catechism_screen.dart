@@ -12,6 +12,7 @@ import '../../services/catechism_import_service.dart';
 import '../../services/reading_audio_service.dart';
 import '../../services/settings_service.dart';
 import '../../widgets/common.dart';
+import '../../widgets/global_audio_mini_player.dart';
 import 'vatican_reader_screen.dart';
 
 enum _CatechismView { offline, officialCic }
@@ -710,6 +711,7 @@ class _CatechismEntryScreenState extends State<CatechismEntryScreen> {
           ),
         ],
       ),
+      bottomNavigationBar: const GlobalAudioMiniPlayer(useSafeArea: true),
     );
   }
 }
@@ -736,6 +738,7 @@ class ParagraphScreen extends StatelessWidget {
             SelectionArea(child: Text(p.text, style: t.bodyLarge)),
         ],
       ),
+      bottomNavigationBar: const GlobalAudioMiniPlayer(useSafeArea: true),
     );
   }
 }
