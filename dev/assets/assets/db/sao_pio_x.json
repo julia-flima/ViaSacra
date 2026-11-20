@@ -7,17 +7,17 @@
   "sigla": "SPX",
   "ano": 1905,
   "idioma": "pt-BR",
-  "licenca": "Domínio público (1905 — Public Domain Mark 1.0)",
-  "fonte": "Papa São Pio X — Catecismo Maior da Doutrina Cristã (1905), via Internet Archive",
+  "licenca": "Original de 1905 em domínio público. Tradução portuguesa não oficial, de distribuição gratuita (Internet Archive), sem as notas do tradutor — licença da tradução em verificação.",
+  "fonte": "Papa São Pio X — Catecismo Maior da Doutrina Cristã (Tipografia Vaticana, 1905), via Internet Archive",
   "descricao": "Exposição completa e fiel da doutrina católica em perguntas e respostas, promulgada por São Pio X em 1905.",
   "rotulo_entrada": "P.",
-  "versao_modulo": 2,
+  "versao_modulo": 3,
   "entradas": [
     {
       "numero": 1,
       "parte": "Lição Preliminar — Da Doutrina Cristã",
       "pergunta": "Sois cristão?",
-      "resposta": "Sim, sou cristão pela graça de Deus."
+      "resposta": "- Sim, sou cristão pela graça de Deus."
     },
     {
       "numero": 2,
@@ -35,13 +35,13 @@
       "numero": 4,
       "parte": "Lição Preliminar — Da Doutrina Cristã",
       "pergunta": "Que é a doutrina cristã?",
-      "resposta": "A Doutrina Cristã é a doutrina que Nosso Senhor Jesus Cristo nos ensinou, para nos mostrar o camino da salvação."
+      "resposta": "A Doutrina Cristã é a doutrina que Nosso Senhor Jesus Cristo nos ensinou, para nos mostrar o caminho da salvação."
     },
     {
       "numero": 5,
       "parte": "Lição Preliminar — Da Doutrina Cristã",
       "pergunta": "É necessário aprender a doutrina ensinada por Jesus Cristo?",
-      "resposta": "Certamente é necessário aprender a doutrina ensinada por Jesus Cristo, e cometem falta grave aqueles que se descuidam de aprendê-la. CATECISMO MAIOR DES. Pio X"
+      "resposta": "Certamente é necessário aprender a doutrina ensinada por Jesus Cristo, e cometem falta grave aqueles que se descuidam de aprendê-la."
     },
     {
       "numero": 6,
@@ -89,13 +89,13 @@
       "numero": 13,
       "parte": "Lição Preliminar — Da Doutrina Cristã",
       "pergunta": "Que nos ensinam os Mandamentos?",
-      "resposta": "17 PAPAS. Pio X Os Mandamentos nos ensinam tudo o que precisamos fazer para agradar a Deus: que se resume em amar a Deus sobre todas as coisas e amar ao próximo como a nós mesmos, por amor de Deus."
+      "resposta": "Os Mandamentos nos ensinam tudo o que precisamos fazer para agradar a Deus: que se resume em amar a Deus sobre todas as coisas e amar ao próximo como a nós mesmos, por amor de Deus."
     },
     {
       "numero": 14,
       "parte": "Lição Preliminar — Da Doutrina Cristã",
       "pergunta": "Que nos ensina a doutrina dos Sacramentos?",
-      "resposta": "A doutrina dos Sacramentos faz-nos conhecer a natureza e o uso adequado dos meios instituídos por Jesus Cristo para perdoar-nos os pecados, comunicar-nos a sua graça, infundir e aumentar em nós as virtudes da Fé, da Esperança e da Caridade. 18 PRIMEIRA"
+      "resposta": "A doutrina dos Sacramentos faz-nos conhecer a natureza e o uso adequado dos meios instituídos por Jesus Cristo para perdoar-nos os pecados, comunicar-nos a sua graça, infundir e aumentar em nós as virtudes da Fé, da Esperança e da Caridade."
     },
     {
       "numero": 15,
@@ -113,7 +113,13 @@
       "numero": 17,
       "parte": "Lição Preliminar — Da Doutrina Cristã",
       "pergunta": "Quantos são os artigos do Credo?",
-      "resposta": "Os artigos do Credo são doze. PAPAS. Pio X 18) Dizei-os. 1º Creio em Deus Padre, todo-poderoso, Criador do céu e da terra. 2º E em Jesus Cristo, seu único Filho, Nosso Senhor. 3º Que foi concebido por obra e graça do Espírito Santo; nasceu de Maria Virgem. 4º Padeceu sob o poder de Pôncio Pilatos, foi crucificado, morto e sepultado. 5º Desceu aos infernos, ao terceiro dia ressuscitou dos mortos. 6º Subiu aos Céus, está sentado à direita de Deus Padre todo-poderoso. 7º De onde há de vir para julgar os vivos e os mortos. 8º Creio no Espírito Santo. 9º Na Santa Igreja Católica; na Comunhão dos Santos. 10º Na remissão dos pecados. 11º Na ressurreição da carne. 12º Na vida eterna. Amém."
+      "resposta": "Os artigos do Credo são doze."
+    },
+    {
+      "numero": 18,
+      "parte": "Lição Preliminar — Da Doutrina Cristã",
+      "pergunta": "Dizei-os.",
+      "resposta": "1º Creio em Deus Padre, todo-poderoso, Criador do céu e da terra. 2º E em Jesus Cristo, seu único Filho, Nosso Senhor. 3º Que foi concebido por obra e graça do Espírito Santo; nasceu de Maria Virgem. 4º Padeceu sob o poder de Pôncio Pilatos, foi crucificado, morto e sepultado. 5º Desceu aos infernos, ao terceiro dia ressuscitou dos mortos. 6º Subiu aos Céus, está sentado à direita de Deus Padre todo-poderoso. 7º De onde há de vir para julgar os vivos e os mortos. 8º Creio no Espírito Santo. 9º Na Santa Igreja Católica; na Comunhão dos Santos. 10º Na remissão dos pecados. 11º Na ressurreição da carne. 12º Na vida eterna. Amém."
     },
     {
       "numero": 19,
@@ -131,7 +137,7 @@
       "numero": 21,
       "parte": "Primeira Parte — Do Símbolo dos Apóstolos (Credo)",
       "pergunta": "E proveitoso rezar frequentemente o Credo?",
-      "resposta": "E proveitosíssimo rezar frequentemente o Credo, para imprimirmos cada vez mais em nosso coração as verdades da Fé. 20"
+      "resposta": "E proveitosíssimo rezar frequentemente o Credo, para imprimirmos cada vez mais em nosso coração as verdades da Fé."
     },
     {
       "numero": 22,
@@ -143,7 +149,7 @@
       "numero": 23,
       "parte": "Primeira Parte — Do Símbolo dos Apóstolos (Credo)",
       "pergunta": "Como sabemos que há Deus?",
-      "resposta": "PAPAS. Pio X Sabemos que há Deus, porque a nossa razão o demonstra e a fé confirma."
+      "resposta": "Sabemos que há Deus, porque a nossa razão o demonstra e a fé confirma."
     },
     {
       "numero": 24,
@@ -185,7 +191,7 @@
       "numero": 30,
       "parte": "Primeira Parte — Do Símbolo dos Apóstolos (Credo)",
       "pergunta": "Por que então a criação é atribuída principalmente ao Pai?",
-      "resposta": "22 CATECISMO MAIOR DES. Pio X A criação é atribuída principalmente ao Pai, porque a criação é o resultado da onipotência divina, atribuída especialmente ao Pai, como se atribui a sabedoria ao Filho e a bondade ao Espírito Santo, embora todas as três Pessoas tenham a mesma onipotência, sabedoria e bondade."
+      "resposta": "A criação é atribuída principalmente ao Pai, porque a criação é o resultado da onipotência divina, atribuída especialmente ao Pai, como se atribui a sabedoria ao Filho e a bondade ao Espírito Santo, embora todas as três Pessoas tenham a mesma onipotência, sabedoria e bondade."
     },
     {
       "numero": 31,
@@ -203,7 +209,7 @@
       "numero": 33,
       "parte": "Primeira Parte — Do Símbolo dos Apóstolos (Credo)",
       "pergunta": "Por que Deus não impede o pecado?",
-      "resposta": "Deus não impede o pecado, porque até mesmo do abuso que o homem faz da liberdade que lhe concedeu, sabe tirar um bem, e fazer resplandecer ainda mais a sua misericórdia ou a sua justiça. 8 2º Dos Anjos Vou descobrir-vos a verdade, sem nada vos ocultar. Quando tu oravas com lágrimas e enterravas os mortos, quando deixavas a tua refeição e ias ocultar os mortos em tua casa durante o dia, para sepultá-los quando viesse a noite, eu apresentava as tuas orações ao Senhor. Mas porque eras agradável ao Senhor, foi preciso que a tentação te provasse. Agora o Senhor enviou-me para curar-te e livrar do demônio Sara, mulher de teu filho. Eu sou o anjo Rafael, um dos sete que assistimos na presença do Senhor. Ao ouvir estas palavras, eles ficaram fora de si, e, tremendo, prostraram-se com o rosto por terra. Mas o anjo disse-lhes: A paz seja convosco: não temais. Quando eu estava convosco, eu o estava por vontade de Deus: rendei-lhe graças, pois, com cânticos de louvor. Parecia-vos que eu comia e bebia convosco, mas o meu alimento é um manjar invisível, e mi23 PAPAS. Pio X nha bebida não pode ser vista pelos homens. É chegado o tempo de voltar para aquele que me enviou: vós, porém, bendizei a Deus e publicai todas as suas maravilhas. Tobis XII, 11-20."
+      "resposta": "Deus não impede o pecado, porque até mesmo do abuso que o homem faz da liberdade que lhe concedeu, sabe tirar um bem, e fazer resplandecer ainda mais a sua misericórdia ou a sua justiça."
     },
     {
       "numero": 34,
@@ -251,7 +257,7 @@
       "numero": 41,
       "parte": "Primeira Parte — Do Símbolo dos Apóstolos (Credo)",
       "pergunta": "Os demônios podem nos fazer algum mal?",
-      "resposta": "24 CATECISMO MAIOR DES. Pio X Sim, os demônios podem fazer-nos muito mal a alma e ao corpo, se Deus lhes der permissão, sobretudo tentando-nos a pecar."
+      "resposta": "Sim, os demônios podem fazer-nos muito mal a alma e ao corpo, se Deus lhes der permissão, sobretudo tentando-nos a pecar."
     },
     {
       "numero": 42,
@@ -293,13 +299,13 @@
       "numero": 48,
       "parte": "Primeira Parte — Do Símbolo dos Apóstolos (Credo)",
       "pergunta": "Devemos ter uma devoção especial para com nosso Anjo da guarda?",
-      "resposta": "Sim, devemos ter particular devoção ao nosso Anjo da guarda, honrá-lo, implorar o seu auxílio, seguir as suas inspirações e ser-lhe reconhecidos pela contínua assistência que nos dá. S 3º Do Homem 25 PAPAS. Pio X E formou o Senhor Deus o homem do pó da terra, e soprou-lhe nas narinas o fôlego da vida; e o homem tornou-se alma vivente. Então plantou o Senhor Deus um jardim, da banda do oriente, no Éden; e pôs ali o homem que tinha formado. E o Senhor Deus fez brotar da terra toda qualidade de árvores agradáveis à vista e boas para comida, bem como a árvore da vida no meio do jardim, e a árvore do conhecimento do bem e do mal. E saía um rio do Éden para regar o jardim; e dali se dividia e se tornava em quatro braços. O nome do primeiro é Pisom: este é o que rodeia toda a terra de Havilá, onde há ouro; e o ouro dessa terra é bom: ali há o bdélio, e a pedra de berilo. O nome do segundo rio é Giom: este é o que rodeia toda a terra de Cuche. O nome do terceiro rio é Tigre: este é o que corre pelo oriente da Assíria. E o quarto rio é o Eufrates. Tomou, pois, o Senhor Deus o homem, e o pôs no jardim do Edem para o lavrar e guardar. Ordenou o Senhor Deus ao homem, dizendo: De toda árvore do jardim podes comer livremente; mas da árvore do conhecimento do bem e do mal, dessa não comerás; porque no dia em que dela comeres, certamente morrerás. Disse mais o Senhor Deus: Não é bom que o homem esteja só; far-lhe-ei uma ajudadora que lhe seja idônea. Da terra formou, pois, o Senhor Deus todos os animais o campo e todas as aves do céu, e os trouxe ao homem, para ver como lhes chamaria; e tudo o que o homem chamou a todo ser vivente, isso foi o seu nome. Assim o homem deu nomes a todos os animais domésticos, às aves do céu e a todos os animais do campo; mas para o homem não se achava ajudadora idônea. Então o Senhor Deus fez cair um sono pesado sobre o homem, e este adormeceu; tomou-lhe, então, uma das costelas, e fechou a carne em seu lugar; e da costela que o senhor Deus lhe tomara, formou a mulher e a trouxe ao homem. Então disse o homem: Esta é agora osso dos meus ossos, e carne da minha carne; ela será chamada virago, porquanto do varão foi tomada. Genesis 11-7-23."
+      "resposta": "Sim, devemos ter particular devoção ao nosso Anjo da guarda, honrá-lo, implorar o seu auxílio, seguir as suas inspirações e ser-lhe reconhecidos pela contínua assistência que nos dá."
     },
     {
       "numero": 49,
       "parte": "Primeira Parte — Do Símbolo dos Apóstolos (Credo)",
       "pergunta": "Qual é a criatura mais nobre que Deus colocou sobre a terra?",
-      "resposta": "A criatura mais nobre que Deus colocou sobre a terra é o homem. 26 CATECISMO MAIOR DES. Pio X"
+      "resposta": "A criatura mais nobre que Deus colocou sobre a terra é o homem."
     },
     {
       "numero": 50,
@@ -329,7 +335,13 @@
       "numero": 54,
       "parte": "Primeira Parte — Do Símbolo dos Apóstolos (Credo)",
       "pergunta": "O homem é livre em suas ações?",
-      "resposta": "Sim, o homem é livre em suas ações; e cada um de nós sente, dentro de si mesmo, que pode fazer uma ação ou deixar de fazê“la, ou fazer uma ao invés de outra. 55) Explicai com um exemplo a liberdade humana. Se eu voluntariamente contar uma mentira, sinto que poderia deixar de contá-la e ficar em silêncio, e que poderia até mesmo falar de maneira diferente, dizendo a verdade."
+      "resposta": "Sim, o homem é livre em suas ações; e cada um de nós sente, dentro de si mesmo, que pode fazer uma ação ou deixar de fazê“la, ou fazer uma ao invés de outra."
+    },
+    {
+      "numero": 55,
+      "parte": "Primeira Parte — Do Símbolo dos Apóstolos (Credo)",
+      "pergunta": "Explicai com um exemplo a liberdade humana.",
+      "resposta": "Se eu voluntariamente contar uma mentira, sinto que poderia deixar de contá-la e ficar em silêncio, e que poderia até mesmo falar de maneira diferente, dizendo a verdade."
     },
     {
       "numero": 56,
@@ -341,7 +353,7 @@
       "numero": 57,
       "parte": "Primeira Parte — Do Símbolo dos Apóstolos (Credo)",
       "pergunta": "Em que estado Deus colocou nossos primeiros pais, Adão e Eva?",
-      "resposta": "Deus colocou Adão e Eva em estado de inocência e graça santificante, mas logo caíram desse estado pelo pecado. 27 PAPAS. Pio X"
+      "resposta": "Deus colocou Adão e Eva em estado de inocência e graça santificante, mas logo caíram desse estado pelo pecado."
     },
     {
       "numero": 58,
@@ -377,7 +389,7 @@
       "numero": 63,
       "parte": "Primeira Parte — Do Símbolo dos Apóstolos (Credo)",
       "pergunta": "Este pecado é próprio unicamente de Adão?",
-      "resposta": "Este pecado não é só de Adão, mas é também nosso, embora de forma diferente. É próprio de Adão, porque ele o cometeu com um ato da sua vontade, e portanto nele foi pessoal. É próprio nosso, porque tendo Adão pecado como cabeça e fonte de todo o gênero humano, é transmitido por geração natural a todos os seus descendentes, e por isso é para nós pecado original. 28 CATECISMO MAIOR DES. Pio X"
+      "resposta": "Este pecado não é só de Adão, mas é também nosso, embora de forma diferente. É próprio de Adão, porque ele o cometeu com um ato da sua vontade, e portanto nele foi pessoal. É próprio nosso, porque tendo Adão pecado como cabeça e fonte de todo o gênero humano, é transmitido por geração natural a todos os seus descendentes, e por isso é para nós pecado original."
     },
     {
       "numero": 64,
@@ -395,7 +407,7 @@
       "numero": 66,
       "parte": "Primeira Parte — Do Símbolo dos Apóstolos (Credo)",
       "pergunta": "Todos os homens contraem o pecado original?",
-      "resposta": "Sim, todos os homens contraem o pecado original, exceto a Santíssima Virgem que dele foi preservada por Deus por um privilégio especial, em vista dos méritos de Jesus Cristo, nosso Salvador.!"
+      "resposta": "Sim, todos os homens contraem o pecado original, exceto a Santíssima Virgem que dele foi preservada por Deus por um privilégio especial, em vista dos méritos de Jesus Cristo, nosso Salvador."
     },
     {
       "numero": 67,
@@ -413,7 +425,7 @@
       "numero": 69,
       "parte": "Primeira Parte — Do Símbolo dos Apóstolos (Credo)",
       "pergunta": "Quem é o Messias prometido?",
-      "resposta": "O Messias prometido é Jesus Cristo, como nos ensina o segundo artigo do Credo. 1 Nota do Tradutor Este privilégio a Igreja o define como a “Imaculada Conceição” de Maria Santíssima. 29"
+      "resposta": "O Messias prometido é Jesus Cristo, como nos ensina o segundo artigo do Credo."
     },
     {
       "numero": 70,
@@ -431,7 +443,7 @@
       "numero": 72,
       "parte": "Primeira Parte — Do Símbolo dos Apóstolos (Credo)",
       "pergunta": "Sendo também nós filhos de Deus, por que Jesus Cristo é chamado Filho único de Deus Pai?",
-      "resposta": "Jesus Cristo é chamado Filho único de Deus Pai porque só Ele é seu Filho por natureza, e nós somos seus filhos por criação e por adoção. CATECISMO MAIOR DES. Pio X"
+      "resposta": "Jesus Cristo é chamado Filho único de Deus Pai porque só Ele é seu Filho por natureza, e nós somos seus filhos por criação e por adoção."
     },
     {
       "numero": 73,
@@ -473,7 +485,7 @@
       "numero": 79,
       "parte": "Primeira Parte — Do Símbolo dos Apóstolos (Credo)",
       "pergunta": "Como sabemos que Jesus Cristo é verdadeiramente o Messias eo Redentor prometido?",
-      "resposta": "Sabemos que Jesus Cristo é verdadeiramente o Messias e o Redentor prometido porque unicamente n'Ele se cumpriu: 1º tudo o que anunciavam as profecias; 31 PAPAS. Pio X 2º tudo o que representavam as figuras do Antigo Testamento."
+      "resposta": "Sabemos que Jesus Cristo é verdadeiramente o Messias e o Redentor prometido porque unicamente n'Ele se cumpriu: 1º tudo o que anunciavam as profecias; 2º tudo o que representavam as figuras do Antigo Testamento."
     },
     {
       "numero": 80,
@@ -497,13 +509,13 @@
       "numero": 83,
       "parte": "Primeira Parte — Do Símbolo dos Apóstolos (Credo)",
       "pergunta": "Quais os principais milagres realizados por Jesus Cristo?",
-      "resposta": "Os principais milagres relizados por Jesus Cristo são, além da sua ressurreição, a saúde restituída aos enfermos, a vista aos cegos, o ouvido aos surdos, a vida aos mortos. 32"
+      "resposta": "Os principais milagres relizados por Jesus Cristo são, além da sua ressurreição, a saúde restituída aos enfermos, a vista aos cegos, o ouvido aos surdos, a vida aos mortos."
     },
     {
       "numero": 84,
       "parte": "Primeira Parte — Do Símbolo dos Apóstolos (Credo)",
       "pergunta": "Que nos ensina o terceiro artigo do Credo: foi concebido pelo poder do Espírito Santo, nasceu de Maria Virgem?",
-      "resposta": "PAPAS. Pio X O terceiro artigo do Credo ensina-nos que o Filho de Deus tomou um corpo e uma alma, como nós temos, no seio puríssimo de Maria Santíssima, pelo poder do Espírito Santo, e que nasceu desta Virgem."
+      "resposta": "O terceiro artigo do Credo ensina-nos que o Filho de Deus tomou um corpo e uma alma, como nós temos, no seio puríssimo de Maria Santíssima, pelo poder do Espírito Santo, e que nasceu desta Virgem."
     },
     {
       "numero": 85,
@@ -551,7 +563,7 @@
       "numero": 92,
       "parte": "Primeira Parte — Do Símbolo dos Apóstolos (Credo)",
       "pergunta": "Jesus Cristo tinha livre-arbítrio?",
-      "resposta": "Sim, Jesus Cristo tinha livre-arbítrio, mas não podia fazer o mal, porque poder fazer o mal é defeito, e não a perfeição da liberdade. 34 CATECISMO MAIOR DES. Pio X"
+      "resposta": "Sim, Jesus Cristo tinha livre-arbítrio, mas não podia fazer o mal, porque poder fazer o mal é defeito, e não a perfeição da liberdade."
     },
     {
       "numero": 93,
@@ -575,7 +587,7 @@
       "numero": 96,
       "parte": "Primeira Parte — Do Símbolo dos Apóstolos (Credo)",
       "pergunta": "É de fé que Maria foi sempre Virgem?",
-      "resposta": "Sim, é de fé que Maria Santíssima foi sempre Virgem, e é chamada a Virgem por excelência.? 2 Nota do Tradutor A Perpétua Virgindade de Maria é o mais antigo dogma mariano da Igreja Católica e ensina que Maria é virgem antes, durante e depois do parto. Afirma a “real e perpétua virgindade mesmo no ato de dar à luz o Filho de Deus feito homem.” Assim Maria foi sempre Virgem pelo resto de sua vida, sendo o nascimento de Jesus como seu filho biológico, uma concepção milagrosa. No ano 107, S. Inácio de Antioquia já descrevia a virgindade de Maria. São Tomás de Aquino também ensinou esta doutrina (Summa theologiae 111.28.2) que Maria deu o nascimento miraculoso sem abertura do útero, e sem prejuízo para o hímen. Esta doutrina já era um dogma desde o cristianismo primitivo, tendo sido declarada por notáveis escritores como São Justino Mártir e Orígenes. O Papa Paulo IV o reconfirmou no Cum quorundam de 7 de Agosto de 1555, no Concílio de Trento. 35"
+      "resposta": "Sim, é de fé que Maria Santíssima foi sempre Virgem, e é chamada a Virgem por excelência."
     },
     {
       "numero": 97,
@@ -605,7 +617,7 @@
       "numero": 101,
       "parte": "Primeira Parte — Do Símbolo dos Apóstolos (Credo)",
       "pergunta": "Quem condenou Jesus Cristo para ser crucificado?",
-      "resposta": "Quem condenou Jesus Cristo para ser crucificado foi Pôncio Pilatos, governador da Judeia que, embora reconhecendo-lhe a inocência; cedeu covardemente às ameaças dos judeus. 37 PAPAS. Pio X"
+      "resposta": "Quem condenou Jesus Cristo para ser crucificado foi Pôncio Pilatos, governador da Judeia que, embora reconhecendo-lhe a inocência; cedeu covardemente às ameaças dos judeus."
     },
     {
       "numero": 102,
@@ -647,7 +659,7 @@
       "numero": 108,
       "parte": "Primeira Parte — Do Símbolo dos Apóstolos (Credo)",
       "pergunta": "Era necessário que Jesus Cristo padecesse tanto?",
-      "resposta": "Não, não era absolutamente necessário que Jesus Cristo padecesse tanto, porque o menor dos seus sofrimentos teria sido suficiente para a nossa redenção, pois cada um dos seus atos era de valor infinito. 38 CATECISMO MAIOR DES. Pio X"
+      "resposta": "Não, não era absolutamente necessário que Jesus Cristo padecesse tanto, porque o menor dos seus sofrimentos teria sido suficiente para a nossa redenção, pois cada um dos seus atos era de valor infinito."
     },
     {
       "numero": 109,
@@ -689,7 +701,7 @@
       "numero": 115,
       "parte": "Primeira Parte — Do Símbolo dos Apóstolos (Credo)",
       "pergunta": "Para nos salvarmos não é suficiente que Jesus Cristo tenha morrido por nós?",
-      "resposta": "Para nos salvarmos não é suficiente que Jesus Cristo tenha morrido por nós, mas é necessário que sejam aplicados, a cada um de nós, o fruto e os méritos da sua Paixão e morte, aplicação que ocorre principalmente por meios dos Sacramentos, instituídos para este fim pelo mesmo Jesus Cristo; e como muitos ou não recebem os Sacramentos, ou não os recebem com as devi39 PAPAS. Pio X das disposições, eles tornam inútil para si próprios a morte de Jesus Cristo. 40"
+      "resposta": "Para nos salvarmos não é suficiente que Jesus Cristo tenha morrido por nós, mas é necessário que sejam aplicados, a cada um de nós, o fruto e os méritos da sua Paixão e morte, aplicação que ocorre principalmente por meios dos Sacramentos, instituídos para este fim pelo mesmo Jesus Cristo; e como muitos ou não recebem os Sacramentos, ou não os recebem com as devi39 das disposições, eles tornam inútil para si próprios a morte de Jesus Cristo."
     },
     {
       "numero": 116,
@@ -701,7 +713,7 @@
       "numero": 117,
       "parte": "Primeira Parte — Do Símbolo dos Apóstolos (Credo)",
       "pergunta": "Que se entende aqui por inferno?",
-      "resposta": "Por inferno entende-se aqui o Limbo dos Santos Padres, ou seja, o lugar onde as almas dos justos eram recolhidas e esperavam a redenção de Jesus Cristo. PAPAS. Pio X"
+      "resposta": "Por inferno entende-se aqui o Limbo dos Santos Padres, ou seja, o lugar onde as almas dos justos eram recolhidas e esperavam a redenção de Jesus Cristo."
     },
     {
       "numero": 118,
@@ -719,13 +731,13 @@
       "numero": 120,
       "parte": "Primeira Parte — Do Símbolo dos Apóstolos (Credo)",
       "pergunta": "À ressurreição de Jesus Cristo foi semelhante à dos outros homens ressuscitados?",
-      "resposta": "A ressurreição de Jesus Cristo não foi semelhante à dos outros homens ressuscitados, porque Jesus Cristo ressuscitou por seu próprio poder, e os outros foram ressuscitados pelo poder de Deus. 42"
+      "resposta": "A ressurreição de Jesus Cristo não foi semelhante à dos outros homens ressuscitados, porque Jesus Cristo ressuscitou por seu próprio poder, e os outros foram ressuscitados pelo poder de Deus."
     },
     {
       "numero": 121,
       "parte": "Primeira Parte — Do Símbolo dos Apóstolos (Credo)",
       "pergunta": "O que nos ensina o sexto artigo do Credo: subiu ao Céu e está sentado à direita de Deus Padre todo-poderoso?",
-      "resposta": "O sexto artigo do Credo ensina-nos que Jesus Cristo, quarenta dias depois de sua ressurreição, na presença de seus discípulos, por si mesmo subiu ao Céu e que sendo, enquanto Deus, igual ao Padre Eterno em Glória, enquanto homem foi elevado acima de todos os Anjos e de todos os Santos, e constituído Senhor de todas as coisas. PAPAS. Pio X"
+      "resposta": "O sexto artigo do Credo ensina-nos que Jesus Cristo, quarenta dias depois de sua ressurreição, na presença de seus discípulos, por si mesmo subiu ao Céu e que sendo, enquanto Deus, igual ao Padre Eterno em Glória, enquanto homem foi elevado acima de todos os Anjos e de todos os Santos, e constituído Senhor de todas as coisas."
     },
     {
       "numero": 122,
@@ -743,7 +755,13 @@
       "numero": 124,
       "parte": "Primeira Parte — Do Símbolo dos Apóstolos (Credo)",
       "pergunta": "Por que se diz de Jesus Cristo que subiu ao Céu, e de sua Mãe Santíssima se diz que foi assunta ao Céu?",
-      "resposta": "Diz-se de Jesus Cristo que subiu, e de sua Mãe Santíssima que foi levada ao Céu, porque Jesus Cristo, sendo Homem-Deus, ascendeu ao Céu por virtude própria; mas sua Mãe, que era criatura, embora a mais digna de todas, foi levada ao Céu pelo poder de Deus. 125) Explicai as palavras: Está sentado à direita de Deus Padre todo-poderoso. As palavras: está sentado significam a posse pacífica que Jesus Cristo tem da sua glória, e as palavras à direita de Deus Padre todo-poderoso expressam que Ele tem o lugar de honra sobre todas as criaturas. 44"
+      "resposta": "Diz-se de Jesus Cristo que subiu, e de sua Mãe Santíssima que foi levada ao Céu, porque Jesus Cristo, sendo Homem-Deus, ascendeu ao Céu por virtude própria; mas sua Mãe, que era criatura, embora a mais digna de todas, foi levada ao Céu pelo poder de Deus."
+    },
+    {
+      "numero": 125,
+      "parte": "Primeira Parte — Do Símbolo dos Apóstolos (Credo)",
+      "pergunta": "Explicai as palavras: Está sentado à direita de Deus Padre todo-poderoso.",
+      "resposta": "As palavras: está sentado significam a posse pacífica que Jesus Cristo tem da sua glória, e as palavras à direita de Deus Padre todo-poderoso expressam que Ele tem o lugar de honra sobre todas as criaturas."
     },
     {
       "numero": 126,
@@ -773,19 +791,19 @@
       "numero": 130,
       "parte": "Primeira Parte — Do Símbolo dos Apóstolos (Credo)",
       "pergunta": "Como é que no Juízo universal há de manifestar-se a glória dos Santos?",
-      "resposta": "No Juízo universal há de manifestar-se a glória dos Santos, porque muitos deles, que morreram desprezados pelos maus, hão de ser glorificados na presença de todos os homens. 46 CATECISMO MAIOR DES. Pio X"
+      "resposta": "No Juízo universal há de manifestar-se a glória dos Santos, porque muitos deles, que morreram desprezados pelos maus, hão de ser glorificados na presença de todos os homens."
     },
     {
       "numero": 131,
       "parte": "Primeira Parte — Do Símbolo dos Apóstolos (Credo)",
       "pergunta": "No Juízo universal qual será a confusão dos maus?",
-      "resposta": "No Juízo universal a confusão dos maus será enorme, especialmente a daqueles que oprimiram os justos, e a daqueles que, durante a vida, procuraram ser estimados, falsamente, por homens virtuosos e bons, pois verão manifestados, à vista de todo o mundo, os pecados que cometeram, mesmo os mais secretos. 47"
+      "resposta": "No Juízo universal a confusão dos maus será enorme, especialmente a daqueles que oprimiram os justos, e a daqueles que, durante a vida, procuraram ser estimados, falsamente, por homens virtuosos e bons, pois verão manifestados, à vista de todo o mundo, os pecados que cometeram, mesmo os mais secretos."
     },
     {
       "numero": 132,
       "parte": "Primeira Parte — Do Símbolo dos Apóstolos (Credo)",
       "pergunta": "O que nos ensina o oitavo artigo do Credo: creio no Espírito Santo?",
-      "resposta": "O oitavo artigo do Credo ensina-nos que o Espírito Santo é a terceira Pessoa da Santíssima Trindade, e que Ele é Deus eterno, infinito, onipotente, o Criador e Senhor de todas as coisas, assim como o Pai e o Filho. CATECISMO MAIOR DES. Pio X"
+      "resposta": "O oitavo artigo do Credo ensina-nos que o Espírito Santo é a terceira Pessoa da Santíssima Trindade, e que Ele é Deus eterno, infinito, onipotente, o Criador e Senhor de todas as coisas, assim como o Pai e o Filho."
     },
     {
       "numero": 133,
@@ -833,7 +851,7 @@
       "numero": 140,
       "parte": "Primeira Parte — Do Símbolo dos Apóstolos (Credo)",
       "pergunta": "Onde estavam os Apóstolos nos dez dias antes de Pentecostes?",
-      "resposta": "49 PAPAS. Pio X Os Apóstolos estavam reunidos no Cenáculo em companhia da Virgem Maria e dos outros discípulos, e perseveravam na oração, à espera do Espírito Santo que Jesus lhes havia prometido."
+      "resposta": "Os Apóstolos estavam reunidos no Cenáculo em companhia da Virgem Maria e dos outros discípulos, e perseveravam na oração, à espera do Espírito Santo que Jesus lhes havia prometido."
     },
     {
       "numero": 141,
@@ -851,13 +869,13 @@
       "numero": 143,
       "parte": "Primeira Parte — Do Símbolo dos Apóstolos (Credo)",
       "pergunta": "O que o Espírito Santo opera na Igreja?",
-      "resposta": "O Espírito Santo, como a alma no corpo, vivifica a Igreja com a sua graça e com os seus dons; estabelece nela o reino da verdade e do amor; e assiste-Lhe para que oriente os seus filhos com firmeza no caminho do Céu. 50"
+      "resposta": "O Espírito Santo, como a alma no corpo, vivifica a Igreja com a sua graça e com os seus dons; estabelece nela o reino da verdade e do amor; e assiste-Lhe para que oriente os seus filhos com firmeza no caminho do Céu."
     },
     {
       "numero": 144,
       "parte": "Primeira Parte — Do Símbolo dos Apóstolos (Credo)",
       "pergunta": "Que nos ensina o nono artigo do Credo: creio na Santa Igreja Católica, na Comunhão dos Santos?",
-      "resposta": "O nono artigo do Credo ensina-nos que Jesus Cristo estabeleceu na terra uma sociedade visível, que se chama Igreja Cató  PAPAS. Pio X lica, e que todas as pessoas que fazem parte desta Igreja estão em comunhão uns com os outros."
+      "resposta": "O nono artigo do Credo ensina-nos que Jesus Cristo estabeleceu na terra uma sociedade visível, que se chama Igreja Cató  lica, e que todas as pessoas que fazem parte desta Igreja estão em comunhão uns com os outros."
     },
     {
       "numero": 145,
@@ -893,13 +911,19 @@
       "numero": 150,
       "parte": "Primeira Parte — Do Símbolo dos Apóstolos (Credo)",
       "pergunta": "A qual das partes da Igreja se refere essencialmente este nono artigo?",
-      "resposta": "Este nono artigo do Credo refere-se essencialmente à Igreja militante, que é a Igreja na qual estamos atualmente. 8 2º Da Igreja em particular 52, CATECISMO MAIOR DES. Pio X Não vos torneis causa de escândalo, nem para os judeus, nem para os gentios, nem para a Igreja de Deus. Corinthios Epistula II, X, 32."
+      "resposta": "Este nono artigo do Credo refere-se essencialmente à Igreja militante, que é a Igreja na qual estamos atualmente."
     },
     {
       "numero": 151,
       "parte": "Primeira Parte — Do Símbolo dos Apóstolos (Credo)",
       "pergunta": "Que é a Igreja Católica?",
-      "resposta": "A Igreja Católica é a sociedade ou congregação de todas as pessoas batizadas que, vivendo na terra, professam a mesma fé e a mesma lei de Cristo, participam dos mesmos Sacramentos, e obedecem aos legítimos Pastores, principalmente ao Romano Pontífice. 152) Dizei precisamente o que é necessário para ser um membro da Igreja. Para alguém ser membro da Igreja, é necessário estar batizado, crer e professar a doutrina de Jesus Cristo, participar dos mesmos Sacramentos, reconhecer o Papa e os outros legítimos Pastores da Igreja."
+      "resposta": "A Igreja Católica é a sociedade ou congregação de todas as pessoas batizadas que, vivendo na terra, professam a mesma fé e a mesma lei de Cristo, participam dos mesmos Sacramentos, e obedecem aos legítimos Pastores, principalmente ao Romano Pontífice."
+    },
+    {
+      "numero": 152,
+      "parte": "Primeira Parte — Do Símbolo dos Apóstolos (Credo)",
+      "pergunta": "Dizei precisamente o que é necessário para ser um membro da Igreja.",
+      "resposta": "Para alguém ser membro da Igreja, é necessário estar batizado, crer e professar a doutrina de Jesus Cristo, participar dos mesmos Sacramentos, reconhecer o Papa e os outros legítimos Pastores da Igreja."
     },
     {
       "numero": 153,
@@ -917,7 +941,7 @@
       "numero": 155,
       "parte": "Primeira Parte — Do Símbolo dos Apóstolos (Credo)",
       "pergunta": "Então não pertencem à Igreja de Jesus Cristo as sociedades de pessoas batizadas que não reconhecem o Romano Pontífice por seu chefe?",
-      "resposta": "Não, todos os que não reconhecem o Romano Pontífice por seu chefe não pertencem à Igreja de Jesus Cristo. 53 PAPAS. Pio X"
+      "resposta": "Não, todos os que não reconhecem o Romano Pontífice por seu chefe não pertencem à Igreja de Jesus Cristo."
     },
     {
       "numero": 156,
@@ -959,7 +983,7 @@
       "numero": 162,
       "parte": "Primeira Parte — Do Símbolo dos Apóstolos (Credo)",
       "pergunta": "Por que a Igreja é também chamada Apostólica?",
-      "resposta": "A verdadeira Igreja é também chamada Apostólica porque remonta sem interrupção até os Apóstolos; porque crê e ensina 54 CATECISMO MAIOR DES. Pio X tudo o que creram e ensinaram os Apóstolos; e porque é guiada e governada por seus legítimos sucessores."
+      "resposta": "A verdadeira Igreja é também chamada Apostólica porque remonta sem interrupção até os Apóstolos; porque crê e ensina tudo o que creram e ensinaram os Apóstolos; e porque é guiada e governada por seus legítimos sucessores."
     },
     {
       "numero": 163,
@@ -1001,7 +1025,7 @@
       "numero": 169,
       "parte": "Primeira Parte — Do Símbolo dos Apóstolos (Credo)",
       "pergunta": "E quais são os membros mortos da Igreja?",
-      "resposta": "Os membros mortos da Igreja são os fiéis que estão em pecado mortal. 55 PAPAS. Pio X"
+      "resposta": "Os membros mortos da Igreja são os fiéis que estão em pecado mortal."
     },
     {
       "numero": 170,
@@ -1037,7 +1061,7 @@
       "numero": 175,
       "parte": "Primeira Parte — Do Símbolo dos Apóstolos (Credo)",
       "pergunta": "Somos também obrigados a cumprir tudo o que a Igreja manda?",
-      "resposta": "56 CATECISMO MAIOR DES. Pio X Sim, somos obrigados a fazer tudo o que a Igreja manda, porque Jesus Cristo disse aos Pastores da Igreja: “Quem vos ouve, a Mim ouve, e quem vos despreza, a Mim despreza”."
+      "resposta": "Sim, somos obrigados a fazer tudo o que a Igreja manda, porque Jesus Cristo disse aos Pastores da Igreja: “Quem vos ouve, a Mim ouve, e quem vos despreza, a Mim despreza”."
     },
     {
       "numero": 176,
@@ -1067,7 +1091,7 @@
       "numero": 180,
       "parte": "Primeira Parte — Do Símbolo dos Apóstolos (Credo)",
       "pergunta": "Há mais outros deveres dos católicos para com a Igreja?",
-      "resposta": "Todo católico deve ter um amor sem limites para com a Igreja, considerar-se infinitamente feliz e honrado por pertencer a Ela, e empenhar-se pela glória e aumento dela com todos os meios ao seu alcance. 8 3º Da Igreja docente e da Igreja discente Um anjo do Senhor dirigiu-se a Filipe e disse: Levanta-te e vai para o sul, em direção do caminho que desce de Jerusalém a Gaza, a Deserta. Filipe levantou-se e partiu. Ora, um etíope, eunuco, ministro da rainha Candace, da Etiópia, e superintendente de todos os seus tesouros, tinha ido a Jerusalém para adorar. Voltava sentado em seu carro, lendo o profeta Isaías. O Espírito disse a Filipe: Aproxima-te para bem perto deste carro. Filipe aproximou-se e ou57 PAPAS. Pio X viu que o eunuco lia o profeta Isaías, e perguntou-lhe: Porventura entendes o que estás lendo? Respondeu-lhe: Como é que posso, se não há alguém que mo explique? E rogou a Filipe que subisse e se sentasse junto dele. A passagem da Escritura, que ia lendo, era esta: Como ovelha, foi levado ao matadouro; e como cordeiro mudo diante do que o tosquia, ele não abriu a sua boca. Na sua humilhação foi consumado o seu julgamento. Quem poderá contar a sua descendência? Pois a sua vida foi tirada da terra (Is 53,7s.). O eunuco disse a Filipe: Rogo-te que me digas de quem disse isto o profeta: de si mesmo ou de outrem? Começou então Filipe a falar, e, principiando por essa passagem da Escritura, anunciou-lhe Jesus. Continuando o caminho, encontraram água. Disse então o eunuco: Eis aí a água. Que impede que eu seja batizado? [Filipe respondeu: Se crês de todo o coração, podes sê-lo. Eu creio, disse ele, que Jesus Cristo é o Filho de Deus.] E mandou parar o carro. Ambos desceram à água e Filipe batizou o eunuco. Mal saíram da água, o Espírito do Senhor arrebatou Filipe dos olhares do eunuco, que, cheio de alegria, continuou o seu caminho. Filipe, entretanto, foi transportado a Azoto. Passando além, pregava o Evangelho em todas as cidades, até que chegou a Cesareia. Actus Apostolorum VIII, 26-40."
+      "resposta": "Todo católico deve ter um amor sem limites para com a Igreja, considerar-se infinitamente feliz e honrado por pertencer a Ela, e empenhar-se pela glória e aumento dela com todos os meios ao seu alcance."
     },
     {
       "numero": 181,
@@ -1097,7 +1121,7 @@
       "numero": 185,
       "parte": "Primeira Parte — Do Símbolo dos Apóstolos (Credo)",
       "pergunta": "À Igreja docente e a Igreja discente são, pois, duas Igrejas distintas?",
-      "resposta": "58 CATECISMO MAIOR DES. Pio X A Igreja docente e a Igreja discente são duas partes distintas de uma só e mesma Igreja, como no corpo humano a cabeça é distinta dos outros membros, e, no entanto, forma com eles um só corpo."
+      "resposta": "A Igreja docente e a Igreja discente são duas partes distintas de uma só e mesma Igreja, como no corpo humano a cabeça é distinta dos outros membros, e, no entanto, forma com eles um só corpo."
     },
     {
       "numero": 186,
@@ -1139,7 +1163,7 @@
       "numero": 192,
       "parte": "Primeira Parte — Do Símbolo dos Apóstolos (Credo)",
       "pergunta": "A quem compete o exercício de tais poderes?",
-      "resposta": "O exercício destes poderes é conferido unicamente ao corpo hierárquico, isto é, ao Papa e aos Bispos a ele subordinados. 8 4º Do Papa e dos Bispos 59 PAPAS. Pio X Chegando ao território de Cesareia de Filipe, Jesus perguntou a seus discípulos: No dizer do povo, quem é o Filho do Homem? Responderam: Uns dizem que é João Batista; outros, Elias; outros, Jeremias ou um dos profetas. Disse-lhes Jesus: E vós quem dizeis que eu sou? Simão Pedro respondeu: Tu és o Cristo, o Filho de Deus vivo! Jesus então lhe disse: Feliz és, Simão, filho de Jonas, porque não foi a carne nem o sangue que te revelou isto, mas meu Pai que está nos céus. E eu te declaro: tu és Pedro, e sobre esta pedra edificarei a minha Igreja; as portas do inferno não prevalecerão contra ela. Eu te darei as chaves do Reino dos céus: tudo o que ligares na terra será ligado nos céus, e tudo o que desligares na terra será desligado nos céus. Depois, ordenou aos seus discípulos que não dissessem a ninguém que ele era o Cristo.. Matheeum XVI, 13-20."
+      "resposta": "O exercício destes poderes é conferido unicamente ao corpo hierárquico, isto é, ao Papa e aos Bispos a ele subordinados."
     },
     {
       "numero": 193,
@@ -1169,7 +1193,7 @@
       "numero": 197,
       "parte": "Primeira Parte — Do Símbolo dos Apóstolos (Credo)",
       "pergunta": "Qual é, então, a dignidade do Papa?",
-      "resposta": "60 CATECISMO MAIOR DES. Pio X A dignidade do Papa é a mais alta entre todas as dignidades da terra e dá-lhe o poder supremo e imediato sobre todos e cada um dos Pastores e dos fiéis."
+      "resposta": "A dignidade do Papa é a mais alta entre todas as dignidades da terra e dá-lhe o poder supremo e imediato sobre todos e cada um dos Pastores e dos fiéis."
     },
     {
       "numero": 198,
@@ -1211,7 +1235,7 @@
       "numero": 204,
       "parte": "Primeira Parte — Do Símbolo dos Apóstolos (Credo)",
       "pergunta": "A Igreja, ao definir que o Papa é infalível, estabeleceu porventura uma nova verdade de fé?",
-      "resposta": "Não. A Igreja, ao definir que o Papa é infalível, não estabeleceu uma nova verdade de fé, mas apenas definiu, para se opor a novos erros, que a infalibilidade do Papa, contida já na Sagrada 61 PAPAS. Pio X Escritura e na Tradição, é uma verdade revelada por Deus, e portanto, deve ser crida como dogma ou artigo de fé."
+      "resposta": "Não. A Igreja, ao definir que o Papa é infalível, não estabeleceu uma nova verdade de fé, mas apenas definiu, para se opor a novos erros, que a infalibilidade do Papa, contida já na Sagrada Escritura e na Tradição, é uma verdade revelada por Deus, e portanto, deve ser crida como dogma ou artigo de fé."
     },
     {
       "numero": 205,
@@ -1259,7 +1283,7 @@
       "numero": 212,
       "parte": "Primeira Parte — Do Símbolo dos Apóstolos (Credo)",
       "pergunta": "Como deve proceder o fiel para com o seu Bispo?",
-      "resposta": "Todo o fiel, eclesiástico ou leigo, deve respeitar, amar e honrar o seu Bispo, e prestar-lhe obediência em tudo o que se refere ao bem das almas e ao governo espiritual da diocese. 62 CATECISMO MAIOR DES. Pio X"
+      "resposta": "Todo o fiel, eclesiástico ou leigo, deve respeitar, amar e honrar o seu Bispo, e prestar-lhe obediência em tudo o que se refere ao bem das almas e ao governo espiritual da diocese."
     },
     {
       "numero": 213,
@@ -1277,7 +1301,7 @@
       "numero": 215,
       "parte": "Primeira Parte — Do Símbolo dos Apóstolos (Credo)",
       "pergunta": "Que deveres têm os fiéis para com o seu pároco?",
-      "resposta": "Os fiéis devem permanecer unidos ao seu pároco, ouvi-lo com docilidade, professar-lhe respeito e submissão em tudo o que interessa ao bem da paróquia. 5º Da comunhão dos Santos Perseveravam eles na doutrina dos apóstolos, na reunião em comum, na fração do pão e nas orações. Actus Apostolorum, II, 42."
+      "resposta": "Os fiéis devem permanecer unidos ao seu pároco, ouvi-lo com docilidade, professar-lhe respeito e submissão em tudo o que interessa ao bem da paróquia."
     },
     {
       "numero": 216,
@@ -1295,7 +1319,7 @@
       "numero": 218,
       "parte": "Primeira Parte — Do Símbolo dos Apóstolos (Credo)",
       "pergunta": "Quais são os bens exteriores comuns na Igreja?",
-      "resposta": "Os bens exteriores comuns na Igreja são: os sacramentos, o Santo Sacrifício da Missa, as orações públicas, as funções religiosas, e todas as outras práticas exteriores que unem entre si os fiéis. 63 PAPAS. Pio X"
+      "resposta": "Os bens exteriores comuns na Igreja são: os sacramentos, o Santo Sacrifício da Missa, as orações públicas, as funções religiosas, e todas as outras práticas exteriores que unem entre si os fiéis."
     },
     {
       "numero": 219,
@@ -1331,7 +1355,7 @@
       "numero": 224,
       "parte": "Primeira Parte — Do Símbolo dos Apóstolos (Credo)",
       "pergunta": "A comunhão dos Santos estende-se também ao Céu e ao Purgatório?",
-      "resposta": "Sim, a comunhão dos Santos estende-se também ao Céu e ao Purgatório, porque a caridade une as três Igrejas: triunfante, padecente e militante; e os Santos rogam a Deus por nós e pelas almas do Purgatório, e nós damos honra e glória aos Santos, e 64 CATECISMO MAIOR DES. Pio X podemos aliviar as almas do Purgatório, aplicando, em sufrágio elas, Missas, esmolas, indulgências e outras boas obras. delas, Missa la dul a tras boas obra 8 6º Daqueles que estão fora da Igreja Se teu irmão tiver pecado contra ti, vai e repreende-o entre ti e ele somente; se te ouvir, terás ganho teu irmão. Se não te escutar, toma contigo uma ou duas pessoas, a fim de que toda a questão se resolva pela decisão de duas ou três testemunhas. Se recusa ouvi-los, dize-o à Igreja. E se recusar ouvir também a Igreja, seja ele para ti como um pagão e um publicano. Em verdade vos digo: tudo o que ligardes sobre a terra será ligado no céu, e tudo o que desligardes sobre a terra será também desligado no céu. Mathaeum XVII,15-18."
+      "resposta": "Sim, a comunhão dos Santos estende-se também ao Céu e ao Purgatório, porque a caridade une as três Igrejas: triunfante, padecente e militante; e os Santos rogam a Deus por nós e pelas almas do Purgatório, e nós damos honra e glória aos Santos, e podemos aliviar as almas do Purgatório, aplicando, em sufrágio delas, Missas, esmolas, indulgências e outras boas obras."
     },
     {
       "numero": 225,
@@ -1361,7 +1385,7 @@
       "numero": 229,
       "parte": "Primeira Parte — Do Símbolo dos Apóstolos (Credo)",
       "pergunta": "Quem são os hereges?",
-      "resposta": "Os hereges são aqueles cristãos que obstinadamente se recusam a crer em alguma verdade revelada por Deus e ensinada 65 PAPAS. Pio X como de fé pela Igreja Católica: por exemplo, os arianos, os nestorianos e as várias seitas dos protestantes."
+      "resposta": "Os hereges são aqueles cristãos que obstinadamente se recusam a crer em alguma verdade revelada por Deus e ensinada como de fé pela Igreja Católica: por exemplo, os arianos, os nestorianos e as várias seitas dos protestantes."
     },
     {
       "numero": 230,
@@ -1397,7 +1421,7 @@
       "numero": 235,
       "parte": "Primeira Parte — Do Símbolo dos Apóstolos (Credo)",
       "pergunta": "Podemos auxiliar de alguma maneira os excomungados?",
-      "resposta": "Nós podemos auxiliar de alguma maneira os excomungados e todos os outros que estão fora da verdadeira Igreja com advertências salutares, com orações e boas obras, suplicando a Deus que pela sua misericórdia lhes conceda a graça de se converterem à Fé e de entrarem na comunhão dos Santos. 66"
+      "resposta": "Nós podemos auxiliar de alguma maneira os excomungados e todos os outros que estão fora da verdadeira Igreja com advertências salutares, com orações e boas obras, suplicando a Deus que pela sua misericórdia lhes conceda a graça de se converterem à Fé e de entrarem na comunhão dos Santos."
     },
     {
       "numero": 236,
@@ -1409,7 +1433,7 @@
       "numero": 237,
       "parte": "Primeira Parte — Do Símbolo dos Apóstolos (Credo)",
       "pergunta": "A Igreja pode perdoar todos os tipos de pecados?",
-      "resposta": "PAPAS. Pio X Sim, a Igreja pode perdoar todos os pecados, por numerosos e graves que sejam, porque Jesus Cristo Lhe concedeu plenos poderes de ligar e desligar."
+      "resposta": "Sim, a Igreja pode perdoar todos os pecados, por numerosos e graves que sejam, porque Jesus Cristo Lhe concedeu plenos poderes de ligar e desligar."
     },
     {
       "numero": 238,
@@ -1421,7 +1445,7 @@
       "numero": 239,
       "parte": "Primeira Parte — Do Símbolo dos Apóstolos (Credo)",
       "pergunta": "Como a Igreja perdoa os pecados?",
-      "resposta": "A Igreja perdoa os pecados através dos méritos de Jesus Cristo, administrando os Sacramentos por Ele instituídos para este fim, especialmente o Batismo e a Penitência. 68"
+      "resposta": "A Igreja perdoa os pecados através dos méritos de Jesus Cristo, administrando os Sacramentos por Ele instituídos para este fim, especialmente o Batismo e a Penitência."
     },
     {
       "numero": 240,
@@ -1451,7 +1475,7 @@
       "numero": 244,
       "parte": "Primeira Parte — Do Símbolo dos Apóstolos (Credo)",
       "pergunta": "Todas os homens ressuscitarão da mesma maneira?",
-      "resposta": "Não, haverá enorme diferença entre os corpos dos eleitos e os corpos dos condenados; porque somente os corpos dos eleitos terão, à semelhança de Jesus Cristo ressuscitado, as qualidades dos corpos gloriosos. 70 CATECISMO MAIOR DES. Pio X"
+      "resposta": "Não, haverá enorme diferença entre os corpos dos eleitos e os corpos dos condenados; porque somente os corpos dos eleitos terão, à semelhança de Jesus Cristo ressuscitado, as qualidades dos corpos gloriosos."
     },
     {
       "numero": 245,
@@ -1463,7 +1487,7 @@
       "numero": 246,
       "parte": "Primeira Parte — Do Símbolo dos Apóstolos (Credo)",
       "pergunta": "Como serão os corpos dos condenados?",
-      "resposta": "Os corpos dos condenados serão destituídos das qualidades dos corpos gloriosos dos bem-aventurados, e trarão a horrível marca da reprovação eterna. A"
+      "resposta": "Os corpos dos condenados serão destituídos das qualidades dos corpos gloriosos dos bem-aventurados, e trarão a horrível marca da reprovação eterna."
     },
     {
       "numero": 247,
@@ -1475,7 +1499,7 @@
       "numero": 248,
       "parte": "Primeira Parte — Do Símbolo dos Apóstolos (Credo)",
       "pergunta": "Podemos compreender a felicidade do Paraíso?",
-      "resposta": "Não, não podemos compreender a felicidade do Paraíso, porque excede os conhecimentos de nossa mente limitada, e CATECISMO MAIOR DES. Pio X porque os bens do Céu não podem ser comparados aos bens deste mundo."
+      "resposta": "Não, não podemos compreender a felicidade do Paraíso, porque excede os conhecimentos de nossa mente limitada, e porque os bens do Céu não podem ser comparados aos bens deste mundo."
     },
     {
       "numero": 249,
@@ -1505,7 +1529,7 @@
       "numero": 253,
       "parte": "Segunda Parte — Da Oração",
       "pergunta": "O que quer dizer a palavra Amém no fim do Credo?",
-      "resposta": "A palavra Amém no final das orações significa: assim seja; no fim do Credo significa: assim é, ou seja: creio ser absolutamente verdadeiro tudo o que está contido nestes doze artigos, e estou mais certo disso do que se o visse com os meus olhos. 73 SEGUNDA"
+      "resposta": "A palavra Amém no final das orações significa: assim seja; no fim do Credo significa: assim é, ou seja: creio ser absolutamente verdadeiro tudo o que está contido nestes doze artigos, e estou mais certo disso do que se o visse com os meus olhos."
     },
     {
       "numero": 254,
@@ -1523,7 +1547,7 @@
       "numero": 256,
       "parte": "Segunda Parte — Da Oração",
       "pergunta": "Como é dividida a oração?",
-      "resposta": "PAPAS. Pio X A oração divide-se em mental e vocal. A oração mental é a que se faz somente com a alma; a oração vocal é aquela que é feita com palavras, acompanhadas pela atenção do espírito e da devoção do coração."
+      "resposta": "A oração divide-se em mental e vocal. A oração mental é a que se faz somente com a alma; a oração vocal é aquela que é feita com palavras, acompanhadas pela atenção do espírito e da devoção do coração."
     },
     {
       "numero": 257,
@@ -1565,7 +1589,7 @@
       "numero": 263,
       "parte": "Segunda Parte — Da Oração",
       "pergunta": "Se a oração tem tal eficácia, por que muitas vezes as nossas orações não são atendidas?",
-      "resposta": "76 CATECISMO MAIOR DES. Pio X Muitas vezes as nossas orações não são atendidas, ou porque pedimos coisas que não convêm à nossa salvação eterna, ou porque não pedimos como deveríamos."
+      "resposta": "Muitas vezes as nossas orações não são atendidas, ou porque pedimos coisas que não convêm à nossa salvação eterna, ou porque não pedimos como deveríamos."
     },
     {
       "numero": 264,
@@ -1607,7 +1631,7 @@
       "numero": 270,
       "parte": "Segunda Parte — Da Oração",
       "pergunta": "As distrações diminuem o mérito da oração?",
-      "resposta": "Sim, quando nós mesmos as provocamos, ou não as repelimos com diligência. Se, porém, fizermos todo o possível para estarmos recolhidos em Deus, então as distrações não dimi77 PAPAS. Pio X nuem o mérito da nossa oração, mas na verdade até podem aumentá-lo."
+      "resposta": "Sim, quando nós mesmos as provocamos, ou não as repelimos com diligência. Se, porém, fizermos todo o possível para estarmos recolhidos em Deus, então as distrações não dimi77 nuem o mérito da nossa oração, mas na verdade até podem aumentá-lo."
     },
     {
       "numero": 271,
@@ -1649,7 +1673,7 @@
       "numero": 277,
       "parte": "Segunda Parte — Da Oração",
       "pergunta": "Que efeitos produz em nós a oração?",
-      "resposta": "A oração faz-nos reconhecer a nossa dependência, em todas as coisas, de Deus, Senhor supremo, faz-nos progredir na virtude, alcança-nos de Deus misericórdia, fortalece-nos contra as tentações, conforta-nos nas tribulações, auxilia-nos nas nossas necessidades e obtém-nos a graça da perseverança final. 78 CATECISMO MAIOR DES. Pio X"
+      "resposta": "A oração faz-nos reconhecer a nossa dependência, em todas as coisas, de Deus, Senhor supremo, faz-nos progredir na virtude, alcança-nos de Deus misericórdia, fortalece-nos contra as tentações, conforta-nos nas tribulações, auxilia-nos nas nossas necessidades e obtém-nos a graça da perseverança final."
     },
     {
       "numero": 278,
@@ -1661,13 +1685,13 @@
       "numero": 279,
       "parte": "Segunda Parte — Da Oração",
       "pergunta": "Por quem devemos orar?",
-      "resposta": "Devemos orar por todos; isto é, por nós mesmos, pelos nossos parentes, superiores, benfeitores, amigos e inimigos; pela conversão dos pobres pecadores, por aqueles que estão fora da verdadeira Igreja, e pelas benditas almas do Purgatório. 79"
+      "resposta": "Devemos orar por todos; isto é, por nós mesmos, pelos nossos parentes, superiores, benfeitores, amigos e inimigos; pela conversão dos pobres pecadores, por aqueles que estão fora da verdadeira Igreja, e pelas benditas almas do Purgatório."
     },
     {
       "numero": 280,
       "parte": "Segunda Parte — Da Oração",
       "pergunta": "Qual é a oração vocal mais excelente?",
-      "resposta": "CATECISMO MAIOR DES. Pio X A oração vocal mais excelente é aquela que o próprio Jesus Cristo nos ensinou, isto é, o Padre-Nosso."
+      "resposta": "A oração vocal mais excelente é aquela que o próprio Jesus Cristo nos ensinou, isto é, o Padre-Nosso."
     },
     {
       "numero": 281,
@@ -1691,7 +1715,13 @@
       "numero": 284,
       "parte": "Segunda Parte — Da Oração",
       "pergunta": "Quantas petições há no Padre-Nosso?",
-      "resposta": "No Padre-Nosso há sete petições precedidas de um preâmbulo. 285) Rezai o Padre-Nosso. Padre-Nosso, que estais no Céu: 1º Santificado seja o vosso nome. 2º Venha a nós o vosso reino. 3º Seja feita a vossa vontade, assim no Céu, como na terra. 4º O pão nosso de cada dia nos dai hoje. 5º Perdoai-nos as nossas dívidas assim como nós perdoamos aos nossos devedores. 6º E não nos deixeis cair em tentação. 7º Mas livrai-nos do mal. Amém 3 Nota do Tradutor: Apenas para efeito didático, preservamos aqui a sequência do Pater Noster em latim: fiat voluntas tua, sicut in caelo et in terra, uma vez que a vontade do homem deve ser orientada não somente em coformidade às exigências da terra, mas, sobretudo, tendo em vista as diretrizes do Céu, através da fiel observância às leis de Deus. 81 PAPAS. Pio X"
+      "resposta": "No Padre-Nosso há sete petições precedidas de um preâmbulo."
+    },
+    {
+      "numero": 285,
+      "parte": "Segunda Parte — Da Oração",
+      "pergunta": "Rezai o Padre-Nosso.",
+      "resposta": "Padre-Nosso, que estais no Céu: 1º Santificado seja o vosso nome. 2º Venha a nós o vosso reino. 3º Seja feita a vossa vontade, assim no Céu, como na terra. 4º O pão nosso de cada dia nos dai hoje. 5º Perdoai-nos as nossas dívidas assim como nós perdoamos aos nossos devedores. 6º E não nos deixeis cair em tentação. 7º Mas livrai-nos do mal. Amém"
     },
     {
       "numero": 286,
@@ -1715,7 +1745,7 @@
       "numero": 289,
       "parte": "Segunda Parte — Da Oração",
       "pergunta": "Uma vez que Deus está em toda parte, por que é que Lhe dizemos: que estais no Céu?",
-      "resposta": "Deus está em toda a parte; mas dizemos: Padre Nosso que estais no Céu, para elevar os nossos corações ao Céu, onde Deus se revela em glória aos seus filhos. 8 2º Da primeira petição do Padre-Nosso"
+      "resposta": "Deus está em toda a parte; mas dizemos: Padre Nosso que estais no Céu, para elevar os nossos corações ao Céu, onde Deus se revela em glória aos seus filhos."
     },
     {
       "numero": 290,
@@ -1727,7 +1757,7 @@
       "numero": 291,
       "parte": "Segunda Parte — Da Oração",
       "pergunta": "O que queremos dizer, quando pedimos que Deus seja conhecido, amado e servido por todos os homens?",
-      "resposta": "Queremos dizer que os infiéis cheguem ao conhecimento do verdadeiro Deus, que os hereges reconheçam os seus erros, que os cismáticos voltem à unidade da Igreja, que os pecadores se arrependam e que os justos sejam perseverantes no bem. 82 CATECISMO MAIOR DES. Pio X"
+      "resposta": "Queremos dizer que os infiéis cheguem ao conhecimento do verdadeiro Deus, que os hereges reconheçam os seus erros, que os cismáticos voltem à unidade da Igreja, que os pecadores se arrependam e que os justos sejam perseverantes no bem."
     },
     {
       "numero": 292,
@@ -1739,7 +1769,7 @@
       "numero": 293,
       "parte": "Segunda Parte — Da Oração",
       "pergunta": "De que forma nós podemos promover a glória de Deus?",
-      "resposta": "Podemos promover a glória de Deus através da oração, do bom exemplo e dirigindo a Ele todos os nossos pensamentos afetos e obras. 8 3º Da segunda petição do Padre-Nosso"
+      "resposta": "Podemos promover a glória de Deus através da oração, do bom exemplo e dirigindo a Ele todos os nossos pensamentos afetos e obras."
     },
     {
       "numero": 294,
@@ -1763,7 +1793,7 @@
       "numero": 297,
       "parte": "Segunda Parte — Da Oração",
       "pergunta": "O que significa pedir: venha a nós o vosso reino, com relação à glória?",
-      "resposta": "Com relação à glória, pedimos que possamos um dia ser admitidos no Santo Paraíso, para o qual todos fomos criados e onde seremos plenamente felizes. 83 PAPAS. Pio X 8 4º Da terceira Petição do Padre-Nosso"
+      "resposta": "Com relação à glória, pedimos que possamos um dia ser admitidos no Santo Paraíso, para o qual todos fomos criados e onde seremos plenamente felizes."
     },
     {
       "numero": 298,
@@ -1787,13 +1817,13 @@
       "numero": 301,
       "parte": "Segunda Parte — Da Oração",
       "pergunta": "Devemos sempre reconhecer a vontade de Deus nas prosperidades ou adversidades da vida?",
-      "resposta": "Tanto nas prosperidades como nas adversidades da vida presente, devemos sempre reconhecer a vontade de Deus, que dispõe ou permite todas as coisas para o nosso bem. 8 5º Da quarta petição do Padre-Nosso"
+      "resposta": "Tanto nas prosperidades como nas adversidades da vida presente, devemos sempre reconhecer a vontade de Deus, que dispõe ou permite todas as coisas para o nosso bem."
     },
     {
       "numero": 302,
       "parte": "Segunda Parte — Da Oração",
       "pergunta": "O que pedimos na quarta petição: o pão nosso de cada dia nos dai hoje?",
-      "resposta": "84 CATECISMO MAIOR DES. Pio X Na quarta petição: o pão nosso de cada dia nos dai hoje, pedimos a Deus o que nos é necessário a cada dia, tanto para a alma quanto para o corpo."
+      "resposta": "Na quarta petição: o pão nosso de cada dia nos dai hoje, pedimos a Deus o que nos é necessário a cada dia, tanto para a alma quanto para o corpo."
     },
     {
       "numero": 303,
@@ -1835,7 +1865,7 @@
       "numero": 309,
       "parte": "Segunda Parte — Da Oração",
       "pergunta": "Que significado tem a palavra hoje na quarta petição?",
-      "resposta": "A palavra hoje quer dizer que não devemos andar demasiadamente preocupados com o futuro, mas pedir o que nos é necessário no presente. 85 PAPAS. Pio X 8 6º Da quinta petição do Padre-Nosso"
+      "resposta": "A palavra hoje quer dizer que não devemos andar demasiadamente preocupados com o futuro, mas pedir o que nos é necessário no presente."
     },
     {
       "numero": 310,
@@ -1853,7 +1883,7 @@
       "numero": 312,
       "parte": "Segunda Parte — Da Oração",
       "pergunta": "Aqueles que não perdoam ao próximo, podem esperar que Deus lhes perdoe?",
-      "resposta": "Aqueles que não perdoam ao próximo não têm nenhuma razão para esperar que Deus lhes perdoe, especialmente porque eles se condenam a si mesmos, dizendo a Deus que lhes perdoe, como eles perdoam ao próximo. 8 7º Da sexta petição do Padre-Nosso"
+      "resposta": "Aqueles que não perdoam ao próximo não têm nenhuma razão para esperar que Deus lhes perdoe, especialmente porque eles se condenam a si mesmos, dizendo a Deus que lhes perdoe, como eles perdoam ao próximo."
     },
     {
       "numero": 313,
@@ -1877,13 +1907,13 @@
       "numero": 316,
       "parte": "Segunda Parte — Da Oração",
       "pergunta": "Por que Deus permite que sejamos tentados?",
-      "resposta": "86 CATECISMO MAIOR DES. Pio X Deus permite que sejamos tentados para provar a nossa fidelidade, para fortalecer as nossas virtudes e para aumentar os nossos merecimentos."
+      "resposta": "Deus permite que sejamos tentados para provar a nossa fidelidade, para fortalecer as nossas virtudes e para aumentar os nossos merecimentos."
     },
     {
       "numero": 317,
       "parte": "Segunda Parte — Da Oração",
       "pergunta": "Que devemos fazer para evitar as tentações?",
-      "resposta": "Para evitar as tentações devemos fugir das ocasiões perigosas, guardar os sentidos, receber com frequência os santos sacramentos, fazer uso da oração. 8 8º Da sétima petição do Padre-Nosso"
+      "resposta": "Para evitar as tentações devemos fugir das ocasiões perigosas, guardar os sentidos, receber com frequência os santos sacramentos, fazer uso da oração."
     },
     {
       "numero": 318,
@@ -1913,7 +1943,7 @@
       "numero": 322,
       "parte": "Segunda Parte — Da Oração",
       "pergunta": "Que quer dizer Amém no fim do Padre-Nosso?",
-      "resposta": "87 PAPAS. Pio X Amém significa: assim seja, assim desejo, assim peço ao Senhor e assim espero."
+      "resposta": "Amém significa: assim seja, assim desejo, assim peço ao Senhor e assim espero."
     },
     {
       "numero": 323,
@@ -1925,7 +1955,7 @@
       "numero": 324,
       "parte": "Terceira Parte — Dos Mandamentos de Deus e da Igreja",
       "pergunta": "Quando devemos rezar o Padre-Nosso?",
-      "resposta": "Devemos rezar o Padre-Nosso todos os dias, por que todos os dias temos necessidade do auxílio de Deus. 88"
+      "resposta": "Devemos rezar o Padre-Nosso todos os dias, por que todos os dias temos necessidade do auxílio de Deus."
     },
     {
       "numero": 325,
@@ -1973,7 +2003,7 @@
       "numero": 332,
       "parte": "Terceira Parte — Dos Mandamentos de Deus e da Igreja",
       "pergunta": "Em que ocasião Santa Isabel disse estas palavras?",
-      "resposta": "Santa Isabel disse estas palavras, inspirada por Deus, quando, três meses antes de nascer seu filho João Batista, foi visitada 90 CATECISMO MAIOR DES. Pio X pela Santíssima Virgem, que já levava em seu seio o seu Divino Filho."
+      "resposta": "Santa Isabel disse estas palavras, inspirada por Deus, quando, três meses antes de nascer seu filho João Batista, foi visitada pela Santíssima Virgem, que já levava em seu seio o seu Divino Filho."
     },
     {
       "numero": 333,
@@ -2015,13 +2045,13 @@
       "numero": 339,
       "parte": "Terceira Parte — Dos Mandamentos de Deus e da Igreja",
       "pergunta": "Qual a devoção à Virgem Maria que a Igreja nos recomenda de modo especial?",
-      "resposta": "A devoção que a Igreja nos recomenda de modo especial em honra à Santíssima Virgem é a recitação do santo Rosário. 91"
+      "resposta": "A devoção que a Igreja nos recomenda de modo especial em honra à Santíssima Virgem é a recitação do santo Rosário."
     },
     {
       "numero": 340,
       "parte": "Terceira Parte — Dos Mandamentos de Deus e da Igreja",
       "pergunta": "É coisa boa e útil recorrer à intercessão dos Santos?",
-      "resposta": "É coisa utilíssima invocar os Santos, e isso deve ser feito por todos os cristãos. De modo particular devemos rezar ao nosso Anjo da Guarda, São José, protetor da Igreja, os Santos Apóstolos, o Santo de nosso nome e os Santos protetores da diocese e da paróquia. CATECISMO MAIOR DES. Pio X"
+      "resposta": "É coisa utilíssima invocar os Santos, e isso deve ser feito por todos os cristãos. De modo particular devemos rezar ao nosso Anjo da Guarda, São José, protetor da Igreja, os Santos Apóstolos, o Santo de nosso nome e os Santos protetores da diocese e da paróquia."
     },
     {
       "numero": 341,
@@ -2033,7 +2063,7 @@
       "numero": 342,
       "parte": "Terceira Parte — Dos Mandamentos de Deus e da Igreja",
       "pergunta": "Quando dizemos que um Santo concedeu uma graça, o que queremos dizer?",
-      "resposta": "Quando dizemos que um Santo concedeu uma graça, queremos dizer que esse Santo obteve de Deus aquela determinada graça. 93 TERCEIRA"
+      "resposta": "Quando dizemos que um Santo concedeu uma graça, queremos dizer que esse Santo obteve de Deus aquela determinada graça."
     },
     {
       "numero": 343,
@@ -2045,7 +2075,7 @@
       "numero": 344,
       "parte": "Terceira Parte — Dos Mandamentos de Deus e da Igreja",
       "pergunta": "Quantos são os Mandamentos da Lei de Deus?",
-      "resposta": "Os Mandamentos da Lei de Deus são dez: Eu sou o Senhor teu Deus: 97 PAPAS. Pio X Não terás outro deus diante de mim. Não tomarás o nome de Deus em vão. Lembrarás de santificar o dia de sábado — isto é, guardar domingos e festas. Honrarás teu pai e tua mãe. Não matarás. Não pecarás contra a castidade. Não roubarás. Não dirás falso. Não cobiçarás a mulher do teu próximo. Não cobiçarás a propriedade dos outros."
+      "resposta": "Os Mandamentos da Lei de Deus são dez: Eu sou o Senhor teu Deus: Não terás outro deus diante de mim. Não tomarás o nome de Deus em vão. Lembrarás de santificar o dia de sábado — isto é, guardar domingos e festas. Honrarás teu pai e tua mãe. Não matarás. Não pecarás contra a castidade. Não roubarás. Não dirás falso. Não cobiçarás a mulher do teu próximo. Não cobiçarás a propriedade dos outros."
     },
     {
       "numero": 345,
@@ -2075,13 +2105,13 @@
       "numero": 349,
       "parte": "Terceira Parte — Dos Mandamentos de Deus e da Igreja",
       "pergunta": "Podemos observar os Mandamentos?",
-      "resposta": "Sem dúvida alguma podemos observar os Mandamentos da Lei de Deus, porque Deus não nos ordena nada impossível, 98 CATECISMO MAIOR DES. Pio X e dá a graça para os observar a todo aquele que o pede devidamente."
+      "resposta": "Sem dúvida alguma podemos observar os Mandamentos da Lei de Deus, porque Deus não nos ordena nada impossível, e dá a graça para os observar a todo aquele que o pede devidamente."
     },
     {
       "numero": 350,
       "parte": "Terceira Parte — Dos Mandamentos de Deus e da Igreja",
       "pergunta": "De modo geral o que se deve considerar em cada Mandamento?",
-      "resposta": "Em cada Mandamento deve-se considerar a parte positiva e a parte negativa; ou seja, o que somos obrigados a obedecer e o que é proibido para nós. 99"
+      "resposta": "Em cada Mandamento deve-se considerar a parte positiva e a parte negativa; ou seja, o que somos obrigados a obedecer e o que é proibido para nós."
     },
     {
       "numero": 351,
@@ -2105,7 +2135,7 @@
       "numero": 354,
       "parte": "Terceira Parte — Dos Mandamentos de Deus e da Igreja",
       "pergunta": "Que é o culto interior?",
-      "resposta": "CATECISMO MAIOR DES. Pio X O culto interior é a honra que se presta a Deus unicamente com as faculdades do espírito, isto é, com a inteligência e com a vontade."
+      "resposta": "O culto interior é a honra que se presta a Deus unicamente com as faculdades do espírito, isto é, com a inteligência e com a vontade."
     },
     {
       "numero": 355,
@@ -2147,7 +2177,7 @@
       "numero": 361,
       "parte": "Terceira Parte — Dos Mandamentos de Deus e da Igreja",
       "pergunta": "Estas palavras proíbem todos os tipos de imagens?",
-      "resposta": "Não, por certo, mas apenas as das falsas divindades, feitas com o propósito de adoração, como faziam os idólatras. E tanto 101 PAPAS. Pio X isto é verdade, que o próprio Deus ordenou a Moisés para que fizesse algumas, como as duas estátuas de querubins sobre a arca, e a serpente de bronze no deserto."
+      "resposta": "Não, por certo, mas apenas as das falsas divindades, feitas com o propósito de adoração, como faziam os idólatras. E tanto isto é verdade, que o próprio Deus ordenou a Moisés para que fizesse algumas, como as duas estátuas de querubins sobre a arca, e a serpente de bronze no deserto."
     },
     {
       "numero": 362,
@@ -2189,7 +2219,7 @@
       "numero": 368,
       "parte": "Terceira Parte — Dos Mandamentos de Deus e da Igreja",
       "pergunta": "O primeiro Mandamento acaso proíbe honrar e invocar os Anjos e Santos?",
-      "resposta": "Não. Não é proibido honrar e invocar os Anjos e Santos, e de fato devemos fazê-lo, porque é bom e útil, e altamente recomendado pela Igreja, uma vez que eles são amigos de Deus e nossos intercessores junto d'Ele. 102 CATECISMO MAIOR DES. Pio X"
+      "resposta": "Não. Não é proibido honrar e invocar os Anjos e Santos, e de fato devemos fazê-lo, porque é bom e útil, e altamente recomendado pela Igreja, uma vez que eles são amigos de Deus e nossos intercessores junto d'Ele."
     },
     {
       "numero": 369,
@@ -2213,7 +2243,7 @@
       "numero": 372,
       "parte": "Terceira Parte — Dos Mandamentos de Deus e da Igreja",
       "pergunta": "Qual é a diferença que prestamos a Deus e o culto que prestamos nos Santos?",
-      "resposta": "Entre o culto que prestamos a Deus e o culto que prestamos aos Santos há esta diferença: que a Deus adoramo-Lo por sua excelência infinita, ao passo que aos Santos não os adoramos, em vez disso, somente os honramos e veneramos como amigos de Deus e nossos intercessores junto a Ele. O culto que prestamos a Deus chama-se latria, isto é, de adoração, e o culto que prestamos aos Santos chama-se dulia, isto é, de veneração aos servos de Deus; enfim o culto especial que prestamos a Maria Santíssima chama-se hiperdulia, isto é, veneração muito especial, como a Mãe de Deus. 8 2º Do segundo Mandamento da Lei de Deus 103 PAPAS. Pio X Um certo homem chamado Ananias, de comum acordo com sua mulher Safira, vendeu um campo e, combinando com ela, reteve uma parte da quantia da venda. Levando apenas a outra parte, depositou-a aos pés dos apóstolos. Pedro, porém, disse: Ananias, por que tomou conta Satanás do teu coração, para que mentisses ao Espírito Santo e enganasses acerca do valor do campo? Acaso não o podias conservar sem vendê-lo? E depois de vendido, não podias livremente dispor dessa quantia? Por que imaginaste isso em teu coração? Não foi aos homens que mentiste, mas a Deus. Ao ouvir estas palavras, Ananias caiu morto. Apoderou-se grande terror de todos os que o ouviram. Uns moços retiraram-no dali, levaram-no para fora e o enterraram. Depois de umas três horas, entrou também sua mulher, nada sabendo do ocorrido. Pedro perguntou-lhe: Dize-me, mulher. Foi por tanto que vendestes o vosso campo? Respondeu ela: Sim, por esse preço. Replicou Pedro: Por que combinastes para pôr à prova o Espírito do Senhor? Estão ali à porta os pés daqueles que sepultaram teu marido. Hão de levar-te também a ti. Imediatamente caiu aos seus pés e expirou. Entrando aqueles moços, acharam-na morta. Levaram-na para fora e a enterraram junto do seu marido. Sobreveio grande pavor a toda a comunidade e a todos os que ouviram falar desse acontecimento. Actus Apostolorum V, 1-11."
+      "resposta": "Entre o culto que prestamos a Deus e o culto que prestamos aos Santos há esta diferença: que a Deus adoramo-Lo por sua excelência infinita, ao passo que aos Santos não os adoramos, em vez disso, somente os honramos e veneramos como amigos de Deus e nossos intercessores junto a Ele. O culto que prestamos a Deus chama-se latria, isto é, de adoração, e o culto que prestamos aos Santos chama-se dulia, isto é, de veneração aos servos de Deus; enfim o culto especial que prestamos a Maria Santíssima chama-se hiperdulia, isto é, veneração muito especial, como a Mãe de Deus."
     },
     {
       "numero": 373,
@@ -2225,7 +2255,7 @@
       "numero": 374,
       "parte": "Terceira Parte — Dos Mandamentos de Deus e da Igreja",
       "pergunta": "Que quer dizer pronunciar o nome de Deus sem respeito?",
-      "resposta": "Pronunciar o nome de Deus sem respeito quer dizer: pronunciar este santo nome, e tudo o que se refere de uma maneira especial ao próprio Deus, como o nome de Jesus Cristo, de 104 CATECISMO MAIOR DES. Pio X Maria e dos Santos com ira, por brincadeira, ou de outra forma pouco reverente."
+      "resposta": "Pronunciar o nome de Deus sem respeito quer dizer: pronunciar este santo nome, e tudo o que se refere de uma maneira especial ao próprio Deus, como o nome de Jesus Cristo, de Maria e dos Santos com ira, por brincadeira, ou de outra forma pouco reverente."
     },
     {
       "numero": 375,
@@ -2279,7 +2309,7 @@
       "numero": 383,
       "parte": "Terceira Parte — Dos Mandamentos de Deus e da Igreja",
       "pergunta": "Quem jura falsamente, que pecado comete?",
-      "resposta": "105 PAPAS. Pio X Quem jura falsamente comete um pecado mortal, porque desonra gravemente a Deus, verdade infinita, chamando-O em testemunho do que é falso."
+      "resposta": "Quem jura falsamente comete um pecado mortal, porque desonra gravemente a Deus, verdade infinita, chamando-O em testemunho do que é falso."
     },
     {
       "numero": 384,
@@ -2309,13 +2339,13 @@
       "numero": 388,
       "parte": "Terceira Parte — Dos Mandamentos de Deus e da Igreja",
       "pergunta": "Podem se fazer votos a Nossa Senhora e aos Santos?",
-      "resposta": "Os votos são feitos apenas a Deus; mas pode-se prometer a Deus fazer alguma coisa em honra da Santíssima Virgem ou dos Santos. 8 3º Do terceiro Mandamento da Lei de Deus E dizia-lhes: O sábado foi feito para o homem, e não o homem para o sábado; e, para dizer tudo, o Filho do homem é senhor também do sábado. Marcum II, 28."
+      "resposta": "Os votos são feitos apenas a Deus; mas pode-se prometer a Deus fazer alguma coisa em honra da Santíssima Virgem ou dos Santos."
     },
     {
       "numero": 389,
       "parte": "Terceira Parte — Dos Mandamentos de Deus e da Igreja",
       "pergunta": "Que nos ordena o terceiro Mandamento: guardar o sábado, ou seja, guardar domingos e festas?",
-      "resposta": "106 CATECISMO MAIOR DES. Pio X O terceiro Mandamento: guardar domingos e festas ordena-nos que honremos a Deus com obras de culto nos dias de festa."
+      "resposta": "O terceiro Mandamento: guardar domingos e festas ordena-nos que honremos a Deus com obras de culto nos dias de festa."
     },
     {
       "numero": 390,
@@ -2357,7 +2387,7 @@
       "numero": 396,
       "parte": "Terceira Parte — Dos Mandamentos de Deus e da Igreja",
       "pergunta": "Que pecado se comete trabalhando em dia santo?",
-      "resposta": "Trabalhando em dia santo, comete-se pecado mortal; no entanto, não há culpa grave se o trabalho dura pouco tempo. 107 PAPAS. Pio X"
+      "resposta": "Trabalhando em dia santo, comete-se pecado mortal; no entanto, não há culpa grave se o trabalho dura pouco tempo."
     },
     {
       "numero": 397,
@@ -2375,7 +2405,7 @@
       "numero": 399,
       "parte": "Terceira Parte — Dos Mandamentos de Deus e da Igreja",
       "pergunta": "Que outras coisas devemos evitar de modo especial nos dias santos?",
-      "resposta": "Nos dias santos devemos evitar principalmente o pecado e tudo o que possa nos induzir a ele, como são as diversões e reuniões perigosas. 108"
+      "resposta": "Nos dias santos devemos evitar principalmente o pecado e tudo o que possa nos induzir a ele, como são as diversões e reuniões perigosas."
     },
     {
       "numero": 400,
@@ -2393,7 +2423,7 @@
       "numero": 402,
       "parte": "Terceira Parte — Dos Mandamentos de Deus e da Igreja",
       "pergunta": "Sob o nome de pai e mãe, que outras pessoas compreende este Mandamento?",
-      "resposta": "PAPAS. Pio X Sob o nome de pai e mãe, este Mandamento também inclui todos os superiores hierárquicos tanto eclesiásticos como seculares, aos quais devemos obedecer e respeitar."
+      "resposta": "Sob o nome de pai e mãe, este Mandamento também inclui todos os superiores hierárquicos tanto eclesiásticos como seculares, aos quais devemos obedecer e respeitar."
     },
     {
       "numero": 403,
@@ -2429,7 +2459,7 @@
       "numero": 408,
       "parte": "Terceira Parte — Dos Mandamentos de Deus e da Igreja",
       "pergunta": "De onde vem a autoridade que governa sociedade civil?",
-      "resposta": "10 CATECISMO MAIOR DES. Pio X A autoridade que governa a sociedade civil vem de Deus, que a quer estabelecida no bem comum."
+      "resposta": "A autoridade que governa a sociedade civil vem de Deus, que a quer estabelecida no bem comum."
     },
     {
       "numero": 409,
@@ -2447,13 +2477,13 @@
       "numero": 411,
       "parte": "Terceira Parte — Dos Mandamentos de Deus e da Igreja",
       "pergunta": "Além do respeito e da obediência às leis impostas pela autoridade, quais outros deveres têm aqueles que fazem parte da sociedade civil?",
-      "resposta": "Aqueles que fazem parte da sociedade civil, além da obrigação de respeitar e obedecer às leis têm o dever de viver e trabalhar concordes e de procurar, segundo suas possibilidades, que a sociedade seja virtuosa, pacífica, ordenada e próspera para o proveito comum. 8 2º Do quinto Mandamento da Lei de Deus Não façamos como Caim, que era do Maligno e matou seu irmão. E por que o matou? Porque as suas obras eram más, e as do seu irmão, justas. Joannem Epistula 1, II, 12."
+      "resposta": "Aqueles que fazem parte da sociedade civil, além da obrigação de respeitar e obedecer às leis têm o dever de viver e trabalhar concordes e de procurar, segundo suas possibilidades, que a sociedade seja virtuosa, pacífica, ordenada e próspera para o proveito comum."
     },
     {
       "numero": 412,
       "parte": "Terceira Parte — Dos Mandamentos de Deus e da Igreja",
       "pergunta": "Que nos proíbe o quinto Mandamento: não matarás?",
-      "resposta": "O quinto Mandamento: não matarás, proíbe dar a morte ao próximo, nele bater ou feri-lo, ou causar qualquer outro dano no seu corpo, por nós ou por meio de outrem. Proíbe também ofendê-lo com palavras injuriosas e desejar-lhe o mal. Neste Mandamento Deus proíbe até mesmo ao homem dar a morte a si mesmo ou suicídio. Ml PAPAS. Pio X"
+      "resposta": "O quinto Mandamento: não matarás, proíbe dar a morte ao próximo, nele bater ou feri-lo, ou causar qualquer outro dano no seu corpo, por nós ou por meio de outrem. Proíbe também ofendê-lo com palavras injuriosas e desejar-lhe o mal. Neste Mandamento Deus proíbe até mesmo ao homem dar a morte a si mesmo ou suicídio."
     },
     {
       "numero": 413,
@@ -2495,7 +2525,7 @@
       "numero": 419,
       "parte": "Terceira Parte — Dos Mandamentos de Deus e da Igreja",
       "pergunta": "É proibido no quinto Mandamento também o duelo?",
-      "resposta": "Sim, no quinto Mandamento é também proibido o duelo, porque o duelo participa da malícia do suicídio e do homicí12 CATECISMO MAIOR DES. Pio X dio, e fica excomungado todo aquele que voluntariamente nele toma parte, ainda que seja como um mero espectador."
+      "resposta": "Sim, no quinto Mandamento é também proibido o duelo, porque o duelo participa da malícia do suicídio e do homicí12 dio, e fica excomungado todo aquele que voluntariamente nele toma parte, ainda que seja como um mero espectador."
     },
     {
       "numero": 420,
@@ -2519,7 +2549,7 @@
       "numero": 423,
       "parte": "Terceira Parte — Dos Mandamentos de Deus e da Igreja",
       "pergunta": "Que deve fazer quem prejudicou o próximo na vida do corpo ou na da alma?",
-      "resposta": "Quem prejudicou o próximo, não basta que se confesse, mas deve também reparar o mal que fez, compensando o próximo pelos danos que lhe causou, retratando os erros que lhe ensinou, e dando-lhe bom exemplo. 8 3º Do 6º e do 9º Mandamentos da Lei de Deus Ouvistes que foi dito aos antigos: Não cometerás adultério. Eu, porém, vos digo: todo aquele que lançar um olhar de cobiça para uma mulher, já adulterou com ela em seu coração. Se teu olho direito é para ti causa de queda, arranca-o e lança-o longe de ti, porque te é preferível perder-se um só dos teus membros, a que o teu corpo todo seja lançado na geena. E se tua mão direita é para ti causa de queda, corta-a e lança-a longe de ti, porque te é preferível perder-se um só dos teus membros, a que o teu corpo inteiro seja atirado na geena. Foi também dito: Todo aquele que rejeitar sua mulher, dê-lhe carta de divórcio. Eu, porém, vos digo: todo aquele que rejeita sua mulher, a faz tornar-se adúltera, a não ser que se trate de matrimônio falso; e todo aquele que desposa uma mulher rejeitada comete um adultério. Mathseum V, 27-33. 113 PAPAS. Pio X"
+      "resposta": "Quem prejudicou o próximo, não basta que se confesse, mas deve também reparar o mal que fez, compensando o próximo pelos danos que lhe causou, retratando os erros que lhe ensinou, e dando-lhe bom exemplo."
     },
     {
       "numero": 424,
@@ -2561,13 +2591,13 @@
       "numero": 430,
       "parte": "Terceira Parte — Dos Mandamentos de Deus e da Igreja",
       "pergunta": "Que devemos fazer para observar o sexto e o nono Mandamentos?",
-      "resposta": "114 CATECISMO MAIOR DES. Pio X Para bem observarmos o sexto e o nono Mandamentos, devemos invocar frequentemente e de todo o coração a Deus, ser devotos da Santíssima Virgem Maria, Mãe da pureza, lembrar-nos de que Deus nos vê, pensar na morte, nos castigos divinos, na Paixão de Jesus Cristo, guardar os nossos sentidos, praticar a mortificação cristã, e frequentar os sacramentos com as devidas disposições."
+      "resposta": "Para bem observarmos o sexto e o nono Mandamentos, devemos invocar frequentemente e de todo o coração a Deus, ser devotos da Santíssima Virgem Maria, Mãe da pureza, lembrar-nos de que Deus nos vê, pensar na morte, nos castigos divinos, na Paixão de Jesus Cristo, guardar os nossos sentidos, praticar a mortificação cristã, e frequentar os sacramentos com as devidas disposições."
     },
     {
       "numero": 431,
       "parte": "Terceira Parte — Dos Mandamentos de Deus e da Igreja",
       "pergunta": "Que devemos evitar para nos mantermos castos?",
-      "resposta": "Para nos conservarmos castos, devemos fugir da ociosidade, dos maus companheiros, as más leituras, a intemperança, o olhar para figuras indecentes, os espetáculos licenciosos, os bailes, as conversas e diversões perigosas, bem como todas as demais ocasiões de pecado. 8 4º Do sétimo Mandamento da Lei de Deus Jesus entrou em Jericó e ia atravessando a cidade. Havia aí um homem muito rico chamado Zaqueu, chefe dos recebedores de impostos. Ele procurava ver quem era Jesus, mas não o conseguia por causa da multidão, porque era de baixa estatura. Ele correu adiante, subiu a um sicômoro para o ver, quando ele passasse por ali. Chegando Jesus àquele lugar e levantando os olhos, viu-o e disse-lhe: Zaqueu, desce depressa, porque é preciso que eu fique hoje em tua casa. Ele desceu a toda a pressa e recebeu-o alegremente. Vendo isto, todos murmuravam e diziam: Ele vai hospedar-se em casa de um pecador... Zaqueu, entretanto, de pé diante do Senhor, disse-lhe: Senhor, vou dar a metade dos meus bens aos pobres e, se tiver defraudado alguém, restituirei o quádruplo. Disse-lhe Jesus: Hoje entrou a salvação nesta casa, porquanto também este é filho de Abraão. Lucam XIX, 1-9."
+      "resposta": "Para nos conservarmos castos, devemos fugir da ociosidade, dos maus companheiros, as más leituras, a intemperança, o olhar para figuras indecentes, os espetáculos licenciosos, os bailes, as conversas e diversões perigosas, bem como todas as demais ocasiões de pecado."
     },
     {
       "numero": 432,
@@ -2579,7 +2609,7 @@
       "numero": 433,
       "parte": "Terceira Parte — Dos Mandamentos de Deus e da Igreja",
       "pergunta": "O que quer dizer furtar?",
-      "resposta": "115 PAPAS. Pio X Furtar quer dizer: tirar injustamente as coisas alheias contra a vontade do dono, quando ele tem toda a razão e todo o direito de não querer ser privado do que lhe pertence."
+      "resposta": "Furtar quer dizer: tirar injustamente as coisas alheias contra a vontade do dono, quando ele tem toda a razão e todo o direito de não querer ser privado do que lhe pertence."
     },
     {
       "numero": 434,
@@ -2627,7 +2657,7 @@
       "numero": 441,
       "parte": "Terceira Parte — Dos Mandamentos de Deus e da Igreja",
       "pergunta": "Como se comete a fraude?",
-      "resposta": "A fraude é cometida enganando o próximo no comércio com pesos, medidas ou moedas falsas, ou com gêneros deteriorados; falsificando escrituras e documentos; em suma, fazendo falsidades nas compras, nas vendas ou em qualquer outro con116 CATECISMO MAIOR DES. Pio X trato, e ainda quando se não quer dar o preço justo ou o preço combinado."
+      "resposta": "A fraude é cometida enganando o próximo no comércio com pesos, medidas ou moedas falsas, ou com gêneros deteriorados; falsificando escrituras e documentos; em suma, fazendo falsidades nas compras, nas vendas ou em qualquer outro con116 trato, e ainda quando se não quer dar o preço justo ou o preço combinado."
     },
     {
       "numero": 442,
@@ -2663,7 +2693,7 @@
       "numero": 447,
       "parte": "Terceira Parte — Dos Mandamentos de Deus e da Igreja",
       "pergunta": "Quem pecou contra o sétimo Mandamento, é suficiente que apenas se confesse disso?",
-      "resposta": "Quem pecou contra o sétimo Mandamento, não basta que se confesse, mas é necessário que faça o que puder para restituir as coisas alheias e reparar os danos causados ao próximo. 117 PAPAS. Pio X"
+      "resposta": "Quem pecou contra o sétimo Mandamento, não basta que se confesse, mas é necessário que faça o que puder para restituir as coisas alheias e reparar os danos causados ao próximo."
     },
     {
       "numero": 448,
@@ -2681,7 +2711,7 @@
       "numero": 450,
       "parte": "Terceira Parte — Dos Mandamentos de Deus e da Igreja",
       "pergunta": "Que se deve fazer, quando se acha alguma coisa de grande valor?",
-      "resposta": "Deve-se empregar grande diligência para achar o dono, e restituir-lhe fielmente. 8 5º Do oitavo Mandamento da Lei de Deus Dizei somente: Sim, se é sim; não, se é não. Tudo o que passa além disto vem do Maligno. Mathezeum V, 37"
+      "resposta": "Deve-se empregar grande diligência para achar o dono, e restituir-lhe fielmente."
     },
     {
       "numero": 451,
@@ -2705,7 +2735,7 @@
       "numero": 454,
       "parte": "Terceira Parte — Dos Mandamentos de Deus e da Igreja",
       "pergunta": "Que é a adulação?",
-      "resposta": "118 CATECISMO MAIOR DES. Pio X A adulação é um pecado que consiste em enganar uma pessoa, dizendo-lhe falsamente bem dela mesma ou de outras, com o propósito de tirar daí alguma vantagem."
+      "resposta": "A adulação é um pecado que consiste em enganar uma pessoa, dizendo-lhe falsamente bem dela mesma ou de outras, com o propósito de tirar daí alguma vantagem."
     },
     {
       "numero": 455,
@@ -2765,13 +2795,13 @@
       "numero": 464,
       "parte": "Terceira Parte — Dos Mandamentos de Deus e da Igreja",
       "pergunta": "Quem pecou contra o oitavo Mandamento, basta que se confesse?",
-      "resposta": "119 PAPAS. Pio X Quem pecou contra o oitavo Mandamento, não basta que confesse o seu pecado, mas tem a obrigação de retratar tudo o que disse caluniando o próximo, e reparar, da melhor forma que puder, os danos que lhe causou."
+      "resposta": "Quem pecou contra o oitavo Mandamento, não basta que confesse o seu pecado, mas tem a obrigação de retratar tudo o que disse caluniando o próximo, e reparar, da melhor forma que puder, os danos que lhe causou."
     },
     {
       "numero": 465,
       "parte": "Terceira Parte — Dos Mandamentos de Deus e da Igreja",
       "pergunta": "Que nos ordena o oitavo Mandamento?",
-      "resposta": "O oitavo Mandamento ordena-nos que digamos oportunamente a verdade, e que interpretemos em bom sentido, tanto quanto pudermos, as ações do nosso próximo. 8 6º Do décimo Mandamento da Lei de Deus Onde está o teu tesouro, aí estará também o teu coração. Mathzeum VI, 21."
+      "resposta": "O oitavo Mandamento ordena-nos que digamos oportunamente a verdade, e que interpretemos em bom sentido, tanto quanto pudermos, as ações do nosso próximo."
     },
     {
       "numero": 466,
@@ -2795,7 +2825,7 @@
       "numero": 469,
       "parte": "Terceira Parte — Dos Mandamentos de Deus e da Igreja",
       "pergunta": "Como pode o cristão estar contente na pobreza?",
-      "resposta": "O cristão pode estar contente mesmo na pobreza, considerando que o maior de todos os bens é a consciência pura e tranquila, que a nossa verdadeira pátria é o céu, e que Jesus Cristo se fez pobre por amor de nós, e prometeu um prêmio especial a todos aqueles que suportam com paciência a pobreza. 120"
+      "resposta": "O cristão pode estar contente mesmo na pobreza, considerando que o maior de todos os bens é a consciência pura e tranquila, que a nossa verdadeira pátria é o céu, e que Jesus Cristo se fez pobre por amor de nós, e prometeu um prêmio especial a todos aqueles que suportam com paciência a pobreza."
     },
     {
       "numero": 470,
@@ -2831,7 +2861,7 @@
       "numero": 475,
       "parte": "Terceira Parte — Dos Mandamentos de Deus e da Igreja",
       "pergunta": "Quantos e quais são os preceitos da Igreja?",
-      "resposta": "Os preceitos da Igreja são cinco: 122 CATECISMO MAIOR DES. Pio X 1º Ouvir Missa inteira todos os domingos e outros dias santos. 2º Jejuar na Quaresma, nas Têmporas e vigílias ordenadas, não comer carne em dias proibidos. 3º Confessar-se ao menos uma vez por ano e comungar ao menos pela Páscoa da Ressurreição, cada um em sua própria paróquia. 4º Pagar dízimos segundo o costume. 5º Não celebrar o casamento em tempo proibido, ou seja, desde o primeiro dia da Quaresma até a oitava de Páscoa. 8 2º Do primeiro preceito da Igreja"
+      "resposta": "Os preceitos da Igreja são cinco: 1º Ouvir Missa inteira todos os domingos e outros dias santos. 2º Jejuar na Quaresma, nas Têmporas e vigílias ordenadas, não comer carne em dias proibidos. 3º Confessar-se ao menos uma vez por ano e comungar ao menos pela Páscoa da Ressurreição, cada um em sua própria paróquia. 4º Pagar dízimos segundo o costume. 5º Não celebrar o casamento em tempo proibido, ou seja, desde o primeiro dia da Quaresma até a oitava de Páscoa."
     },
     {
       "numero": 476,
@@ -2849,7 +2879,7 @@
       "numero": 478,
       "parte": "Terceira Parte — Dos Mandamentos de Deus e da Igreja",
       "pergunta": "Por que a Igreja recomenda que os fiéis assistam à Missa paroquial?",
-      "resposta": "A Igreja recomenda aos fiéis que assistam à Missa paroquial: 1º para que aqueles que pertencem à mesma paróquia se unam para rezar, juntamente com o pároco, que é seu líder espiritual) 2º para que os paroquianos participem mais do Santo Sacrifício, que é aplicado principalmente por eles; 3º para que ouçam as verdades do Evangelho que os párocos têm obrigação de expor na Santa Missa; 4 Nota do Tradutor: A Igreja fez algumas adaptações nos tempos litúrgicos mencionados e nas respectivas recomendações da presente questão. 123 PAPAS. Pio X 4º para que conheçam as prescrições e avisos que se publicam na referida Missa."
+      "resposta": "A Igreja recomenda aos fiéis que assistam à Missa paroquial: 1º para que aqueles que pertencem à mesma paróquia se unam para rezar, juntamente com o pároco, que é seu líder espiritual) 2º para que os paroquianos participem mais do Santo Sacrifício, que é aplicado principalmente por eles; 3º para que ouçam as verdades do Evangelho que os párocos têm obrigação de expor na Santa Missa; 4º para que conheçam as prescrições e avisos que se publicam na referida Missa."
     },
     {
       "numero": 479,
@@ -2879,13 +2909,13 @@
       "numero": 483,
       "parte": "Terceira Parte — Dos Mandamentos de Deus e da Igreja",
       "pergunta": "Por que foram instituídas as festas da Santíssima Virgem, dos Anjos e dos Santos?",
-      "resposta": "As festas da Santíssima Virgem, dos Anjos e dos Santos foram instituídas: 1º em memória das graças que Deus lhes concedeu e em agradecimento à bondade divina; 2º para que os honremos, imitemos os seus exemplos e alcancemos o auxílio de suas orações. 8 3º Do segundo preceito da Igreja"
+      "resposta": "As festas da Santíssima Virgem, dos Anjos e dos Santos foram instituídas: 1º em memória das graças que Deus lhes concedeu e em agradecimento à bondade divina; 2º para que os honremos, imitemos os seus exemplos e alcancemos o auxílio de suas orações."
     },
     {
       "numero": 484,
       "parte": "Terceira Parte — Dos Mandamentos de Deus e da Igreja",
       "pergunta": "Que nos manda a Igreja com as palavras do segundo preceito: jejuar nos dias recomendados?",
-      "resposta": "O segundo preceito da Igreja com as palavras: jejuar nos dias recomendados, recomenda que observemos o jejum: 1º Na Quaresma; 2º Em alguns dias do Advento; 124 CATECISMO MAIOR DES. Pio X 3º Nas Têmporas; 4º Em algumas Vésperas ou Vigílias."
+      "resposta": "O segundo preceito da Igreja com as palavras: jejuar nos dias recomendados, recomenda que observemos o jejum: 1º Na Quaresma; 2º Em alguns dias do Advento; 3º Nas Têmporas; 4º Em algumas Vésperas ou Vigílias."
     },
     {
       "numero": 485,
@@ -2933,7 +2963,7 @@
       "numero": 492,
       "parte": "Terceira Parte — Dos Mandamentos de Deus e da Igreja",
       "pergunta": "Com que objetivo foi instituído o jejum das Têmporas?",
-      "resposta": "O jejum das Têmporas foi criado para dedicar todas as estações do ano com a penitência de alguns dias, para pedir a Deus pela preservação dos frutos da terra e agradecer os frutos dela 125 PAPAS. Pio X já recebidos, para pedir-Lhe que dê bons ministros à sua Igreja, cujas ordenações são feitas nos sábados das Têmporas."
+      "resposta": "O jejum das Têmporas foi criado para dedicar todas as estações do ano com a penitência de alguns dias, para pedir a Deus pela preservação dos frutos da terra e agradecer os frutos dela já recebidos, para pedir-Lhe que dê bons ministros à sua Igreja, cujas ordenações são feitas nos sábados das Têmporas."
     },
     {
       "numero": 493,
@@ -2951,7 +2981,7 @@
       "numero": 495,
       "parte": "Terceira Parte — Dos Mandamentos de Deus e da Igreja",
       "pergunta": "Por que a Igreja quer que nos abstenhamos de carne nos dias de hoje?",
-      "resposta": "Para que façamos penitência em cada semana, especialmente nas sextas-feiras em honra à Paixão, e no sábado, em memória do sepultamento de Jesus Cristo, e em honra da Santíssima Virgem. 8 4º Do terceiro preceito da Igreja"
+      "resposta": "Para que façamos penitência em cada semana, especialmente nas sextas-feiras em honra à Paixão, e no sábado, em memória do sepultamento de Jesus Cristo, e em honra da Santíssima Virgem."
     },
     {
       "numero": 496,
@@ -2963,7 +2993,7 @@
       "numero": 497,
       "parte": "Terceira Parte — Dos Mandamentos de Deus e da Igreja",
       "pergunta": "Qual é o tempo oportuno para satisfazer o preceito da Comunhão Pascal?",
-      "resposta": "O tempo oportuno para cumprir o preceito da confissão anual é a Quaresma, de acordo com o costume introduzido e aprovado por toda a Igreja. 5 Nota do Tradutor No Brasil, o tempo oportuno para satisfazer o preceito da Comunhão Pascal inicia-se no dia 2 de fevereiro, festa da Purificação de Nossa Senhora e da Apresentação do Menino Jesus no Templo, até o dia 16 de julho, comemoração de Nossa Senhora do Carmo. 126 CATECISMO MAIOR DES. Pio X"
+      "resposta": "O tempo oportuno para cumprir o preceito da confissão anual é a Quaresma, de acordo com o costume introduzido e aprovado por toda a Igreja."
     },
     {
       "numero": 498,
@@ -2999,7 +3029,7 @@
       "numero": 503,
       "parte": "Terceira Parte — Dos Mandamentos de Deus e da Igreja",
       "pergunta": "Cumpre esse preceito aquele que faz uma confissão e comunhão sacrílegas?",
-      "resposta": "Quem faz uma confissão e comunhão sacrílegas não satisfaz o terceiro preceito da Igreja, porque a intenção da Igreja é que se receba estes sacramentos com o propósito para o qual foram estabelecidos, ou seja, para a nossa santificação. 127 PAPAS. Pio X 8 5º Do quarto preceito da Igreja"
+      "resposta": "Quem faz uma confissão e comunhão sacrílegas não satisfaz o terceiro preceito da Igreja, porque a intenção da Igreja é que se receba estes sacramentos com o propósito para o qual foram estabelecidos, ou seja, para a nossa santificação."
     },
     {
       "numero": 504,
@@ -3011,7 +3041,7 @@
       "numero": 505,
       "parte": "Terceira Parte — Dos Mandamentos de Deus e da Igreja",
       "pergunta": "Como se paga o dízimo?",
-      "resposta": "O dízimo deve pagar-se daquelas coisas e da maneira que se costuma pagar em cada lugar. 8 6º Do quinto preceito da Igreja"
+      "resposta": "O dízimo deve pagar-se daquelas coisas e da maneira que se costuma pagar em cada lugar."
     },
     {
       "numero": 506,
@@ -3029,7 +3059,7 @@
       "numero": 508,
       "parte": "Terceira Parte — Dos Mandamentos de Deus e da Igreja",
       "pergunta": "Por que as demonstrações de pompa não convêm nos tempos do Advento e da Quaresma?",
-      "resposta": "As demonstrações de pompa não são convenientes no Advento e na Quaresma porque estes são tempos especialmente dedicados à oração e penitência. 128"
+      "resposta": "As demonstrações de pompa não são convenientes no Advento e na Quaresma porque estes são tempos especialmente dedicados à oração e penitência."
     },
     {
       "numero": 509,
@@ -3041,7 +3071,13 @@
       "numero": 510,
       "parte": "Terceira Parte — Dos Mandamentos de Deus e da Igreja",
       "pergunta": "Quem impôs aos diferentes estados os seus deveres particulares?",
-      "resposta": "Foi o próprio Deus que impôs aos diversos estados os deveres particulares, porque estes são derivados de seus divinos Mandamentos. 511) Explicai com algum exemplo como os deveres particulares são derivados dos Dez Mandamentos. No quarto Mandamento, sob o nome de pai e mãe, entendem-se também todos os nossos superiores e, portanto, derivam também deste Mandamento todos os deveres de obediência, amor e respeito dos inferiores em relação aos seus superiores e todos os deveres de vigilância que têm os superiores sobre os seus inferiores. PAPAS. Pio X"
+      "resposta": "Foi o próprio Deus que impôs aos diversos estados os deveres particulares, porque estes são derivados de seus divinos Mandamentos."
+    },
+    {
+      "numero": 511,
+      "parte": "Quarta Parte — Dos Sacramentos",
+      "pergunta": "Explicai com algum exemplo como os deveres particulares são derivados dos Dez Mandamentos.",
+      "resposta": "No quarto Mandamento, sob o nome de pai e mãe, entendem-se também todos os nossos superiores e, portanto, derivam também deste Mandamento todos os deveres de obediência, amor e respeito dos inferiores em relação aos seus superiores e todos os deveres de vigilância que têm os superiores sobre os seus inferiores."
     },
     {
       "numero": 512,
@@ -3053,7 +3089,7 @@
       "numero": 513,
       "parte": "Quarta Parte — Dos Sacramentos",
       "pergunta": "De que Mandamento derivam os deveres das pessoas consagradas a Deus?",
-      "resposta": "Os deveres das pessoas consagradas a Deus derivam do segundo Mandamento, que manda cumprir os votos e as promessas feitas a Deus; visto como essas pessoas se obrigaram através desse modo à observância de todos ou de alguns conselhos evangélicos. 8 2º Dos conselhos evangélicos"
+      "resposta": "Os deveres das pessoas consagradas a Deus derivam do segundo Mandamento, que manda cumprir os votos e as promessas feitas a Deus; visto como essas pessoas se obrigaram através desse modo à observância de todos ou de alguns conselhos evangélicos."
     },
     {
       "numero": 514,
@@ -3077,7 +3113,7 @@
       "numero": 517,
       "parte": "Quarta Parte — Dos Sacramentos",
       "pergunta": "Por que os conselhos evangélicos facilitam a observância dos Mandamentos?",
-      "resposta": "Os conselhos evangélicos facilitam a observância dos Mandamentos, porque nos ajudam a desapegar o coração do amor dos bens terrenos, prazeres e honras, e assim nos afastam do pecado. 130 QUARTA"
+      "resposta": "Os conselhos evangélicos facilitam a observância dos Mandamentos, porque nos ajudam a desapegar o coração do amor dos bens terrenos, prazeres e honras, e assim nos afastam do pecado."
     },
     {
       "numero": 518,
@@ -3095,7 +3131,13 @@
       "numero": 520,
       "parte": "Quarta Parte — Dos Sacramentos",
       "pergunta": "Por que chamais aos Sacramentos sinais sensíveis e eficazes da graça?",
-      "resposta": "Os Sacramentos são chamados sinais sensíveis e eficazes da graça porque todos os Sacramentos significam, por meio de coisas sensíveis, a graça divina que eles produzem em nossa alma. 521) Explicai com um exemplo como os Sacramentos são sinais sensíveis e eficazes da graça. No Batismo, o ato de derramar a água sobre a cabeça da pessoa, e as palavras: Eu te batizo, isto é, eu te lavo, em nome PAPAS. Pio X do Padre e do Filho e do Espírito Santo, são um sinal sensível de que o Batismo opera na alma, porque, assim como a água lava o corpo, assim a graça, dada pelo Batismo, purifica a alma do pecado."
+      "resposta": "Os Sacramentos são chamados sinais sensíveis e eficazes da graça porque todos os Sacramentos significam, por meio de coisas sensíveis, a graça divina que eles produzem em nossa alma."
+    },
+    {
+      "numero": 521,
+      "parte": "Quarta Parte — Dos Sacramentos",
+      "pergunta": "Explicai com um exemplo como os Sacramentos são sinais sensíveis e eficazes da graça.",
+      "resposta": "No Batismo, o ato de derramar a água sobre a cabeça da pessoa, e as palavras: Eu te batizo, isto é, eu te lavo, em nome do Padre e do Filho e do Espírito Santo, são um sinal sensível de que o Batismo opera na alma, porque, assim como a água lava o corpo, assim a graça, dada pelo Batismo, purifica a alma do pecado."
     },
     {
       "numero": 522,
@@ -3125,7 +3167,7 @@
       "numero": 526,
       "parte": "Quarta Parte — Dos Sacramentos",
       "pergunta": "Quem é o ministro dos Sacramentos?",
-      "resposta": "O ministro dos Sacramentos é a pessoa que faz ou confere os Sacramentos. 8 2º Do efeito principal dos Sacramentos, que é a graça"
+      "resposta": "O ministro dos Sacramentos é a pessoa que faz ou confere os Sacramentos."
     },
     {
       "numero": 527,
@@ -3143,7 +3185,7 @@
       "numero": 529,
       "parte": "Quarta Parte — Dos Sacramentos",
       "pergunta": "Que é a graça santificante?",
-      "resposta": "132 CATECISMO MAIOR DES. Pio X A graça santificante é um dom sobrenatural, inerente à nossa alma, que nos faz justos, filhos adotivos de Deus e herdeiros do Paraíso."
+      "resposta": "A graça santificante é um dom sobrenatural, inerente à nossa alma, que nos faz justos, filhos adotivos de Deus e herdeiros do Paraíso."
     },
     {
       "numero": 530,
@@ -3197,7 +3239,7 @@
       "numero": 538,
       "parte": "Quarta Parte — Dos Sacramentos",
       "pergunta": "Que é a graça sacramental?",
-      "resposta": "133 PAPAS. Pio X A graça sacramental consiste no direito que se adquire, recebendo qualquer Sacramento, de ter em tempo oportuno as graças atuais necessárias, para cumprir as obrigações decorrentes do Sacramento recebido. Assim, quando fomos batizados, recebemos o direito a ter as graças necessárias para vivermos cristâmente."
+      "resposta": "A graça sacramental consiste no direito que se adquire, recebendo qualquer Sacramento, de ter em tempo oportuno as graças atuais necessárias, para cumprir as obrigações decorrentes do Sacramento recebido. Assim, quando fomos batizados, recebemos o direito a ter as graças necessárias para vivermos cristâmente."
     },
     {
       "numero": 539,
@@ -3233,7 +3275,7 @@
       "numero": 544,
       "parte": "Quarta Parte — Dos Sacramentos",
       "pergunta": "Como são chamados, por esse motivo, estes cinco Sacramentos?",
-      "resposta": "Estes cinco Sacramentos, isto é, a Confirmação, a Eucaristia, a Extrema-Unção, a Ordem e o Matrimônio, são chamados de Sacramentos de vivos, porque aqueles que os recebem, devem 134 CATECISMO MAIOR DES. Pio X estar isentos de pecado mortal, quer dizer, já vivos pela graça santificante."
+      "resposta": "Estes cinco Sacramentos, isto é, a Confirmação, a Eucaristia, a Extrema-Unção, a Ordem e o Matrimônio, são chamados de Sacramentos de vivos, porque aqueles que os recebem, devem estar isentos de pecado mortal, quer dizer, já vivos pela graça santificante."
     },
     {
       "numero": 545,
@@ -3251,7 +3293,7 @@
       "numero": 547,
       "parte": "Quarta Parte — Dos Sacramentos",
       "pergunta": "Qual é o maior de todos os Sacramentos?",
-      "resposta": "O maior de todos os Sacramentos é o Sacramento da Eucaristia, porque contém não só a graça, mas também ao próprio Jesus Cristo, autor da graça e dos Sacramentos. 8 3º Do caráter que imprimem alguns Sacramentos"
+      "resposta": "O maior de todos os Sacramentos é o Sacramento da Eucaristia, porque contém não só a graça, mas também ao próprio Jesus Cristo, autor da graça e dos Sacramentos."
     },
     {
       "numero": 548,
@@ -3275,7 +3317,7 @@
       "numero": 551,
       "parte": "Quarta Parte — Dos Sacramentos",
       "pergunta": "Para que serve o caráter que estes três Sacramentos imprimem na alma?",
-      "resposta": "135 PAPAS. Pio X O caráter que estes três Sacramentos imprimem na alma serve para nos distinguir, no Batismo como membros de Jesus Cristo, na Confirmação como seus soldados, na Ordem como seus ministros. 136"
+      "resposta": "O caráter que estes três Sacramentos imprimem na alma serve para nos distinguir, no Batismo como membros de Jesus Cristo, na Confirmação como seus soldados, na Ordem como seus ministros."
     },
     {
       "numero": 552,
@@ -3287,7 +3329,7 @@
       "numero": 553,
       "parte": "Quarta Parte — Dos Sacramentos",
       "pergunta": "Quais são os efeitos do Sacramento do Batismo?",
-      "resposta": "O Sacramento do Batismo confere a primeira graça santificante, que apaga o pecado original e também o atual se houver; PAPAS. Pio X perdoa toda a pena devida por eles; imprime o caráter de cristão; torna-nos filhos de Deus, membros da Igreja e herdeiros do Paraíso, e torna-nos capazes de receber os outros Sacramentos."
+      "resposta": "O Sacramento do Batismo confere a primeira graça santificante, que apaga o pecado original e também o atual se houver; perdoa toda a pena devida por eles; imprime o caráter de cristão; torna-nos filhos de Deus, membros da Igreja e herdeiros do Paraíso, e torna-nos capazes de receber os outros Sacramentos."
     },
     {
       "numero": 554,
@@ -3299,7 +3341,7 @@
       "numero": 555,
       "parte": "Quarta Parte — Dos Sacramentos",
       "pergunta": "Qual é a forma do Batismo?",
-      "resposta": "A forma do Batismo é esta: “Eu te batizo em nome do Padre e do Filho e do Espírito Santo”. 8 2º Ministro do Batismo"
+      "resposta": "A forma do Batismo é esta: “Eu te batizo em nome do Padre e do Filho e do Espírito Santo”."
     },
     {
       "numero": 556,
@@ -3317,7 +3359,7 @@
       "numero": 558,
       "parte": "Quarta Parte — Dos Sacramentos",
       "pergunta": "Que intenção deve ter quem batiza?",
-      "resposta": "Quem batiza deve ter a intenção de fazer o que faz a Santa Igreja ao batizar. 8 3º Rito do Batismo e disposições de quem o recebe já adulto 138 CATECISMO MAIOR DES. Pio X"
+      "resposta": "Quem batiza deve ter a intenção de fazer o que faz a Santa Igreja ao batizar."
     },
     {
       "numero": 559,
@@ -3359,13 +3401,13 @@
       "numero": 565,
       "parte": "Quarta Parte — Dos Sacramentos",
       "pergunta": "Quando é um adulto que se batiza que disposições deve ter?",
-      "resposta": "139 PAPAS. Pio X O adulto que é batizado deve ter, além da fé, a dor, pelo menos imperfeita, dos pecados mortais que tenha cometido."
+      "resposta": "O adulto que é batizado deve ter, além da fé, a dor, pelo menos imperfeita, dos pecados mortais que tenha cometido."
     },
     {
       "numero": 566,
       "parte": "Quarta Parte — Dos Sacramentos",
       "pergunta": "Se um adulto é batizado em pecado mortal, sem esta dor, que receberia ele?",
-      "resposta": "Se um adulto se batizasse em pecado mortal, sem esta dor, receberia o caráter do Batismo, mas não a remissão dos pecados, nem a graça santificante. E estes efeitos permaneceriam suspensos até que o impedimento fosse removido pela dor perfeita dos pecados com o Sacramento da Penitência. 8 4º Necessidade do Batismo e deveres dos batizados"
+      "resposta": "Se um adulto se batizasse em pecado mortal, sem esta dor, receberia o caráter do Batismo, mas não a remissão dos pecados, nem a graça santificante. E estes efeitos permaneceriam suspensos até que o impedimento fosse removido pela dor perfeita dos pecados com o Sacramento da Penitência."
     },
     {
       "numero": 567,
@@ -3395,7 +3437,7 @@
       "numero": 571,
       "parte": "Quarta Parte — Dos Sacramentos",
       "pergunta": "Que se entende por obras e pompas do demônio?",
-      "resposta": "Por obras e pompas do demônio, entendem-se os pecados e as máximas do mundo, contrárias às máximas do Santo Evangelho. 8 5º Nome e padrinhos 140 CATECISMO MAIOR DES. Pio X"
+      "resposta": "Por obras e pompas do demônio, entendem-se os pecados e as máximas do mundo, contrárias às máximas do Santo Evangelho."
     },
     {
       "numero": 572,
@@ -3431,7 +3473,7 @@
       "numero": 577,
       "parte": "Quarta Parte — Dos Sacramentos",
       "pergunta": "Que vínculo contraem os padrinhos do Batismo?",
-      "resposta": "Os padrinhos contraem um parentesco espiritual com o batizado e seus pais, e este parentesco origina impedimento de matrimônio. 141"
+      "resposta": "Os padrinhos contraem um parentesco espiritual com o batizado e seus pais, e este parentesco origina impedimento de matrimônio."
     },
     {
       "numero": 578,
@@ -3449,7 +3491,7 @@
       "numero": 580,
       "parte": "Quarta Parte — Dos Sacramentos",
       "pergunta": "Quais são os dons do Espírito Santo que se recebem na Confirmação?",
-      "resposta": "Os dons do Espírito Santo, que se recebem na Confirmação, são sete: 1º Sabedoria, 2º Entendimento; CATECISMO MAIOR DES. Pio X 3º Conselho; 4º Fortaleza; 5º Ciência; 6º Piedade; 7º Temor de Deus."
+      "resposta": "Os dons do Espírito Santo, que se recebem na Confirmação, são sete: 1º Sabedoria, 2º Entendimento; 3º Conselho; 4º Fortaleza; 5º Ciência; 6º Piedade; 7º Temor de Deus."
     },
     {
       "numero": 581,
@@ -3485,7 +3527,7 @@
       "numero": 586,
       "parte": "Quarta Parte — Dos Sacramentos",
       "pergunta": "Com que ritos o Bispo administra o Sacramento da Confirmação?",
-      "resposta": "O Bispo, para administrar o Sacramento da Confirmação, primeiro estende as mãos sobre os que estão para se crismar, invocando sobre eles o Espírito Santo; em seguida faz uma unção em forma de cruz com o santo Crisma na fronte de cada um, 143 PAPAS. Pio X dizendo as palavras da forma; depois, com a mão direita, dá um leve palmada na face do crismado, dizendo: A paz seja contigo; finalmente abençoa solenemente todos os crismados."
+      "resposta": "O Bispo, para administrar o Sacramento da Confirmação, primeiro estende as mãos sobre os que estão para se crismar, invocando sobre eles o Espírito Santo; em seguida faz uma unção em forma de cruz com o santo Crisma na fronte de cada um, dizendo as palavras da forma; depois, com a mão direita, dá um leve palmada na face do crismado, dizendo: A paz seja contigo; finalmente abençoa solenemente todos os crismados."
     },
     {
       "numero": 587,
@@ -3521,7 +3563,7 @@
       "numero": 592,
       "parte": "Quarta Parte — Dos Sacramentos",
       "pergunta": "Cometeria pecado quem recebesse a Confirmação pela segunda vez?",
-      "resposta": "Cometeria um sacrilégio, porque a Confirmação é um daqueles Sacramentos que imprimem caráter na alma e, portanto, só podem ser recebidos uma vez. 144 CATECISMO MAIOR DES. Pio X"
+      "resposta": "Cometeria um sacrilégio, porque a Confirmação é um daqueles Sacramentos que imprimem caráter na alma e, portanto, só podem ser recebidos uma vez."
     },
     {
       "numero": 593,
@@ -3545,7 +3587,7 @@
       "numero": 596,
       "parte": "Quarta Parte — Dos Sacramentos",
       "pergunta": "O padrinho de Crisma contrai algum parentesco com o crismado?",
-      "resposta": "Sim, o padrinho de Crisma contrai o mesmo parentesco espiritual com o crismado como aqueles que batizam. 145"
+      "resposta": "Sim, o padrinho de Crisma contrai o mesmo parentesco espiritual com o crismado como aqueles que batizam."
     },
     {
       "numero": 597,
@@ -3587,7 +3629,7 @@
       "numero": 603,
       "parte": "Quarta Parte — Dos Sacramentos",
       "pergunta": "Após a consagração, o que é a hóstia?",
-      "resposta": "147 PAPAS. Pio X Após a consagração a hóstia é o verdadeiro Corpo de Nosso Senhor Jesus Cristo, sob as espécies de pão."
+      "resposta": "Após a consagração a hóstia é o verdadeiro Corpo de Nosso Senhor Jesus Cristo, sob as espécies de pão."
     },
     {
       "numero": 604,
@@ -3641,7 +3683,7 @@
       "numero": 612,
       "parte": "Quarta Parte — Dos Sacramentos",
       "pergunta": "De que maneira podem ficar as espécies do pão e do vinho sem a sua substância?",
-      "resposta": "148 CATECISMO MAIOR DES. Pio X As espécies do pão e do vinho permanecem maravilhosamente sem a sua substância por virtude de Deus Onipotente."
+      "resposta": "As espécies do pão e do vinho permanecem maravilhosamente sem a sua substância por virtude de Deus Onipotente."
     },
     {
       "numero": 613,
@@ -3683,7 +3725,7 @@
       "numero": 619,
       "parte": "Quarta Parte — Dos Sacramentos",
       "pergunta": "Em que parte da hóstia fica o Corpo de Jesus Cristo?",
-      "resposta": "O Corpo de Jesus Cristo fica inteiro em todas e em cada uma das partes em que a hóstia foi dividida. 149 PAPAS. Pio X"
+      "resposta": "O Corpo de Jesus Cristo fica inteiro em todas e em cada uma das partes em que a hóstia foi dividida."
     },
     {
       "numero": 620,
@@ -3701,7 +3743,7 @@
       "numero": 622,
       "parte": "Quarta Parte — Dos Sacramentos",
       "pergunta": "Deve-se adorar a Eucaristia?",
-      "resposta": "A Eucaristia deve ser adorada por todos, porque Ela contém verdadeira, real e substancialmente o mesmo Jesus Cristo Nosso Senhor. 8 2º -Da instituição e dos efeitos do Sacramento da Eucaristia"
+      "resposta": "A Eucaristia deve ser adorada por todos, porque Ela contém verdadeira, real e substancialmente o mesmo Jesus Cristo Nosso Senhor."
     },
     {
       "numero": 623,
@@ -3719,7 +3761,7 @@
       "numero": 625,
       "parte": "Quarta Parte — Dos Sacramentos",
       "pergunta": "Por que Jesus Cristo instituiu este Sacramento sob as espécies de pão e de vinho?",
-      "resposta": "Jesus Cristo instituiu este Sacramento sob as espécies de pão e de vinho, porque a Eucaristia devia ser nosso alimento espiritual, e era por isso conveniente que nos fosse dada em forma de comida e de bebida. 150 CATECISMO MAIOR DES. Pio X"
+      "resposta": "Jesus Cristo instituiu este Sacramento sob as espécies de pão e de vinho, porque a Eucaristia devia ser nosso alimento espiritual, e era por isso conveniente que nos fosse dada em forma de comida e de bebida."
     },
     {
       "numero": 626,
@@ -3731,7 +3773,7 @@
       "numero": 627,
       "parte": "Quarta Parte — Dos Sacramentos",
       "pergunta": "A Santíssima Eucaristia não produz outros efeitos?",
-      "resposta": "Sim. A Santíssima Eucaristia produz em nós outros três efeitos, a saber: 1º enfraquece as nossas paixões, e particularmente amortece em nós o fogo da concupiscência; 2º aumenta em nós o fervor da caridade para com Deus e com o próximo e ajuda-nos a proceder em conformidade com os desejos de Jesus Cristo; 3º dá-nos um penhor da glória futura e da ressurreição do nosso corpo. 8 3.0 Das disposições necessárias para bem comungar"
+      "resposta": "Sim. A Santíssima Eucaristia produz em nós outros três efeitos, a saber: 1º enfraquece as nossas paixões, e particularmente amortece em nós o fogo da concupiscência; 2º aumenta em nós o fervor da caridade para com Deus e com o próximo e ajuda-nos a proceder em conformidade com os desejos de Jesus Cristo; 3º dá-nos um penhor da glória futura e da ressurreição do nosso corpo."
     },
     {
       "numero": 628,
@@ -3749,7 +3791,7 @@
       "numero": 630,
       "parte": "Quarta Parte — Dos Sacramentos",
       "pergunta": "Que quer dizer: estar em estado de graça?",
-      "resposta": "151 PAPAS. Pio X Estar em estado de graça quer dizer: ter a consciência limpa de todo o pecado mortal."
+      "resposta": "Estar em estado de graça quer dizer: ter a consciência limpa de todo o pecado mortal."
     },
     {
       "numero": 631,
@@ -3773,7 +3815,7 @@
       "numero": 634,
       "parte": "Quarta Parte — Dos Sacramentos",
       "pergunta": "Como é o jejum exigido antes da Comunhão?",
-      "resposta": "Antes da Comunhão é necessário o jejum natural, que consiste em abster-se de qualquer espécie de comida ou bebida.º"
+      "resposta": "Antes da Comunhão é necessário o jejum natural, que consiste em abster-se de qualquer espécie de comida ou bebida."
     },
     {
       "numero": 635,
@@ -3791,7 +3833,7 @@
       "numero": 637,
       "parte": "Quarta Parte — Dos Sacramentos",
       "pergunta": "Que significam as palavras: saber o que se vai receber?",
-      "resposta": "6 Nota do Tradutor: Na atual disciplina eucarística a ingestão de água natural não quebra o jejum. 152 CATECISMO MAIOR DES. Pio X Saber o que se vai receber significa: conhecer o que é ensinado a respeito deste Sacramento na Doutrina Cristã e acreditá-lo firmemente."
+      "resposta": "Saber o que se vai receber significa: conhecer o que é ensinado a respeito deste Sacramento na Doutrina Cristã e acreditá-lo firmemente."
     },
     {
       "numero": 638,
@@ -3821,7 +3863,7 @@
       "numero": 642,
       "parte": "Quarta Parte — Dos Sacramentos",
       "pergunta": "Depois da sagrada Comunhão, quanto tempo permanece Jesus Cristo em nós?",
-      "resposta": "Depois da sagrada Comunhão, Jesus Cristo permanece em nós com a sua graça enquanto se não peca mortalmente; e com a sua presença real permanece em nós enquanto as espécies sacramentais não são consumidas. $ 4.0 -Da maneira de comungar 153 PAPAS. Pio X"
+      "resposta": "Depois da sagrada Comunhão, Jesus Cristo permanece em nós com a sua graça enquanto se não peca mortalmente; e com a sua presença real permanece em nós enquanto as espécies sacramentais não são consumidas."
     },
     {
       "numero": 643,
@@ -3845,7 +3887,7 @@
       "numero": 646,
       "parte": "Quarta Parte — Dos Sacramentos",
       "pergunta": "Se a sagrada Hóstia se colar ao céu da boca, que se deve fazer?",
-      "resposta": "Se a sagrada Hóstia se colar ao céu da boca, é preciso despegá-la com a língua, nunca com os dedos. 8 5.0 -Do preceito da comunhão"
+      "resposta": "Se a sagrada Hóstia se colar ao céu da boca, é preciso despegá-la com a língua, nunca com os dedos."
     },
     {
       "numero": 647,
@@ -3863,7 +3905,7 @@
       "numero": 649,
       "parte": "Quarta Parte — Dos Sacramentos",
       "pergunta": "Pecam aqueles que têm idade capaz para serem admitidos à Comunhão e não comungam?",
-      "resposta": "Aqueles que, tendo a idade capaz para serem admitidos à Comunhão, não comungam, ou porque não querem, ou porque não estão instruídos por sua culpa, pecam sem dúvida. Pecam, também, os seus pais, ou seus substitutos, se o adiamento da 154 CATECISMO MAIOR DES. Pio X Comunhão se dá por sua culpa, e por isso, darão severas contas a Deus."
+      "resposta": "Aqueles que, tendo a idade capaz para serem admitidos à Comunhão, não comungam, ou porque não querem, ou porque não estão instruídos por sua culpa, pecam sem dúvida. Pecam, também, os seus pais, ou seus substitutos, se o adiamento da Comunhão se dá por sua culpa, e por isso, darão severas contas a Deus."
     },
     {
       "numero": 650,
@@ -3875,7 +3917,7 @@
       "numero": 651,
       "parte": "Quarta Parte — Dos Sacramentos",
       "pergunta": "Com que frequência se deve comungar?",
-      "resposta": "Qualquer um pode comungar com tanto maior frequência seja recomendada por um piedoso e douto confessor.” 7 Nota do Tradutor S. Tomás de Aquino legou-nos um dos mais belos testemunhos que expressam o amor e a reverência ao Santíssimo Sacramento. Adoro te devote Eu te adoro com afeto, Deus oculto, que te escondes nestas aparências. A ti sujeita-se o meu coração por inteiro e desfalece ao te contemplar. A vista, o tato e o gosto não te alcançam, mas só com o ouvir-te firmemente creio. Creio em tudo o que disse o Filho de Deus, nada mais verdadeiro do que esta Palavra da Verdade. Na cruz estava oculta somente a tua divindade, mas aqui se esconde também a humanidade. Eu, porém, crendo e confessando ambas, peço-te o que pediu o ladrão arrependido. Tal como Tomé, também eu não vejo as tuas chagas, mas confesso, Senhor, que és o meu Deus; faz-me crer sempre mais em ti, esperar em ti, amar-te. Ó memorial da morte do Senhor, pão vivo que dás vida ao homem, faz que meu pensamento sempre de ti viva, e que sempre lhe seja doce este saber. Senhor Jesus, terno pelicano, lava-me a mim, imundo, com teu sangue, do qual uma só gota já pode salvar o mundo de todos os pecados. Jesus, a quem agora vejo sob véus, peço-te que se cumpra o que mais anseio: que vendo o teu rosto descoberto, seja eu feliz contemplando a tua glória. 155"
+      "resposta": "Qualquer um pode comungar com tanto maior frequência seja recomendada por um piedoso e douto confessor.”"
     },
     {
       "numero": 652,
@@ -3917,7 +3959,7 @@
       "numero": 658,
       "parte": "Quarta Parte — Dos Sacramentos",
       "pergunta": "Qual outra relação há entre o Sacrifício da Missa com o da Cruz?",
-      "resposta": "157 PAPAS. Pio X Outra relação do Sacrifício da Missa com o da Cruz é que o Sacrifício da Missa representa de modo sensível o derramamento do Sangue de Jesus Cristo na Cruz; porque em virtude das palavras da consagração só o Corpo de nosso Salvador se torna presente sob as espécies de pão, e sob as espécies de vinho, só o seu Sangue; embora por concomitância natural e pela união hipostática, está presente, sob cada uma das espécies, Jesus Cristo todo inteiro, vivo e verdadeiro."
+      "resposta": "Outra relação do Sacrifício da Missa com o da Cruz é que o Sacrifício da Missa representa de modo sensível o derramamento do Sangue de Jesus Cristo na Cruz; porque em virtude das palavras da consagração só o Corpo de nosso Salvador se torna presente sob as espécies de pão, e sob as espécies de vinho, só o seu Sangue; embora por concomitância natural e pela união hipostática, está presente, sob cada uma das espécies, Jesus Cristo todo inteiro, vivo e verdadeiro."
     },
     {
       "numero": 659,
@@ -3935,7 +3977,7 @@
       "numero": 661,
       "parte": "Quarta Parte — Dos Sacramentos",
       "pergunta": "Quem oferece a Deus o Santo Sacrifício da Missa?",
-      "resposta": "O primeiro e principal oferente do Santo Sacrifício da Missa é Jesus Cristo, e o sacerdote é o ministro que em nome de Jesus Cristo oferece este sacrifício ao Eterno Padre. 8 Nota do Tradutor: União hipostática ou união mística ou dupla natureza de Cristo é a doutrina clássica da cristologia que afirma ter Jesus Cristo duas naturezas, sendo verdadeiro homem e verdadeiro Deus ao mesmo tempo. 158 CATECISMO MAIOR DES. Pio X"
+      "resposta": "O primeiro e principal oferente do Santo Sacrifício da Missa é Jesus Cristo, e o sacerdote é o ministro que em nome de Jesus Cristo oferece este sacrifício ao Eterno Padre."
     },
     {
       "numero": 662,
@@ -3959,7 +4001,7 @@
       "numero": 665,
       "parte": "Quarta Parte — Dos Sacramentos",
       "pergunta": "Quem participa dos frutos da Missa?",
-      "resposta": "Toda a Igreja participa dos frutos da Missa, mas particularmente: 1º o sacerdote e aqueles que assistem à Missa, que estão unidos ao sacerdote; 2º aqueles para os quais a Missa é aplicada, podendo ser tanto vivos como defuntos. 8 2º -Do modo de assistir à Missa"
+      "resposta": "Toda a Igreja participa dos frutos da Missa, mas particularmente: 1º o sacerdote e aqueles que assistem à Missa, que estão unidos ao sacerdote; 2º aqueles para os quais a Missa é aplicada, podendo ser tanto vivos como defuntos."
     },
     {
       "numero": 666,
@@ -3971,7 +4013,7 @@
       "numero": 667,
       "parte": "Quarta Parte — Dos Sacramentos",
       "pergunta": "Em que consiste a modéstia da pessoa?",
-      "resposta": "A modéstia da pessoa consiste especialmente no modo de estar modestamente vestido, em observar o silêncio e o recolhimento, e em estar, tanto quanto possível, de joelhos, exceto no tempo dos dois evangelhos, que se escutam em pé. 159 PAPAS. Pio X"
+      "resposta": "A modéstia da pessoa consiste especialmente no modo de estar modestamente vestido, em observar o silêncio e o recolhimento, e em estar, tanto quanto possível, de joelhos, exceto no tempo dos dois evangelhos, que se escutam em pé."
     },
     {
       "numero": 668,
@@ -4001,13 +4043,13 @@
       "numero": 672,
       "parte": "Quarta Parte — Dos Sacramentos",
       "pergunta": "Terminada a Missa, que se deve fazer?",
-      "resposta": "Terminada a Missa, devemos render graças a Deus por nos ter concedido a graça de assistir a este grande sacrifício e pedir-Lhe perdão das faltas cometidas enquanto a assistíamos. 160"
+      "resposta": "Terminada a Missa, devemos render graças a Deus por nos ter concedido a graça de assistir a este grande sacrifício e pedir-Lhe perdão das faltas cometidas enquanto a assistíamos."
     },
     {
       "numero": 673,
       "parte": "Quarta Parte — Dos Sacramentos",
       "pergunta": "Que é o Sacramento da Penitência?",
-      "resposta": "A Penitência, também chamada Confissão, é o Sacramento instituído por Jesus Cristo para perdoar os pecados cometidos depois do Batismo. PAPAS. Pio X"
+      "resposta": "A Penitência, também chamada Confissão, é o Sacramento instituído por Jesus Cristo para perdoar os pecados cometidos depois do Batismo."
     },
     {
       "numero": 674,
@@ -4055,7 +4097,7 @@
       "numero": 681,
       "parte": "Quarta Parte — Dos Sacramentos",
       "pergunta": "Por que o Sacerdote deve ser aprovado pelo Bispo?",
-      "resposta": "162 CATECISMO MAIOR DES. Pio X O Sacerdote deve ser aprovado pelo Bispo para ouvir confissões, porque, para administrar validamente este Sacramento, não basta o poder da Ordem, mas é necessário também o poder de jurisdição, isto é, a faculdade de julgamento, que deve ser dada pelo Bispo."
+      "resposta": "O Sacerdote deve ser aprovado pelo Bispo para ouvir confissões, porque, para administrar validamente este Sacramento, não basta o poder da Ordem, mas é necessário também o poder de jurisdição, isto é, a faculdade de julgamento, que deve ser dada pelo Bispo."
     },
     {
       "numero": 682,
@@ -4103,13 +4145,13 @@
       "numero": 689,
       "parte": "Quarta Parte — Dos Sacramentos",
       "pergunta": "Que é a absolvição?",
-      "resposta": "163 PAPAS. Pio X A absolvição é a sentença que o Sacerdote pronuncia em nome de Jesus Cristo, para perdoar os pecados ao penitente."
+      "resposta": "A absolvição é a sentença que o Sacerdote pronuncia em nome de Jesus Cristo, para perdoar os pecados ao penitente."
     },
     {
       "numero": 690,
       "parte": "Quarta Parte — Dos Sacramentos",
       "pergunta": "Das partes do Sacramento da Penitência, qual é a mais necessária?",
-      "resposta": "Das partes do Sacramento da Penitência, a mais necessária é a contrição, porque sem ela nunca se pode obter o perdão dos pecados, e com ela só, quando é perfeita, pode obter-se o perdão, desde que esteja unida com o desejo, pelo menos implícito, de confessar-se. 8 2º -Dos efeitos e da necessidade do Sacramento da Penitência e das disposições para bem recebê-lo Mais tarde, Jesus o achou no templo e lhe disse: Eis que ficaste são; já não peques, para não te acontecer coisa pior. Joannem V, 14."
+      "resposta": "Das partes do Sacramento da Penitência, a mais necessária é a contrição, porque sem ela nunca se pode obter o perdão dos pecados, e com ela só, quando é perfeita, pode obter-se o perdão, desde que esteja unida com o desejo, pelo menos implícito, de confessar-se."
     },
     {
       "numero": 691,
@@ -4127,7 +4169,7 @@
       "numero": 693,
       "parte": "Quarta Parte — Dos Sacramentos",
       "pergunta": "É bom confessar-se com frequência?",
-      "resposta": "Confessar-se com frequência é coisa ótima, porque o Sacramento da Penitência, além de apagar os pecados, dá as graças necessárias para evitá-los no futuro. 164 CATECISMO MAIOR DES. Pio X"
+      "resposta": "Confessar-se com frequência é coisa ótima, porque o Sacramento da Penitência, além de apagar os pecados, dá as graças necessárias para evitá-los no futuro."
     },
     {
       "numero": 694,
@@ -4145,7 +4187,7 @@
       "numero": 696,
       "parte": "Quarta Parte — Dos Sacramentos",
       "pergunta": "Que devemos fazer, antes de tudo, para fazer uma boa confissão?",
-      "resposta": "Para fazer uma boa confissão devemos, antes de tudo, rezar de todo o coração ao Senhor que nos dê luz para conhecer todos os nossos pecados e força para os detestar. 8 3º -Do exame de consciência Mesmo em cólera, não pequeis. Não se ponha o sol sobre o vosso ressentimento. Ephesios IV, 26."
+      "resposta": "Para fazer uma boa confissão devemos, antes de tudo, rezar de todo o coração ao Senhor que nos dê luz para conhecer todos os nossos pecados e força para os detestar."
     },
     {
       "numero": 697,
@@ -4163,7 +4205,7 @@
       "numero": 699,
       "parte": "Quarta Parte — Dos Sacramentos",
       "pergunta": "Em que mais outras coisas devemos examinar-nos?",
-      "resposta": "165 PAPAS. Pio X Devemos examinar-nos também sobre os maus hábitos e sobre as ocasiões de pecado."
+      "resposta": "Devemos examinar-nos também sobre os maus hábitos e sobre as ocasiões de pecado."
     },
     {
       "numero": 700,
@@ -4211,7 +4253,7 @@
       "numero": 707,
       "parte": "Quarta Parte — Dos Sacramentos",
       "pergunta": "Como se pode facilitar o exame para a confissão?",
-      "resposta": "Facilita-se o exame para a confissão, fazendo todas as noites o exame de consciência sobre as ações do dia. 8 4º -Da dor ou arrependimento 166 CATECISMO MAIOR DES. Pio X Uma mulher pecadora da cidade, quando soube que estava à mesa em casa do fariseu, trouxe um vaso de alabastro cheio de perfume; e, estando a seus pés, por detrás dele, começou a chorar. Pouco depois suas lágrimas banhavam os pés do Senhor e ela os enxugava com os cabelos, beijava-os e os ungia com o perfume. E disse a ela: Perdoados te são os pecados. Lucam VII, 37-38. 48."
+      "resposta": "Facilita-se o exame para a confissão, fazendo todas as noites o exame de consciência sobre as ações do dia."
     },
     {
       "numero": 708,
@@ -4247,7 +4289,7 @@
       "numero": 713,
       "parte": "Quarta Parte — Dos Sacramentos",
       "pergunta": "Por que a dor perfeita, ou contrição, produz este efeito de nos conceder o estado de graça?",
-      "resposta": "A dor perfeita, ou contrição, produz este efeito, porque procede da caridade, que não pode encontrar-se na alma juntamente com o pecado mortal. 167 PAPAS. Pio X"
+      "resposta": "A dor perfeita, ou contrição, produz este efeito, porque procede da caridade, que não pode encontrar-se na alma juntamente com o pecado mortal."
     },
     {
       "numero": 714,
@@ -4283,13 +4325,19 @@
       "numero": 719,
       "parte": "Quarta Parte — Dos Sacramentos",
       "pergunta": "Por que a dor deve ser sobrenatural?",
-      "resposta": "A dor deve ser sobrenatural, porque é sobrenatural o fim a que se dirige, ou seja, o perdão de Deus, a aquisição da graça santificante e o direito à glória eterna. 720) Explicai melhor a diferença entre a dor sobrenatural e a natural. Aquele que se arrepende por ter ofendido a Deus infinitamente bom e digno por Si mesmo de ser amado, por ter perdido o Paraíso e merecido o inferno, ou então pela malícia intrínseca do pecado, tem uma dor sobrenatural, porque estes são os motivos fornecidos pela fé. Aquele, ao contrário, que se arrependesse só pela desonra ou punição que lhe vem dos homens, ou por algum prejuízo puramente temporal, teria dor natural, porque se arrependeria só por motivos humanos."
+      "resposta": "A dor deve ser sobrenatural, porque é sobrenatural o fim a que se dirige, ou seja, o perdão de Deus, a aquisição da graça santificante e o direito à glória eterna."
+    },
+    {
+      "numero": 720,
+      "parte": "Quarta Parte — Dos Sacramentos",
+      "pergunta": "Explicai melhor a diferença entre a dor sobrenatural e a natural.",
+      "resposta": "Aquele que se arrepende por ter ofendido a Deus infinitamente bom e digno por Si mesmo de ser amado, por ter perdido o Paraíso e merecido o inferno, ou então pela malícia intrínseca do pecado, tem uma dor sobrenatural, porque estes são os motivos fornecidos pela fé. Aquele, ao contrário, que se arrependesse só pela desonra ou punição que lhe vem dos homens, ou por algum prejuízo puramente temporal, teria dor natural, porque se arrependeria só por motivos humanos."
     },
     {
       "numero": 721,
       "parte": "Quarta Parte — Dos Sacramentos",
       "pergunta": "Por que a dor deve ser suma?",
-      "resposta": "168 CATECISMO MAIOR DES. Pio X A dor deve ser suma, porque devemos considerar e odiar o pecado como o maior de todos os males, sendo ofensa a Deus, supremo Bem."
+      "resposta": "A dor deve ser suma, porque devemos considerar e odiar o pecado como o maior de todos os males, sendo ofensa a Deus, supremo Bem."
     },
     {
       "numero": 722,
@@ -4325,7 +4373,7 @@
       "numero": 727,
       "parte": "Quarta Parte — Dos Sacramentos",
       "pergunta": "Devemos ter grande empenho, quando vamos confessar, em ter uma verdadeira dor dos nossos pecados?",
-      "resposta": "169 PAPAS. Pio X Quando vamos confessar devemos certamente ter muito empenho em ter verdadeira dor dos nossos pecados, porque esta é a coisa mais importante de todas; e, se não houver dor, a confissão não é válida."
+      "resposta": "Quando vamos confessar devemos certamente ter muito empenho em ter verdadeira dor dos nossos pecados, porque esta é a coisa mais importante de todas; e, se não houver dor, a confissão não é válida."
     },
     {
       "numero": 728,
@@ -4349,7 +4397,7 @@
       "numero": 731,
       "parte": "Quarta Parte — Dos Sacramentos",
       "pergunta": "É bom fazer o ato de contrição com frequência?",
-      "resposta": "É coisa boa e muito útil fazer, com frequência, o ato de contrição, principalmente antes de se deitar, e quando se tem certeza ou se duvida de ter caído em pecado mortal, para recuperar mais depressa a graça de Deus; é útil, sobretudo, para se obter mais facilmente de Deus a graça de fazer semelhante ato na ocasião de maior necessidade, isto é, em perigo de morte. 8 5º -Do propósito Renunciai à vida passada, despojai-vos do homem velho, corrompido pelas concupiscências enganadoras. Ephesios 170 CATECISMO MAIOR DES. Pio X"
+      "resposta": "É coisa boa e muito útil fazer, com frequência, o ato de contrição, principalmente antes de se deitar, e quando se tem certeza ou se duvida de ter caído em pecado mortal, para recuperar mais depressa a graça de Deus; é útil, sobretudo, para se obter mais facilmente de Deus a graça de fazer semelhante ato na ocasião de maior necessidade, isto é, em perigo de morte."
     },
     {
       "numero": 732,
@@ -4397,7 +4445,7 @@
       "numero": 739,
       "parte": "Quarta Parte — Dos Sacramentos",
       "pergunta": "Que se entende por ocasiões perigosas de pecar?",
-      "resposta": "17 PAPAS. Pio X Por ocasiões perigosas de pecar entendem-se todas aquelas circunstâncias de tempo, de lugar, de pessoas ou de coisas, que, pela sua própria natureza, ou pela nossa fragilidade, nos induzem a cometer o pecado."
+      "resposta": "Por ocasiões perigosas de pecar entendem-se todas aquelas circunstâncias de tempo, de lugar, de pessoas ou de coisas, que, pela sua própria natureza, ou pela nossa fragilidade, nos induzem a cometer o pecado."
     },
     {
       "numero": 740,
@@ -4415,7 +4463,7 @@
       "numero": 742,
       "parte": "Quarta Parte — Dos Sacramentos",
       "pergunta": "Que considerações nos auxiliam a fazer o propósito?",
-      "resposta": "Para fazer o propósito auxiliam-nos as mesmas considerações que servem para excitar a dor, isto é, a consideração dos motivos que temos para temer a justiça de Deus, e para amar a sua infinita bondade. 8 6º -Da acusação dos pecados ao confessor Eu reconheço a minha iniquidade, diante de mim está sempre o meu pecado. Psalmorum L, 5"
+      "resposta": "Para fazer o propósito auxiliam-nos as mesmas considerações que servem para excitar a dor, isto é, a consideração dos motivos que temos para temer a justiça de Deus, e para amar a sua infinita bondade."
     },
     {
       "numero": 743,
@@ -4427,7 +4475,7 @@
       "numero": 744,
       "parte": "Quarta Parte — Dos Sacramentos",
       "pergunta": "De que pecados somos obrigados a confessar-nos?",
-      "resposta": "Somos obrigados a confessar-nos de todos os pecados mortais; mas é bom confessar também os veniais. 172 CATECISMO MAIOR DES. Pio X"
+      "resposta": "Somos obrigados a confessar-nos de todos os pecados mortais; mas é bom confessar também os veniais."
     },
     {
       "numero": 745,
@@ -4469,7 +4517,7 @@
       "numero": 751,
       "parte": "Quarta Parte — Dos Sacramentos",
       "pergunta": "Dai-me agora exemplo de uma circunstância pela qual uma e a mesma ação pecaminosa contém a malícia de dois ou mais pecados?",
-      "resposta": "173 PAPAS. Pio X Quem tivesse roubado uma coisa sagrada, deveria acusar esta circunstância, que acrescenta ao furto a malícia do sacrilégio."
+      "resposta": "Quem tivesse roubado uma coisa sagrada, deveria acusar esta circunstância, que acrescenta ao furto a malícia do sacrilégio."
     },
     {
       "numero": 752,
@@ -4505,7 +4553,7 @@
       "numero": 757,
       "parte": "Quarta Parte — Dos Sacramentos",
       "pergunta": "Quem deliberadamente ocultou algum pecado mortal na confissão, como há de conciliar a própria consciência?",
-      "resposta": "Quem ocultou culpavelmente algum pecado mortal na confissão, deve expor ao confessor o pecado ocultado, dizer em 174 CATECISMO MAIOR DES. Pio X quantas confissões o ocultou, e repetir todas as confissões, desde a última bem feita."
+      "resposta": "Quem ocultou culpavelmente algum pecado mortal na confissão, deve expor ao confessor o pecado ocultado, dizer em quantas confissões o ocultou, e repetir todas as confissões, desde a última bem feita."
     },
     {
       "numero": 758,
@@ -4535,7 +4583,7 @@
       "numero": 762,
       "parte": "Quarta Parte — Dos Sacramentos",
       "pergunta": "Mas o dever de confessar a outro homem os próprios pecados, não será muito custoso, sobretudo se são muito vergonhosos?",
-      "resposta": "Embora confessar os próprios pecados a outro homem possa ser penoso, é necessário fazê-lo, porque é de preceito divino; e de outro modo não se pode obter o perdão dos pecados cometidos; além disso, a dificuldade de se confessar é compensada por muitas vantagens e grandes consolações. 175 PAPAS. Pio X 8 7º -Do modo de se confessar Então eu vos confessei o meu pecado, e não mais dissimulei a minha culpa. Disse: Sim, vou confessar ao Senhor a minha iniquidade. E vós perdoastes a pena do meu pecado. Psalmorum XXXI, 5"
+      "resposta": "Embora confessar os próprios pecados a outro homem possa ser penoso, é necessário fazê-lo, porque é de preceito divino; e de outro modo não se pode obter o perdão dos pecados cometidos; além disso, a dificuldade de se confessar é compensada por muitas vantagens e grandes consolações."
     },
     {
       "numero": 763,
@@ -4577,13 +4625,13 @@
       "numero": 769,
       "parte": "Quarta Parte — Dos Sacramentos",
       "pergunta": "Concluída assim a acusação dos pecados, que mais resta a fazer?",
-      "resposta": "Concluída a acusação dos pecados, é necessário ouvir com respeito o que disser o confessor; aceitar a penitência com sincera vontade de cumpri-la; e, enquanto ele dá a absolvição, renovar o ato de contrição. 176 CATECISMO MAIOR DES. Pio X"
+      "resposta": "Concluída a acusação dos pecados, é necessário ouvir com respeito o que disser o confessor; aceitar a penitência com sincera vontade de cumpri-la; e, enquanto ele dá a absolvição, renovar o ato de contrição."
     },
     {
       "numero": 770,
       "parte": "Quarta Parte — Dos Sacramentos",
       "pergunta": "Depois de recebida a absolvição, o que resta fazer?",
-      "resposta": "Depois de recebida a absolvição, é preciso agradecer a Nosso Senhor, cumprir quanto antes a penitência, e pôr em prática os conselhos do confessor. 88º -Da absolvição O sacerdote fará por ele a expiação diante do Senhor com o carneiro do sacrifício de reparação pelo pecado cometido; e o seu pecado lhe será perdoado. Leviticus XIX, 22."
+      "resposta": "Depois de recebida a absolvição, é preciso agradecer a Nosso Senhor, cumprir quanto antes a penitência, e pôr em prática os conselhos do confessor."
     },
     {
       "numero": 771,
@@ -4601,7 +4649,7 @@
       "numero": 773,
       "parte": "Quarta Parte — Dos Sacramentos",
       "pergunta": "Quais são os penitentes que se devem considerar mal dispostos, e aos quais se deve ordinariamente diferir ou negar a absolvição?",
-      "resposta": "Os penitentes que se devem considerar mal dispostos são principalmente: 1º aqueles que não conhecem os principais mistérios da fé, ou se descuidam de aprender os aspectos da Doutrina Cristã, que são obrigados a saber, conforme o seu estado; 2º aqueles que são gravemente negligentes em fazer o exame de consciência ou não dão sinais de dor e arrependimento; 3º aqueles que não querem restituir, podendo, as coisas alheias ou a reputação roubada; 4º aqueles que não perdoam de coração aos seus inimigos; 177 PAPAS. Pio X 5º aqueles que não querem praticar os meios necessários para corrigir os seus maus hábitos; 6º aqueles que não querem fugir das ocasiões próximas de pecado."
+      "resposta": "Os penitentes que se devem considerar mal dispostos são principalmente: 1º aqueles que não conhecem os principais mistérios da fé, ou se descuidam de aprender os aspectos da Doutrina Cristã, que são obrigados a saber, conforme o seu estado; 2º aqueles que são gravemente negligentes em fazer o exame de consciência ou não dão sinais de dor e arrependimento; 3º aqueles que não querem restituir, podendo, as coisas alheias ou a reputação roubada; 4º aqueles que não perdoam de coração aos seus inimigos; 5º aqueles que não querem praticar os meios necessários para corrigir os seus maus hábitos; 6º aqueles que não querem fugir das ocasiões próximas de pecado."
     },
     {
       "numero": 774,
@@ -4619,13 +4667,13 @@
       "numero": 776,
       "parte": "Quarta Parte — Dos Sacramentos",
       "pergunta": "Que deve fazer o penitente quanto à escolha do confessor?",
-      "resposta": "O verdadeiro penitente deve implorar a Deus para que escolha um confessor piedoso, douto e prudente, e deve depois entregar-se às suas mãos, e submeter-se a ele como a seu juiz e médico. 8 9º -Da satisfação ou penitência Mas o Senhor é paciente; façamos, pois, penitência por isso e peçamos-lhe perdão com lágrimas nos olhos, pois Deus não ameaça como os homens e não se deixa arrastar como eles à violência da cólera. Iudite VIH, 15"
+      "resposta": "O verdadeiro penitente deve implorar a Deus para que escolha um confessor piedoso, douto e prudente, e deve depois entregar-se às suas mãos, e submeter-se a ele como a seu juiz e médico."
     },
     {
       "numero": 777,
       "parte": "Quarta Parte — Dos Sacramentos",
       "pergunta": "Que é a satisfação?",
-      "resposta": "A satisfação, que também é chamada penitência sacramental, é um dos atos do penitente, com o qual ele dá uma certa 178 CATECISMO MAIOR DES. Pio X reparação à justiça divina pelos pecados cometidos pondo em prática as obras que o confessor lhe impõe."
+      "resposta": "A satisfação, que também é chamada penitência sacramental, é um dos atos do penitente, com o qual ele dá uma certa reparação à justiça divina pelos pecados cometidos pondo em prática as obras que o confessor lhe impõe."
     },
     {
       "numero": 778,
@@ -4667,7 +4715,7 @@
       "numero": 784,
       "parte": "Quarta Parte — Dos Sacramentos",
       "pergunta": "A penitência dada pelo confessor é suficiente para pagar a pena que ainda permanece, devida aos pecados?",
-      "resposta": "179 PAPAS. Pio X A penitência que dá o confessor, comumente não é suficiente para pagar a pena devida pelos pecados; por isso deve-se esforçar-se para compensar com outras penitências voluntárias."
+      "resposta": "A penitência que dá o confessor, comumente não é suficiente para pagar a pena devida pelos pecados; por isso deve-se esforçar-se para compensar com outras penitências voluntárias."
     },
     {
       "numero": 785,
@@ -4715,7 +4763,7 @@
       "numero": 792,
       "parte": "Quarta Parte — Dos Sacramentos",
       "pergunta": "Além da penitência, que mais deve fazer o penitente após a confissão?",
-      "resposta": "180 CATECISMO MAIOR DES. Pio X O penitente, após a confissão, além de cumprir a penitência, se injustamente prejudicou o próximo nos bens ou na honra, ou se lhe deu escândalo, deve, o mais breve e na medida em que for possível, restituir-lhe os bens, reparar-lhe a honra e remediar o escândalo."
+      "resposta": "O penitente, após a confissão, além de cumprir a penitência, se injustamente prejudicou o próximo nos bens ou na honra, ou se lhe deu escândalo, deve, o mais breve e na medida em que for possível, restituir-lhe os bens, reparar-lhe a honra e remediar o escândalo."
     },
     {
       "numero": 793,
@@ -4733,13 +4781,13 @@
       "numero": 795,
       "parte": "Quarta Parte — Dos Sacramentos",
       "pergunta": "Que frutos produz em nós uma boa confissão?",
-      "resposta": "Uma boa confissão: 1º perdoa-nos os pecados cometidos, e dá-nos a graça de Deus; 2º restitui-nos a paz e a tranquilidade da consciência; 3º reabre-nos as portas do Paraíso, e comuta a pena eterna do inferno em pena temporal; 4º preserva-nos das recaídas, e torna-nos capazes de ganhar o tesouro das indulgências. 8 10º -Das indulgências Se, porém, andamos na luz como ele mesmo está na luz, temos comunhão recíproca uns com os outros, e o sangue de Jesus Cristo, seu Filho, nos purifica de todo pecado. Joannem Epistula 1, I, 7."
+      "resposta": "Uma boa confissão: 1º perdoa-nos os pecados cometidos, e dá-nos a graça de Deus; 2º restitui-nos a paz e a tranquilidade da consciência; 3º reabre-nos as portas do Paraíso, e comuta a pena eterna do inferno em pena temporal; 4º preserva-nos das recaídas, e torna-nos capazes de ganhar o tesouro das indulgências."
     },
     {
       "numero": 796,
       "parte": "Quarta Parte — Dos Sacramentos",
       "pergunta": "Que é a indulgência?",
-      "resposta": "A indulgência é a remissão da pena temporal devida pelos pecados já perdoados quanto à culpa, remissão que a Igreja concede fora do Sacramento da Penitência. 181 PAPAS. Pio X"
+      "resposta": "A indulgência é a remissão da pena temporal devida pelos pecados já perdoados quanto à culpa, remissão que a Igreja concede fora do Sacramento da Penitência."
     },
     {
       "numero": 797,
@@ -4787,7 +4835,7 @@
       "numero": 804,
       "parte": "Quarta Parte — Dos Sacramentos",
       "pergunta": "O que se entende por indulgências de quarenta ou cem dias, ou sete anos, e assim por diante?",
-      "resposta": "Indulgências de quarenta ou cem dias, ou sete anos, e assim por diante entende-se a remissão da pena temporal tanto 182 CATECISMO MAIOR DES. Pio X quanto seria descontar quarenta ou cem dias, ou sete anos de penitência antigamente estabelecida pela Igreja."
+      "resposta": "Indulgências de quarenta ou cem dias, ou sete anos, e assim por diante entende-se a remissão da pena temporal tanto quanto seria descontar quarenta ou cem dias, ou sete anos de penitência antigamente estabelecida pela Igreja."
     },
     {
       "numero": 805,
@@ -4811,7 +4859,7 @@
       "numero": 808,
       "parte": "Quarta Parte — Dos Sacramentos",
       "pergunta": "Que é o Jubileu?",
-      "resposta": "O Jubileu, que ordinariamente se concede todos os vinte e cinco anos, é uma indulgência plenária, à qual se reúnem muitos privilégios e concessões particulares, como o poder de obter-se a absolvição de alguns pecados reservados e de censuras, e a comutação de alguns votos. 183"
+      "resposta": "O Jubileu, que ordinariamente se concede todos os vinte e cinco anos, é uma indulgência plenária, à qual se reúnem muitos privilégios e concessões particulares, como o poder de obter-se a absolvição de alguns pecados reservados e de censuras, e a comutação de alguns votos."
     },
     {
       "numero": 809,
@@ -4823,7 +4871,7 @@
       "numero": 810,
       "parte": "Quarta Parte — Dos Sacramentos",
       "pergunta": "Quais os efeitos do Sacramento da Extrema-Unção?",
-      "resposta": "O efeitos do Sacramento da Extrema-Unção são os seguintes: 1º aumenta a graça santificante; 2º apaga os pecados veniais e também os mortais que o enfermo arrependido já não possa confessar; 3º elimina a fraqueza e languidez para o bem, que fica, mesmo depois de se ter obtido o perdão dos pecados; 4º dá força para suportar pacientemente o mal, para resistir às tentações, e para morrer santamente; 5º ajuda a recuperar a saúde do corpo, se isso for útil à salvação da alma. CATECISMO MAIOR DES. Pio X"
+      "resposta": "O efeitos do Sacramento da Extrema-Unção são os seguintes: 1º aumenta a graça santificante; 2º apaga os pecados veniais e também os mortais que o enfermo arrependido já não possa confessar; 3º elimina a fraqueza e languidez para o bem, que fica, mesmo depois de se ter obtido o perdão dos pecados; 4º dá força para suportar pacientemente o mal, para resistir às tentações, e para morrer santamente; 5º ajuda a recuperar a saúde do corpo, se isso for útil à salvação da alma."
     },
     {
       "numero": 811,
@@ -4847,7 +4895,7 @@
       "numero": 814,
       "parte": "Quarta Parte — Dos Sacramentos",
       "pergunta": "Que sentimento deve experimentar o enfermo ao ver o Sacerdote?",
-      "resposta": "Ao ver o Sacerdote, o enfermo deve experimentar sentimentos de gratidão para com Deus, por lho ter enviado, deve recebê-lo de boa vontade e pedir, se puder, por si mesmo, os confortos da Religião. 185"
+      "resposta": "Ao ver o Sacerdote, o enfermo deve experimentar sentimentos de gratidão para com Deus, por lho ter enviado, deve recebê-lo de boa vontade e pedir, se puder, por si mesmo, os confortos da Religião."
     },
     {
       "numero": 815,
@@ -4889,7 +4937,7 @@
       "numero": 821,
       "parte": "Quinta Parte — Das Virtudes Principais e Outras Coisas Necessárias",
       "pergunta": "É então grande a dignidade do Sacerdócio cristão?",
-      "resposta": "187 PAPAS. Pio X A dignidade do Sacerdócio cristão é muito grande, pelo duplo poder que lhe conferiu Jesus Cristo sobre o seu Corpo real e sobre o seu Corpo místico, que é a Igreja, e pela divina missão, confiada aos Sacerdotes, de conduzir todos os homens à vida eterna."
+      "resposta": "A dignidade do Sacerdócio cristão é muito grande, pelo duplo poder que lhe conferiu Jesus Cristo sobre o seu Corpo real e sobre o seu Corpo místico, que é a Igreja, e pela divina missão, confiada aos Sacerdotes, de conduzir todos os homens à vida eterna."
     },
     {
       "numero": 822,
@@ -4925,31 +4973,55 @@
       "numero": 827,
       "parte": "Quinta Parte — Das Virtudes Principais e Outras Coisas Necessárias",
       "pergunta": "Que deve fazer o cristão para saber se Deus o chama ao estado eclesiástico?",
-      "resposta": "Para saber se Deus o chama ao estado eclesiástico, o cristão deve: 1º rezar fervorosamente para que Nosso Senhor lhe manifeste qual é a sua vontade; 188 CATECISMO MAIOR DES. Pio X 2º tomar conselho do próprio Bispo ou com um diretor sábio e prudente; 3º examinar com diligência se tem a aptidão necessária para os estudos, para os ministérios e para as obrigações desse estado."
+      "resposta": "Para saber se Deus o chama ao estado eclesiástico, o cristão deve: 1º rezar fervorosamente para que Nosso Senhor lhe manifeste qual é a sua vontade; 2º tomar conselho do próprio Bispo ou com um diretor sábio e prudente; 3º examinar com diligência se tem a aptidão necessária para os estudos, para os ministérios e para as obrigações desse estado."
     },
     {
       "numero": 828,
       "parte": "Quinta Parte — Das Virtudes Principais e Outras Coisas Necessárias",
       "pergunta": "Quem entrasse para o estado eclesiástico, sem vocação divina, faria mal?",
-      "resposta": "Quem entrasse para o estado eclesiástico, sem vocação divina, faria um mal muito grave e colocar-se-ia em risco de perder sua alma. 629) Fazem mal os pais que, por razões temporais, induzem os filhos a abraçar o estado eclesiástico sem vocação? Os pais que, por razões temporais, induzem os filhos a abraçar o estado eclesiástico sem vocação, cometem também culpa gravíssima, porque dessa forma usurpam o direito que Deus reservou exclusivamente para Si de escolher os seus ministros, e porque põem os filhos em risco de condenação eterna."
+      "resposta": "Quem entrasse para o estado eclesiástico, sem vocação divina, faria um mal muito grave e colocar-se-ia em risco de perder sua alma."
+    },
+    {
+      "numero": 829,
+      "parte": "Quinta Parte — Das Virtudes Principais e Outras Coisas Necessárias",
+      "pergunta": "Fazem mal os pais que, por razões temporais, induzem os filhos a abraçar o estado eclesiástico sem vocação?",
+      "resposta": "Os pais que, por razões temporais, induzem os filhos a abraçar o estado eclesiástico sem vocação, cometem também culpa gravíssima, porque dessa forma usurpam o direito que Deus reservou exclusivamente para Si de escolher os seus ministros, e porque põem os filhos em risco de condenação eterna."
     },
     {
       "numero": 830,
       "parte": "Quinta Parte — Das Virtudes Principais e Outras Coisas Necessárias",
       "pergunta": "Quais são os deveres dos fiéis para com aqueles que são chamados às ordens sacras?",
-      "resposta": "Os fiéis devem: 1º deixar aos seus filhos e subordinados plena liberdade de seguir o chamado de Deus; 2º rezar para que Deus se digne em conceder à sua Igreja bons Pastores e ministros zelosos; e com esta finalidade foram instituídos os jejuns das Quatro Têmporas; 3º ter um respeito singular a todos aqueles que, por meio das Ordens, são consagrados ao serviço de Deus. 189"
+      "resposta": "Os fiéis devem: 1º deixar aos seus filhos e subordinados plena liberdade de seguir o chamado de Deus; 2º rezar para que Deus se digne em conceder à sua Igreja bons Pastores e ministros zelosos; e com esta finalidade foram instituídos os jejuns das Quatro Têmporas; 3º ter um respeito singular a todos aqueles que, por meio das Ordens, são consagrados ao serviço de Deus."
     },
     {
       "numero": 831,
       "parte": "Quinta Parte — Das Virtudes Principais e Outras Coisas Necessárias",
       "pergunta": "Que é o Sacramento do Matrimônio?",
-      "resposta": "O Matrimônio é um Sacramento instituído por Nosso Senhor Jesus Cristo, que estabelece uma união santa e indissolúvel entre o homem e a mulher, e lhes dá a graça de se amarem um ao outro santamente, e de educarem cristâmente seus filhos. CATECISMO MAIOR DES. Pio X 632) Por quem foi instituído o Matrimônio? O Matrimônio foi instituído pelo próprio Deus no Paraíso terrestre; e no Novo Testamento foi elevado à dignidade de Sacramento por Jesus Cristo."
+      "resposta": "O Matrimônio é um Sacramento instituído por Nosso Senhor Jesus Cristo, que estabelece uma união santa e indissolúvel entre o homem e a mulher, e lhes dá a graça de se amarem um ao outro santamente, e de educarem cristâmente seus filhos."
+    },
+    {
+      "numero": 832,
+      "parte": "Quinta Parte — Das Virtudes Principais e Outras Coisas Necessárias",
+      "pergunta": "Por quem foi instituído o Matrimônio?",
+      "resposta": "O Matrimônio foi instituído pelo próprio Deus no Paraíso terrestre; e no Novo Testamento foi elevado à dignidade de Sacramento por Jesus Cristo."
     },
     {
       "numero": 833,
       "parte": "Quinta Parte — Das Virtudes Principais e Outras Coisas Necessárias",
       "pergunta": "O Sacramento do Matrimônio tem alguma significação especial?",
-      "resposta": "O Sacramento do Matrimônio significa a união indissolúvel de Jesus Cristo com a Santa Igreja, sua esposa e nossa Mãe amantíssima. 634) Por que se diz que o vínculo do Matrimônio é indissolúvel? Diz-se que o vínculo do Matrimônio é indissolúvel, isto é, que não se pode quebrar senão pela morte de um dos cônjuges, porque assim o estabeleceu Deus desde o princípio, e assim o proclamou solenemente Jesus Cristo, Nosso Senhor. 635) No Matrimônio cristão, poder-se-ia separar o contrato do Sacramento? Não. No Matrimônio entre cristãos o contrato não se pode separar do Sacramento, porque para eles o Matrimônio não é outra coisa senão o mesmo contrato natural, elevado por Jesus Cristo à dignidade de Sacramento."
+      "resposta": "O Sacramento do Matrimônio significa a união indissolúvel de Jesus Cristo com a Santa Igreja, sua esposa e nossa Mãe amantíssima."
+    },
+    {
+      "numero": 834,
+      "parte": "Quinta Parte — Das Virtudes Principais e Outras Coisas Necessárias",
+      "pergunta": "Por que se diz que o vínculo do Matrimônio é indissolúvel?",
+      "resposta": "Diz-se que o vínculo do Matrimônio é indissolúvel, isto é, que não se pode quebrar senão pela morte de um dos cônjuges, porque assim o estabeleceu Deus desde o princípio, e assim o proclamou solenemente Jesus Cristo, Nosso Senhor."
+    },
+    {
+      "numero": 835,
+      "parte": "Quinta Parte — Das Virtudes Principais e Outras Coisas Necessárias",
+      "pergunta": "No Matrimônio cristão, poder-se-ia separar o contrato do Sacramento?",
+      "resposta": "Não. No Matrimônio entre cristãos o contrato não se pode separar do Sacramento, porque para eles o Matrimônio não é outra coisa senão o mesmo contrato natural, elevado por Jesus Cristo à dignidade de Sacramento."
     },
     {
       "numero": 836,
@@ -4961,13 +5033,13 @@
       "numero": 837,
       "parte": "Quinta Parte — Das Virtudes Principais e Outras Coisas Necessárias",
       "pergunta": "Quais são os efeitos do Sacramento do Matrimônio?",
-      "resposta": "O Sacramento do Matrimônio: 1º dá um aumento da graça santificante; 2º confere a graça especial para se cumprirem fielmente todos os deveres matrimoniais. S 2º -Ministros, cerimônias e disposições para o Matrimônio"
+      "resposta": "O Sacramento do Matrimônio: 1º dá um aumento da graça santificante; 2º confere a graça especial para se cumprirem fielmente todos os deveres matrimoniais."
     },
     {
       "numero": 838,
       "parte": "Quinta Parte — Das Virtudes Principais e Outras Coisas Necessárias",
       "pergunta": "Quem são os ministros do Sacramento do Matrimônio?",
-      "resposta": "191 PAPAS. Pio X Os ministros deste Sacramento são os mesmos esposos, que reciprocamente conferem e recebem o Sacramento."
+      "resposta": "Os ministros deste Sacramento são os mesmos esposos, que reciprocamente conferem e recebem o Sacramento."
     },
     {
       "numero": 839,
@@ -4997,7 +5069,7 @@
       "numero": 843,
       "parte": "Quinta Parte — Das Virtudes Principais e Outras Coisas Necessárias",
       "pergunta": "Quais são as principais obrigações das pessoas que se unem em Matrimônio?",
-      "resposta": "192 CATECISMO MAIOR DES. Pio X As pessoas que se unem em Matrimônio devem: 1º guardar inviolada a fidelidade conjugal, e proceder sempre cristâmente em tudo; 2º amar-se mutuamente, suportando-se um ao outro com paciência, e viver em paz e concórdia; 3º se têm filhos, cuidar seriamente em prover-lhes de acordo com suas necessidades, dar-lhes educação cristã, e deixar-lhes a liberdade de escolha para o estado de vida para o qual Deus os chamar. 8 3º -Condições e impedimentos do Matrimônio"
+      "resposta": "As pessoas que se unem em Matrimônio devem: 1º guardar inviolada a fidelidade conjugal, e proceder sempre cristâmente em tudo; 2º amar-se mutuamente, suportando-se um ao outro com paciência, e viver em paz e concórdia; 3º se têm filhos, cuidar seriamente em prover-lhes de acordo com suas necessidades, dar-lhes educação cristã, e deixar-lhes a liberdade de escolha para o estado de vida para o qual Deus os chamar."
     },
     {
       "numero": 844,
@@ -5015,12 +5087,24 @@
       "numero": 846,
       "parte": "Quinta Parte — Das Virtudes Principais e Outras Coisas Necessárias",
       "pergunta": "Que são os impedimentos matrimoniais?",
-      "resposta": "Os impedimentos matrimoniais são certas circunstâncias que tornam o matrimônio inválido ou ilícito. No primeiro caso chamam-se impedimentos dirimentes, no segundo impedimentos impedientes. 847) Dai-me alguns exemplos de impedimentos dirimentes. Impedimentos dirimentes são, por exemplo, a consanguinidade até ao quarto grau, o parentesco espiritual, o voto solene de castidade, a diversidade de culto entre batizados e não batizados, etc. 193 PAPAS. Pio X"
+      "resposta": "Os impedimentos matrimoniais são certas circunstâncias que tornam o matrimônio inválido ou ilícito. No primeiro caso chamam-se impedimentos dirimentes, no segundo impedimentos impedientes."
+    },
+    {
+      "numero": 847,
+      "parte": "Quinta Parte — Das Virtudes Principais e Outras Coisas Necessárias",
+      "pergunta": "Dai-me alguns exemplos de impedimentos dirimentes.",
+      "resposta": "Impedimentos dirimentes são, por exemplo, a consanguinidade até ao quarto grau, o parentesco espiritual, o voto solene de castidade, a diversidade de culto entre batizados e não batizados, etc."
     },
     {
       "numero": 848,
       "parte": "Quinta Parte — Das Virtudes Principais e Outras Coisas Necessárias",
-      "pergunta": "Dai-me algum exemplo de impedimento impediente. Impedimento impediente é, por exemplo, o voto simples de castidade etc. 849) Os fiéis são obrigados a manifestar à autoridade eclesiástica os impedimentos matrimoniais que conhecem?",
+      "pergunta": "Dai-me algum exemplo de impedimento impediente.",
+      "resposta": "Impedimento impediente é, por exemplo, o voto simples de castidade etc."
+    },
+    {
+      "numero": 849,
+      "parte": "Quinta Parte — Das Virtudes Principais e Outras Coisas Necessárias",
+      "pergunta": "Os fiéis são obrigados a manifestar à autoridade eclesiástica os impedimentos matrimoniais que conhecem?",
       "resposta": "Os fiéis são obrigados a manifestar à autoridade eclesiástica os impedimentos matrimoniais que conhecem; e é por isso que os párocos fazem as publicações."
     },
     {
@@ -5045,7 +5129,7 @@
       "numero": 853,
       "parte": "Quinta Parte — Das Virtudes Principais e Outras Coisas Necessárias",
       "pergunta": "Que é o matrimônio ou casamento civil?",
-      "resposta": "O casamento civil não é mais que uma formalidade prescrita pela lei, a fim de dar e de assegurar os efeitos civis aos casados e aos seus descendentes. 194 CATECISMO MAIOR DES. Pio X"
+      "resposta": "O casamento civil não é mais que uma formalidade prescrita pela lei, a fim de dar e de assegurar os efeitos civis aos casados e aos seus descendentes."
     },
     {
       "numero": 854,
@@ -5063,7 +5147,7 @@
       "numero": 856,
       "parte": "Quinta Parte — Das Virtudes Principais e Outras Coisas Necessárias",
       "pergunta": "Deve fazer-se também o contrato civil?",
-      "resposta": "Deve fazer-se também o contrato civil, porque, embora não seja ele Sacramento, serve, no entanto, para garantir aos casados e a seus filhos os efeitos civis da sociedade conjugal; eis porque, como regra geral, a autoridade eclesiástica não permite o casamento religioso, quando não se cumprem as formalidades prescritas pela autoridade civil. 195 QUINTA"
+      "resposta": "Deve fazer-se também o contrato civil, porque, embora não seja ele Sacramento, serve, no entanto, para garantir aos casados e a seus filhos os efeitos civis da sociedade conjugal; eis porque, como regra geral, a autoridade eclesiástica não permite o casamento religioso, quando não se cumprem as formalidades prescritas pela autoridade civil."
     },
     {
       "numero": 857,
@@ -5087,7 +5171,7 @@
       "numero": 860,
       "parte": "Quinta Parte — Das Virtudes Principais e Outras Coisas Necessárias",
       "pergunta": "Por que a Fé, a Esperança e a Caridade são chamadas virtudes teologais?",
-      "resposta": "PAPAS. Pio X A Fé, a Esperança e a Caridade são chamadas virtudes teologais, porque têm a Deus por objeto imediato e principal e nos são infundidas por Ele."
+      "resposta": "A Fé, a Esperança e a Caridade são chamadas virtudes teologais, porque têm a Deus por objeto imediato e principal e nos são infundidas por Ele."
     },
     {
       "numero": 861,
@@ -5111,13 +5195,13 @@
       "numero": 864,
       "parte": "Quinta Parte — Das Virtudes Principais e Outras Coisas Necessárias",
       "pergunta": "Quando somos obrigados a fazer atos de Fé, de Esperança e de Caridade?",
-      "resposta": "Somos obrigados a fazer atos de Fé, de Esperança e de Caridade: 1º quando atingimos o uso da razão; 2º frequentes vezes no decurso da vida; 3º em perigo de morte. 8 2º -Da Fé"
+      "resposta": "Somos obrigados a fazer atos de Fé, de Esperança e de Caridade: 1º quando atingimos o uso da razão; 2º frequentes vezes no decurso da vida; 3º em perigo de morte."
     },
     {
       "numero": 865,
       "parte": "Quinta Parte — Das Virtudes Principais e Outras Coisas Necessárias",
       "pergunta": "Que é a Fé?",
-      "resposta": "A Fé é uma virtude sobrenatural infundida por Deus em nossa alma, pela qual nós, apoiados na autoridade do próprio Deus, acreditamos ser verdade tudo o que Ele revelou e por meio da Santa Igreja nos propõe para crer. 198 CATECISMO MAIOR DES. Pio X"
+      "resposta": "A Fé é uma virtude sobrenatural infundida por Deus em nossa alma, pela qual nós, apoiados na autoridade do próprio Deus, acreditamos ser verdade tudo o que Ele revelou e por meio da Santa Igreja nos propõe para crer."
     },
     {
       "numero": 866,
@@ -5141,7 +5225,7 @@
       "numero": 869,
       "parte": "Quinta Parte — Das Virtudes Principais e Outras Coisas Necessárias",
       "pergunta": "Como recuperamos a Fé?",
-      "resposta": "Recuperamos a Fé perdida, arrependendo-nos do pecado cometido e crendo de novo em tudo o que crê a Santa Igreja. 8 3º -Dos mistérios"
+      "resposta": "Recuperamos a Fé perdida, arrependendo-nos do pecado cometido e crendo de novo em tudo o que crê a Santa Igreja."
     },
     {
       "numero": 870,
@@ -5165,13 +5249,13 @@
       "numero": 873,
       "parte": "Quinta Parte — Das Virtudes Principais e Outras Coisas Necessárias",
       "pergunta": "Os mistérios são contrários à razão?",
-      "resposta": "199 PAPAS. Pio X Os mistérios são superiores, mas não contrários à razão; e de fato, até a própria razão nos persuade a admiti-los."
+      "resposta": "Os mistérios são superiores, mas não contrários à razão; e de fato, até a própria razão nos persuade a admiti-los."
     },
     {
       "numero": 874,
       "parte": "Quinta Parte — Das Virtudes Principais e Outras Coisas Necessárias",
       "pergunta": "Por que os mistérios não podem ser contrários à razão?",
-      "resposta": "Os mistérios não podem ser contrários à razão, porque é o mesmo Deus quem nos deu a luz da razão, e quem revelou os mistérios, e Ele não pode contradizer-Se a Si mesmo. 8 4º -Da Sagrada Escritura"
+      "resposta": "Os mistérios não podem ser contrários à razão, porque é o mesmo Deus quem nos deu a luz da razão, e quem revelou os mistérios, e Ele não pode contradizer-Se a Si mesmo."
     },
     {
       "numero": 875,
@@ -5213,7 +5297,7 @@
       "numero": 881,
       "parte": "Quinta Parte — Das Virtudes Principais e Outras Coisas Necessárias",
       "pergunta": "Que significa a palavra Bíblia?",
-      "resposta": "A palavra Bíblia significa coleção dos livros santos, o livro por excelência, o livro dos livros, o livro inspirado por Deus. 200 CATECISMO MAIOR DES. Pio X"
+      "resposta": "A palavra Bíblia significa coleção dos livros santos, o livro por excelência, o livro dos livros, o livro inspirado por Deus."
     },
     {
       "numero": 882,
@@ -5255,13 +5339,13 @@
       "numero": 888,
       "parte": "Quinta Parte — Das Virtudes Principais e Outras Coisas Necessárias",
       "pergunta": "O que um cristão deve fazer se lhe fosse oferecida a Bíblia de um protestante ou por algum emissário dos protestantes?",
-      "resposta": "201 PAPAS. Pio X Um cristão a quem fosse oferecida a Bíblia por um protestante, ou por algum emissário dos protestantes, deveria rejeitá-la com horror, por ser proibida pela Igreja. E, se a tivesse aceitado sem reparar, deveria logo lançá-la ao fogo ou entregá-la ao seu pároco."
+      "resposta": "Um cristão a quem fosse oferecida a Bíblia por um protestante, ou por algum emissário dos protestantes, deveria rejeitá-la com horror, por ser proibida pela Igreja. E, se a tivesse aceitado sem reparar, deveria logo lançá-la ao fogo ou entregá-la ao seu pároco."
     },
     {
       "numero": 889,
       "parte": "Quinta Parte — Das Virtudes Principais e Outras Coisas Necessárias",
       "pergunta": "Por que proíbe a Igreja as Bíblias protestantes?",
-      "resposta": "A Igreja proíbe as Bíblias protestantes, porque ou estão alteradas e contêm erros, ou então, faltando-lhes a sua aprovação e as notas explicativas das passagens obscuras, podem ser prejudiciais à Fé. Por essa razão a Igreja proíbe também as traduções da Sagrada Escritura já aprovadas por Ela, mas reimpressas sem as explicações que a mesma Igreja aprovou. 85º -Da Tradição"
+      "resposta": "A Igreja proíbe as Bíblias protestantes, porque ou estão alteradas e contêm erros, ou então, faltando-lhes a sua aprovação e as notas explicativas das passagens obscuras, podem ser prejudiciais à Fé. Por essa razão a Igreja proíbe também as traduções da Sagrada Escritura já aprovadas por Ela, mas reimpressas sem as explicações que a mesma Igreja aprovou."
     },
     {
       "numero": 890,
@@ -5273,13 +5357,19 @@
       "numero": 891,
       "parte": "Quinta Parte — Das Virtudes Principais e Outras Coisas Necessárias",
       "pergunta": "Onde estão contidos os ensinamentos da Tradição?",
-      "resposta": "Os ensinamentos da Tradição estão contidos principalmente nos decretos dos Concílios, nos escritos dos Santos Padres, nos atos da Santa Sé, nas palavras e nos usos da Sagrada Liturgia. 882) Em que consideração se deve ter a Tradição? A Tradição deve ser tida na mesma consideração em que se tem a palavra de Deus contida na Sagrada Escritura. 8 6º -Da Esperança"
+      "resposta": "Os ensinamentos da Tradição estão contidos principalmente nos decretos dos Concílios, nos escritos dos Santos Padres, nos atos da Santa Sé, nas palavras e nos usos da Sagrada Liturgia."
+    },
+    {
+      "numero": 892,
+      "parte": "Quinta Parte — Das Virtudes Principais e Outras Coisas Necessárias",
+      "pergunta": "Em que consideração se deve ter a Tradição?",
+      "resposta": "A Tradição deve ser tida na mesma consideração em que se tem a palavra de Deus contida na Sagrada Escritura."
     },
     {
       "numero": 893,
       "parte": "Quinta Parte — Das Virtudes Principais e Outras Coisas Necessárias",
       "pergunta": "Que é a Esperança?",
-      "resposta": "A Esperança é uma virtude sobrenatural, infundida por Deus em nossa alma, pela qual desejamos e esperamos a vida eterna que Deus prometeu aos seus servos, e os auxílios necessários para alcançá-la. 202 CATECISMO MAIOR DES. Pio X"
+      "resposta": "A Esperança é uma virtude sobrenatural, infundida por Deus em nossa alma, pela qual desejamos e esperamos a vida eterna que Deus prometeu aos seus servos, e os auxílios necessários para alcançá-la."
     },
     {
       "numero": 894,
@@ -5303,7 +5393,7 @@
       "numero": 897,
       "parte": "Quinta Parte — Das Virtudes Principais e Outras Coisas Necessárias",
       "pergunta": "Como recuperamos a Esperança?",
-      "resposta": "A Esperança perdida é recuperada arrependendo-nos do pecado cometido, e excitando-nos de novo à confiança na bondade divina. 8 7º -Da Caridade"
+      "resposta": "A Esperança perdida é recuperada arrependendo-nos do pecado cometido, e excitando-nos de novo à confiança na bondade divina."
     },
     {
       "numero": 898,
@@ -5321,7 +5411,7 @@
       "numero": 900,
       "parte": "Quinta Parte — Das Virtudes Principais e Outras Coisas Necessárias",
       "pergunta": "Como se deve amar a Deus?",
-      "resposta": "Deus deve ser amado sobre todas as coisas, de todo o nosso coração, com toda a nossa mente, com toda a nossa alma, e com todas as nossas forças. 203 PAPAS. Pio X"
+      "resposta": "Deus deve ser amado sobre todas as coisas, de todo o nosso coração, com toda a nossa mente, com toda a nossa alma, e com todas as nossas forças."
     },
     {
       "numero": 901,
@@ -5381,13 +5471,13 @@
       "numero": 910,
       "parte": "Quinta Parte — Das Virtudes Principais e Outras Coisas Necessárias",
       "pergunta": "Como se perde a Caridade?",
-      "resposta": "204 CATECISMO MAIOR DES. Pio X A Caridade se perde com qualquer pecado mortal."
+      "resposta": "A Caridade se perde com qualquer pecado mortal."
     },
     {
       "numero": 911,
       "parte": "Quinta Parte — Das Virtudes Principais e Outras Coisas Necessárias",
       "pergunta": "Como recuperamos a Caridade?",
-      "resposta": "A Caridade é recuperada por atos de amor de Deus, arrependendo-nos e confessando-nos bem. 8 8º -Das virtudes cardeais"
+      "resposta": "A Caridade é recuperada por atos de amor de Deus, arrependendo-nos e confessando-nos bem."
     },
     {
       "numero": 912,
@@ -5423,7 +5513,7 @@
       "numero": 917,
       "parte": "Quinta Parte — Das Virtudes Principais e Outras Coisas Necessárias",
       "pergunta": "Que é a Temperança?",
-      "resposta": "A Temperança é a virtude pela qual refreamos os desejos desordenados de prazeres dos sentidos, e usamos com moderação dos bens temporais. 9 Nota do Tradutor A palavra cardeais deriva da palavra latina cardo, que quer dizer dobradiça ou gonzos da porta, significando como todas as virtudes giram em torno destas. 205"
+      "resposta": "A Temperança é a virtude pela qual refreamos os desejos desordenados de prazeres dos sentidos, e usamos com moderação dos bens temporais."
     },
     {
       "numero": 918,
@@ -5435,7 +5525,7 @@
       "numero": 919,
       "parte": "Quinta Parte — Das Virtudes Principais e Outras Coisas Necessárias",
       "pergunta": "Para que servem os dons do Espírito Santo?",
-      "resposta": "Os dons do Espírito Santo servem para nos confirmar na Fé, na Esperança e na Caridade, e para nos tornar solícitos para os CATECISMO MAIOR DES. Pio X atos das virtudes necessárias para conseguir a perfeição da vida cristã."
+      "resposta": "Os dons do Espírito Santo servem para nos confirmar na Fé, na Esperança e na Caridade, e para nos tornar solícitos para os atos das virtudes necessárias para conseguir a perfeição da vida cristã."
     },
     {
       "numero": 920,
@@ -5477,7 +5567,7 @@
       "numero": 926,
       "parte": "Quinta Parte — Das Virtudes Principais e Outras Coisas Necessárias",
       "pergunta": "Que é o Temor de Deus?",
-      "resposta": "O Temor de Deus é um dom que nos faz reverenciar a Deus, e ter receio de ofender a sua Divina Majestade, e que nos afasta do mal, incitando-nos ao bem. 207"
+      "resposta": "O Temor de Deus é um dom que nos faz reverenciar a Deus, e ter receio de ofender a sua Divina Majestade, e que nos afasta do mal, incitando-nos ao bem."
     },
     {
       "numero": 927,
@@ -5489,7 +5579,7 @@
       "numero": 928,
       "parte": "Quinta Parte — Das Virtudes Principais e Outras Coisas Necessárias",
       "pergunta": "Por que Jesus Cristo nos propôs as Bem-aventuranças?",
-      "resposta": "CATECISMO MAIOR DES. Pio X Jesus Cristo propôs-nos as Bem-aventuranças para nos fazer detestar as máximas do mundo, e para nos convidar a amar e praticar as máximas do seu Evangelho."
+      "resposta": "Jesus Cristo propôs-nos as Bem-aventuranças para nos fazer detestar as máximas do mundo, e para nos convidar a amar e praticar as máximas do seu Evangelho."
     },
     {
       "numero": 929,
@@ -5525,7 +5615,7 @@
       "numero": 934,
       "parte": "Quinta Parte — Das Virtudes Principais e Outras Coisas Necessárias",
       "pergunta": "Quem são os misericordiosos?",
-      "resposta": "Os misericordiosos são aqueles que amam a Deus, e por amor de Deus, amam ao seu próximo, se compadecem das suas misérias, quer corporais como espirituais, e procuram socorrê-lo conforme as suas forças e o seu estado. 209 PAPAS. Pio X"
+      "resposta": "Os misericordiosos são aqueles que amam a Deus, e por amor de Deus, amam ao seu próximo, se compadecem das suas misérias, quer corporais como espirituais, e procuram socorrê-lo conforme as suas forças e o seu estado."
     },
     {
       "numero": 935,
@@ -5567,7 +5657,7 @@
       "numero": 941,
       "parte": "Quinta Parte — Das Virtudes Principais e Outras Coisas Necessárias",
       "pergunta": "Os que seguem as máximas do mundo poderão dizer-se felizes?",
-      "resposta": "Não. Os que seguem as máximas do mundo não são felizes, porque eles não têm a verdadeira paz da alma e estão em risco de se perder. 210"
+      "resposta": "Não. Os que seguem as máximas do mundo não são felizes, porque eles não têm a verdadeira paz da alma e estão em risco de se perder."
     },
     {
       "numero": 942,
@@ -5591,7 +5681,7 @@
       "numero": 945,
       "parte": "Quinta Parte — Das Virtudes Principais e Outras Coisas Necessárias",
       "pergunta": "Quais são as obras de misericórdia espirituais?",
-      "resposta": "As obras de misericórdia espirituais são: 1º Dar bom conselho a quem tem dúvida; 2º Instruir os ignorantes; 212 PAPAS. Pio X 3º Admoestar os pecadores; 4º Consolar os aflitos; 5º Perdoar as ofensas; 6º Sofrer com paciência as fraquezas do nosso próximo; 7º Rogar a Deus por vivos e defuntos."
+      "resposta": "As obras de misericórdia espirituais são: 1º Dar bom conselho a quem tem dúvida; 2º Instruir os ignorantes; 3º Admoestar os pecadores; 4º Consolar os aflitos; 5º Perdoar as ofensas; 6º Sofrer com paciência as fraquezas do nosso próximo; 7º Rogar a Deus por vivos e defuntos."
     },
     {
       "numero": 946,
@@ -5615,7 +5705,7 @@
       "numero": 949,
       "parte": "Quinta Parte — Das Virtudes Principais e Outras Coisas Necessárias",
       "pergunta": "Como se apaga o pecado original?",
-      "resposta": "PAPAS. Pio X O pecado original apaga-se com o santo Batismo."
+      "resposta": "O pecado original apaga-se com o santo Batismo."
     },
     {
       "numero": 950,
@@ -5663,7 +5753,7 @@
       "numero": 957,
       "parte": "Quinta Parte — Das Virtudes Principais e Outras Coisas Necessárias",
       "pergunta": "Por que é chamado venial?",
-      "resposta": "214 CATECISMO MAIOR DES. Pio X Porque é leve em comparação com o pecado mortal; porque não nos faz perder a graça divina; e porque Deus facilmente o perdoa."
+      "resposta": "Porque é leve em comparação com o pecado mortal; porque não nos faz perder a graça divina; e porque Deus facilmente o perdoa."
     },
     {
       "numero": 958,
@@ -5675,7 +5765,7 @@
       "numero": 959,
       "parte": "Quinta Parte — Das Virtudes Principais e Outras Coisas Necessárias",
       "pergunta": "Que prejuízos causa o pecado venial?",
-      "resposta": "O pecado venial: 1º enfraquece e esfria em nós a caridade; 2º dispõe-nos para o pecado mortal; 3º faz-nos merecedores de grandes penas temporais, neste mundo ou no outro. 215"
+      "resposta": "O pecado venial: 1º enfraquece e esfria em nós a caridade; 2º dispõe-nos para o pecado mortal; 3º faz-nos merecedores de grandes penas temporais, neste mundo ou no outro."
     },
     {
       "numero": 960,
@@ -5699,7 +5789,7 @@
       "numero": 963,
       "parte": "Quinta Parte — Das Virtudes Principais e Outras Coisas Necessárias",
       "pergunta": "Como se vencem os vícios ou pecados capitais?",
-      "resposta": "Os vícios ou pecados capitais vencem-se com a prática das virtudes opostas. Assim, a soberba vence-se com a humildade; CATECISMO MAIOR DES. Pio X a avareza, com a liberalidade; a luxúria, com a castidade; a ira, com a paciência; a gula, com a abstinência; a inveja, com o amor fraternal; a preguiça, com a diligência e fervor no serviço de Deus."
+      "resposta": "Os vícios ou pecados capitais vencem-se com a prática das virtudes opostas. Assim, a soberba vence-se com a humildade; a avareza, com a liberalidade; a luxúria, com a castidade; a ira, com a paciência; a gula, com a abstinência; a inveja, com o amor fraternal; a preguiça, com a diligência e fervor no serviço de Deus."
     },
     {
       "numero": 964,
@@ -5729,7 +5819,7 @@
       "numero": 968,
       "parte": "Quinta Parte — Das Virtudes Principais e Outras Coisas Necessárias",
       "pergunta": "Por que se diz que estes pecados clamam vingança a Deus?",
-      "resposta": "Diz-se que estes pecados clamam vingança a Deus, porque o diz o Espírito Santo, e porque a sua malícia é tão grave e manifesta, que provoca o próprio Deus a puni-los com os mais severos castigos. 217"
+      "resposta": "Diz-se que estes pecados clamam vingança a Deus, porque o diz o Espírito Santo, e porque a sua malícia é tão grave e manifesta, que provoca o próprio Deus a puni-los com os mais severos castigos."
     },
     {
       "numero": 969,
@@ -5753,7 +5843,7 @@
       "numero": 972,
       "parte": "Quinta Parte — Das Virtudes Principais e Outras Coisas Necessárias",
       "pergunta": "Quando devemos pensar nos Novíssimos?",
-      "resposta": "É bom pensar nos Novíssimos todos os dias, especialmente ao fazer a oração da manhã, logo ao acordarmos, à noite antes de se deitar, e todas as vezes que somos tentados a fazer algum CATECISMO MAIOR DES. Pio X mal, porque este pensamento é eficacíssimo para nos fazer evitar o pecado. 219"
+      "resposta": "É bom pensar nos Novíssimos todos os dias, especialmente ao fazer a oração da manhã, logo ao acordarmos, à noite antes de se deitar, e todas as vezes que somos tentados a fazer algum mal, porque este pensamento é eficacíssimo para nos fazer evitar o pecado."
     },
     {
       "numero": 973,
@@ -5771,7 +5861,7 @@
       "numero": 975,
       "parte": "Quinta Parte — Das Virtudes Principais e Outras Coisas Necessárias",
       "pergunta": "Depois de se levantar e de se vestir, que deve fazer um bom cristão?",
-      "resposta": "Um bom cristão, apenas se tenha levantado vestido, deve pôr-se na presença de Deus e ajoelhar, se pode, diante de alguma devota imagem, dizendo com devoção: “Eu Vos adoro, meu Deus, e Vos amo de todo o coração; dou-Vos graças por me CATECISMO MAIOR DES. Pio X terdes criado, feito cristão e conservado nesta noite; ofereço-Vos todas as minhas ações, e peço-Vos que neste dia me preserveis do pecado, e me livreis de todo o mal. Assim seja”. Em seguida, reza o Padre-Nosso, a Ave-Maria, o Credo, e os atos de Fé, de Esperança e de Caridade, acompanhando-os com um vivo afeto do coração.!º"
+      "resposta": "Um bom cristão, apenas se tenha levantado vestido, deve pôr-se na presença de Deus e ajoelhar, se pode, diante de alguma devota imagem, dizendo com devoção: “Eu Vos adoro, meu Deus, e Vos amo de todo o coração; dou-Vos graças por me terdes criado, feito cristão e conservado nesta noite; ofereço-Vos todas as minhas ações, e peço-Vos que neste dia me preserveis do pecado, e me livreis de todo o mal. Assim seja”. Em seguida, reza o Padre-Nosso, a Ave-Maria, o Credo, e os atos de Fé, de Esperança e de Caridade, acompanhando-os com um vivo afeto do coração."
     },
     {
       "numero": 976,
@@ -5807,7 +5897,7 @@
       "numero": 981,
       "parte": "Quinta Parte — Das Virtudes Principais e Outras Coisas Necessárias",
       "pergunta": "Quando temos consciência de que somos atormentados por alguma tentação, que devemos fazer?",
-      "resposta": "Quando nos vemos atormentados por alguma tentação, devemos invocar com fé o Santíssimo Nome de Jesus ou de Maria, 10 Nota do Tradutor Cf. Oração da Manhã, (Ofício da manhã, ou Prima) à pág. 385. 221 PAPAS. Pio X ou recitar fervorosamente alguma oração jaculatória, como, por exemplo: “Dai-me a graça, Senhor, para que eu nunca Vos ofenda”; ou então fazer o sinal da Cruz, evitando porém que outras pessoas, pelos sinais externos, suspeitem da tentação."
+      "resposta": "Quando nos vemos atormentados por alguma tentação, devemos invocar com fé o Santíssimo Nome de Jesus ou de Maria, ou recitar fervorosamente alguma oração jaculatória, como, por exemplo: “Dai-me a graça, Senhor, para que eu nunca Vos ofenda”; ou então fazer o sinal da Cruz, evitando porém que outras pessoas, pelos sinais externos, suspeitem da tentação."
     },
     {
       "numero": 982,
@@ -5837,13 +5927,19 @@
       "numero": 986,
       "parte": "Quinta Parte — Das Virtudes Principais e Outras Coisas Necessárias",
       "pergunta": "Que haveis de fazer antes de adormecer?",
-      "resposta": "Antes de adormecer, farei o sinal da Cruz, pensarei que posso morrer naquela noite, e oferecerei o coração a Deus, dizendo: “Meu Senhor e meu Deus, eu Vos dou todo o meu coração. Santíssima Trindade, concedei-me a graça de bem viver e de bem morrer. Jesus, Maria e José eu Vos encomendo a minha alma” .!!"
+      "resposta": "Antes de adormecer, farei o sinal da Cruz, pensarei que posso morrer naquela noite, e oferecerei o coração a Deus, dizendo: “Meu Senhor e meu Deus, eu Vos dou todo o meu coração. Santíssima Trindade, concedei-me a graça de bem viver e de bem morrer. Jesus, Maria e José eu Vos encomendo a minha alma”."
     },
     {
       "numero": 987,
       "parte": "Quinta Parte — Das Virtudes Principais e Outras Coisas Necessárias",
       "pergunta": "Além das orações da manhã e da noite, por que outra forma se pode recorrer a Deus no decurso do dia?",
-      "resposta": "11 Nota do Tradutor Cf. Oração da Noite (Ofício de Completas), à pág. 391. 222 CATECISMO MAIOR DES. Pio X No decurso do dia pode-se invocar a Deus frequentemente com outras orações breves, que são chamadas jaculatórias. 988) Dizei algumas jaculatórias. Senhor, valei-me; — Senhor, seja feita a vossa santíssima vontade; — Meu Jesus, eu quero ser todo vosso; — Meu Jesus, misericórdia; — Doce Coração de Jesus, que tanto nos amais, fazei que eu Vos ame cada vez mais; — Doce Coração de Maria sede minha salvação."
+      "resposta": "No decurso do dia pode-se invocar a Deus frequentemente com outras orações breves, que são chamadas jaculatórias."
+    },
+    {
+      "numero": 988,
+      "parte": "Quinta Parte — Das Virtudes Principais e Outras Coisas Necessárias",
+      "pergunta": "Dizei algumas jaculatórias.",
+      "resposta": "Senhor, valei-me; — Senhor, seja feita a vossa santíssima vontade; — Meu Jesus, eu quero ser todo vosso; — Meu Jesus, misericórdia; — Doce Coração de Jesus, que tanto nos amais, fazei que eu Vos ame cada vez mais; — Doce Coração de Maria sede minha salvação."
     },
     {
       "numero": 989,
@@ -5873,13 +5969,13 @@
       "numero": 993,
       "parte": "Quinta Parte — Das Virtudes Principais e Outras Coisas Necessárias",
       "pergunta": "Ouvindo tocar o sino pela agonia de algum moribundo, que haveis de fazer?",
-      "resposta": "Ouvindo tocar o sino pela agonia de algum moribundo, irei, se puder, à igreja orar por ele; e, não podendo, encomendarei a 223 PAPAS. Pio X Nosso Senhor a sua alma, pensando que em breve tempo também eu encontrar-me-ei naquele estado.!"
+      "resposta": "Ouvindo tocar o sino pela agonia de algum moribundo, irei, se puder, à igreja orar por ele; e, não podendo, encomendarei a Nosso Senhor a sua alma, pensando que em breve tempo também eu encontrar-me-ei naquele estado."
     },
     {
       "numero": 994,
       "parte": "Quinta Parte — Das Virtudes Principais e Outras Coisas Necessárias",
       "pergunta": "Ao ouvir sinais pela morte de alguém, que haveis de fazer?",
-      "resposta": "Ao ouvir sinais pela morte de alguém, procurarei rezar um De profundis ou um Requiem, ou um Padre-Nosso e uma Ave-Maria, pela alma daquele defunto, e renovarei o pensamento da morte. 12 Nota do Tradutor Antigo costume de dar um sinal no sino quando um enfermo entra em agonia. 224 INSTRUÇÃO SOBRE AS FESTAS DO SENHOR, DA SANTÍSSIMA VIRGEM E DOS SANTOS PRIMEIRA"
+      "resposta": "Ao ouvir sinais pela morte de alguém, procurarei rezar um De profundis ou um Requiem, ou um Padre-Nosso e uma Ave-Maria, pela alma daquele defunto, e renovarei o pensamento da morte."
     }
   ]
 }

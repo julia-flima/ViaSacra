@@ -1,6 +1,6 @@
 {
-  "versao": 1,
-  "licenca": "Estrutura do índice: dados factuais. Texto do CIC © Libreria Editrice Vaticana — apenas trechos breves de exemplo (citação, Lei 9.610/98 art. 46, III). O texto integral só será incluído mediante autorização; ver docs/COPYRIGHT.md e tool/import_catechism.py.",
+  "versao": 2,
+  "licenca": "Estrutura do índice do Catecismo da Igreja Católica (dado factual). O texto do CIC (© Libreria Editrice Vaticana) não é distribuído: o app abre o texto oficial no portal da Santa Sé (vatican.va).",
   "indice": [
     {
       "id": "prologo",
@@ -417,86 +417,6 @@
           "filhos": []
         }
       ]
-    }
-  ],
-  "temas": {
-    "Eucaristia": [
-      "1322-1419"
-    ],
-    "Maria": [
-      "484-511",
-      "963-975",
-      "2617-2619",
-      "2673-2679"
-    ],
-    "Graça": [
-      "1996-2005"
-    ],
-    "Oração": [
-      "2558-2865"
-    ],
-    "Perdão": [
-      "1422-1498",
-      "2838-2845"
-    ],
-    "Batismo": [
-      "1213-1284"
-    ],
-    "Espírito Santo": [
-      "683-747"
-    ],
-    "Trindade": [
-      "232-267"
-    ],
-    "Igreja": [
-      "748-975"
-    ],
-    "Mandamentos": [
-      "2052-2557"
-    ],
-    "Ressurreição": [
-      "638-658",
-      "988-1019"
-    ]
-  },
-  "paragrafos": [
-    {
-      "n": 1,
-      "parte": 0,
-      "titulo": "A vida do homem: conhecer e amar a Deus",
-      "texto": "Deus, infinitamente perfeito e bem-aventurado em si mesmo, num desígnio de pura bondade, criou livremente o homem para fazê-lo participar da sua vida bem-aventurada. [Trecho de exemplo — consulte o texto oficial.]"
-    },
-    {
-      "n": 27,
-      "parte": 1,
-      "secao": 1,
-      "capitulo": 1,
-      "titulo": "O desejo de Deus",
-      "texto": "O desejo de Deus está inscrito no coração do homem, já que o homem é criado por Deus e para Deus; e Deus não cessa de atrair o homem a si. Somente em Deus o homem há de encontrar a verdade e a felicidade que não cessa de procurar. [Trecho de exemplo — consulte o texto oficial.]"
-    },
-    {
-      "n": 1324,
-      "parte": 2,
-      "secao": 2,
-      "capitulo": 1,
-      "artigo": 3,
-      "titulo": "A Eucaristia — fonte e ápice da vida eclesial",
-      "texto": "A Eucaristia é «fonte e ápice de toda a vida cristã» (LG 11). Os demais sacramentos, como aliás todos os ministérios eclesiásticos e tarefas apostólicas, estão vinculados à sagrada Eucaristia e a ela se ordenam. [Trecho de exemplo — consulte o texto oficial.]"
-    },
-    {
-      "n": 1996,
-      "parte": 3,
-      "secao": 1,
-      "capitulo": 3,
-      "titulo": "A graça",
-      "texto": "A nossa justificação vem da graça de Deus. A graça é o favor, o socorro gratuito que Deus nos dá para respondermos ao seu convite: tornarmo-nos filhos de Deus, filhos adotivos, participantes da natureza divina e da vida eterna. [Trecho de exemplo — consulte o texto oficial.]"
-    },
-    {
-      "n": 2559,
-      "parte": 4,
-      "secao": 1,
-      "titulo": "A oração como dom de Deus",
-      "texto": "«A oração é a elevação da alma a Deus ou o pedido a Deus dos bens convenientes» (São João Damasceno). [Trecho de exemplo — consulte o texto oficial.]"
     }
   ]
 }
