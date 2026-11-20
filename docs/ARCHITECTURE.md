@@ -16,7 +16,7 @@
 │ services/  ReadingAudio (Kokoro-82M neural offline + just_audio + audio_service)     │
 │            Notification (flutter_local_notifications, 100% local) · Settings           │
 │ data/      LiturgyRepository (offline-first) · CatechismRepository (FTS5)              │
-│            ContentRepository (assets) · UserDataRepository (favoritos/constância)      │
+│            ContentRepository (assets) · UserDataRepository · BackupRepository         │
 │            BibleRepository (módulos, FTS5, marcações) · BibleService (importação)      │
 │ core/      LiturgicalCalendar (cálculo local) · LiturgicalColor · AppTheme            │
 │ SQLite (package:sqlite3, FTS5): arquivo no celular · WASM + IndexedDB na Web          │
@@ -29,8 +29,13 @@
 1. **Offline-first.** Orações, mistérios, arte, índice do CIC e TTS estão empacotados. A liturgia
    baixada fica em `liturgy_cache`. Sem rede, o app mostra o calendário litúrgico calculado
    localmente (`core/liturgical_calendar.dart`), idêntico ao do scraper.
-2. **Uma única fonte de rede.** O app só baixa JSON estático do próprio repositório. Nenhum
-   cabeçalho identificador, cookie, analytics ou SDK de terceiros.
+2. **Rede só para conteúdo, nunca para rastrear.** Nenhum cookie, identificador, analytics ou
+   SDK de terceiros. O app acessa a rede apenas para:
+   - a liturgia diária (JSON e MP3 do branch `data`, via jsDelivr ou GitHub raw);
+   - o modelo de voz Kokoro, baixado uma vez sob demanda (GitHub/sherpa-onnx no celular,
+     Hugging Face na Web, que também carrega o `onnxruntime-web` do jsDelivr);
+   - páginas que o usuário abre: o texto oficial do CIC no `vatican.va` e o vídeo do Salmo no
+     `youtube-nocookie.com`.
 3. **Atribuição sempre visível.** Cada leitura, homilia e imagem mostra sua fonte e link.
 4. **Falhas isoladas.** No scraper, uma fonte fora do ar não derruba as demais (`status` no JSON)
    e um arquivo bom nunca é sobrescrito por um pior (`qualidade()`).
@@ -39,9 +44,11 @@
 
 `LiturgyController.load(data)` → `LiturgyRepository.load`:
 
-1. cache SQLite (se tiver leituras e < 6 h) → retorna;
+1. cache SQLite completo (leituras + Salmo) → retorna se a data já passou, ou se foi baixado há
+   menos de 30 min (hoje e dias futuros podem receber correções);
 2. senão, CDN jsDelivr → GitHub raw → grava no cache;
-3. falhou a rede → cache antigo, ou `DailyLiturgy.calendarOnly`.
+3. falhou a rede → cache completo em silêncio (erro só numa atualização manual), cache
+   incompleto com aviso, ou `DailyLiturgy.calendarOnly`.
 
 "Baixar Semana Offline" busca hoje + 6 dias (o workflow pré-gera 7 dias diariamente).
 
@@ -80,12 +87,27 @@ Exemplo real: [`exemplo-liturgia-2026-11-19.json`](exemplo-liturgia-2026-11-19.j
 | `calendario` | `tempo`, `semana`, `cor`, `celebracao`, `ciclo_dominical`, `ciclo_ferial`, `misterios_do_dia`, `cor_origem` |
 | `leituras.primeira_leitura` / `segunda_leitura` / `evangelho` | `referencia`, `introducao`, `aclamacao`, `texto`, `fonte` |
 | `leituras.salmo` | `referencia`, `refrao`, `estrofes[]`, `texto` |
-| `audio` | `salmo_audio_url`, `salmo_cifra_ou_melodia`, `liturgia_audio_url`, `creditos[]`, `fallback` |
+| `audio` | `liturgia_audio_url` / `homilia_audio_url` (+ `*_audio_hash` do roteiro), `salmo_audio_url`, `salmo_cifra_ou_melodia`, `salmo_video_id` / `salmo_video_titulo`, `creditos[]`, `fallback` |
 | `homilias.vaticano` / `cnbb` | `titulo`, `autor`, `texto`, `url`, `fonte`, `licenca` |
 | `homilias.patristica[]` | `autor`, `obra`, `texto`, `licenca: "Domínio público"` |
 | `fontes[]`, `url_original`, `status` | Atribuição e diagnóstico |
 
 Mudanças incompatíveis exigem `schema_version: 2` e suporte simultâneo no app por ao menos uma versão.
+
+## WebViews e embeds
+
+Só dois pontos mostram conteúdo de terceiros, ambos com navegação restrita (`core/url_safety.dart`):
+
+- **Leitor do CIC** (`VaticanReaderScreen`, Android/iOS): abre só `https://*.vatican.va`, com o
+  CSS do app; outros links vão para o navegador. Na Web/desktop, abre direto em nova aba.
+- **Salmo cantado** (`PsalmVideoPlayer`): embed oficial `youtube-nocookie.com`, com o id do vídeo
+  validado e domínios restritos ao YouTube.
+
+## Backup
+
+Ajustes → **Backup dos seus dados** exporta um `.json` (`viasacra-backup` v1) com favoritos,
+anotações, constância e marcações da Bíblia (`data/backup_repository.dart`). A importação mescla:
+nada é apagado, e em anotações e marcações vence a versão mais recente.
 
 ## Navegação (5 abas)
 
@@ -104,7 +126,7 @@ proclamado destacado.
 
 | Item | Implementação |
 |---|---|
-| Hospedagem | GitHub Pages, branch `gh-pages`, publicada por `deploy-web.yml` a cada push na `main` |
+| Hospedagem | GitHub Pages, branch `gh-pages`: produção na raiz (`deploy-web.yml`, push na `main`) e prévia em `/dev/` (`deploy-dev-preview.yml`, push na `dev`). Cada deploy substitui só a sua parte, sem acumular arquivos antigos |
 | Base | `--base-href "/<repositório>/"`, ou seja, `/ViaSacra/` (o GitHub Pages diferencia maiúsculas) |
 | Instalação | `web/manifest.json` (`standalone`, `#FAF8F5`/`#B8860B`, ícones 192/512 e *maskable*) e meta tags iOS (`apple-mobile-web-app-capable`, `apple-touch-icon`) em `web/index.html` |
 | Offline | `web/sw.js` próprio: o app usa *stale-while-revalidate* e a liturgia usa *network-first* com cache. O service worker legado do Flutter, que se autodesinstala, é desativado por um `web/flutter_bootstrap.js` customizado |

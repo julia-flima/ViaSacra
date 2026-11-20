@@ -1,7 +1,11 @@
 # Banco de dados local (SQLite)
 
 Esquema completo: [`app/assets/db/schema.sql`](../app/assets/db/schema.sql) — versionado por
-`PRAGMA user_version` (atual: **2** — v2 adicionou a Bíblia). O esquema é idempotente (`CREATE … IF NOT EXISTS`): a migração reaplica o arquivo e cria só o que falta, sem tocar nos dados. Tudo fica no aparelho; nada é sincronizado.
+`PRAGMA user_version` (atual: **5**). O esquema é idempotente (`CREATE … IF NOT EXISTS`): a migração reaplica o arquivo e cria só o que falta, sem tocar nos dados. Tudo fica no aparelho; nada é sincronizado (para trocar de aparelho, use o backup em Ajustes).
+
+Versões: 2 = Bíblia · 3 = catecismos em perguntas e respostas + importador · 4 = remove as tabelas
+antigas de texto do CIC · 5 = `favorite.kind` sem lista fixa (favoritos da Imitação). Migrações
+que o SQL idempotente não resolve ficam em `AppDatabase._migrate` (`lib/data/database.dart`).
 
 ### Uma base, três plataformas
 
@@ -20,12 +24,12 @@ sempre o inclui). Para F-Droid, `tool/fdroid_prebuild.sh` compila o SQLite a par
 | Tabela | Finalidade | Chave |
 |---|---|---|
 | `liturgy_cache` | JSON diário baixado (offline-first) | `date` (AAAA-MM-DD) |
-| `catechism_paragraph` | Parágrafos do CIC (§1–2865) | `number` |
-| `catechism_fts` | Índice FTS5 (`unicode61 remove_diacritics 2`), sincronizado por triggers | `rowid = number` |
-| `catechism_toc` | Índice Partes → Seções → Capítulos → Artigos | `id` (ex.: `p2.s2.c1.a3`) |
-| `catechism_topic` | Índice temático (ex.: Eucaristia → 1322–1419) | (`topic`, `number`) |
-| `favorite` | Favoritos (`catechism`, `prayer`, `reading`, `homily`) | (`kind`, `ref`) |
-| `note` | Anotações pessoais | `id` |
+| `catechism_toc` | Índice do CIC: Partes → Seções → Capítulos → Artigos (o texto abre no vatican.va) | `id` (ex.: `p2.s2.c1.a3`) |
+| `catechisms` | Obras em perguntas e respostas (São Pio X embutido; outras importadas) | `id` |
+| `catechism_entries` | Perguntas/respostas das obras | `id` · (`catechism_id`, `number`) |
+| `catechism_entries_fts` | FTS5 sobre as entradas (`remove_diacritics 2`), sincronizado por triggers | `rowid = id` |
+| `favorite` | Favoritos (`catechism`, `prayer`, `reading`, `homily`, `imitacao`, …) | (`kind`, `ref`) |
+| `note` | Anotações pessoais (catecismo, Lectio Divina…); uma por (`kind`, `ref`) | `id` |
 | `prayer_log` | Constância: um registro por dia/tipo (`terco`, `rosario`, `liturgia`) | único (`day`, `kind`, `mystery_set`) |
 | `rosary_progress` | Retomar o terço do dia de onde parou | `id = 1` |
 | `meta` | Versões de conteúdo importado, última leitura da Bíblia | `key` |
@@ -38,10 +42,8 @@ sempre o inclui). Para F-Droid, `tool/fdroid_prebuild.sh` compila o SQLite a par
 
 ## Busca no Catecismo
 
-- Número: `1324`, `§ 1324` → `SELECT … WHERE number = ?`
-- Palavras: cada termo vira prefixo entre aspas (`"graca"* "maria"*`) → `MATCH`, ordenado por
-  `bm25` (título pesa 2×), com `snippet()` destacando «termos».
-- Sem resultado no texto → tenta o índice temático.
+`CatechismRepository.searchEntries(obra, consulta)`: um número (`1324`, `§1324`, `P. 18`) busca a
+entrada exata; palavras viram prefixos entre aspas (`"graca"* "maria"*`) no FTS5, sem acentos.
 
 ## Constância (streak)
 
@@ -52,4 +54,5 @@ pode ser ocultado em Ajustes (os registros permanecem, apenas não são exibidos
 ## Modelos Dart
 
 `data/models/`: `DailyLiturgy`, `Reading`, `Homily`, `LiturgyAudio`, `SourceInfo` (liturgia);
-`Prayer`, `PrayerCategory`; `Mystery`, `SacredArt`; `CatechismParagraph`, `CatechismTocNode`.
+`Prayer`, `PrayerCategory`; `Mystery`, `SacredArt`; `CatechismTocNode`, `CatechismWork`,
+`CatechismEntry`; `ImitationOfChrist`.
