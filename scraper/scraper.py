@@ -46,6 +46,7 @@ import requests
 from bs4 import BeautifulSoup, NavigableString, Tag
 from requests.adapters import HTTPAdapter
 
+import generate_audio as gerador_audio
 import liturgical_calendar as calendario
 
 SCHEMA_VERSION = 1
@@ -193,12 +194,18 @@ class ClienteHttp:
         tentativas: int = 3,
         chave_offline: str | None = None,
         headers: dict[str, str] | None = None,
+        respeitar_robots: bool = True,
     ) -> str:
+        """Baixa ``url`` com cache, intervalo mínimo por host, timeout e novas tentativas.
+
+        ``respeitar_robots=False`` só deve ser usado em exceções documentadas na
+        chamada (hoje: o feed Atom público do YouTube, ver ``_buscar_feed_youtube``).
+        """
         if chave_offline and chave_offline in self.offline_html:
             return Path(self.offline_html[chave_offline]).read_text(encoding="utf-8")
         if url in self._cache:  # a mesma página serve à homilia e às leituras
             return self._cache[url]
-        if not self._permitido(url):
+        if respeitar_robots and not self._permitido(url):
             raise FonteIndisponivel(f"robots.txt não permite acessar {url}")
         ultimo_erro: Exception | None = None
         for tentativa in range(1, tentativas + 1):
@@ -931,9 +938,18 @@ def _buscar_feed_youtube(channel_id: str, cliente: ClienteHttp | None) -> list[d
         return []
     url = f"https://www.youtube.com/feeds/videos.xml?channel_id={channel_id}"
     try:
-        resp = cliente._sessao.get(url, timeout=10)
-        resp.raise_for_status()
-        root = ET.fromstring(resp.content)
+        # Exceção ao robots.txt (decisão do projeto, issue #11): o YouTube marca
+        # /feeds/videos.xml como Disallow, mas é o feed Atom público e documentado
+        # do canal, lido 1x por canal por execução (cache), com o intervalo
+        # mínimo por host e sem novas tentativas. Só metadados (id e título) são
+        # usados, para o embed oficial youtube-nocookie no app.
+        xml = cliente.get(
+            url,
+            tentativas=1,
+            headers={"Accept": "application/atom+xml, application/xml;q=0.9"},
+            respeitar_robots=False,
+        )
+        root = ET.fromstring(xml)
     except Exception as exc:  # noqa: BLE001 — feed externo opcional
         log.warning("Feed YouTube %s indisponível: %s", channel_id, exc)
         _YT_FEED_CACHE[channel_id] = []
@@ -1147,16 +1163,52 @@ def qualidade(doc: dict[str, Any]) -> int:
     return pontos
 
 
+# Áudios neurais gravados por ``generate_audio.py`` no JSON do dia: (url, hash, roteiro).
+AUDIO_GERADO = (
+    ("liturgia_audio_url", "liturgia_audio_hash", gerador_audio.build_liturgy_script),
+    ("homilia_audio_url", "homilia_audio_hash", gerador_audio.build_homily_script),
+)
+
+
+def preservar_audio_gerado(doc: dict[str, Any], anterior: dict[str, Any]) -> list[str]:
+    """Copia de ``anterior`` os áudios neurais cujo roteiro não mudou.
+
+    ``montar_dia`` recria o bloco ``audio`` do zero; sem isto, se o passo
+    ``generate_audio.py`` falhar (``continue-on-error``), os dias reprocessados
+    perderiam as URLs de áudio. O hash do roteiro garante que o MP3 antigo ainda
+    corresponde ao texto novo — se o texto mudou, o slot fica vazio para ser
+    regerado (e o app usa a voz local enquanto isso). Retorna os campos copiados.
+    """
+    audio_ant = anterior.get("audio") or {}
+    audio = doc.setdefault("audio", {})
+    copiados: list[str] = []
+    for url_key, hash_key, roteiro in AUDIO_GERADO:
+        url, hash_ant = audio_ant.get(url_key), audio_ant.get(hash_key)
+        if not url or not hash_ant or audio.get(url_key):
+            continue
+        if gerador_audio.script_hash(roteiro(doc)) != hash_ant:
+            continue
+        audio[url_key], audio[hash_key] = url, hash_ant
+        creditos = [c for c in audio.get("creditos") or [] if isinstance(c, dict) and c.get("campo") != url_key]
+        creditos += [c for c in audio_ant.get("creditos") or [] if isinstance(c, dict) and c.get("campo") == url_key]
+        audio["creditos"] = creditos
+        copiados.append(url_key)
+    return copiados
+
+
 def salvar(doc: dict[str, Any], destino: Path, forcar: bool = False) -> bool:
     destino.parent.mkdir(parents=True, exist_ok=True)
-    if destino.exists() and not forcar:
+    if destino.exists():
         try:
             anterior = json.loads(destino.read_text(encoding="utf-8"))
-            if qualidade(anterior) > qualidade(doc):
+        except json.JSONDecodeError:
+            anterior = None
+        if isinstance(anterior, dict):
+            if not forcar and qualidade(anterior) > qualidade(doc):
                 log.info("Mantendo %s (versão existente é mais completa)", destino.name)
                 return False
-        except json.JSONDecodeError:
-            pass
+            if copiados := preservar_audio_gerado(doc, anterior):
+                log.info("%s: áudio gerado preservado (%s)", destino.name, ", ".join(copiados))
     tmp = destino.with_suffix(".json.tmp")
     tmp.write_text(json.dumps(doc, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     tmp.replace(destino)
