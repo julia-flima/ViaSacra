@@ -16,9 +16,8 @@ import 'features/rosary/rosary_screen.dart';
 import 'features/settings/onboarding_screen.dart';
 import 'features/settings/settings_screen.dart';
 import 'services/bible_service.dart';
-import 'services/neural_tts_types.dart';
-import 'services/reading_audio_service.dart';
 import 'services/settings_service.dart';
+import 'widgets/global_audio_mini_player.dart';
 
 /// Comportamento de rolagem confortável em Desktop/Web (mouse, trackpad e toque).
 class _ViaSacraScrollBehavior extends MaterialScrollBehavior {
@@ -49,6 +48,7 @@ class ViaSacraApp extends StatelessWidget {
         ChangeNotifierProvider.value(value: services.bible),
         ChangeNotifierProvider(create: (_) => NavigationController()),
         ChangeNotifierProvider(create: (_) => LiturgyController(services.liturgyRepository)),
+        Provider<PageDepthObserver>(create: (_) => PageDepthObserver(), dispose: (_, o) => o.depth.dispose()),
       ],
       child:
           Selector2<
@@ -70,8 +70,10 @@ class ViaSacraApp extends StatelessWidget {
                 font: state.font,
                 lineHeight: state.lineHeight,
               );
+              final pageDepth = context.read<PageDepthObserver>();
               return MaterialApp(
                 title: 'Via Sacra',
+                navigatorObservers: [pageDepth],
                 debugShowCheckedModeBanner: false,
                 scrollBehavior: const _ViaSacraScrollBehavior(),
                 theme: theme(Brightness.light),
@@ -87,7 +89,7 @@ class ViaSacraApp extends StatelessWidget {
                     final mq = MediaQuery.of(context);
                     return MediaQuery(
                       data: mq.copyWith(textScaler: TextScaler.linear(mq.textScaler.scale(1) * textScale)),
-                      child: child!,
+                      child: GlobalAudioMiniPlayerHost(depth: pageDepth.depth, child: child!),
                     );
                   },
                   child: child!,
@@ -275,7 +277,8 @@ class _HomeShellState extends State<HomeShell> {
     final body = Column(
       children: [
         Expanded(child: pages),
-        const _NeuralTtsProgressStrip(),
+        // A aba Liturgia já tem a própria barra "Ouvir Liturgia".
+        GlobalAudioMiniPlayer(hiddenForKeyPrefix: nav.tab == AppTab.liturgia ? 'liturgia-' : null),
       ],
     );
 
@@ -345,37 +348,6 @@ class _HomeShellState extends State<HomeShell> {
         canRequestFocus: true,
         onKeyEvent: (_, event) => _handleKey(event, nav),
         child: scaffold,
-      ),
-    );
-  }
-}
-
-class _NeuralTtsProgressStrip extends StatelessWidget {
-  const _NeuralTtsProgressStrip();
-
-  @override
-  Widget build(BuildContext context) {
-    final status = context.select<ReadingAudioController, NeuralTtsStatus>((a) => a.neuralTtsStatus);
-    if (!status.isBusy) return const SizedBox.shrink();
-    final cs = Theme.of(context).colorScheme;
-    final t = Theme.of(context).textTheme;
-    return Material(
-      color: cs.surfaceContainerHigh,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          LinearProgressIndicator(value: status.progress, minHeight: 2),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: VsSpacing.md, vertical: 6),
-            child: Text(
-              status.label ?? 'Preparando voz neural Kokoro…',
-              style: t.bodySmall,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-        ],
       ),
     );
   }

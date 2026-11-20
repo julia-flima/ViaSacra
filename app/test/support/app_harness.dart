@@ -34,7 +34,11 @@ Future<void> _loadFont(String family, List<String> files) async {
   await loader.load();
 }
 
-Future<AppServices> buildServices({required bool onboardingDone, bool dark = false}) async {
+Future<AppServices> buildServices({
+  required bool onboardingDone,
+  bool dark = false,
+  ReadingAudioController? audio,
+}) async {
   SharedPreferences.setMockInitialValues({
     'onboarding_done': onboardingDone,
     'theme_mode': dark ? ThemeMode.dark.index : ThemeMode.light.index,
@@ -59,7 +63,7 @@ Future<AppServices> buildServices({required bool onboardingDone, bool dark = fal
     content: content,
     catechism: CatechismRepository(db),
     userData: user,
-    audio: ReadingAudioController.local(),
+    audio: audio ?? ReadingAudioController.local(),
     notifications: null,
     bible: BibleService(BibleRepository(db)),
   );

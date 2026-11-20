@@ -614,6 +614,13 @@ class ReadingAudioController extends ChangeNotifier {
   Future<void> next() => _handler.skipToNext();
   Future<void> previous() => _handler.skipToPrevious();
   Future<void> stop() => _handler.stop();
+
+  /// Para a leitura e descarrega a fila (fecha o mini-player global).
+  Future<void> close() async {
+    loadedKey = null;
+    await _handler.load(const []);
+  }
+
   Future<void> setSpeed(double s) => _handler.setSpeed(s);
   Future<void> setVoice(String? name, String? locale) => _handler.setVoice(name, locale);
   Future<void> setKokoroVoice(String voiceId) => _handler.setKokoroVoice(voiceId);
