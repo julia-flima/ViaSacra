@@ -54,14 +54,14 @@ void main() {
     expect(u.streak(today: DateTime(2026, 11, 22)).current, 0);
   });
 
-  test('São Pio X embutido (994 perguntas) e importador modular JSON', () async {
+  test('São Pio X embutido (993 perguntas) e importador modular JSON', () async {
     final spx = jsonDecode(File('assets/db/sao_pio_x.json').readAsStringSync()) as Map<String, dynamic>;
     await db.importCatechismWork(spx, bundled: true);
     final repo = CatechismRepository(db);
-    expect(db.catechismWorkVersion('sao_pio_x'), 3);
+    expect(db.catechismWorkVersion('sao_pio_x'), 4);
     expect(db.catechismWorkVersion('inexistente'), isNull);
     expect(repo.works().map((w) => w.id), ['sao_pio_x']);
-    expect(repo.work('sao_pio_x')!.entryCount, 994);
+    expect(repo.work('sao_pio_x')!.entryCount, 993);
     expect(repo.parts('sao_pio_x'), isNotEmpty);
     final summaries = repo.partSummaries('sao_pio_x');
     expect(summaries.map((s) => s.part).toList(), repo.parts('sao_pio_x'));
@@ -100,10 +100,10 @@ void main() {
     expect(repo.work('cic_local'), isNull);
   });
 
-  test('sao_pio_x.json: 994 perguntas em sequência, sem artefatos de OCR nem notas do tradutor', () {
+  test('sao_pio_x.json: 993 perguntas em sequência (tradução do projeto, sem artefatos)', () {
     final spx = jsonDecode(File('assets/db/sao_pio_x.json').readAsStringSync()) as Map<String, dynamic>;
     final entries = (spx['entradas'] as List).cast<Map<String, dynamic>>();
-    expect([for (final e in entries) e['numero']], [for (var n = 1; n <= 994; n++) n]);
+    expect([for (final e in entries) e['numero']], [for (var n = 1; n <= 993; n++) n]);
     final artefato = RegExp(r'CATECISMO MAIOR|Pio X|Page \d|Nota d[oa] Tradutor|CAP[ÍI]TULO|\d{1,2}º\s*-\s*D[aoe]');
     for (final e in entries) {
       final texto = '${e['pergunta']} ${e['resposta']}';
@@ -111,8 +111,9 @@ void main() {
       expect((e['resposta'] as String).trim(), isNotEmpty, reason: 'P. ${e['numero']}');
     }
     // Perguntas imperativas antes perdidas pelo extrator.
-    expect(entries[17]['pergunta'], 'Dizei-os.');
-    expect(entries[284]['pergunta'], 'Rezai o Padre-Nosso.');
+    expect(entries[17]['pergunta'], 'Recitai-os.');
+    expect(entries[283]['pergunta'], 'Rezai o Pai-Nosso.');
+    expect(spx['licenca'], contains('CC0'));
   });
 
   test('Catecismo Romano embutido (retirado) é apagado; importação do usuário é mantida', () async {
@@ -131,6 +132,6 @@ void main() {
     expect(repo.work('romano_trento'), isNull);
     expect(db.db.select("SELECT 1 FROM catechism_entries WHERE catechism_id = 'romano_trento'"), isEmpty);
     expect(repo.work('romano_usuario'), isNotNull);
-    expect(db.catechismWorkVersion('sao_pio_x'), 3); // instalado pelo seed a partir do asset
+    expect(db.catechismWorkVersion('sao_pio_x'), 4); // instalado pelo seed a partir do asset
   });
 }
