@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:material_ui/material_ui.dart';
 
 import 'liturgical_color.dart';
@@ -53,8 +54,8 @@ class VsSpacing {
 }
 
 class AppTheme {
-  static const _serifFallback = ['EBGaramond', 'Merriweather', 'ViaSacraSymbols', 'Noto Serif', 'Georgia', 'serif'];
-  static const _sansFallback = ['Inter', 'Roboto', 'ViaSacraSymbols', '.SF Pro Text', 'Helvetica Neue', 'sans-serif'];
+  static const _serifFallback = ['Merriweather', 'ViaSacraSymbols', 'Noto Serif', 'Georgia', 'serif'];
+  static const _sansFallback = ['Roboto', 'ViaSacraSymbols', '.SF Pro Text', 'Helvetica Neue', 'sans-serif'];
 
   static ThemeData build({
     required Brightness brightness,
@@ -130,14 +131,14 @@ class AppTheme {
     final text = base.copyWith(
       displaySmall: serif(base.displaySmall, size: 34, w: FontWeight.w400, h: 1.15),
       headlineMedium: serif(base.headlineMedium, size: 28, w: FontWeight.w400, h: 1.2),
-      headlineSmall: serif(base.headlineSmall, size: 23, w: FontWeight.w500, h: 1.25),
-      titleLarge: serif(base.titleLarge, size: 20, w: FontWeight.w500, h: 1.3),
-      titleMedium: ui(base.titleMedium, w: FontWeight.w600),
-      titleSmall: ui(base.titleSmall, c: muted, w: FontWeight.w600),
+      headlineSmall: serif(base.headlineSmall, size: 23, w: FontWeight.w400, h: 1.25),
+      titleLarge: serif(base.titleLarge, size: 20, w: FontWeight.w400, h: 1.3),
+      titleMedium: ui(base.titleMedium, w: FontWeight.w500),
+      titleSmall: ui(base.titleSmall, c: muted, w: FontWeight.w500),
       bodyLarge: body(base.bodyLarge, size: 17),
       bodyMedium: body(base.bodyMedium, size: 16),
       bodySmall: ui(base.bodySmall, c: muted),
-      labelLarge: ui(base.labelLarge, ls: 0.3, w: FontWeight.w600),
+      labelLarge: ui(base.labelLarge, ls: 0.3, w: FontWeight.w500),
       labelMedium: ui(base.labelMedium, c: muted, ls: 1.2),
       labelSmall: ui(base.labelSmall, c: muted, ls: 1.4),
     );
@@ -148,7 +149,7 @@ class AppTheme {
       colorScheme: scheme,
       scaffoldBackgroundColor: bg,
       textTheme: text,
-      splashFactory: InkSparkle.splashFactory,
+      splashFactory: kIsWeb ? InkRipple.splashFactory : InkSparkle.splashFactory,
       appBarTheme: AppBarTheme(
         backgroundColor: bg,
         foregroundColor: fg,

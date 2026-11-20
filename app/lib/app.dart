@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 
 import 'app_navigation.dart';
 import 'app_state.dart';
+import 'core/liturgical_color.dart';
 import 'core/theme.dart';
 import 'features/bible/bible_screen.dart';
 import 'features/library/library_screen.dart';
@@ -47,36 +48,52 @@ class ViaSacraApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => NavigationController()),
         ChangeNotifierProvider(create: (_) => LiturgyController(services.liturgyRepository)),
       ],
-      child: Consumer2<SettingsService, LiturgyController>(
-        builder: (context, settings, liturgy, _) {
-          ThemeData theme(Brightness b) => AppTheme.build(
-            brightness: b,
-            liturgicalColor: liturgy.color,
-            font: settings.readingFont,
-            lineHeight: settings.lineHeight,
-          );
-          return MaterialApp(
-            title: 'Via Sacra',
-            debugShowCheckedModeBanner: false,
-            scrollBehavior: const _ViaSacraScrollBehavior(),
-            theme: theme(Brightness.light),
-            darkTheme: theme(Brightness.dark),
-            themeMode: settings.themeMode,
-            themeAnimationDuration: const Duration(milliseconds: 600),
-            locale: const Locale('pt', 'BR'),
-            supportedLocales: const [Locale('pt', 'BR')],
-            localizationsDelegates: GlobalMaterialLocalizations.delegates,
-            builder: (context, child) {
-              final mq = MediaQuery.of(context);
-              return MediaQuery(
-                data: mq.copyWith(textScaler: TextScaler.linear(mq.textScaler.scale(1) * settings.textScale)),
-                child: child!,
+      child:
+          Selector2<
+            SettingsService,
+            LiturgyController,
+            ({LiturgicalColor color, ReadingFont font, double lineHeight, ThemeMode themeMode, bool onboardingDone})
+          >(
+            selector: (_, settings, liturgy) => (
+              color: liturgy.color,
+              font: settings.readingFont,
+              lineHeight: settings.lineHeight,
+              themeMode: settings.themeMode,
+              onboardingDone: settings.onboardingDone,
+            ),
+            builder: (context, state, _) {
+              ThemeData theme(Brightness b) => AppTheme.build(
+                brightness: b,
+                liturgicalColor: state.color,
+                font: state.font,
+                lineHeight: state.lineHeight,
+              );
+              return MaterialApp(
+                title: 'Via Sacra',
+                debugShowCheckedModeBanner: false,
+                scrollBehavior: const _ViaSacraScrollBehavior(),
+                theme: theme(Brightness.light),
+                darkTheme: theme(Brightness.dark),
+                themeMode: state.themeMode,
+                themeAnimationDuration: const Duration(milliseconds: 600),
+                locale: const Locale('pt', 'BR'),
+                supportedLocales: const [Locale('pt', 'BR')],
+                localizationsDelegates: GlobalMaterialLocalizations.delegates,
+                builder: (context, child) => Selector<SettingsService, double>(
+                  selector: (_, s) => s.textScale,
+                  builder: (context, textScale, child) {
+                    final mq = MediaQuery.of(context);
+                    return MediaQuery(
+                      data: mq.copyWith(textScaler: TextScaler.linear(mq.textScaler.scale(1) * textScale)),
+                      child: child!,
+                    );
+                  },
+                  child: child!,
+                ),
+                home: state.onboardingDone ? const HomeShell() : const OnboardingScreen(),
               );
             },
-            home: settings.onboardingDone ? const HomeShell() : const OnboardingScreen(),
-          );
-        },
-      ),
+          ),
     );
   }
 }
@@ -229,7 +246,7 @@ class _HomeShellState extends State<HomeShell> {
   @override
   Widget build(BuildContext context) {
     final nav = context.watch<NavigationController>();
-    final liturgy = context.watch<LiturgyController>();
+    final seasonLabel = context.select<LiturgyController, String>((c) => c.day.season.label);
     final width = MediaQuery.sizeOf(context).width;
     final useRail = width >= 600;
     final extendedRail = width >= 1024;
@@ -280,7 +297,7 @@ class _HomeShellState extends State<HomeShell> {
                               ),
                               const SizedBox(height: 4),
                               Text(
-                                liturgy.day.season.label,
+                                seasonLabel,
                                 style: t.bodySmall?.copyWith(color: cs.primary),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,

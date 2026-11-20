@@ -114,9 +114,8 @@ class _LicenseText extends StatelessWidget {
         builder: (context, snap) => snap.hasData
             ? SingleChildScrollView(
                 padding: EdgeInsets.fromLTRB(pad, VsSpacing.md, pad, VsSpacing.xxl),
-                child: SelectableText(
-                  snap.data!,
-                  style: const TextStyle(fontFamily: 'Roboto', fontSize: 12, height: 1.4),
+                child: SelectionArea(
+                  child: Text(snap.data!, style: const TextStyle(fontFamily: 'Roboto', fontSize: 12, height: 1.4)),
                 ),
               )
             : const Center(child: CircularProgressIndicator()),
