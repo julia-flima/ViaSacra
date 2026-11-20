@@ -14,6 +14,7 @@ import 'features/liturgy/liturgy_screen.dart';
 import 'features/rosary/rosary_screen.dart';
 import 'features/settings/onboarding_screen.dart';
 import 'features/settings/settings_screen.dart';
+import 'services/bible_service.dart';
 import 'services/settings_service.dart';
 
 /// Comportamento de rolagem confortável em Desktop/Web (mouse, trackpad e toque).
@@ -108,9 +109,35 @@ class _HomeShellState extends State<HomeShell> {
   };
 
   late final List<ScrollController> _scrollControllers = List.generate(_pages.length, (_) => ScrollController());
+  NavigationController? _nav;
+  bool _bibleTriggered = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final nav = context.read<NavigationController>();
+    if (_nav != nav) {
+      _nav?.removeListener(_onTabChanged);
+      _nav = nav;
+      nav.addListener(_onTabChanged);
+      _onTabChanged();
+    }
+  }
+
+  void _onTabChanged() {
+    if (_bibleTriggered || _nav?.tab != AppTab.biblia) return;
+    _bibleTriggered = true;
+    unawaited(
+      context.read<BibleService>().ensureBundled().catchError((Object e) {
+        _bibleTriggered = false;
+        debugPrint('Erro ao preparar Bíblia: $e');
+      }),
+    );
+  }
 
   @override
   void dispose() {
+    _nav?.removeListener(_onTabChanged);
     for (final c in _scrollControllers) {
       c.dispose();
     }

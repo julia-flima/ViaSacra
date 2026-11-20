@@ -4,9 +4,16 @@ import '../../../data/bible/bible_models.dart';
 
 /// Resultado do seletor rápido de traduções.
 class TranslationChoice {
-  const TranslationChoice({this.translationId, this.compareId, this.clearCompare = false, this.manage = false});
+  const TranslationChoice({
+    this.translationId,
+    this.compareId,
+    this.downloadBundledId,
+    this.clearCompare = false,
+    this.manage = false,
+  });
   final String? translationId;
   final String? compareId;
+  final String? downloadBundledId;
   final bool clearCompare;
   final bool manage;
 }
@@ -14,6 +21,7 @@ class TranslationChoice {
 Future<TranslationChoice?> showTranslationSelector(
   BuildContext context, {
   required List<BibleTranslation> translations,
+  List<BundledTranslationInfo> availableBundled = const [],
   required String currentId,
   String? compareId,
 }) {
@@ -67,6 +75,29 @@ Future<TranslationChoice?> showTranslationSelector(
               ],
             ),
           ),
+          if (availableBundled.isNotEmpty) ...[
+            const Divider(),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 4, 20, 4),
+              child: Text('Disponíveis para baixar (domínio público)', style: t.titleSmall),
+            ),
+            for (final item in availableBundled)
+              ListTile(
+                leading: CircleAvatar(
+                  radius: 18,
+                  child: Text(item.abbreviation, style: t.labelSmall?.copyWith(letterSpacing: 0)),
+                ),
+                title: Text(item.name),
+                subtitle: Text(
+                  '${item.language}'
+                  '${item.sizeMb != null ? ' · ~${item.sizeMb!.toStringAsFixed(1).replaceAll('.', ',')} MB' : ''}',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                trailing: const Icon(Icons.download_outlined),
+                onTap: () => Navigator.pop(ctx, TranslationChoice(downloadBundledId: item.id)),
+              ),
+          ],
           const SizedBox(height: 8),
           ListTile(
             leading: const Icon(Icons.library_add_outlined),

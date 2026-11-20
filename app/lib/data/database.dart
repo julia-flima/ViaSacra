@@ -19,6 +19,12 @@ class AppDatabase {
   /// 1 = conteúdo inicial; 2 = Bíblia Sagrada; 3 = múltiplos catecismos (100% FOSS + importador).
   static const schemaVersion = 3;
 
+  static const _bundledCatechismVersion = '1';
+  static const _bundledCatechismWorks = <(String id, String asset, int version)>[
+    ('sao_pio_x', 'assets/db/sao_pio_x.json', 2),
+    ('romano_trento', 'assets/db/catecismo_romano.json', 1),
+  ];
+
   static Future<AppDatabase> open() async {
     final db = await openPlatformDatabase('via_sacra');
     db.execute('PRAGMA foreign_keys = ON;');
@@ -83,10 +89,14 @@ class AppDatabase {
   void setMeta(String key, String value) =>
       db.execute('INSERT OR REPLACE INTO meta(key, value) VALUES (?, ?)', [key, value]);
 
+  int? catechismWorkVersion(String id) =>
+      db.select('SELECT module_version FROM catechisms WHERE id = ?', [id]).firstOrNull?['module_version'] as int?;
+
   /// Importa `assets/db/catechism.json` (se presente) e o índice temático.
   /// O texto integral do CIC é protegido por direitos autorais (LEV) e só é
   /// distribuído mediante licença — ver docs/COPYRIGHT.md.
   Future<void> _seedCatechism() async {
+    if (meta('catechism_version') == _bundledCatechismVersion) return;
     try {
       final raw = await rootBundle.loadString('assets/db/catechism.json');
       await importCatechism(jsonDecode(raw) as Map<String, dynamic>);
@@ -144,11 +154,14 @@ class AppDatabase {
       db.execute('ROLLBACK');
       rethrow;
     }
+    await flush();
   }
 
   /// Instala os catecismos clássicos em Domínio Público (São Pio X e Catecismo Romano).
   Future<void> _seedBundledCatechismWorks() async {
-    for (final asset in const ['assets/db/sao_pio_x.json', 'assets/db/catecismo_romano.json']) {
+    for (final (id, asset, version) in _bundledCatechismWorks) {
+      final current = catechismWorkVersion(id);
+      if (current != null && current >= version) continue;
       try {
         final raw = await rootBundle.loadString(asset);
         await importCatechismWork(jsonDecode(raw) as Map<String, dynamic>, bundled: true);
@@ -162,8 +175,7 @@ class AppDatabase {
   Future<void> importCatechismWork(Map<String, dynamic> data, {bool bundled = false, bool force = false}) async {
     final id = (data['id'] as String).trim();
     final version = (data['versao_modulo'] as num?)?.toInt() ?? 1;
-    final current =
-        db.select('SELECT module_version FROM catechisms WHERE id = ?', [id]).firstOrNull?['module_version'] as int?;
+    final current = catechismWorkVersion(id);
     if (!force && current != null && current >= version) return;
 
     final entries = (data['entradas'] ?? data['paragrafos']) as List? ?? const [];

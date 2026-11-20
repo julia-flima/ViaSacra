@@ -1,3 +1,5 @@
+import 'dart:async' show unawaited;
+
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 
@@ -12,15 +14,55 @@ import '../../widgets/common.dart';
 /// Tela "Gerenciar e Importar Traduções": lista traduções nativas (embutidas)
 /// e módulos `.json` importados localmente pelo usuário, com barra de progresso,
 /// validação detalhada e exclusão para liberar espaço.
-class TranslationsScreen extends StatelessWidget {
+class TranslationsScreen extends StatefulWidget {
   const TranslationsScreen({super.key});
 
+  @override
+  State<TranslationsScreen> createState() => _TranslationsScreenState();
+}
+
+class _TranslationsScreenState extends State<TranslationsScreen> {
   static const _protected = [
     ('CNBB', 'Tradução oficial da CNBB', 'Edições CNBB'),
     ('Ave-Maria', 'Bíblia Sagrada Ave-Maria', 'Editora Ave-Maria'),
     ('Jerusalém', 'Bíblia de Jerusalém', 'Paulus / Éditions du Cerf'),
     ('Pastoral', 'Bíblia Pastoral', 'Paulus'),
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      final bible = context.read<BibleService>();
+      if (bible.autoInstallBundled) {
+        unawaited(bible.ensureBundled().catchError((Object e) => debugPrint('Erro ao preparar Bíblia: $e')));
+      } else if (bible.bundledCatalog.isEmpty) {
+        unawaited(
+          bible.ensureCatalog().catchError((Object e) {
+            debugPrint('Erro ao carregar catálogo da Bíblia: $e');
+            return const <BundledTranslationInfo>[];
+          }),
+        );
+      }
+    });
+  }
+
+  Future<void> _downloadBundled(BuildContext context, BibleService bible, BundledTranslationInfo item) async {
+    final messenger = ScaffoldMessenger.of(context);
+    try {
+      await bible.installBundled(item.id);
+      if (context.mounted) {
+        messenger.showSnackBar(
+          SnackBar(content: Text('“${item.name}” (${item.abbreviation}) pronta para uso offline.')),
+        );
+      }
+    } catch (e) {
+      if (context.mounted) {
+        messenger.showSnackBar(SnackBar(content: Text('Não foi possível baixar “${item.name}”: $e')));
+      }
+    }
+  }
 
   Future<void> _run(BuildContext context, Future<BibleImportResult?> Function() action) async {
     final messenger = ScaffoldMessenger.of(context);
@@ -149,6 +191,26 @@ class TranslationsScreen extends StatelessWidget {
           ],
           const Eyebrow('Traduções nativas (embutidas)'),
           for (final tr in bundled) _tile(context, bible, tr, t),
+          for (final item in bible.availableBundled)
+            ListTile(
+              contentPadding: EdgeInsets.zero,
+              leading: CircleAvatar(child: Text(item.abbreviation, style: t.labelSmall?.copyWith(letterSpacing: 0))),
+              title: Text(item.name),
+              subtitle: Text(
+                '${item.language} · ${item.license}'
+                '${item.sizeMb != null ? ' · ~${item.sizeMb!.toStringAsFixed(1).replaceAll('.', ',')} MB' : ''}',
+              ),
+              trailing: OutlinedButton.icon(
+                onPressed: bible.progress != null ? null : () => _downloadBundled(context, bible, item),
+                icon: const Icon(Icons.download_outlined, size: 18),
+                label: const Text('Baixar'),
+              ),
+            ),
+          if (bundled.isEmpty && bible.availableBundled.isEmpty)
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: VsSpacing.sm),
+              child: Text('Carregando catálogo…', style: t.bodyMedium),
+            ),
           const SizedBox(height: VsSpacing.md),
           const Eyebrow('Traduções importadas neste aparelho'),
           if (imported.isEmpty)
