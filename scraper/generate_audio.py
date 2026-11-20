@@ -110,7 +110,7 @@ def build_liturgy_script(doc: dict) -> str:
 
 def build_homily_script(doc: dict) -> str:
     homilias = doc.get("homilias") or {}
-    vat = homilias.get("vatican_news")
+    vat = homilias.get("vaticano") or homilias.get("vatican_news")
     if not isinstance(vat, dict):
         return ""
     texto = (vat.get("texto") or "").strip()
