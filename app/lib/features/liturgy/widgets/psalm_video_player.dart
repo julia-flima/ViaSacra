@@ -4,6 +4,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../../core/theme.dart';
+import '../../../core/url_safety.dart';
 import '../../../data/models/liturgy.dart';
 import '../../../widgets/common.dart';
 import 'psalm_video_embed_stub.dart' if (dart.library.js_interop) 'psalm_video_embed_web.dart';
@@ -34,12 +35,18 @@ class _PsalmVideoPlayerState extends State<PsalmVideoPlayer> {
   bool get _isMobileWebView =>
       !kIsWeb && (defaultTargetPlatform == TargetPlatform.android || defaultTargetPlatform == TargetPlatform.iOS);
 
+  static const _allowedDomains = ['youtube-nocookie.com', 'youtube.com', 'googlevideo.com', 'ytimg.com'];
+
+  bool get _validId => UrlSafety.isYoutubeId(widget.videoId);
+
   String get _watchUrl => 'https://www.youtube.com/watch?v=${widget.videoId}';
 
   @override
   void initState() {
     super.initState();
-    if (_isMobileWebView) {
+    if (!_validId) {
+      _loading = false; // id inválido vindo do JSON: não monta o player
+    } else if (_isMobileWebView) {
       _initMobileWebView();
     } else {
       _loading = false;
@@ -47,7 +54,7 @@ class _PsalmVideoPlayerState extends State<PsalmVideoPlayer> {
   }
 
   void _initMobileWebView() {
-    final safeId = widget.videoId.replaceAll(RegExp(r'[^A-Za-z0-9_-]'), '');
+    final safeId = widget.videoId; // já validado por UrlSafety.isYoutubeId
     final html =
         '''
 <!DOCTYPE html>
@@ -83,17 +90,13 @@ class _PsalmVideoPlayerState extends State<PsalmVideoPlayer> {
           onNavigationRequest: (req) {
             final uri = Uri.tryParse(req.url);
             if (uri == null) return NavigationDecision.prevent;
-            final host = uri.host.toLowerCase();
-            final allowed =
-                host.endsWith('youtube-nocookie.com') ||
-                host.endsWith('youtube.com') ||
-                host.endsWith('googlevideo.com') ||
-                host == 'julia-flima.github.io';
-            if (!allowed) {
+            if (req.url == 'about:blank' || req.url == '$_origin/ViaSacra/') return NavigationDecision.navigate;
+            if (UrlSafety.isHttpsIn(uri, _allowedDomains)) return NavigationDecision.navigate;
+            // Outros links (ex.: "assistir no YouTube" de outro domínio) vão para o navegador.
+            if (req.isMainFrame && uri.scheme == 'https') {
               launchUrl(uri, mode: LaunchMode.externalApplication);
-              return NavigationDecision.prevent;
             }
-            return NavigationDecision.navigate;
+            return NavigationDecision.prevent;
           },
         ),
       )
@@ -109,6 +112,7 @@ class _PsalmVideoPlayerState extends State<PsalmVideoPlayer> {
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
     final t = Theme.of(context).textTheme;
+    if (!_validId) return const SizedBox.shrink();
     final webEmbed = kIsWeb ? buildWebYoutubeEmbed(widget.videoId, widget.title) : null;
 
     return Container(

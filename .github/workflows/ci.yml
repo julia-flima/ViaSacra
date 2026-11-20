@@ -48,4 +48,8 @@ jobs:
           python-version: "3.12"
       - run: pip install -r requirements-dev.txt
       - run: ruff check .
+      # scripts/ e tool/ usam o ruff.toml da raiz (mesmas regras do scraper).
+      - name: ruff check scripts/ tool/
+        working-directory: .
+        run: ruff check scripts tool
       - run: python -m pytest -q
