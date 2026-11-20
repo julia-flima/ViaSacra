@@ -13,7 +13,7 @@
                                    ▼
 ┌────────────────────────── App Flutter (Android + iOS + Web/PWA) ───────────────────────┐
 │ features/  liturgy · bible · rosary · library(catechism+prayers) · settings  (Provider)│
-│ services/  ReadingAudio (flutter_tts + just_audio + audio_service)                     │
+│ services/  ReadingAudio (Kokoro-82M neural offline + just_audio + audio_service)     │
 │            Notification (flutter_local_notifications, 100% local) · Settings           │
 │ data/      LiturgyRepository (offline-first) · CatechismRepository (FTS5)              │
 │            ContentRepository (assets) · UserDataRepository (favoritos/constância)      │
@@ -47,11 +47,18 @@
 
 ## Áudio ("Ouvir Liturgia")
 
-`buildLiturgyQueue` monta a fila: áudio narrado aberto (`liturgia_audio_url`), quando existir e o
-usuário preferir, ou um segmento TTS por leitura. `ReadingAudioHandler` (audio_service):
+`buildLiturgyQueue` monta a fila: áudio narrado aberto (`liturgia_audio_url` / `homilia_audio_url`,
+gerados diariamente via `kokoro-onnx` com a voz `pf_dora`), quando existir e o usuário preferir, ou
+um segmento TTS por leitura. `ReadingAudioHandler` (`audio_service`):
 
-- divide textos em frases (`splitForSpeech`) → pausa/retoma com precisão de frase;
-- velocidade 0,75×–1,5× (flutter_tts usa 0,5 como "normal" em ambas as plataformas);
+- divide textos em frases (`splitForSpeech`) → pausa/retoma com precisão de frase e pré-sintetiza o
+  trecho seguinte (`lookahead` N+1);
+- motor neural unificado **Kokoro-82M** (`pf_dora` e `pm_alex`, além de mapeamento automático para
+  inglês, espanhol e italiano/latim):
+  - **Mobile:** `sherpa_onnx: 1.13.8` em `Isolate` dedicado (modelo int8 ~126 MB baixado sob demanda),
+    com fallback automático para `flutter_tts` quando offline antes do download;
+  - **Web:** Web Worker (`kokoro_worker.js`) em `onnxruntime-web` (WebGPU/WASM) + `ephone`, modelo
+    quantizado ~92 MB em Cache API e áudio via Web Audio API;
 - avanço automático, anterior/próxima, controles na tela de bloqueio e fones Bluetooth;
 - iOS: categoria `playback` + `UIBackgroundModes=audio`; Android: foreground service `mediaPlayback`.
 
@@ -103,5 +110,5 @@ proclamado destacado.
 | Offline | `web/sw.js` próprio: o app usa *stale-while-revalidate* e a liturgia usa *network-first* com cache. O service worker legado do Flutter, que se autodesinstala, é desativado por um `web/flutter_bootstrap.js` customizado |
 | Privacidade | `--no-web-resources-cdn` faz o CanvasKit ser servido localmente; todas as fontes são embutidas e o `fontFallbackBaseUrl` aponta para um caminho local. Nenhuma requisição ao Google |
 | Banco | SQLite WASM + IndexedDB (ver `DATABASE.md`). A Bíblia é preparada na primeira visita |
-| Áudio | `flutter_tts` usa a Web Speech API do navegador; `just_audio` usa o elemento HTML `<audio>` |
+| Áudio | Voz neural Kokoro-82M no Web Worker (`kokoro_worker.js`) via WebGPU/WASM + Web Audio API, com fallback para Web Speech API; MP3 via `<audio>` |
 | Lembretes | Desativados com `kIsWeb`; a aba Ajustes mostra um aviso indicando o app nativo |

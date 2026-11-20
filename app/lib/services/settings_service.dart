@@ -2,7 +2,7 @@ import 'package:material_ui/material_ui.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../core/theme.dart';
-import 'web_tts_types.dart';
+import 'neural_tts_types.dart';
 
 /// Preferências do usuário (locais, via SharedPreferences).
 class SettingsService extends ChangeNotifier {

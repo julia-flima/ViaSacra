@@ -21,10 +21,10 @@ class AudioPlayerBar extends StatelessWidget {
     final cs = Theme.of(context).colorScheme;
     final t = Theme.of(context).textTheme;
     final active = audio.hasQueue && audio.loadedKey != null;
-    final webStatus = audio.webTtsStatus;
-    final busy = webStatus.isBusy;
+    final neuralStatus = audio.neuralTtsStatus;
+    final busy = neuralStatus.isBusy;
     final subtitle = busy
-        ? (webStatus.label ?? 'Preparando voz neural…')
+        ? (neuralStatus.label ?? 'Preparando voz neural…')
         : active && audio.currentTitle != null
         ? audio.currentTitle!
         : recorded
@@ -89,7 +89,7 @@ class AudioPlayerBar extends StatelessWidget {
               ],
             ),
           ),
-          if (busy) LinearProgressIndicator(value: webStatus.progress, minHeight: 3),
+          if (busy) LinearProgressIndicator(value: neuralStatus.progress, minHeight: 3),
         ],
       ),
     );

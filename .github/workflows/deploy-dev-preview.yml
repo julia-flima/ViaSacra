@@ -55,6 +55,7 @@ jobs:
           sed -i "s/via-sacra-app-/via-sacra-dev-app-/g" sw.js
           sed -i "s/via-sacra-dados/via-sacra-dev-dados/g" sw.js
           rm -f flutter_service_worker.js
+          rm -rf assets/packages/sherpa_onnx_web
           cp index.html 404.html
           touch .nojekyll
           du -sh .
