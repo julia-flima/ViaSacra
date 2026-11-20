@@ -55,5 +55,7 @@ void main() {
     s.restoreTo(decade: 19, bead: 11);
     expect(s.advance(), BeadEvent.stageChanged);
     expect(s.stage, RosaryStage.closing);
+    s.advance();
+    expect(s.currentStep.label, 'Rosário concluído');
   });
 }

@@ -119,26 +119,37 @@ class _VerseActionsState extends State<_VerseActions> {
                 ),
               ),
               const SizedBox(height: VsSpacing.md),
+              // Wrap: em telas estreitas ou fonte grande os botões quebram de linha
+              // em vez de estourar a largura (overflow).
               Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  OutlinedButton.icon(
-                    onPressed: () =>
-                        SharePlus.instance.share(ShareParams(text: formatVerseForSharing(v, widget.translation))),
-                    icon: const Icon(Icons.ios_share_outlined),
-                    label: const Text('Compartilhar'),
+                  Expanded(
+                    child: Wrap(
+                      spacing: 8,
+                      runSpacing: 8,
+                      children: [
+                        OutlinedButton.icon(
+                          onPressed: () =>
+                              SharePlus.instance.share(ShareParams(text: formatVerseForSharing(v, widget.translation))),
+                          icon: const Icon(Icons.ios_share_outlined),
+                          label: const Text('Compartilhar'),
+                        ),
+                        OutlinedButton.icon(
+                          onPressed: () async {
+                            await Clipboard.setData(ClipboardData(text: formatVerseForSharing(v, widget.translation)));
+                            if (context.mounted) {
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(const SnackBar(content: Text('Versículo copiado.')));
+                            }
+                          },
+                          icon: const Icon(Icons.copy_outlined),
+                          label: const Text('Copiar'),
+                        ),
+                      ],
+                    ),
                   ),
                   const SizedBox(width: 8),
-                  OutlinedButton.icon(
-                    onPressed: () async {
-                      await Clipboard.setData(ClipboardData(text: formatVerseForSharing(v, widget.translation)));
-                      if (context.mounted) {
-                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Versículo copiado.')));
-                      }
-                    },
-                    icon: const Icon(Icons.copy_outlined),
-                    label: const Text('Copiar'),
-                  ),
-                  const Spacer(),
                   FilledButton(onPressed: () => Navigator.pop(context, _result), child: const Text('Salvar')),
                 ],
               ),

@@ -63,7 +63,7 @@ class RosarySession extends ChangeNotifier {
       case RosaryStage.closing:
         return const RosaryStep('salve_rainha', 'Salve-Rainha');
       case RosaryStage.finished:
-        return const RosaryStep('oracao_final', 'Terço concluído');
+        return RosaryStep('oracao_final', mode == RosaryMode.rosario ? 'Rosário concluído' : 'Terço concluído');
     }
   }
 
