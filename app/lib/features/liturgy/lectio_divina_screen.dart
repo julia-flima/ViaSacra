@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../../app_state.dart';
 import '../../core/theme.dart';
 import '../../widgets/common.dart';
+import '../../widgets/global_audio_mini_player.dart';
 import '../../widgets/reading_appearance_button.dart';
 import '../../widgets/sacred_art_header.dart';
 
@@ -107,6 +108,7 @@ class _LectioDivinaScreenState extends State<LectioDivinaScreen> {
           ),
         ),
       ),
+      bottomNavigationBar: _immersive ? null : const GlobalAudioMiniPlayer(useSafeArea: true),
     );
   }
 }
