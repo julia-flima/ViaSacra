@@ -49,8 +49,10 @@ void main() {
     });
 
     test('hoje é atualizado após o intervalo, mas offline usa o cache em silêncio', () async {
-      // O fetched_at usa o relógio real, então "hoje" precisa ser hoje de verdade.
-      final today = DateTime.now();
+      // O fetched_at usa o relógio real. Usa amanhã (data futura, também atualizável):
+      // com "agora + 1 h" ela nunca vira data passada, mesmo perto da meia-noite
+      // (o CI chegou a falhar às 23:30 UTC quando a data era "hoje").
+      final today = DateTime.now().add(const Duration(days: 1));
       await repo.load(today);
       expect(requests, 1);
 

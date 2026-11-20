@@ -23,7 +23,7 @@ class AppDatabase {
 
   static const _bundledCatechismVersion = '2';
   static const _bundledCatechismWorks = <(String id, String asset, int version)>[
-    ('sao_pio_x', 'assets/db/sao_pio_x.json', 3),
+    ('sao_pio_x', 'assets/db/sao_pio_x.json', 4), // v4: tradução do projeto (issue #29)
   ];
 
   /// Obras que já vieram embutidas e foram retiradas do app: são apagadas das
