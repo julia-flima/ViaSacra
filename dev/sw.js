@@ -7,7 +7,7 @@
  *
  * VERSION é substituída no deploy (deploy-web.yml) para invalidar caches antigos.
  */
-const VERSION = 'preview-5167aee62bb8';
+const VERSION = 'preview-d7d0e3e42228';
 const APP_CACHE = `via-sacra-dev-app-${VERSION}`;
 const DATA_CACHE = 'via-sacra-dev-dados';
 
