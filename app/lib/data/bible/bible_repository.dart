@@ -171,8 +171,12 @@ class BibleRepository {
     if (ref != null) {
       final r = resolve(ref, translationId);
       if (r == null) return const [];
-      final verses = chapter(translationId, r.bookId, r.chapter);
-      return ref.hasVerses ? verses.where((v) => ref.contains(v.verse)).toList() : verses.take(limit).toList();
+      if (!ref.hasVerses) return chapter(translationId, r.bookId, r.chapter).take(limit).toList();
+      final last = chapterCount(translationId, r.bookId);
+      return [
+        for (var i = 0; i <= ref.chapterSpan && r.chapter + i <= last; i++)
+          ...chapter(translationId, r.bookId, r.chapter + i).where((v) => ref.containsAt(i, v.verse)),
+      ];
     }
     final fts = q
         .split(RegExp(r'\s+'))

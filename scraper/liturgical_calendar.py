@@ -8,7 +8,10 @@ Regras do Brasil consideradas:
 - Epifania: domingo entre 2 e 8 de janeiro.
 - Ascensão: transferida para o 7º Domingo da Páscoa.
 - São Pedro e São Paulo, Assunção de Nossa Senhora e Todos os Santos:
-  transferidos para o domingo seguinte quando não caem em domingo.
+  transferidos para o domingo seguinte quando não caem em domingo — exceto
+  Todos os Santos num sábado, que fica no dia 1º (domingo 2/11 é Finados).
+- São José, Anunciação e Imaculada Conceição transferidos conforme as Normas
+  Universais do Ano Litúrgico (n. 60) quando coincidem com domingos/Semana Santa.
 - Nossa Senhora Aparecida (12/10): Solenidade.
 """
 
@@ -103,6 +106,41 @@ def _transferida_para_domingo(d: date) -> date:
     return _domingo_em_ou_apos(d)
 
 
+def sao_jose(ano: int) -> date:
+    """19/3; domingo da Quaresma → segunda; Semana Santa → sábado antes de Ramos."""
+    d, p = date(ano, 3, 19), pascoa(ano)
+    ramos = p - timedelta(days=7)
+    if ramos <= d < p:
+        return ramos - timedelta(days=1)
+    return d + timedelta(days=1) if d.weekday() == 6 else d
+
+
+def anunciacao(ano: int) -> date:
+    """25/3; Semana Santa/Oitava da Páscoa → segunda após o 2º Domingo da Páscoa."""
+    d, p = date(ano, 3, 25), pascoa(ano)
+    if p - timedelta(days=7) <= d <= p + timedelta(days=7):
+        return p + timedelta(days=8)
+    return d + timedelta(days=1) if d.weekday() == 6 else d
+
+
+def imaculada_conceicao(ano: int) -> date:
+    """8/12; num domingo do Advento → segunda-feira."""
+    d = date(ano, 12, 8)
+    return d + timedelta(days=1) if d.weekday() == 6 else d
+
+
+def todos_os_santos(ano: int) -> date:
+    """Domingo seguinte a 1º/11, exceto se 1º/11 for sábado (Diretório Litúrgico CNBB 2025)."""
+    d = date(ano, 11, 1)
+    return d if d.weekday() == 5 else _domingo_em_ou_apos(d)
+
+
+def sagrada_familia(ano: int) -> date:
+    """Domingo na Oitava do Natal ou, se não houver, 30/12."""
+    domingo = _domingo_em_ou_apos(date(ano, 12, 26))
+    return domingo if domingo.year == ano else date(ano, 12, 30)
+
+
 def ciclos(d: date) -> tuple[str, str]:
     """Retorna (ciclo dominical A/B/C, ciclo ferial I/II) do ano litúrgico de ``d``."""
     ano_fim = d.year + 1 if d >= inicio_advento(d.year) else d.year
@@ -118,24 +156,26 @@ def _celebracoes_fixas(d: date) -> tuple[str, str, str] | None:
         date(ano, 1, 1): ("Santa Maria, Mãe de Deus", "branco", "solenidade"),
         date(ano, 2, 2): ("Apresentação do Senhor", "branco", "festa"),
         date(ano, 2, 22): ("Cátedra de São Pedro", "branco", "festa"),
-        date(ano, 3, 19): ("São José, Esposo da Virgem Maria", "branco", "solenidade"),
-        date(ano, 3, 25): ("Anunciação do Senhor", "branco", "solenidade"),
+        sao_jose(ano): ("São José, Esposo da Virgem Maria", "branco", "solenidade"),
+        anunciacao(ano): ("Anunciação do Senhor", "branco", "solenidade"),
         date(ano, 6, 24): ("Natividade de São João Batista", "branco", "solenidade"),
         date(ano, 8, 6): ("Transfiguração do Senhor", "branco", "festa"),
         date(ano, 9, 14): ("Exaltação da Santa Cruz", "vermelho", "festa"),
         date(ano, 10, 12): ("Nossa Senhora da Conceição Aparecida, Padroeira do Brasil", "branco", "solenidade"),
         date(ano, 11, 2): ("Comemoração de Todos os Fiéis Defuntos", "roxo", "solenidade"),
-        date(ano, 12, 8): ("Imaculada Conceição de Nossa Senhora", "branco", "solenidade"),
+        imaculada_conceicao(ano): ("Imaculada Conceição de Nossa Senhora", "branco", "solenidade"),
         date(ano, 12, 25): ("Natal do Senhor", "branco", "solenidade"),
         date(ano, 12, 26): ("Santo Estêvão, primeiro mártir", "vermelho", "festa"),
         date(ano, 12, 27): ("São João, Apóstolo e Evangelista", "branco", "festa"),
         date(ano, 12, 28): ("Santos Inocentes, mártires", "vermelho", "festa"),
         _transferida_para_domingo(date(ano, 6, 29)): ("São Pedro e São Paulo, Apóstolos", "vermelho", "solenidade"),
         _transferida_para_domingo(date(ano, 8, 15)): ("Assunção de Nossa Senhora", "branco", "solenidade"),
-        _transferida_para_domingo(date(ano, 11, 1)): ("Todos os Santos", "branco", "solenidade"),
+        todos_os_santos(ano): ("Todos os Santos", "branco", "solenidade"),
         epifania(ano): ("Epifania do Senhor", "branco", "solenidade"),
         batismo_do_senhor(ano): ("Batismo do Senhor", "branco", "festa"),
     }
+    # Festa do Senhor: prevalece sobre Santo Estêvão, São João e Inocentes.
+    fixas[sagrada_familia(ano)] = ("Sagrada Família de Jesus, Maria e José", "branco", "festa")
     return fixas.get(d)
 
 
@@ -198,10 +238,10 @@ def calcular(d: date) -> DiaLiturgico:
         semana = (d - p).days // 7 + 1
     elif tempo == "comum":
         if d < cinzas:
-            inicio = batismo_ano + timedelta(days=1)
-            semana = (d - inicio).days // 7 + 1
-            if domingo:
-                semana += 1  # o domingo abre a semana seguinte
+            # O 2º Domingo é o primeiro depois do Batismo; cada semana começa no domingo.
+            segundo_domingo = _domingo_em_ou_apos(batismo_ano + timedelta(days=1))
+            domingo_da_semana = d - timedelta(days=(d.weekday() + 1) % 7)
+            semana = 1 if d < segundo_domingo else (domingo_da_semana - segundo_domingo).days // 7 + 2
         else:
             cristo_rei = advento - timedelta(days=7)
             # 34ª semana começa no domingo de Cristo Rei

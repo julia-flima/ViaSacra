@@ -110,6 +110,9 @@ class BibleModule {
         if (numCap == null || numCap < 1) {
           throw BibleModuleException('Número de capítulo inválido em "$book": "${e.key}".');
         }
+        if (parsed.containsKey(numCap)) {
+          throw BibleModuleException('Capítulo $numCap repetido em "$book".');
+        }
         if (numCap > maxCap) maxCap = numCap;
         parsed[numCap] = _chapter(e.value, book, numCap);
       }
@@ -142,6 +145,12 @@ class BibleModule {
       }
     } else {
       throw BibleModuleException('Capítulo $chapterNum malformado em "$book".');
+    }
+    // Duplicatas violariam a chave (livro, capítulo, versículo) no INSERT do SQLite.
+    final seen = <int>{};
+    for (final (n, _) in out) {
+      if (n < 1) throw BibleModuleException('Versículo inválido ($n) em "$book" capítulo $chapterNum.');
+      if (!seen.add(n)) throw BibleModuleException('Versículo $n repetido em "$book" capítulo $chapterNum.');
     }
     return out;
   }
