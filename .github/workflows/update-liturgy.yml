@@ -61,13 +61,23 @@ jobs:
       - name: Instalar dependências
         run: pip install -r scraper/requirements.txt
 
+      # Entradas do workflow_dispatch chegam por env: (nunca interpoladas no
+      # script) e são validadas antes de virar argumento.
       - name: Coletar liturgia, homilias e áudios
         working-directory: scraper
+        env:
+          IN_DATE: ${{ github.event.inputs.date }}
+          IN_DAYS: ${{ github.event.inputs.days || '7' }}
+          IN_FORCE: ${{ github.event.inputs.force }}
         run: |
-          ARGS="--days ${{ github.event.inputs.days || '7' }} --out ../data-branch"
-          if [ -n "${{ github.event.inputs.date }}" ]; then ARGS="$ARGS --date ${{ github.event.inputs.date }}"; fi
-          if [ "${{ github.event.inputs.force }}" = "true" ]; then ARGS="$ARGS --force"; fi
-          python scraper.py $ARGS
+          [[ "$IN_DAYS" =~ ^[0-9]{1,2}$ ]] || { echo "::error::days inválido: '$IN_DAYS'"; exit 1; }
+          args=(--days "$IN_DAYS" --out ../data-branch)
+          if [ -n "$IN_DATE" ]; then
+            [[ "$IN_DATE" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]] || { echo "::error::date inválida: '$IN_DATE'"; exit 1; }
+            args+=(--date "$IN_DATE")
+          fi
+          if [ "$IN_FORCE" = "true" ]; then args+=(--force); fi
+          python scraper.py "${args[@]}"
 
       - name: Cache do modelo Kokoro-82M (pf_dora pt-BR)
         uses: actions/cache@v4
@@ -78,15 +88,17 @@ jobs:
       - name: Gerar áudios neurais MP3 da Liturgia e Homilia (Kokoro-82M pt-BR)
         continue-on-error: true
         working-directory: scraper
+        env:
+          IN_FORCE: ${{ github.event.inputs.force }}
         run: |
           sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg espeak-ng
           pip install -q "kokoro-onnx>=0.6.1,<1"
-          EXTRA=""
-          if [ "${{ github.event.inputs.force }}" = "true" ]; then EXTRA="--force"; fi
+          extra=()
+          if [ "$IN_FORCE" = "true" ]; then extra+=(--force); fi
           python generate_audio.py \
             --dir ../data-branch \
             --model-dir "$HOME/.cache/viasacra-kokoro" \
-            $EXTRA
+            "${extra[@]}"
 
       - name: Validar JSON gerado
         working-directory: data-branch
@@ -115,13 +127,19 @@ jobs:
           fi
           git commit -m "data: liturgia de $(date +%F)"
           git push origin data
+          # Arquivos alterados (JSON e MP3) para limpar do cache do jsDelivr.
+          git diff-tree --no-commit-id --name-only -r HEAD > "$RUNNER_TEMP/alterados.txt"
 
-      - name: Limpar cache do jsDelivr (índice e próximos dias)
+      # Limpa do jsDelivr exatamente o que mudou neste run — inclusive MP3s
+      # regerados (ex.: --force ou texto corrigido), que antes ficavam em cache.
+      - name: Limpar cache do jsDelivr (arquivos alterados)
         continue-on-error: true
+        env:
+          REPO: ${{ github.repository }}
         run: |
-          base="https://purge.jsdelivr.net/gh/${{ github.repository }}@data/liturgia"
-          curl -fsS "$base/index.json" > /dev/null
-          for i in $(seq 0 6); do
-            d=$(date -d "+$i day" +%F)
-            curl -fsS "$base/$d.json" > /dev/null || true
+          base="https://purge.jsdelivr.net/gh/${REPO}@data"
+          curl -fsS "$base/liturgia/index.json" > /dev/null || true
+          [ -f "$RUNNER_TEMP/alterados.txt" ] || { echo "Sem alterações publicadas."; exit 0; }
+          grep -E '^(liturgia|audio)/[0-9A-Za-z._-]+$' "$RUNNER_TEMP/alterados.txt" | while read -r f; do
+            curl -fsS "$base/$f" > /dev/null && echo "purge: $f" || echo "falhou: $f"
           done

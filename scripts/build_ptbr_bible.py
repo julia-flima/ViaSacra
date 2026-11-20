@@ -26,7 +26,7 @@ from pathlib import Path
 
 RAIZ = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(RAIZ / "tool/bible"))
-from canon import LIVROS
+from canon import LIVROS  # noqa: E402 — depende do sys.path acima
 
 URL_PADRAO = "https://ebible.org/Scriptures/porbrbsl_usfm.zip"
 SAIDA_PADRAO = RAIZ / "app/assets/bible/bpm.json"

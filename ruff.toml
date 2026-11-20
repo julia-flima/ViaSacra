@@ -1,0 +1,12 @@
+# Mesmas regras do scraper (scraper/pyproject.toml) para scripts/ e tool/.
+line-length = 120
+target-version = "py311"
+
+[lint]
+select = ["E", "F", "W", "I", "B", "UP"]
+
+[lint.per-file-ignores]
+# Textos das orações: quebrar a linha mudaria a oração exibida no app.
+"tool/build_prayers.py" = ["E501"]
+# Tabela do cânon (fonte única): um livro por linha.
+"tool/bible/canon.py" = ["E501"]

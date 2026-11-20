@@ -3,8 +3,10 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart' show TargetPlatform, defaultTargetPlatform, kIsWeb;
 import 'package:material_ui/material_ui.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+import '../../core/url_safety.dart';
 import '../../widgets/common.dart';
 
 /// Abre um documento oficial do `vatican.va`:
@@ -40,6 +42,8 @@ class VaticanReaderScreen extends StatefulWidget {
 }
 
 class _VaticanReaderScreenState extends State<VaticanReaderScreen> {
+  static const _allowedDomains = ['vatican.va'];
+
   late final WebViewController _controller;
   double _progress = 0;
   bool _canGoBack = false;
@@ -62,6 +66,21 @@ class _VaticanReaderScreenState extends State<VaticanReaderScreen> {
           onPageFinished: (_) async {
             await _injectViaSacraCss();
             await _syncHistory();
+          },
+          // Só páginas do vatican.va abrem aqui (com JS e o CSS do app);
+          // qualquer outro link vai para o navegador do aparelho.
+          onNavigationRequest: (req) {
+            final uri = Uri.tryParse(req.url);
+            if (uri == null) return NavigationDecision.prevent;
+            if (UrlSafety.isHttpsIn(uri, _allowedDomains)) return NavigationDecision.navigate;
+            if (uri.scheme == 'http' && _allowedDomains.any((d) => UrlSafety.isHostOf(uri.host, d))) {
+              unawaited(_controller.loadRequest(uri.replace(scheme: 'https')));
+              return NavigationDecision.prevent;
+            }
+            if (req.isMainFrame && (uri.scheme == 'https' || uri.scheme == 'http' || uri.scheme == 'mailto')) {
+              unawaited(launchUrl(uri, mode: LaunchMode.externalApplication));
+            }
+            return NavigationDecision.prevent;
           },
           onWebResourceError: (err) {
             if (mounted && (err.isForMainFrame ?? true)) {

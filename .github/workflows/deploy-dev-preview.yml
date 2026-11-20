@@ -67,7 +67,7 @@ jobs:
           publish_dir: app/build/web
           publish_branch: gh-pages
           destination_dir: dev
-          keep_files: true
+          keep_files: false # limpa só a pasta dev/ (a produção na raiz não é tocada)
           user_name: via-sacra-bot
           user_email: 41898282+github-actions[bot]@users.noreply.github.com
           commit_message: "web(dev): preview ${{ github.sha }}"
