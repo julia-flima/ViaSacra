@@ -702,30 +702,3 @@ class _CatechismEntryScreenState extends State<CatechismEntryScreen> {
     );
   }
 }
-
-/// Parágrafo legado do CIC (mantido para compatibilidade).
-class ParagraphScreen extends StatelessWidget {
-  const ParagraphScreen({super.key, required this.number});
-  final int number;
-
-  @override
-  Widget build(BuildContext context) {
-    final s = context.read<AppServices>();
-    final p = s.catechism.byNumber(number);
-    final pad = VsSpacing.page(context);
-    final t = Theme.of(context).textTheme;
-    return Scaffold(
-      appBar: AppBar(title: Text('CIC § $number'), actions: const [ReadingAppearanceButton()]),
-      body: ListView(
-        padding: EdgeInsets.fromLTRB(pad, VsSpacing.lg, pad, VsSpacing.xxl),
-        children: [
-          if (p == null)
-            Text('O texto deste parágrafo ainda não está disponível offline.', style: t.bodyLarge)
-          else
-            SelectionArea(child: Text(p.text, style: t.bodyLarge)),
-        ],
-      ),
-      bottomNavigationBar: const GlobalAudioMiniPlayer(useSafeArea: true),
-    );
-  }
-}
