@@ -21,36 +21,14 @@ CREATE INDEX IF NOT EXISTS idx_liturgy_cache_fetched ON liturgy_cache(fetched_at
 -- ---------------------------------------------------------------------
 -- Catecismo da Igreja Católica
 -- ---------------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS catechism_paragraph (
-  number   INTEGER PRIMARY KEY,                -- § 1 a 2865
-  part     INTEGER NOT NULL CHECK (part BETWEEN 0 AND 4),  -- 0 = Prólogo
-  section  INTEGER,
-  chapter  INTEGER,
-  article  INTEGER,
-  heading  TEXT,                               -- título do artigo/parágrafo
-  text     TEXT NOT NULL
-);
-
--- Índice de busca de texto completo (FTS5), sincronizado por triggers.
--- remove_diacritics 2: "graca" encontra "graça"; "eucaristia" encontra "Eucaristia".
-CREATE VIRTUAL TABLE IF NOT EXISTS catechism_fts USING fts5(
-  text,
-  heading,
-  content = 'catechism_paragraph',
-  content_rowid = 'number',
-  tokenize = 'unicode61 remove_diacritics 2'
-);
-
-CREATE TRIGGER IF NOT EXISTS catechism_ai AFTER INSERT ON catechism_paragraph BEGIN
-  INSERT INTO catechism_fts(rowid, text, heading) VALUES (new.number, new.text, new.heading);
-END;
-CREATE TRIGGER IF NOT EXISTS catechism_ad AFTER DELETE ON catechism_paragraph BEGIN
-  INSERT INTO catechism_fts(catechism_fts, rowid, text, heading) VALUES ('delete', old.number, old.text, old.heading);
-END;
-CREATE TRIGGER IF NOT EXISTS catechism_au AFTER UPDATE ON catechism_paragraph BEGIN
-  INSERT INTO catechism_fts(catechism_fts, rowid, text, heading) VALUES ('delete', old.number, old.text, old.heading);
-  INSERT INTO catechism_fts(rowid, text, heading) VALUES (new.number, new.text, new.heading);
-END;
+-- Estrutura v1 (texto e temas do CIC) removida na issue #12: o app só traz o
+-- índice e abre o texto oficial no portal da Santa Sé. Apaga das instalações antigas.
+DROP TRIGGER IF EXISTS catechism_ai;
+DROP TRIGGER IF EXISTS catechism_ad;
+DROP TRIGGER IF EXISTS catechism_au;
+DROP TABLE IF EXISTS catechism_fts;
+DROP TABLE IF EXISTS catechism_topic;
+DROP TABLE IF EXISTS catechism_paragraph;
 
 -- Índice temático (Partes → Seções → Capítulos → Artigos)
 CREATE TABLE IF NOT EXISTS catechism_toc (
@@ -64,18 +42,11 @@ CREATE TABLE IF NOT EXISTS catechism_toc (
 );
 CREATE INDEX IF NOT EXISTS idx_toc_parent ON catechism_toc(parent_id, sort_order);
 
--- Temas (ex.: "Eucaristia" → §§ 1322-1419)
-CREATE TABLE IF NOT EXISTS catechism_topic (
-  topic   TEXT NOT NULL,
-  number  INTEGER NOT NULL,
-  PRIMARY KEY (topic, number)
-);
-
 -- ---------------------------------------------------------------------
 -- Favoritos e anotações (Catecismo, orações, leituras)
 -- ---------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS favorite (
-  kind        TEXT NOT NULL CHECK (kind IN ('catechism', 'prayer', 'reading', 'homily')),
+  kind        TEXT NOT NULL,                   -- catechism | prayer | reading | homily | imitacao…
   ref         TEXT NOT NULL,                   -- nº do parágrafo, id da oração, "2026-11-19#evangelho"
   label       TEXT,
   created_at  INTEGER NOT NULL,
