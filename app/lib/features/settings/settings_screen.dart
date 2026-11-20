@@ -189,8 +189,8 @@ class SettingsScreen extends StatelessWidget {
           Text('Tamanho da letra', style: t.titleSmall),
           Slider(
             value: st.textScale,
-            min: 0.85,
-            max: 1.6,
+            min: SettingsService.minTextScale,
+            max: SettingsService.maxTextScale,
             divisions: 15,
             label: '${(st.textScale * 100).round()}%',
             onChanged: (v) => st.textScale = v,
