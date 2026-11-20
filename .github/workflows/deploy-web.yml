@@ -58,6 +58,8 @@ jobs:
           sed -i "s/const VERSION = 'dev';/const VERSION = '${GITHUB_SHA::12}';/" sw.js
           # Remove o service worker legado do Flutter (substituído por sw.js)
           rm -f flutter_service_worker.js
+          # Web usa Web Worker dedicado do Kokoro (WebGPU/WASM), sem sherpa_onnx_web WASM
+          rm -rf assets/packages/sherpa_onnx_web
           cp index.html 404.html
           touch .nojekyll
           du -sh .

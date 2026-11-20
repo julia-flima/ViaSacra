@@ -2,7 +2,7 @@ import 'dart:js_interop';
 
 import 'package:flutter/foundation.dart' show debugPrint;
 
-import 'web_tts_types.dart';
+import 'neural_tts_types.dart';
 
 @JS('viaSacraKokoro')
 external _KokoroBridge? get _kokoro;
@@ -32,11 +32,11 @@ extension type _JsStatus(JSObject _) implements JSObject {
   external JSString? get error;
 }
 
-WebTtsStatus _mapStatus(_JsStatus? raw) {
-  if (raw == null) return const WebTtsStatus();
+NeuralTtsStatus _mapStatus(_JsStatus? raw) {
+  if (raw == null) return const NeuralTtsStatus();
   final stateName = raw.state?.toDart;
-  final state = WebTtsState.values.where((s) => s.name == stateName).firstOrNull ?? WebTtsState.idle;
-  return WebTtsStatus(
+  final state = NeuralTtsState.values.where((s) => s.name == stateName).firstOrNull ?? NeuralTtsState.idle;
+  return NeuralTtsStatus(
     state: state,
     progress: raw.progress?.toDartDouble,
     label: raw.label?.toDart,
@@ -96,18 +96,18 @@ Future<bool> webTtsClearCache() async {
   }
 }
 
-Future<WebTtsStatus> webTtsRefreshStatus() async {
+Future<NeuralTtsStatus> webTtsRefreshStatus() async {
   final bridge = _kokoro;
-  if (bridge == null) return const WebTtsStatus();
+  if (bridge == null) return const NeuralTtsStatus();
   try {
     final status = await bridge.getStatus().toDart;
     return _mapStatus(status);
   } catch (_) {
-    return const WebTtsStatus();
+    return const NeuralTtsStatus();
   }
 }
 
-void webTtsListenStatus(void Function(WebTtsStatus status) onChange) {
+void webTtsListenStatus(void Function(NeuralTtsStatus status) onChange) {
   final bridge = _kokoro;
   if (bridge == null) return;
   bridge.onStatus(((_JsStatus status) => onChange(_mapStatus(status))).toJS);

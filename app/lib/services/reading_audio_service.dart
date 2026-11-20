@@ -7,6 +7,7 @@ import 'package:flutter_tts/flutter_tts.dart';
 import 'package:just_audio/just_audio.dart';
 
 import '../data/models/liturgy.dart';
+import 'native_tts.dart';
 import 'web_tts.dart';
 
 /// Um trecho da fila de leitura: texto (TTS local) ou URL de áudio aberto.
@@ -108,30 +109,35 @@ List<String> splitForSpeech(String text, {int maxLen = 600}) {
 /// notificação de mídia e reprodução em segundo plano via `audio_service`).
 class ReadingAudioHandler extends BaseAudioHandler with QueueHandler {
   ReadingAudioHandler({
-    Future<bool> Function(String text, double speed, {String voice, String language, String? nextText})? webSpeak,
-    void Function()? webStop,
+    Future<bool> Function(String text, double speed, {String voice, String language, String? nextText})? neuralSpeak,
+    void Function()? neuralStop,
     this.fallbackSpeak,
-    bool? useWebEngine,
-  }) : _webSpeak = webSpeak ?? webTtsSpeak,
-       _webStop = webStop ?? webTtsStop,
-       _useWebEngine = useWebEngine ?? kIsWeb {
+    bool? useNeuralEngine,
+  }) : _neuralSpeak = neuralSpeak ?? (kIsWeb ? webTtsSpeak : nativeTtsSpeak),
+       _neuralStop = neuralStop ?? (kIsWeb ? webTtsStop : nativeTtsStop),
+       _useNeuralEngine = useNeuralEngine ?? (kIsWeb || nativeTtsIsSupported()) {
     _player.playerStateStream.listen((s) {
       if (s.processingState == ProcessingState.completed && _current?.isRecorded == true) {
         _advance();
       }
     });
-    if (_useWebEngine) {
-      webTtsListenStatus((s) => webTtsStatus.value = s);
+    if (_useNeuralEngine && neuralSpeak == null) {
+      if (kIsWeb) {
+        webTtsListenStatus((s) => neuralTtsStatus.value = s);
+      } else if (nativeTtsIsSupported()) {
+        nativeTtsListenStatus((s) => neuralTtsStatus.value = s);
+      }
     }
   }
 
   final FlutterTts _tts = FlutterTts();
   final AudioPlayer _player = AudioPlayer();
-  final Future<bool> Function(String text, double speed, {String voice, String language, String? nextText}) _webSpeak;
-  final void Function() _webStop;
+  final Future<bool> Function(String text, double speed, {String voice, String language, String? nextText})
+  _neuralSpeak;
+  final void Function() _neuralStop;
   @visibleForTesting
   final Future<void> Function(String text, String language, double speed)? fallbackSpeak;
-  final bool _useWebEngine;
+  final bool _useNeuralEngine;
 
   List<ReadingSegment> _segments = const [];
   int _index = 0;
@@ -141,9 +147,10 @@ class ReadingAudioHandler extends BaseAudioHandler with QueueHandler {
   bool _playing = false;
   int _generation = 0; // invalida laços de TTS antigos
   bool _ttsReady = false;
+  bool _audioSessionReady = false;
   String? _ttsLanguage;
   String _kokoroVoice = KokoroVoice.dora.id;
-  final ValueNotifier<WebTtsStatus> webTtsStatus = ValueNotifier(const WebTtsStatus());
+  final ValueNotifier<NeuralTtsStatus> neuralTtsStatus = ValueNotifier(const NeuralTtsStatus());
 
   /// flutter_tts normaliza 0.5 como velocidade "normal" no Android/iOS,
   /// enquanto na Web Speech API o valor normal é 1.0.
@@ -152,7 +159,7 @@ class ReadingAudioHandler extends BaseAudioHandler with QueueHandler {
       isWeb ? speed.clamp(0.5, 2.0) : (0.5 * speed).clamp(0.1, 1.0);
 
   @visibleForTesting
-  static bool supportsWebKokoro(String lang) {
+  static bool supportsKokoro(String lang) {
     final l = lang.toLowerCase();
     return l.startsWith('pt') || l.startsWith('en') || l.startsWith('la') || l.startsWith('it') || l.startsWith('es');
   }
@@ -184,6 +191,17 @@ class ReadingAudioHandler extends BaseAudioHandler with QueueHandler {
   int get index => _index;
   double get speed => _speed;
 
+  Future<void> _ensureAudioSession() async {
+    if (_audioSessionReady) return;
+    try {
+      final session = await AudioSession.instance;
+      await session.configure(const AudioSessionConfiguration.speech());
+      _audioSessionReady = true;
+    } catch (_) {
+      // Web/plataformas sem sessão de áudio configurável.
+    }
+  }
+
   Future<void> _initTts() async {
     if (_ttsReady) return;
     await _tts.awaitSpeakCompletion(true);
@@ -197,12 +215,7 @@ class ReadingAudioHandler extends BaseAudioHandler with QueueHandler {
     }
     await _useLanguage('pt-BR');
     await _applySpeed();
-    try {
-      final session = await AudioSession.instance;
-      await session.configure(const AudioSessionConfiguration.speech());
-    } catch (_) {
-      // Web/plataformas sem sessão de áudio configurável.
-    }
+    await _ensureAudioSession();
     _ttsReady = true;
   }
 
@@ -248,7 +261,7 @@ class ReadingAudioHandler extends BaseAudioHandler with QueueHandler {
     _broadcast();
     final gen = ++_generation;
     if (seg.isRecorded) {
-      _webStop();
+      _neuralStop();
       await _tts.stop();
       try {
         if (_player.audioSource == null || _chunk == 0) {
@@ -268,19 +281,27 @@ class ReadingAudioHandler extends BaseAudioHandler with QueueHandler {
         }
       }
     }
-    final useWeb = _useWebEngine && supportsWebKokoro(seg.language);
-    if (!useWeb && fallbackSpeak == null) {
+    final useNeural = _useNeuralEngine && supportsKokoro(seg.language);
+    if (useNeural && !kIsWeb && fallbackSpeak == null) {
+      await _ensureAudioSession();
+    } else if (!useNeural && fallbackSpeak == null) {
       await _initTts();
       await _useLanguage(seg.language);
     }
-    if (_chunks.isEmpty || _chunk == 0) _chunks = splitForSpeech(seg.text ?? '', maxLen: useWeb ? 280 : 600);
-    var webFailed = false;
+    if (_chunks.isEmpty || _chunk == 0) _chunks = splitForSpeech(seg.text ?? '', maxLen: useNeural ? 280 : 600);
+    var neuralFailed = false;
     while (_playing && gen == _generation && _chunk < _chunks.length) {
       var spoken = false;
-      if (useWeb && !webFailed) {
+      if (useNeural && !neuralFailed) {
         final next = _chunk + 1 < _chunks.length ? _chunks[_chunk + 1] : null;
-        spoken = await _webSpeak(_chunks[_chunk], _speed, voice: _kokoroVoice, language: seg.language, nextText: next);
-        if (!spoken && _playing && gen == _generation) webFailed = true;
+        spoken = await _neuralSpeak(
+          _chunks[_chunk],
+          _speed,
+          voice: _kokoroVoice,
+          language: seg.language,
+          nextText: next,
+        );
+        if (!spoken && _playing && gen == _generation) neuralFailed = true;
       }
       if (!spoken && _playing && gen == _generation) {
         if (fallbackSpeak != null) {
@@ -317,7 +338,7 @@ class ReadingAudioHandler extends BaseAudioHandler with QueueHandler {
   Future<void> pause() async {
     _playing = false;
     _generation++;
-    _webStop();
+    _neuralStop();
     await _tts.stop(); // retoma do início da frase atual
     await _player.pause();
     _broadcast();
@@ -329,7 +350,7 @@ class ReadingAudioHandler extends BaseAudioHandler with QueueHandler {
     _generation++;
     _chunk = 0;
     _chunks = const [];
-    _webStop();
+    _neuralStop();
     await _tts.stop();
     await _player.stop();
     _broadcast();
@@ -366,7 +387,7 @@ class ReadingAudioHandler extends BaseAudioHandler with QueueHandler {
     if (_playing && !(_current?.isRecorded ?? false)) {
       // Reaplica a nova velocidade a partir da frase atual.
       _generation++;
-      _webStop();
+      _neuralStop();
       await _tts.stop();
       unawaited(play());
     }
@@ -379,33 +400,33 @@ class ReadingAudioHandler extends BaseAudioHandler with QueueHandler {
     final normalized = KokoroVoice.byId(voiceId).id;
     if (_kokoroVoice == normalized) return;
     _kokoroVoice = normalized;
-    if (_playing && _useWebEngine && !(_current?.isRecorded ?? false)) {
+    if (_playing && _useNeuralEngine && !(_current?.isRecorded ?? false)) {
       _generation++;
-      _webStop();
+      _neuralStop();
       await _tts.stop();
       unawaited(play());
     }
     _broadcast();
   }
 
-  Future<bool> preloadWebTts() async {
-    if (!_useWebEngine) return false;
-    final ok = await webTtsPreload(voice: _kokoroVoice);
-    await refreshWebTtsStatus();
+  Future<bool> preloadNeuralTts() async {
+    if (!_useNeuralEngine) return false;
+    final ok = kIsWeb ? await webTtsPreload(voice: _kokoroVoice) : await nativeTtsPreload(voice: _kokoroVoice);
+    await refreshNeuralTtsStatus();
     return ok;
   }
 
-  Future<bool> clearWebTtsCache() async {
-    if (!_useWebEngine) return false;
-    final ok = await webTtsClearCache();
-    await refreshWebTtsStatus();
+  Future<bool> clearNeuralTtsCache() async {
+    if (!_useNeuralEngine) return false;
+    final ok = kIsWeb ? await webTtsClearCache() : await nativeTtsClearCache();
+    await refreshNeuralTtsStatus();
     return ok;
   }
 
-  Future<WebTtsStatus> refreshWebTtsStatus() async {
-    if (!_useWebEngine) return const WebTtsStatus();
-    final s = await webTtsRefreshStatus();
-    webTtsStatus.value = s;
+  Future<NeuralTtsStatus> refreshNeuralTtsStatus() async {
+    if (!_useNeuralEngine) return const NeuralTtsStatus();
+    final s = kIsWeb ? await webTtsRefreshStatus() : await nativeTtsRefreshStatus();
+    neuralTtsStatus.value = s;
     return s;
   }
 
@@ -444,7 +465,7 @@ class ReadingAudioController extends ChangeNotifier {
       titles = q.map((m) => m.title).toList();
       notifyListeners();
     });
-    _handler.webTtsStatus.addListener(notifyListeners);
+    _handler.neuralTtsStatus.addListener(notifyListeners);
   }
 
   final ReadingAudioHandler _handler;
@@ -483,17 +504,17 @@ class ReadingAudioController extends ChangeNotifier {
 
   @override
   void dispose() {
-    _handler.webTtsStatus.removeListener(notifyListeners);
+    _handler.neuralTtsStatus.removeListener(notifyListeners);
     super.dispose();
   }
 
   String? get currentTitle => index < titles.length ? titles[index] : null;
   bool get hasQueue => titles.isNotEmpty;
-  WebTtsStatus get webTtsStatus => _handler.webTtsStatus.value;
+  NeuralTtsStatus get neuralTtsStatus => _handler.neuralTtsStatus.value;
 
-  /// Atualiza diretamente o estado Web TTS em testes de widget.
+  /// Atualiza diretamente o estado do motor neural em testes de widget.
   @visibleForTesting
-  void setWebTtsStatusForTest(WebTtsStatus status) => _handler.webTtsStatus.value = status;
+  void setNeuralTtsStatusForTest(NeuralTtsStatus status) => _handler.neuralTtsStatus.value = status;
 
   Future<void> playQueue(String key, List<ReadingSegment> segments, {int startAt = 0, double? speed}) async {
     if (speed != null) await _handler.setSpeed(speed);
@@ -516,8 +537,8 @@ class ReadingAudioController extends ChangeNotifier {
   Future<void> setSpeed(double s) => _handler.setSpeed(s);
   Future<void> setVoice(String? name, String? locale) => _handler.setVoice(name, locale);
   Future<void> setKokoroVoice(String voiceId) => _handler.setKokoroVoice(voiceId);
-  Future<bool> preloadWebTts() => _handler.preloadWebTts();
-  Future<bool> clearWebTtsCache() => _handler.clearWebTtsCache();
-  Future<WebTtsStatus> refreshWebTtsStatus() => _handler.refreshWebTtsStatus();
+  Future<bool> preloadNeuralTts() => _handler.preloadNeuralTts();
+  Future<bool> clearNeuralTtsCache() => _handler.clearNeuralTtsCache();
+  Future<NeuralTtsStatus> refreshNeuralTtsStatus() => _handler.refreshNeuralTtsStatus();
   Future<List<({String name, String locale})>> voices() => _handler.portugueseVoices();
 }
