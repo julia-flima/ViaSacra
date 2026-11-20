@@ -152,7 +152,7 @@ class _PrayerScreenState extends State<PrayerScreen> {
             ),
           ],
           const CrossDivider(),
-          SelectableText(text, style: t.bodyLarge),
+          SelectionArea(child: Text(text, style: t.bodyLarge)),
           if (p.note != null) ...[
             const SizedBox(height: VsSpacing.lg),
             Text(p.note!, style: t.bodySmall?.copyWith(fontStyle: FontStyle.italic)),

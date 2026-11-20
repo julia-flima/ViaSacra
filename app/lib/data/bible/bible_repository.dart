@@ -244,24 +244,40 @@ class BibleRepository {
   }
 
   /// Versículos favoritos/marcados/anotados (mais recentes primeiro).
-  List<({String bookId, int chapter, int verse, VerseAnnotation a})> marked({bool favoritesOnly = false}) => _db.db
-      .select(
-        'SELECT * FROM bible_highlights_notes ${favoritesOnly ? 'WHERE favorite = 1' : ''} '
-        'ORDER BY updated_at DESC LIMIT 500',
-      )
-      .map(
-        (r) => (
-          bookId: r['book_id'] as String,
-          chapter: r['chapter'] as int,
-          verse: r['verse'] as int,
-          a: VerseAnnotation(
-            color: HighlightColor.fromName(r['color'] as String?),
-            favorite: (r['favorite'] as int) == 1,
-            note: r['note'] as String?,
+  /// Quando [translationId] é informado, traz o texto via JOIN único (sem N+1).
+  List<({String bookId, int chapter, int verse, VerseAnnotation a, String? text})> marked({
+    bool favoritesOnly = false,
+    String? translationId,
+  }) {
+    final where = favoritesOnly ? 'WHERE h.favorite = 1' : '';
+    final sql = translationId == null
+        ? 'SELECT h.book_id, h.chapter, h.verse, h.color, h.favorite, h.note, NULL AS text '
+              'FROM bible_highlights_notes h $where ORDER BY h.updated_at DESC LIMIT 500'
+        : '''
+          SELECT h.book_id, h.chapter, h.verse, h.color, h.favorite, h.note, v.text
+          FROM bible_highlights_notes h
+          LEFT JOIN bible_verses v
+            ON v.translation_id = ? AND v.book_id = h.book_id AND v.chapter = h.chapter AND v.verse = h.verse
+          $where
+          ORDER BY h.updated_at DESC LIMIT 500''';
+    final params = translationId == null ? const <Object?>[] : <Object?>[translationId];
+    return _db.db
+        .select(sql, params)
+        .map(
+          (r) => (
+            bookId: r['book_id'] as String,
+            chapter: r['chapter'] as int,
+            verse: r['verse'] as int,
+            a: VerseAnnotation(
+              color: HighlightColor.fromName(r['color'] as String?),
+              favorite: (r['favorite'] as int) == 1,
+              note: r['note'] as String?,
+            ),
+            text: r['text'] as String?,
           ),
-        ),
-      )
-      .toList();
+        )
+        .toList();
+  }
 
   // ---------------------------------------------------------------- posição
   ReadingPosition? lastPosition() => ReadingPosition.decode(_db.meta('bible_last_position'));

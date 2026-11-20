@@ -232,14 +232,21 @@ class _ImitacaoChapterScreenState extends State<_ImitacaoChapterScreen> {
       body: ListView(
         padding: EdgeInsets.fromLTRB(pad, VsSpacing.md, pad, VsSpacing.xxl),
         children: [
-          Eyebrow(c.label),
-          const SizedBox(height: 6),
-          Text(c.title, style: t.headlineSmall),
-          const SizedBox(height: VsSpacing.md),
-          for (var i = 0; i < c.paragraphs.length; i++) ...[
-            SelectableText('${i + 1}. ${c.paragraphs[i]}', style: t.bodyLarge),
-            const SizedBox(height: VsSpacing.md),
-          ],
+          SelectionArea(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Eyebrow(c.label),
+                const SizedBox(height: 6),
+                Text(c.title, style: t.headlineSmall),
+                const SizedBox(height: VsSpacing.md),
+                for (var i = 0; i < c.paragraphs.length; i++) ...[
+                  Text('${i + 1}. ${c.paragraphs[i]}', style: t.bodyLarge),
+                  const SizedBox(height: VsSpacing.md),
+                ],
+              ],
+            ),
+          ),
           const SizedBox(height: VsSpacing.sm),
           Row(
             children: [

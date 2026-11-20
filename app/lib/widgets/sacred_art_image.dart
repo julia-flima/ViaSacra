@@ -30,21 +30,25 @@ class SacredArtImage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(12),
-          child: a?.assetPath == null
-              ? placeholder
-              : Semantics(
-                  image: true,
-                  label: semanticLabel ?? '${a!.title}, de ${a.artist}',
-                  child: Image.asset(
-                    a!.assetPath!,
-                    height: height,
-                    fit: BoxFit.cover,
-                    alignment: Alignment.topCenter,
-                    errorBuilder: (_, _, _) => placeholder,
+        RepaintBoundary(
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(12),
+            child: a?.assetPath == null
+                ? placeholder
+                : Semantics(
+                    image: true,
+                    label: semanticLabel ?? '${a!.title}, de ${a.artist}',
+                    child: Image.asset(
+                      a!.assetPath!,
+                      height: height,
+                      fit: BoxFit.cover,
+                      alignment: Alignment.topCenter,
+                      cacheWidth: 800,
+                      filterQuality: FilterQuality.medium,
+                      errorBuilder: (_, _, _) => placeholder,
+                    ),
                   ),
-                ),
+          ),
         ),
         if (a != null)
           InkWell(

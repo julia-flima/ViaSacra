@@ -33,8 +33,13 @@ class _BibleScreenState extends State<BibleScreen> {
   bool _reading = false;
   String? _compareId;
   BibleRef? _highlightRef; // trecho vindo da Liturgia
-  final _verseKeys = <int, GlobalKey>{};
+  int? _scrollTargetVerse;
+  final _targetVerseKey = GlobalKey();
   final _scroll = ScrollController();
+
+  (String trId, int version, int verseCount)? _booksCacheKey;
+  List<BibleBook> _cachedBooks = const [];
+  _ChapterCache? _chapterCache;
 
   BibleService get _bible => context.read<BibleService>();
 
@@ -78,17 +83,71 @@ class _BibleScreenState extends State<BibleScreen> {
     setState(() {
       _reading = true;
       _highlightRef = highlight;
-      _verseKeys.clear();
+      _scrollTargetVerse = verse;
     });
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted) return;
-      final key = verse == null ? null : _verseKeys[verse];
-      if (key?.currentContext != null) {
-        Scrollable.ensureVisible(key!.currentContext!, alignment: 0.15, duration: const Duration(milliseconds: 350));
-      } else if (_scroll.hasClients) {
-        _scroll.jumpTo(0);
-      }
-    });
+    WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToTargetVerse(verse));
+  }
+
+  void _scrollToTargetVerse(int? verse, {int attempts = 0}) {
+    if (!mounted) return;
+    if (verse == null || verse <= 1) {
+      if (_scroll.hasClients) _scroll.jumpTo(0);
+      return;
+    }
+    final ctx = _targetVerseKey.currentContext;
+    if (ctx != null) {
+      Scrollable.ensureVisible(ctx, alignment: 0.15, duration: const Duration(milliseconds: 250));
+      return;
+    }
+    if (!_scroll.hasClients || attempts >= 4) return;
+    final verses = _chapterCache?.verses ?? const <BibleVerse>[];
+    final idx = verses.indexWhere((v) => v.verse == verse);
+    if (idx < 0) return;
+    final pos = _scroll.position;
+    final est = verses.length > 1 && pos.maxScrollExtent > 0
+        ? (idx / (verses.length - 1)) * pos.maxScrollExtent
+        : idx * 68.0;
+    _scroll.jumpTo(est.clamp(pos.minScrollExtent, pos.maxScrollExtent));
+    WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToTargetVerse(verse, attempts: attempts + 1));
+  }
+
+  List<BibleBook> _booksFor(BibleService bible, BibleTranslation tr) {
+    final key = (tr.id, tr.moduleVersion, tr.verseCount);
+    if (_booksCacheKey != key) {
+      _booksCacheKey = key;
+      _cachedBooks = bible.repo.books(tr.id);
+    }
+    return _cachedBooks;
+  }
+
+  _ChapterCache _chapterData(
+    BibleService bible,
+    BibleTranslation tr,
+    String bookId,
+    int chapter,
+    BibleTranslation? compare,
+  ) {
+    final key = (
+      trId: tr.id,
+      trVersion: tr.moduleVersion,
+      trVerses: tr.verseCount,
+      bookId: bookId,
+      chapter: chapter,
+      compareId: compare?.id,
+      compareVersion: compare?.moduleVersion,
+    );
+    if (_chapterCache?.key == key) return _chapterCache!;
+    final compareChapter = compare == null ? chapter : _alignedChapter(tr, compare, bookId, chapter);
+    final data = _ChapterCache(
+      key: key,
+      verses: bible.repo.chapter(tr.id, bookId, chapter),
+      totalChapters: bible.repo.chapterCount(tr.id, bookId),
+      compareVerses: compare == null
+          ? const {}
+          : {for (final v in bible.repo.chapter(compare.id, bookId, compareChapter)) v.verse: v.text},
+      annotations: bible.repo.annotations(bookId, chapter),
+    );
+    return _chapterCache = data;
   }
 
   Future<void> _pickBook() async {
@@ -139,6 +198,8 @@ class _BibleScreenState extends State<BibleScreen> {
     if (choice == null || !mounted) return;
     if (choice.manage) {
       await Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => const TranslationsScreen()));
+      _booksCacheKey = null;
+      _chapterCache = null;
       return;
     }
     if (choice.downloadBundledId != null) {
@@ -231,6 +292,7 @@ class _BibleScreenState extends State<BibleScreen> {
     final pos = bible.position;
     final tr = bible.current!;
     final art = context.read<AppServices>().content.art['header-biblia'];
+    final books = _booksFor(bible, tr);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Bíblia Sagrada'),
@@ -290,8 +352,15 @@ class _BibleScreenState extends State<BibleScreen> {
                   title: const Text('Gerenciar e Importar Traduções'),
                   subtitle: Text('${bible.translations.length} instalada(s) neste aparelho'),
                   trailing: const Icon(Icons.chevron_right),
-                  onTap: () =>
-                      Navigator.of(context).push(MaterialPageRoute(builder: (_) => const TranslationsScreen())),
+                  onTap: () async {
+                    await Navigator.of(context).push(MaterialPageRoute(builder: (_) => const TranslationsScreen()));
+                    if (mounted) {
+                      setState(() {
+                        _booksCacheKey = null;
+                        _chapterCache = null;
+                      });
+                    }
+                  },
                 ),
                 for (final te in Testament.values) ...[
                   const SizedBox(height: VsSpacing.md),
@@ -301,7 +370,7 @@ class _BibleScreenState extends State<BibleScreen> {
                     spacing: 8,
                     runSpacing: 8,
                     children: [
-                      for (final b in bible.repo.books(tr.id).where((b) => b.testament == te))
+                      for (final b in books.where((b) => b.testament == te))
                         Tooltip(
                           message: b.name,
                           child: ActionChip(
@@ -349,14 +418,12 @@ class _BibleScreenState extends State<BibleScreen> {
     final pad = VsSpacing.page(context);
     final tr = bible.translation(pos.translationId) ?? bible.current!;
     final book = bookById(pos.bookId)!;
-    final verses = bible.repo.chapter(tr.id, book.id, pos.chapter);
-    final total = bible.repo.chapterCount(tr.id, book.id);
     final compare = _compareId == null ? null : bible.translation(_compareId!);
-    final compareChapter = compare == null ? pos.chapter : _alignedChapter(tr, compare, book.id, pos.chapter);
-    final compareVerses = compare == null
-        ? const <int, String>{}
-        : {for (final v in bible.repo.chapter(compare.id, book.id, compareChapter)) v.verse: v.text};
-    final notes = bible.repo.annotations(book.id, pos.chapter);
+    final data = _chapterData(bible, tr, book.id, pos.chapter, compare);
+    final verses = data.verses;
+    final total = data.totalChapters;
+    final compareVerses = data.compareVerses;
+    final notes = data.annotations;
     final highlight = _highlightRef?.book.id == book.id ? _highlightRef : null;
 
     return Scaffold(
@@ -364,7 +431,10 @@ class _BibleScreenState extends State<BibleScreen> {
         leading: IconButton(
           tooltip: 'Início da Bíblia',
           icon: const Icon(Icons.arrow_back),
-          onPressed: () => setState(() => _reading = false),
+          onPressed: () => setState(() {
+            _reading = false;
+            _chapterCache = null;
+          }),
         ),
         title: InkWell(
           onTap: _pickBook,
@@ -400,72 +470,144 @@ class _BibleScreenState extends State<BibleScreen> {
           IconButton(tooltip: 'Buscar', icon: const Icon(Icons.search), onPressed: () => _search(bible)),
         ],
       ),
-      body: ListView(
+      body: CustomScrollView(
         controller: _scroll,
-        padding: EdgeInsets.fromLTRB(pad, VsSpacing.md, pad, VsSpacing.xxl),
-        children: [
-          Eyebrow(book.testament.label),
-          const SizedBox(height: 4),
-          Text('${book.name} ${pos.chapter}', style: t.headlineMedium),
-          if (book.id == 'sl')
-            Padding(
-              padding: const EdgeInsets.only(top: 4),
-              child: Text('Numeração ${tr.psalmNumbering} dos Salmos', style: t.bodySmall),
+        slivers: [
+          SliverPadding(
+            padding: EdgeInsets.fromLTRB(pad, VsSpacing.md, pad, VsSpacing.md),
+            sliver: SliverToBoxAdapter(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Eyebrow(book.testament.label),
+                  const SizedBox(height: 4),
+                  Text('${book.name} ${pos.chapter}', style: t.headlineMedium),
+                  if (book.id == 'sl')
+                    Padding(
+                      padding: const EdgeInsets.only(top: 4),
+                      child: Text('Numeração ${tr.psalmNumbering} dos Salmos', style: t.bodySmall),
+                    ),
+                ],
+              ),
             ),
-          const SizedBox(height: VsSpacing.md),
-          for (final v in verses)
-            _VerseTile(
-              key: _verseKeys.putIfAbsent(v.verse, GlobalKey.new),
-              verse: v,
-              annotation: notes[v.verse],
-              compareText: compareVerses[v.verse],
-              compareLabel: compare?.abbreviation,
-              emphasized: highlight?.contains(v.verse) ?? false,
-              dark: dark,
-              onTap: () async {
-                bible.open(tr.id, book.id, pos.chapter, verse: v.verse);
-                final r = await showVerseActions(
-                  context,
+          ),
+          SliverPadding(
+            padding: EdgeInsets.symmetric(horizontal: pad),
+            sliver: SliverList.builder(
+              itemCount: verses.length,
+              itemBuilder: (context, index) {
+                final v = verses[index];
+                final key = v.verse == _scrollTargetVerse
+                    ? _targetVerseKey
+                    : ValueKey('${tr.id}-${book.id}-${pos.chapter}-${v.verse}');
+                return _VerseTile(
+                  key: key,
                   verse: v,
-                  translation: tr,
-                  annotation: notes[v.verse] ?? const VerseAnnotation(),
+                  annotation: notes[v.verse],
+                  compareText: compareVerses[v.verse],
+                  compareLabel: compare?.abbreviation,
+                  emphasized: highlight?.contains(v.verse) ?? false,
+                  dark: dark,
+                  onTap: () async {
+                    bible.open(tr.id, book.id, pos.chapter, verse: v.verse);
+                    final r = await showVerseActions(
+                      context,
+                      verse: v,
+                      translation: tr,
+                      annotation: notes[v.verse] ?? const VerseAnnotation(),
+                    );
+                    if (r != null) {
+                      bible.repo.saveAnnotation(book.id, pos.chapter, v.verse, r);
+                      if (mounted) {
+                        setState(() {
+                          final updated = Map<int, VerseAnnotation>.of(data.annotations);
+                          if (r.isEmpty) {
+                            updated.remove(v.verse);
+                          } else {
+                            updated[v.verse] = r;
+                          }
+                          _chapterCache = data.copyWithAnnotations(updated);
+                        });
+                      }
+                    }
+                  },
                 );
-                if (r != null) {
-                  bible.repo.saveAnnotation(book.id, pos.chapter, v.verse, r);
-                  setState(() {});
-                }
               },
             ),
-          const SizedBox(height: VsSpacing.lg),
-          Row(
-            children: [
-              if (pos.chapter > 1)
-                OutlinedButton.icon(
-                  onPressed: () => _open(book.id, pos.chapter - 1),
-                  icon: const Icon(Icons.chevron_left),
-                  label: Text('Cap. ${pos.chapter - 1}'),
-                ),
-              const Spacer(),
-              if (pos.chapter < total)
-                FilledButton.tonalIcon(
-                  onPressed: () => _open(book.id, pos.chapter + 1),
-                  icon: const Icon(Icons.chevron_right),
-                  label: Text('Cap. ${pos.chapter + 1}'),
-                ),
-            ],
           ),
-          const CrossDivider(),
-          SourceAttribution(source: tr.name, license: tr.license),
-          if (compare != null) SourceAttribution(source: compare.name, license: compare.license),
-          if (highlight != null)
-            Text(
-              'Destacado: trecho proclamado na Liturgia (${highlight.label}).',
-              style: t.bodySmall?.copyWith(color: cs.primary),
+          SliverPadding(
+            padding: EdgeInsets.fromLTRB(pad, VsSpacing.lg, pad, VsSpacing.xxl),
+            sliver: SliverToBoxAdapter(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      if (pos.chapter > 1)
+                        OutlinedButton.icon(
+                          onPressed: () => _open(book.id, pos.chapter - 1),
+                          icon: const Icon(Icons.chevron_left),
+                          label: Text('Cap. ${pos.chapter - 1}'),
+                        ),
+                      const Spacer(),
+                      if (pos.chapter < total)
+                        FilledButton.tonalIcon(
+                          onPressed: () => _open(book.id, pos.chapter + 1),
+                          icon: const Icon(Icons.chevron_right),
+                          label: Text('Cap. ${pos.chapter + 1}'),
+                        ),
+                    ],
+                  ),
+                  const CrossDivider(),
+                  SourceAttribution(source: tr.name, license: tr.license),
+                  if (compare != null) SourceAttribution(source: compare.name, license: compare.license),
+                  if (highlight != null)
+                    Text(
+                      'Destacado: trecho proclamado na Liturgia (${highlight.label}).',
+                      style: t.bodySmall?.copyWith(color: cs.primary),
+                    ),
+                ],
+              ),
             ),
+          ),
         ],
       ),
     );
   }
+}
+
+typedef _ChapterCacheKey = ({
+  String trId,
+  int trVersion,
+  int trVerses,
+  String bookId,
+  int chapter,
+  String? compareId,
+  int? compareVersion,
+});
+
+class _ChapterCache {
+  const _ChapterCache({
+    required this.key,
+    required this.verses,
+    required this.totalChapters,
+    required this.compareVerses,
+    required this.annotations,
+  });
+
+  final _ChapterCacheKey key;
+  final List<BibleVerse> verses;
+  final int totalChapters;
+  final Map<int, String> compareVerses;
+  final Map<int, VerseAnnotation> annotations;
+
+  _ChapterCache copyWithAnnotations(Map<int, VerseAnnotation> next) => _ChapterCache(
+    key: key,
+    verses: verses,
+    totalChapters: totalChapters,
+    compareVerses: compareVerses,
+    annotations: next,
+  );
 }
 
 class _VerseTile extends StatelessWidget {

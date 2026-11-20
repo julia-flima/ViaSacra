@@ -226,13 +226,20 @@ class _ViaSacraScreenState extends State<ViaSacraScreen> {
             ),
           ),
           const SizedBox(height: VsSpacing.md),
-          const Eyebrow('Meditação'),
-          const SizedBox(height: 6),
-          SelectableText(st.meditation, style: t.bodyLarge),
-          const SizedBox(height: VsSpacing.md),
-          const Eyebrow('Oração'),
-          const SizedBox(height: 6),
-          SelectableText(st.prayer, style: t.bodyLarge),
+          SelectionArea(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Eyebrow('Meditação'),
+                const SizedBox(height: 6),
+                Text(st.meditation, style: t.bodyLarge),
+                const SizedBox(height: VsSpacing.md),
+                const Eyebrow('Oração'),
+                const SizedBox(height: 6),
+                Text(st.prayer, style: t.bodyLarge),
+              ],
+            ),
+          ),
           const SizedBox(height: VsSpacing.md),
           Text(
             'Reza-se: 1 Pai-Nosso · 1 Ave-Maria · 1 Glória ao Pai.',

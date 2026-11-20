@@ -80,7 +80,9 @@ class _LectioDivinaScreenState extends State<LectioDivinaScreen> {
               const SizedBox(height: 8),
               Text(widget.title, style: t.headlineSmall),
               const CrossDivider(),
-              SelectableText(widget.text, style: t.bodyLarge?.copyWith(fontSize: (t.bodyLarge?.fontSize ?? 18) + 2)),
+              SelectionArea(
+                child: Text(widget.text, style: t.bodyLarge?.copyWith(fontSize: (t.bodyLarge?.fontSize ?? 18) + 2)),
+              ),
               const CrossDivider(),
               for (final (name, prompt) in _steps)
                 Padding(
