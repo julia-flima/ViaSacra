@@ -37,24 +37,48 @@ class ExternalLinks {
   static const compendiumCcc =
       'https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_po.html';
 
-  /// Páginas oficiais das partes do CIC (1992) em português no portal da Santa Sé.
-  /// Os nós do índice (`assets/db/catechism.json`) são "prologo", "p1"…"p4" e seus
-  /// filhos ("p2.s2.c1.a3"); subseções abrem a página inicial da sua parte.
-  static String catechismPartUrl(String nodeId) {
-    if (nodeId == 'prologo' || nodeId.startsWith('p0')) {
-      return 'https://www.vatican.va/archive/cathechism_po/index_new/prologo%201-25_po.html';
-    }
-    if (nodeId.startsWith('p1')) {
-      return 'https://www.vatican.va/archive/cathechism_po/index_new/p1s1c1_26-49_po.html';
-    }
-    if (nodeId.startsWith('p2')) {
-      return 'https://www.vatican.va/archive/cathechism_po/index_new/p2s1cap1_1113-1134_po.html';
-    }
-    if (nodeId.startsWith('p3')) {
-      return 'https://www.vatican.va/archive/cathechism_po/index_new/p3s1cap1_1700-1715_po.html';
-    }
-    if (nodeId.startsWith('p4')) {
-      return 'https://www.vatican.va/archive/cathechism_po/index_new/p4s1cap1_2558-2565_po.html';
+  /// Páginas do CIC (1992) no vatican.va. O nome de cada uma termina com a faixa de parágrafos
+  /// que ela contém (ex.: `p1s1c1_26-49`), o que permite abrir a página de qualquer §.
+  /// Lista tirada dos índices `index-{prima,seconda,terza,quarta}-parte_po.html`.
+  static const catechismPages = [
+    'prologo 1-25',
+    'p1s1c1_26-49',
+    'p1s1c2_50-141',
+    'p1s1c3_142-184',
+    'p1s2_185-197',
+    'p1s2c1_198-421',
+    'p1s2cap2_422-682',
+    'p1s2cap3_683-1065',
+    'p2s1cap1_1066-1075',
+    'p2s1cap1_1076-1134',
+    'p2s1cap2_1135-1209',
+    'p2s2cap1_1210-1419',
+    'p2s2cap1_1420-1532',
+    'p2s2cap3_1533-1666',
+    'p2s2cap4_1667-1690',
+    'p3-intr_1691-1698',
+    'p3s1cap1_1699-1876',
+    'p3s1cap2_1877-1948',
+    'p3s1cap3_1949-2051',
+    'p3s2-intr_2052-2082',
+    'p3s2cap1_2083-2195',
+    'p3s2cap2_2196-2557',
+    'p4-intr_2558-2565',
+    'p4s1cap1_2566-2649',
+    'p4s1cap2_2650-2696',
+    'p4s1cap3_2697-2758',
+    'p4s2_2759-2865',
+  ];
+
+  /// Página oficial que contém o § [n] do CIC (1 a 2865); fora disso, a página inicial.
+  /// Na Web, o fragmento de texto (`#:~:text=`) leva o navegador até o parágrafo.
+  static String catechismParagraphUrl(int n) {
+    for (final page in catechismPages) {
+      final m = RegExp(r'[_ ](\d+)-(\d+)$').firstMatch(page)!;
+      final first = int.parse(m[1]!);
+      if (n < first || n > int.parse(m[2]!)) continue;
+      final url = Uri.encodeFull('https://www.vatican.va/archive/cathechism_po/index_new/${page}_po.html');
+      return n == first ? url : '$url#:~:text=$n.';
     }
     return catechismVatican;
   }

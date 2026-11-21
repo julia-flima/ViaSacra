@@ -8,7 +8,10 @@ Na **Biblioteca → Catecismo**:
   italiano fica ao lado, pergunta a pergunta, em `scripts/data/sao_pio_x_1905.json`: para sugerir
   uma correção, edite esse arquivo e rode `scripts/build_sao_pio_x.py`.
 - **Catecismo da Igreja Católica (1992)**: só o índice das 4 partes vem no app; o texto abre no
-  portal oficial da Santa Sé (`vatican.va`), sem cópia no repositório.
+  portal oficial da Santa Sé (`vatican.va`), sem cópia no repositório. "Ir ao §" abre a página de
+  qualquer parágrafo: o nome de cada página traz a sua faixa (`ExternalLinks.catechismPages`).
+  Na Web não há iframe, porque o `vatican.va` envia `X-Frame-Options: SAMEORIGIN`; o texto abre numa
+  nova aba, já no parágrafo.
 - **Importador local**: qualquer obra no formato abaixo (por exemplo, um CIC ou Compêndio que o
   usuário tenha) pode ser importada no próprio aparelho.
 

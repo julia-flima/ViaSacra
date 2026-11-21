@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/services.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
@@ -485,6 +486,11 @@ class _CatechismScreenState extends State<CatechismScreen> {
                     label: const Text('Ler CIC (1992)'),
                   ),
                   FilledButton.tonalIcon(
+                    onPressed: () => _goToParagraph(context),
+                    icon: const Icon(Icons.pin_outlined, size: 18),
+                    label: const Text('Ir ao §'),
+                  ),
+                  FilledButton.tonalIcon(
                     onPressed: () => openVaticanDocument(
                       context,
                       title: 'Compêndio do CIC (2005)',
@@ -510,9 +516,22 @@ class _CatechismScreenState extends State<CatechismScreen> {
       for (final part in _toc)
         _OfficialTocTile(
           node: part,
-          onOpen: (n) => openVaticanDocument(context, title: n.title, url: ExternalLinks.catechismPartUrl(n.id)),
+          onOpen: (n) =>
+              openVaticanDocument(context, title: n.title, url: ExternalLinks.catechismParagraphUrl(n.first)),
         ),
     ];
+  }
+
+  /// Pede um número (1–2865) e abre a página oficial do CIC nesse parágrafo.
+  Future<void> _goToParagraph(BuildContext context) async {
+    final n = await showDialog<int>(context: context, builder: (_) => const _ParagraphDialog());
+    if (n == null || !context.mounted) return;
+    await openVaticanDocument(
+      context,
+      title: 'CIC (1992) — § $n',
+      url: ExternalLinks.catechismParagraphUrl(n),
+      paragraph: n,
+    );
   }
 
   Future<void> _openEntry(BuildContext context, CatechismWork work, CatechismEntry entry) async {
@@ -553,6 +572,49 @@ class _EntryTile extends StatelessWidget {
 }
 
 /// Renderiza trechos «destacados» retornados pelo snippet() do FTS5.
+class _ParagraphDialog extends StatefulWidget {
+  const _ParagraphDialog();
+
+  @override
+  State<_ParagraphDialog> createState() => _ParagraphDialogState();
+}
+
+class _ParagraphDialogState extends State<_ParagraphDialog> {
+  final _text = TextEditingController();
+  int? get _value {
+    final n = int.tryParse(_text.text.trim());
+    return n != null && n >= 1 && n <= 2865 ? n : null;
+  }
+
+  @override
+  void dispose() {
+    _text.dispose();
+    super.dispose();
+  }
+
+  void _submit() {
+    if (_value != null) Navigator.pop(context, _value);
+  }
+
+  @override
+  Widget build(BuildContext context) => AlertDialog(
+    title: const Text('Ir ao parágrafo do CIC'),
+    content: TextField(
+      controller: _text,
+      autofocus: true,
+      keyboardType: TextInputType.number,
+      inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(4)],
+      decoration: const InputDecoration(prefixText: '§ ', hintText: '1 a 2865'),
+      onChanged: (_) => setState(() {}),
+      onSubmitted: (_) => _submit(),
+    ),
+    actions: [
+      TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancelar')),
+      FilledButton(onPressed: _value == null ? null : _submit, child: const Text('Abrir')),
+    ],
+  );
+}
+
 class _OfficialTocTile extends StatelessWidget {
   const _OfficialTocTile({required this.node, required this.onOpen});
 
