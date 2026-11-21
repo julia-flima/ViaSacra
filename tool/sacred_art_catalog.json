@@ -6,7 +6,13 @@
     "artista": "Fra Angelico",
     "ano": "c. 1426",
     "acervo": "Museo del Prado, Madri",
-    "busca": "Fra Angelico Annunciation Prado 1426"
+    "busca": "Fra Angelico Annunciation Prado 1426",
+    "tempos": [
+      "advento"
+    ],
+    "festas": [
+      "anunciação do senhor"
+    ]
   },
   {
     "id": "gozosos-2",
@@ -15,7 +21,13 @@
     "artista": "Domenico Ghirlandaio",
     "ano": "1491",
     "acervo": "Museu do Louvre, Paris",
-    "busca": "Ghirlandaio Visitation Louvre"
+    "busca": "Ghirlandaio Visitation Louvre",
+    "tempos": [
+      "advento"
+    ],
+    "festas": [
+      "visitação"
+    ]
   },
   {
     "id": "gozosos-3",
@@ -25,7 +37,13 @@
     "ano": "c. 1305",
     "acervo": "Capela Scrovegni, Pádua",
     "busca": "Giotto Scrovegni Nativity",
-    "arquivo_commons": "File:Giotto di Bondone - No. 17 Scenes from the Life of Christ - 1. Nativity - Birth of Jesus - WGA09193.jpg"
+    "arquivo_commons": "File:Giotto di Bondone - No. 17 Scenes from the Life of Christ - 1. Nativity - Birth of Jesus - WGA09193.jpg",
+    "tempos": [
+      "natal"
+    ],
+    "festas": [
+      "natal do senhor"
+    ]
   },
   {
     "id": "gozosos-4",
@@ -35,7 +53,13 @@
     "ano": "c. 1455",
     "acervo": "Gemäldegalerie, Berlim",
     "busca": "Mantegna Presentation at the Temple Berlin",
-    "arquivo_commons": "File:Andrea Mantegna - The Presentation - Google Art Project.jpg"
+    "arquivo_commons": "File:Andrea Mantegna - The Presentation - Google Art Project.jpg",
+    "tempos": [
+      "natal"
+    ],
+    "festas": [
+      "apresentação do senhor"
+    ]
   },
   {
     "id": "gozosos-5",
@@ -44,7 +68,13 @@
     "artista": "Albrecht Dürer",
     "ano": "1506",
     "acervo": "Museo Thyssen-Bornemisza, Madri",
-    "busca": "Dürer Christ among the Doctors Thyssen"
+    "busca": "Dürer Christ among the Doctors Thyssen",
+    "tempos": [
+      "natal"
+    ],
+    "festas": [
+      "sagrada família"
+    ]
   },
   {
     "id": "luminosos-1",
@@ -53,7 +83,14 @@
     "artista": "Piero della Francesca",
     "ano": "c. 1450",
     "acervo": "National Gallery, Londres",
-    "busca": "Piero della Francesca Baptism of Christ National Gallery"
+    "busca": "Piero della Francesca Baptism of Christ National Gallery",
+    "tempos": [
+      "natal",
+      "comum"
+    ],
+    "festas": [
+      "batismo do senhor"
+    ]
   },
   {
     "id": "luminosos-2",
@@ -62,7 +99,11 @@
     "artista": "Paolo Veronese",
     "ano": "1563",
     "acervo": "Museu do Louvre, Paris",
-    "busca": "Veronese Wedding at Cana Louvre"
+    "busca": "Veronese Wedding at Cana Louvre",
+    "tempos": [
+      "comum"
+    ],
+    "festas": []
   },
   {
     "id": "luminosos-3",
@@ -71,7 +112,11 @@
     "artista": "Carl Heinrich Bloch",
     "ano": "1877",
     "acervo": "Capela do Castelo de Frederiksborg, Dinamarca",
-    "busca": "Carl Bloch Sermon on the Mount"
+    "busca": "Carl Bloch Sermon on the Mount",
+    "tempos": [
+      "comum"
+    ],
+    "festas": []
   },
   {
     "id": "luminosos-4",
@@ -81,7 +126,14 @@
     "ano": "1516–1520",
     "acervo": "Pinacoteca Vaticana",
     "busca": "Raphael Transfiguration Pinacoteca Vaticana",
-    "arquivo_commons": "File:Transfiguration Raphael.jpg"
+    "arquivo_commons": "File:Transfiguration Raphael.jpg",
+    "tempos": [
+      "quaresma",
+      "comum"
+    ],
+    "festas": [
+      "transfiguração"
+    ]
   },
   {
     "id": "luminosos-5",
@@ -91,7 +143,14 @@
     "ano": "c. 1562",
     "acervo": "Museo del Prado, Madri",
     "busca": "Juan de Juanes Last Supper Prado",
-    "arquivo_commons": "File:La Última Cena (Juan de Juanes) (restaurada).jpg"
+    "arquivo_commons": "File:La Última Cena (Juan de Juanes) (restaurada).jpg",
+    "tempos": [
+      "comum"
+    ],
+    "festas": [
+      "corpo e sangue de cristo",
+      "ceia do senhor"
+    ]
   },
   {
     "id": "dolorosos-1",
@@ -100,7 +159,11 @@
     "artista": "Giovanni Bellini",
     "ano": "c. 1465",
     "acervo": "National Gallery, Londres",
-    "busca": "Giovanni Bellini Agony in the Garden National Gallery"
+    "busca": "Giovanni Bellini Agony in the Garden National Gallery",
+    "tempos": [
+      "quaresma"
+    ],
+    "festas": []
   },
   {
     "id": "dolorosos-2",
@@ -109,7 +172,11 @@
     "artista": "Piero della Francesca",
     "ano": "c. 1460",
     "acervo": "Galleria Nazionale delle Marche, Urbino",
-    "busca": "Piero della Francesca Flagellation of Christ Urbino"
+    "busca": "Piero della Francesca Flagellation of Christ Urbino",
+    "tempos": [
+      "quaresma"
+    ],
+    "festas": []
   },
   {
     "id": "dolorosos-3",
@@ -118,7 +185,11 @@
     "artista": "Caravaggio",
     "ano": "c. 1603",
     "acervo": "Kunsthistorisches Museum, Viena",
-    "busca": "Caravaggio Crowning with Thorns Kunsthistorisches"
+    "busca": "Caravaggio Crowning with Thorns Kunsthistorisches",
+    "tempos": [
+      "quaresma"
+    ],
+    "festas": []
   },
   {
     "id": "dolorosos-4",
@@ -127,7 +198,11 @@
     "artista": "El Greco",
     "ano": "c. 1580",
     "acervo": "The Metropolitan Museum of Art, Nova York (Open Access)",
-    "busca": "El Greco Christ Carrying the Cross Metropolitan Museum"
+    "busca": "El Greco Christ Carrying the Cross Metropolitan Museum",
+    "tempos": [
+      "quaresma"
+    ],
+    "festas": []
   },
   {
     "id": "dolorosos-5",
@@ -137,7 +212,14 @@
     "ano": "c. 1632",
     "acervo": "Museo del Prado, Madri",
     "busca": "Velázquez Cristo crucificado Prado",
-    "arquivo_commons": "File:Cristo crucificado.jpg"
+    "arquivo_commons": "File:Cristo crucificado.jpg",
+    "tempos": [
+      "triduo"
+    ],
+    "festas": [
+      "sexta-feira santa",
+      "exaltação da santa cruz"
+    ]
   },
   {
     "id": "gloriosos-1",
@@ -146,7 +228,13 @@
     "artista": "Rafael Sanzio",
     "ano": "c. 1499–1502",
     "acervo": "MASP — Museu de Arte de São Paulo",
-    "busca": "Raphael Resurrection of Christ MASP"
+    "busca": "Raphael Resurrection of Christ MASP",
+    "tempos": [
+      "pascoa"
+    ],
+    "festas": [
+      "ressurreição do senhor"
+    ]
   },
   {
     "id": "gloriosos-2",
@@ -155,7 +243,13 @@
     "artista": "Rembrandt van Rijn",
     "ano": "1636",
     "acervo": "Alte Pinakothek, Munique",
-    "busca": "Rembrandt Ascension of Christ Alte Pinakothek"
+    "busca": "Rembrandt Ascension of Christ Alte Pinakothek",
+    "tempos": [
+      "pascoa"
+    ],
+    "festas": [
+      "ascensão do senhor"
+    ]
   },
   {
     "id": "gloriosos-3",
@@ -164,7 +258,13 @@
     "artista": "El Greco",
     "ano": "c. 1600",
     "acervo": "Museo del Prado, Madri",
-    "busca": "El Greco Pentecost Prado"
+    "busca": "El Greco Pentecost Prado",
+    "tempos": [
+      "pascoa"
+    ],
+    "festas": [
+      "pentecostes"
+    ]
   },
   {
     "id": "gloriosos-4",
@@ -173,7 +273,13 @@
     "artista": "Ticiano",
     "ano": "1516–1518",
     "acervo": "Basílica de Santa Maria Gloriosa dei Frari, Veneza",
-    "busca": "Titian Assumption of the Virgin Frari"
+    "busca": "Titian Assumption of the Virgin Frari",
+    "tempos": [
+      "comum"
+    ],
+    "festas": [
+      "assunção"
+    ]
   },
   {
     "id": "gloriosos-5",
@@ -182,6 +288,486 @@
     "artista": "Diego Velázquez",
     "ano": "c. 1635",
     "acervo": "Museo del Prado, Madri",
-    "busca": "Velázquez Coronation of the Virgin Prado"
+    "busca": "Velázquez Coronation of the Virgin Prado",
+    "tempos": [
+      "comum"
+    ],
+    "festas": [
+      "nossa senhora rainha"
+    ]
+  },
+  {
+    "id": "header-tempo-comum",
+    "misterio": "Liturgia — Tempo Comum",
+    "titulo": "A Ceia em Emaús",
+    "artista": "Caravaggio",
+    "ano": "1601",
+    "acervo": "National Gallery, Londres",
+    "busca": "Caravaggio A Ceia em Emaús",
+    "arquivo_commons": "File:Supper at Emmaus-Caravaggio (1601).jpg",
+    "tempos": [
+      "pascoa",
+      "comum"
+    ],
+    "festas": []
+  },
+  {
+    "id": "header-biblia",
+    "misterio": "Bíblia Sagrada",
+    "titulo": "São Jerônimo no seu Estúdio",
+    "artista": "Antonello da Messina",
+    "ano": "c. 1475",
+    "acervo": "National Gallery, Londres",
+    "busca": "Antonello da Messina São Jerônimo no seu Estúdio",
+    "arquivo_commons": "File:Antonello da Messina - St Jerome in his study - National Gallery London.jpg"
+  },
+  {
+    "id": "header-catecismo",
+    "misterio": "Catecismo e Doutrina",
+    "titulo": "A Disputa do Santíssimo Sacramento",
+    "artista": "Rafael Sanzio",
+    "ano": "1509–1510",
+    "acervo": "Museus Vaticanos, Roma",
+    "busca": "Rafael Sanzio A Disputa do Santíssimo Sacramento",
+    "arquivo_commons": "File:Raffael 039.jpg"
+  },
+  {
+    "id": "header-imitacao",
+    "misterio": "A Imitação de Cristo",
+    "titulo": "A Vocação de São Mateus",
+    "artista": "Caravaggio",
+    "ano": "1599–1600",
+    "acervo": "Igreja de São Luís dos Franceses, Roma",
+    "busca": "Caravaggio A Vocação de São Mateus",
+    "arquivo_commons": "File:The Calling of Saint Matthew-Caravaggo (1599-1600).jpg",
+    "tempos": [
+      "comum"
+    ],
+    "festas": [
+      "são mateus"
+    ]
+  },
+  {
+    "id": "header-oracoes",
+    "misterio": "Orações e Devocionário",
+    "titulo": "A Virgem em Oração",
+    "artista": "Giovanni Battista Salvi da Sassoferrato",
+    "ano": "c. 1640–1650",
+    "acervo": "National Gallery, Londres",
+    "busca": "Sassoferrato Virgin in Prayer National Gallery",
+    "arquivo_commons": "File:SASSOFERRATO - Virgen rezando (National Gallery, Londres, 1640-50).jpg"
+  },
+  {
+    "id": "header-lectio",
+    "misterio": "Lectio Divina",
+    "titulo": "Cristo em Casa de Marta e Maria",
+    "artista": "Johannes Vermeer",
+    "ano": "c. 1655",
+    "acervo": "National Galleries of Scotland, Edimburgo",
+    "busca": "Vermeer Christ in the House of Martha and Mary",
+    "arquivo_commons": "File:Christ in the House of Martha and Mary attributed to Vermeer.jpg"
+  },
+  {
+    "id": "advento-1",
+    "misterio": "Liturgia — Advento",
+    "titulo": "A Anunciação",
+    "artista": "Leonardo da Vinci",
+    "ano": "c. 1472–1475",
+    "acervo": "Galleria degli Uffizi, Florença",
+    "busca": "Leonardo da Vinci Annunciation Uffizi",
+    "tempos": [
+      "advento"
+    ],
+    "festas": []
+  },
+  {
+    "id": "advento-2",
+    "misterio": "Liturgia — Advento",
+    "titulo": "A Pregação de São João Batista",
+    "artista": "Pieter Bruegel, o Velho",
+    "ano": "1566",
+    "acervo": "Museu de Belas-Artes, Budapeste",
+    "busca": "Bruegel Sermon of Saint John the Baptist Budapest",
+    "tempos": [
+      "advento"
+    ],
+    "festas": [
+      "natividade de são joão batista"
+    ]
+  },
+  {
+    "id": "advento-3",
+    "misterio": "Liturgia — Advento",
+    "titulo": "O Profeta Isaías",
+    "artista": "Michelangelo",
+    "ano": "1508–1512",
+    "acervo": "Capela Sistina, Vaticano",
+    "busca": "Michelangelo Isaiah Sistine Chapel prophet",
+    "tempos": [
+      "advento"
+    ],
+    "festas": []
+  },
+  {
+    "id": "advento-4",
+    "misterio": "Liturgia — Advento",
+    "titulo": "A Imaculada Conceição (de Soult)",
+    "artista": "Bartolomé Esteban Murillo",
+    "ano": "c. 1678",
+    "acervo": "Museo del Prado, Madri",
+    "busca": "Murillo Inmaculada de Soult Prado",
+    "tempos": [
+      "advento"
+    ],
+    "festas": [
+      "imaculada conceição"
+    ]
+  },
+  {
+    "id": "natal-1",
+    "misterio": "Liturgia — Natal",
+    "titulo": "A Adoração dos Magos",
+    "artista": "Gentile da Fabriano",
+    "ano": "1423",
+    "acervo": "Galleria degli Uffizi, Florença",
+    "busca": "Gentile da Fabriano Adoration of the Magi Uffizi",
+    "tempos": [
+      "natal"
+    ],
+    "festas": [
+      "epifania"
+    ]
+  },
+  {
+    "id": "natal-2",
+    "misterio": "Liturgia — Natal",
+    "titulo": "A Adoração dos Pastores",
+    "artista": "Bartolomé Esteban Murillo",
+    "ano": "c. 1650",
+    "acervo": "Museo del Prado, Madri",
+    "busca": "Murillo Adoración de los pastores Prado",
+    "tempos": [
+      "natal"
+    ],
+    "festas": [
+      "natal do senhor"
+    ]
+  },
+  {
+    "id": "natal-3",
+    "misterio": "Liturgia — Natal",
+    "titulo": "A Sagrada Família do Passarinho",
+    "artista": "Bartolomé Esteban Murillo",
+    "ano": "c. 1650",
+    "acervo": "Museo del Prado, Madri",
+    "busca": "Murillo Sagrada Familia del pajarito",
+    "tempos": [
+      "natal"
+    ],
+    "festas": [
+      "sagrada família",
+      "são josé"
+    ]
+  },
+  {
+    "id": "natal-4",
+    "misterio": "Liturgia — Natal",
+    "titulo": "A Fuga para o Egito",
+    "artista": "Giotto di Bondone",
+    "ano": "c. 1305",
+    "acervo": "Capela dos Scrovegni, Pádua",
+    "busca": "Giotto Scrovegni Flight into Egypt",
+    "tempos": [
+      "natal"
+    ],
+    "festas": [
+      "santos inocentes"
+    ]
+  },
+  {
+    "id": "quaresma-1",
+    "misterio": "Liturgia — Quaresma",
+    "titulo": "Cristo no Deserto",
+    "artista": "Ivan Kramskoi",
+    "ano": "1872",
+    "acervo": "Galeria Tretyakov, Moscou",
+    "busca": "Kramskoi Christ in the Wilderness",
+    "tempos": [
+      "quaresma"
+    ],
+    "festas": [
+      "quarta-feira de cinzas"
+    ]
+  },
+  {
+    "id": "quaresma-2",
+    "misterio": "Liturgia — Quaresma",
+    "titulo": "O Retorno do Filho Pródigo",
+    "artista": "Rembrandt van Rijn",
+    "ano": "c. 1668",
+    "acervo": "Museu Hermitage, São Petersburgo",
+    "busca": "Rembrandt Return of the Prodigal Son Hermitage",
+    "tempos": [
+      "quaresma"
+    ],
+    "festas": []
+  },
+  {
+    "id": "quaresma-3",
+    "misterio": "Liturgia — Quaresma",
+    "titulo": "Ecce Homo",
+    "artista": "Antonio Ciseri",
+    "ano": "1871",
+    "acervo": "Galleria d’arte moderna, Florença",
+    "busca": "Antonio Ciseri Ecce Homo",
+    "tempos": [
+      "quaresma"
+    ],
+    "festas": []
+  },
+  {
+    "id": "quaresma-4",
+    "misterio": "Liturgia — Quaresma",
+    "titulo": "A Entrada em Jerusalém",
+    "artista": "Giotto di Bondone",
+    "ano": "c. 1305",
+    "acervo": "Capela dos Scrovegni, Pádua",
+    "busca": "Giotto Scrovegni Entry into Jerusalem",
+    "tempos": [
+      "quaresma"
+    ],
+    "festas": [
+      "domingo de ramos"
+    ]
+  },
+  {
+    "id": "quaresma-5",
+    "misterio": "Liturgia — Quaresma",
+    "titulo": "A Ressurreição de Lázaro",
+    "artista": "Giotto di Bondone",
+    "ano": "c. 1305",
+    "acervo": "Capela dos Scrovegni, Pádua",
+    "busca": "Giotto Scrovegni Raising of Lazarus",
+    "tempos": [
+      "quaresma"
+    ],
+    "festas": []
+  },
+  {
+    "id": "triduo-1",
+    "misterio": "Liturgia — Tríduo Pascal",
+    "titulo": "Cristo Lavando os Pés dos Discípulos",
+    "artista": "Tintoretto",
+    "ano": "c. 1547",
+    "acervo": "Museo del Prado, Madri",
+    "busca": "Tintoretto Lavatorio Prado washing of the feet",
+    "tempos": [
+      "triduo"
+    ],
+    "festas": [
+      "ceia do senhor"
+    ]
+  },
+  {
+    "id": "triduo-2",
+    "misterio": "Liturgia — Tríduo Pascal",
+    "titulo": "O Sepultamento de Cristo",
+    "artista": "Caravaggio",
+    "ano": "1603–1604",
+    "acervo": "Pinacoteca Vaticana",
+    "busca": "Caravaggio Entombment of Christ Vatican",
+    "tempos": [
+      "triduo"
+    ],
+    "festas": [
+      "sábado santo",
+      "fiéis defuntos"
+    ]
+  },
+  {
+    "id": "triduo-3",
+    "misterio": "Liturgia — Tríduo Pascal",
+    "titulo": "A Lamentação",
+    "artista": "Giotto di Bondone",
+    "ano": "c. 1305",
+    "acervo": "Capela dos Scrovegni, Pádua",
+    "busca": "Giotto Scrovegni Lamentation Mourning of Christ",
+    "tempos": [
+      "triduo"
+    ],
+    "festas": [
+      "sexta-feira santa"
+    ]
+  },
+  {
+    "id": "pascoa-1",
+    "misterio": "Liturgia — Tempo Pascal",
+    "titulo": "Noli me tangere",
+    "artista": "Fra Angelico",
+    "ano": "c. 1440",
+    "acervo": "Convento de São Marcos, Florença",
+    "busca": "Fra Angelico Noli me tangere San Marco",
+    "tempos": [
+      "pascoa"
+    ],
+    "festas": []
+  },
+  {
+    "id": "pascoa-2",
+    "misterio": "Liturgia — Tempo Pascal",
+    "titulo": "A Incredulidade de São Tomé",
+    "artista": "Caravaggio",
+    "ano": "1601–1602",
+    "acervo": "Palácio de Sanssouci, Potsdam",
+    "busca": "Caravaggio Incredulity of Saint Thomas",
+    "tempos": [
+      "pascoa"
+    ],
+    "festas": [
+      "são tomé"
+    ]
+  },
+  {
+    "id": "pascoa-3",
+    "misterio": "Liturgia — Tempo Pascal",
+    "titulo": "Pedro e João correndo ao Sepulcro",
+    "artista": "Eugène Burnand",
+    "ano": "1898",
+    "acervo": "Musée d’Orsay, Paris",
+    "busca": "Eugène Burnand disciples Peter and John running sepulchre",
+    "tempos": [
+      "pascoa"
+    ],
+    "festas": [
+      "ressurreição do senhor"
+    ],
+    "arquivo_commons": "File:BurnandJeanPierre.jpg"
+  },
+  {
+    "id": "pascoa-4",
+    "misterio": "Liturgia — Tempo Pascal",
+    "titulo": "A Santíssima Trindade",
+    "artista": "Andrei Rublev",
+    "ano": "c. 1411–1425",
+    "acervo": "Galeria Tretyakov, Moscou",
+    "busca": "Rublev Trinity icon Tretyakov",
+    "tempos": [
+      "pascoa"
+    ],
+    "festas": [
+      "santíssima trindade"
+    ]
+  },
+  {
+    "id": "comum-1",
+    "misterio": "Liturgia — Tempo Comum",
+    "titulo": "Cristo na Tempestade no Mar da Galileia",
+    "artista": "Rembrandt van Rijn",
+    "ano": "1633",
+    "acervo": "Museu Isabella Stewart Gardner, Boston",
+    "busca": "Rembrandt Storm on the Sea of Galilee",
+    "tempos": [
+      "comum"
+    ],
+    "festas": []
+  },
+  {
+    "id": "comum-2",
+    "misterio": "Liturgia — Tempo Comum",
+    "titulo": "A Pesca Milagrosa",
+    "artista": "Rafael Sanzio",
+    "ano": "1515–1516",
+    "acervo": "Victoria and Albert Museum, Londres",
+    "busca": "Raphael cartoon Miraculous Draught of Fishes",
+    "tempos": [
+      "comum"
+    ],
+    "festas": [
+      "são pedro e são paulo"
+    ]
+  },
+  {
+    "id": "comum-3",
+    "misterio": "Liturgia — Tempo Comum",
+    "titulo": "O Bom Samaritano",
+    "artista": "Vincent van Gogh",
+    "ano": "1890",
+    "acervo": "Museu Kröller-Müller, Otterlo",
+    "busca": "Van Gogh Good Samaritan after Delacroix",
+    "tempos": [
+      "comum"
+    ],
+    "festas": []
+  },
+  {
+    "id": "comum-4",
+    "misterio": "Liturgia — Tempo Comum",
+    "titulo": "O Tributo",
+    "artista": "Masaccio",
+    "ano": "c. 1425",
+    "acervo": "Capela Brancacci, Florença",
+    "busca": "Masaccio Tribute Money Brancacci",
+    "tempos": [
+      "comum"
+    ],
+    "festas": []
+  },
+  {
+    "id": "comum-5",
+    "misterio": "Liturgia — Tempo Comum",
+    "titulo": "Cristo curando o Cego",
+    "artista": "El Greco",
+    "ano": "c. 1570",
+    "acervo": "Gemäldegalerie Alte Meister, Dresden",
+    "busca": "El Greco Christ Healing the Blind Dresden",
+    "tempos": [
+      "comum"
+    ],
+    "festas": []
+  },
+  {
+    "id": "comum-6",
+    "misterio": "Liturgia — Tempo Comum",
+    "titulo": "Cristo Pantocrator",
+    "artista": "Autor desconhecido",
+    "ano": "séc. VI",
+    "acervo": "Mosteiro de Santa Catarina, Sinai",
+    "busca": "Christ Pantocrator Sinai encaustic icon",
+    "tempos": [
+      "comum"
+    ],
+    "festas": [
+      "rei do universo"
+    ]
+  },
+  {
+    "id": "comum-7",
+    "misterio": "Liturgia — Tempo Comum",
+    "titulo": "O Sagrado Coração de Jesus",
+    "artista": "Pompeo Batoni",
+    "ano": "1767",
+    "acervo": "Igreja do Gesù, Roma",
+    "busca": "Pompeo Batoni Sacred Heart Gesù",
+    "tempos": [
+      "comum"
+    ],
+    "festas": [
+      "sagrado coração"
+    ]
+  },
+  {
+    "id": "comum-8",
+    "misterio": "Liturgia — Tempo Comum",
+    "titulo": "A Adoração da Santíssima Trindade (Retábulo Landauer)",
+    "artista": "Albrecht Dürer",
+    "ano": "1511",
+    "acervo": "Kunsthistorisches Museum, Viena",
+    "busca": "Dürer Landauer Altarpiece Adoration of the Trinity",
+    "tempos": [
+      "comum"
+    ],
+    "festas": [
+      "todos os santos"
+    ]
   }
 ]

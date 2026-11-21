@@ -87,28 +87,54 @@ List<ReadingSegment> buildLiturgyQueue(
   return q;
 }
 
-/// Divide textos longos em frases (limite seguro do TTS Android ≈ 4000 chars)
-/// para permitir pausar/retomar com precisão de frase.
+/// Tamanho dos trechos enviados à voz neural: o primeiro é curto para o som começar logo;
+/// o segundo é sintetizado enquanto o primeiro toca, e assim por diante.
+const kNeuralChunkLen = 280;
+const kNeuralFirstChunkLen = 90;
+
+/// Divide textos longos em trechos de até [maxLen] caracteres (limite seguro do TTS Android ≈ 4000)
+/// para permitir pausar/retomar com precisão de frase. Corta em fim de frase; se a frase não couber,
+/// em vírgula ou travessão; em último caso, entre palavras — nunca no meio de uma palavra.
+/// Com [firstLen], o 1º trecho tem até [firstLen] caracteres e o 2º até o dobro disso.
 @visibleForTesting
-List<String> splitForSpeech(String text, {int maxLen = 600}) {
-  final sentences = RegExp(r'[^.!?;:\n]+[.!?;:\n]*').allMatches(text).map((m) => m.group(0)!.trim());
+List<String> splitForSpeech(String text, {int maxLen = 600, int? firstLen}) {
+  int limitFor(int i) => firstLen == null || i > 1 ? maxLen : (firstLen * (i + 1)).clamp(1, maxLen);
+  final levels = <List<String> Function(String)>[
+    (s) => s.split(RegExp(r'(?<=[,—–])\s+')),
+    (s) => s.split(RegExp(r'\s+')),
+  ];
   final chunks = <String>[];
-  final buf = StringBuffer();
-  for (final s in sentences.where((s) => s.isNotEmpty)) {
-    if (buf.length + s.length + 1 > maxLen && buf.isNotEmpty) {
-      chunks.add(buf.toString());
-      buf.clear();
+  var buf = '';
+  void add(String unit, int level) {
+    final joined = buf.isEmpty ? unit : '$buf $unit';
+    if (joined.length <= limitFor(chunks.length)) {
+      buf = joined;
+      return;
     }
-    if (s.length > maxLen) {
-      for (var i = 0; i < s.length; i += maxLen) {
-        chunks.add(s.substring(i, (i + maxLen).clamp(0, s.length)));
+    if (buf.isNotEmpty) {
+      chunks.add(buf);
+      buf = '';
+      return add(unit, level);
+    }
+    for (var l = level; l < levels.length; l++) {
+      final parts = levels[l](unit).where((p) => p.isNotEmpty).toList();
+      if (parts.length > 1) {
+        for (final p in parts) {
+          add(p, l + 1);
+        }
+        return;
       }
-      continue;
     }
-    if (buf.isNotEmpty) buf.write(' ');
-    buf.write(s);
+    final limit = limitFor(chunks.length); // palavra maior que o limite (raríssimo)
+    chunks.add(unit.substring(0, limit));
+    add(unit.substring(limit), levels.length);
   }
-  if (buf.isNotEmpty) chunks.add(buf.toString());
+
+  for (final m in RegExp(r'[^.!?;:\n]+[.!?;:\n]*').allMatches(text)) {
+    final s = m.group(0)!.trim();
+    if (s.isNotEmpty) add(s, 0);
+  }
+  if (buf.isNotEmpty) chunks.add(buf);
   return chunks;
 }
 
@@ -332,7 +358,9 @@ class ReadingAudioHandler extends BaseAudioHandler with QueueHandler {
       await _useLanguage(seg.language);
     }
     if (_chunks.isEmpty || _chunk == 0) {
-      _chunks = splitForSpeech(seg.text ?? '', maxLen: useNeural ? 280 : 600);
+      _chunks = useNeural
+          ? splitForSpeech(seg.text ?? '', maxLen: kNeuralChunkLen, firstLen: kNeuralFirstChunkLen)
+          : splitForSpeech(seg.text ?? '');
       _broadcast();
     }
     var neuralFailed = false;
@@ -487,6 +515,14 @@ class ReadingAudioHandler extends BaseAudioHandler with QueueHandler {
     neuralTtsStatus.dispose();
   }
 
+  /// Carrega a voz neural em segundo plano se o modelo já estiver no aparelho — nunca inicia
+  /// o download. Assim o primeiro "Ouvir" não espera o modelo subir.
+  Future<void> warmUpNeuralTts() async {
+    if (!_useNeuralEngine || _disposed) return;
+    final s = await refreshNeuralTtsStatus();
+    if (s.cached && !s.isBusy && !_playing && !_disposed) await preloadNeuralTts();
+  }
+
   Future<bool> preloadNeuralTts() async {
     if (!_useNeuralEngine) return false;
     final ok = kIsWeb ? await webTtsPreload(voice: _kokoroVoice) : await nativeTtsPreload(voice: _kokoroVoice);
@@ -589,6 +625,12 @@ class ReadingAudioController extends ChangeNotifier {
       debugPrint('audio_service indisponível, usando modo local: $e');
       handler = ReadingAudioHandler();
     }
+    // Aquece a voz neural depois que o app já abriu, sem disputar a inicialização.
+    unawaited(
+      Future<void>.delayed(const Duration(seconds: 4), handler.warmUpNeuralTts).catchError((Object e) {
+        debugPrint('Aquecimento da voz neural falhou: $e');
+      }),
+    );
     return ReadingAudioController._(handler);
   }
 
