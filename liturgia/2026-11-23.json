@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "data": "2026-11-23",
-  "gerado_em": "2026-11-21T07:52:46-03:00",
+  "gerado_em": "2026-11-21T12:50:02-03:00",
   "calendario": {
     "data": "2026-11-23",
     "dia_semana": "Segunda-feira",
@@ -73,7 +73,12 @@
     "fallback": "tts_local_pt_BR",
     "liturgia_audio_hash": "f1dff916b00ecbc0",
     "homilia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-23-homilia.mp3",
-    "homilia_audio_hash": "471f0e47e55f5295"
+    "homilia_audio_hash": "471f0e47e55f5295",
+    "liturgia_audio_marcas": {
+      "primeira_leitura": 0.0,
+      "salmo": 48.5,
+      "evangelho": 105.22
+    }
   },
   "homilias": {
     "vaticano": {

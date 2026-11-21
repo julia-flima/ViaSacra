@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "data": "2026-11-24",
-  "gerado_em": "2026-11-21T07:52:47-03:00",
+  "gerado_em": "2026-11-21T12:50:03-03:00",
   "calendario": {
     "data": "2026-11-24",
     "dia_semana": "Terça-feira",
@@ -48,17 +48,10 @@
   "audio": {
     "salmo_audio_url": null,
     "salmo_cifra_ou_melodia": null,
-    "salmo_video_id": "C8xA3tP-vyE",
-    "salmo_video_titulo": "Salmo 95(96) O Senhor vem julgar nossa terra.",
+    "salmo_video_id": null,
+    "salmo_video_titulo": null,
     "liturgia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-24.mp3",
     "creditos": [
-      {
-        "campo": "salmo_video_id",
-        "interprete": "Edgar Borges (Salmos responsoriais)",
-        "canal": "Edgar Borges (Salmos responsoriais)",
-        "url_fonte": "https://www.youtube.com/watch?v=C8xA3tP-vyE",
-        "licenca": "YouTube Embed Oficial (Termos de Serviço)"
-      },
       {
         "campo": "liturgia_audio_url",
         "interprete": "Voz Dora (pf_dora)",
@@ -75,7 +68,12 @@
     "fallback": "tts_local_pt_BR",
     "liturgia_audio_hash": "d3475b4d640cd104",
     "homilia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-24-homilia.mp3",
-    "homilia_audio_hash": "bfb6bc31f1dce2f2"
+    "homilia_audio_hash": "bfb6bc31f1dce2f2",
+    "liturgia_audio_marcas": {
+      "primeira_leitura": 0.0,
+      "salmo": 58.49,
+      "evangelho": 94.33
+    }
   },
   "homilias": {
     "vaticano": {
