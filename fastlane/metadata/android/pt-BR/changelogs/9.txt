@@ -1,0 +1,4 @@
+• Troca de voz mais rápida e estável (um só processo de voz)
+• Corrige o fechamento ao avançar ou trocar de leitura no áudio
+• Avançar/voltar funcionam no áudio narrado da Liturgia
+• Voz neural começa mais rápido; um único APK
