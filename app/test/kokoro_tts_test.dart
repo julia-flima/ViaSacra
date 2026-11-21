@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:archive/archive_io.dart';
+import 'package:crypto/crypto.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
@@ -104,64 +106,89 @@ void main() {
     expect(ReadingAudioHandler.supportsKokoro('fr'), isFalse);
   });
 
-  test('KokoroModelStore valida arquivos, baixa/extrai .tar.bz2 e limpa cache', () async {
-    final tempDir = await Directory.systemTemp.createTemp('kokoro_store_test_');
-    addTearDown(() async {
-      if (tempDir.existsSync()) await tempDir.delete(recursive: true);
+  test('BundledKokoro remonta as partes do app uma vez por versão', () async {
+    final tempDir = await Directory.systemTemp.createTemp('kokoro_bundle_test_');
+    addTearDown(() => tempDir.delete(recursive: true));
+
+    final manifest = {
+      'version': 'v1',
+      'files': [
+        {
+          'path': 'model.int8.onnx',
+          'size': 6,
+          'parts': ['p0000', 'p0001'],
+        },
+        {
+          'path': 'espeak-ng-data/pt_dict',
+          'size': 2,
+          'parts': ['p0002'],
+        },
+      ],
+    };
+    final bundle = _MapBundle({
+      '${BundledKokoro.assetDir}/manifest.json': utf8.encode(jsonEncode(manifest)),
+      '${BundledKokoro.assetDir}/p0000': [1, 2, 3, 4],
+      '${BundledKokoro.assetDir}/p0001': [5, 6],
+      '${BundledKokoro.assetDir}/p0002': [7, 8],
     });
 
-    final store = KokoroModelStore(tempDir);
-    expect(store.isReady, isFalse);
-    expect(store.resolveModelFiles(), isNull);
-    expect(store.computeCacheBytes(), 0);
+    final kokoro = BundledKokoro(Directory('${tempDir.path}/kokoro'), bundle: bundle);
+    final progress = <double>[];
+    expect(await kokoro.install(onProgress: progress.add), 8);
+    expect(await File(kokoro.files.model).readAsBytes(), [1, 2, 3, 4, 5, 6]);
+    expect(await File('${kokoro.files.espeakDir}/pt_dict').readAsBytes(), [7, 8]);
+    expect(progress.last, 1.0);
 
-    // Constrói um .tar.bz2 mínimo em memória com a estrutura esperada do tarball.
+    // Mesma versão: não copia de novo.
+    progress.clear();
+    expect(await kokoro.install(onProgress: progress.add), 8);
+    expect(progress, isEmpty);
+
+    // Parte faltando no app → erro (o motor cai para a voz do sistema).
+    manifest['version'] = 'v2';
+    bundle.files['${BundledKokoro.assetDir}/manifest.json'] = utf8.encode(jsonEncode(manifest));
+    bundle.files.remove('${BundledKokoro.assetDir}/p0002');
+    await expectLater(kokoro.install(), throwsA(anything));
+
+    // App compilado sem a voz: devolve null, sem erro.
+    expect(await BundledKokoro(Directory('${tempDir.path}/vazio'), bundle: _MapBundle({})).install(), isNull);
+  });
+
+  test('PiperStore baixa, confere o SHA-256, extrai e remove', () async {
+    final tempDir = await Directory.systemTemp.createTemp('piper_store_test_');
+    addTearDown(() => tempDir.delete(recursive: true));
+    const v = PiperVoice.faber;
     final archive = Archive()
-      ..addFile(ArchiveFile.bytes('${KokoroModelStore.extractSubdir}/model.int8.onnx', List<int>.filled(16, 1)))
-      ..addFile(ArchiveFile.bytes('${KokoroModelStore.extractSubdir}/voices.bin', List<int>.filled(8, 2)))
-      ..addFile(ArchiveFile.bytes('${KokoroModelStore.extractSubdir}/tokens.txt', 'a 1\n'.codeUnits))
-      ..addFile(ArchiveFile.bytes('${KokoroModelStore.extractSubdir}/espeak-ng-data/pt_dict', [1, 2, 3, 4]));
-    final tarBytes = TarEncoder().encode(archive);
-    final tarBz2 = BZip2Encoder().encode(tarBytes);
-
-    final mockClient = MockClient.streaming(
-      (request, bodyStream) async => http.StreamedResponse(Stream.value(tarBz2), 200, contentLength: tarBz2.length),
+      ..addFile(ArchiveFile.bytes('${v.archive}/${v.onnx}', List<int>.filled(16, 1)))
+      ..addFile(ArchiveFile.bytes('${v.archive}/tokens.txt', 'a 1\n'.codeUnits))
+      ..addFile(ArchiveFile.bytes('${v.archive}/espeak-ng-data/pt_dict', [1, 2, 3]));
+    final tarBz2 = BZip2Encoder().encode(TarEncoder().encode(archive));
+    final client = MockClient.streaming(
+      (request, body) async => http.StreamedResponse(Stream.value(tarBz2), 200, contentLength: tarBz2.length),
     );
 
-    final statuses = <(double?, String)>[];
-    final files = await store.ensureDownloaded(
-      onProgress: (p, l) => statuses.add((p, l)),
-      client: mockClient,
-      url: 'https://example.com/kokoro.tar.bz2',
-      minArchiveBytes: 1,
+    final store = PiperStore(tempDir);
+    expect(await store.installed(), isEmpty);
+
+    // Hash errado: nada fica instalado.
+    await expectLater(
+      store.download(v, onProgress: (_) {}, client: client, sha256Hex: 'errado'),
+      throwsA(isA<StateError>()),
     );
+    expect(await store.installed(), isEmpty);
 
-    expect(files.modelPath, endsWith('model.int8.onnx'));
-    expect(files.voicesPath, endsWith('voices.bin'));
-    expect(files.tokensPath, endsWith('tokens.txt'));
-    expect(files.espeakDataDir, endsWith('espeak-ng-data'));
-    expect(store.isReady, isTrue);
-    expect(store.computeCacheBytes(), greaterThan(0));
-    expect(statuses.any((s) => s.$2.contains('Extraindo')), isTrue);
+    final progress = <double?>[];
+    await store.download(v, onProgress: progress.add, client: client, sha256Hex: sha256.convert(tarBz2).toString());
+    expect(progress.last, 1.0);
+    expect((await store.installed())[v.id], greaterThan(0));
+    expect(File(store.files(v).model).existsSync(), isTrue);
 
-    // Sem sentinela .ready-v1 o modelo não é considerado pronto.
-    await store.readySentinel.delete();
-    expect(store.isReady, isFalse);
-
-    // Fallback para model.onnx quando model.int8.onnx não existir.
-    await File(files.modelPath).rename('${Directory(files.modelPath).parent.path}/model.onnx');
-    final fullModel = store.resolveModelFiles();
-    expect(fullModel?.modelPath, endsWith('model.onnx'));
-
-    // Ignora arquivo temporário .tar.bz2.part no cálculo de bytes em cache.
-    await File('${tempDir.path}/model.tar.bz2.part').writeAsBytes(List<int>.filled(100, 9));
-    final withoutPart = store.computeCacheBytes();
-    await File('${tempDir.path}/model.tar.bz2.part').delete();
-    expect(store.computeCacheBytes(), withoutPart);
-
-    await store.clearCache();
-    expect(store.isReady, isFalse);
-    expect(store.computeCacheBytes(), 0);
+    // Cancelamento interrompe o download.
+    await expectLater(
+      store.download(v, onProgress: (_) {}, client: client, isCancelled: () => true),
+      throwsA(anything),
+    );
+    expect(await store.installed(), isEmpty);
   });
 
   test('ReadingAudioHandler envia lookahead N+1, troca voz ao vivo e trata fallback/pause', () async {
@@ -292,4 +319,18 @@ void main() {
     final bar = tester.widget<LinearProgressIndicator>(find.byType(LinearProgressIndicator));
     expect(bar.value, 0.42);
   });
+}
+
+/// AssetBundle em memória para testar a instalação da voz embutida.
+class _MapBundle extends CachingAssetBundle {
+  _MapBundle(this.files);
+
+  final Map<String, List<int>> files;
+
+  @override
+  Future<ByteData> load(String key) async {
+    final bytes = files[key];
+    if (bytes == null) throw FlutterError('Asset ausente: $key');
+    return ByteData.sublistView(Uint8List.fromList(bytes));
+  }
 }

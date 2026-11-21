@@ -88,6 +88,11 @@ class AboutScreen extends StatelessWidget {
             url: 'https://github.com/k2-fsa/sherpa-onnx',
             license: 'Apache-2.0 (Kokoro-82M / sherpa-onnx) e GPL-3.0 (eSpeak-NG).',
           ),
+          const SourceAttribution(
+            source: 'Vozes Piper pt-BR (opcionais, baixadas nas Configurações)',
+            url: 'https://github.com/OHF-Voice/piper1-gpl',
+            license: 'Faber: CC0. Dii (OpenVoiceOS): CC BY-NC-SA 4.0, uso não comercial. Não vêm no app.',
+          ),
           const CrossDivider(),
           const Eyebrow('Código aberto'),
           ListTile(

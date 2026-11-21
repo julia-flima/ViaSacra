@@ -112,25 +112,13 @@ class SettingsScreen extends StatelessWidget {
               context.read<ReadingAudioController>().setSpeed(v.first);
             },
           ),
-          if (kIsWeb || nativeTtsIsSupported()) ...[
-            const SizedBox(height: VsSpacing.md),
-            Text('Voz neural (Kokoro-82M · pt-BR)', style: t.titleSmall),
-            const SizedBox(height: 8),
-            SegmentedButton<String>(
-              segments: [for (final v in KokoroVoice.all) ButtonSegment(value: v.id, label: Text(v.label))],
-              selected: {st.kokoroVoice},
-              onSelectionChanged: (v) {
-                st.kokoroVoice = v.first;
-                context.read<ReadingAudioController>().setKokoroVoice(v.first);
-              },
-            ),
-            const _NeuralKokoroCacheTile(),
-          ],
+          const SizedBox(height: VsSpacing.md),
+          const _VoiceSettings(),
           if (!kIsWeb)
             ListTile(
               contentPadding: EdgeInsets.zero,
-              title: const Text('Voz de reserva do aparelho'),
-              subtitle: Text(st.ttsVoiceName ?? 'Padrão do sistema (usada caso a voz neural não esteja baixada)'),
+              title: Text(st.ttsEngine == TtsEngine.system ? 'Voz do aparelho' : 'Voz de reserva do aparelho'),
+              subtitle: Text(st.ttsVoiceName ?? 'Padrão do sistema'),
               trailing: const Icon(Icons.chevron_right),
               onTap: () => _pickVoice(context),
             ),
@@ -300,37 +288,172 @@ class SettingsScreen extends StatelessWidget {
   }
 }
 
-class _NeuralKokoroCacheTile extends StatelessWidget {
-  const _NeuralKokoroCacheTile();
+/// Escolha do motor de voz (Kokoro embutido, Piper baixável, voz do sistema) e das vozes.
+class _VoiceSettings extends StatelessWidget {
+  const _VoiceSettings();
+
+  static const _sample =
+      'Esta é a voz escolhida para ler a Liturgia, as orações e a Bíblia no Via Sacra. '
+      'Compare as vozes e fique com a que achar mais agradável.';
+
+  @override
+  Widget build(BuildContext context) {
+    final st = context.watch<SettingsService>();
+    final status = context.select<ReadingAudioController, NeuralTtsStatus>((a) => a.neuralTtsStatus);
+    final audio = context.read<ReadingAudioController>();
+    final t = Theme.of(context).textTheme;
+    final neural = kIsWeb || nativeTtsIsSupported();
+    final engine = neural ? st.ttsEngine : TtsEngine.system;
+
+    void setEngine(TtsEngine e) {
+      st.ttsEngine = e;
+      audio.setEngine(e);
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        if (neural) ...[
+          Text('Voz da leitura', style: t.titleSmall),
+          const SizedBox(height: 8),
+          SegmentedButton<TtsEngine>(
+            segments: [
+              for (final e in TtsEngine.values)
+                if (e != TtsEngine.piper || !kIsWeb) ButtonSegment(value: e, label: Text(e.label)),
+            ],
+            selected: {engine},
+            onSelectionChanged: (v) => setEngine(v.first),
+          ),
+          const SizedBox(height: VsSpacing.sm),
+        ],
+        if (status.isBusy) ...[
+          Text(status.label ?? 'Preparando voz…', style: t.bodySmall),
+          const SizedBox(height: 6),
+          LinearProgressIndicator(value: status.progress),
+          if (status.state == NeuralTtsState.downloading)
+            Align(
+              alignment: Alignment.centerRight,
+              child: TextButton(onPressed: audio.cancelVoiceDownload, child: const Text('Cancelar')),
+            ),
+        ],
+        if (engine == TtsEngine.kokoro) ...[
+          SegmentedButton<String>(
+            segments: [for (final v in KokoroVoice.all) ButtonSegment(value: v.id, label: Text(v.label))],
+            selected: {st.kokoroVoice},
+            onSelectionChanged: (v) {
+              st.kokoroVoice = v.first;
+              audio.setKokoroVoice(v.first);
+            },
+          ),
+          if (kIsWeb) const _WebKokoroCacheTile() else _KokoroInfo(status),
+        ],
+        if (engine == TtsEngine.piper)
+          for (final v in PiperVoice.all) _PiperVoiceTile(voice: v, status: status, selected: st.piperVoice == v.id),
+        if (neural && engine != TtsEngine.system)
+          Align(
+            alignment: Alignment.centerLeft,
+            child: TextButton.icon(
+              icon: const Icon(Icons.record_voice_over_outlined),
+              label: const Text('Ouvir exemplo'),
+              onPressed: () => audio.playSingle(
+                const ReadingSegment(id: 'exemplo-voz', title: 'Exemplo de voz', text: _sample),
+                speed: st.ttsSpeed,
+              ),
+            ),
+          ),
+      ],
+    );
+  }
+}
+
+class _KokoroInfo extends StatelessWidget {
+  const _KokoroInfo(this.status);
+
+  final NeuralTtsStatus status;
+
+  @override
+  Widget build(BuildContext context) => ListTile(
+    contentPadding: EdgeInsets.zero,
+    title: const Text('Kokoro-82M · incluída no app'),
+    subtitle: Text(
+      status.cached
+          ? 'Funciona sem internet · ${status.cacheSizeLabel} · Apache-2.0'
+          : status.error != null
+          ? 'Não foi possível preparar a voz; usando a voz do aparelho.'
+          : 'Preparando a voz offline…',
+    ),
+  );
+}
+
+class _PiperVoiceTile extends StatelessWidget {
+  const _PiperVoiceTile({required this.voice, required this.status, required this.selected});
+
+  final PiperVoice voice;
+  final NeuralTtsStatus status;
+  final bool selected;
+
+  @override
+  Widget build(BuildContext context) {
+    final st = context.read<SettingsService>();
+    final audio = context.read<ReadingAudioController>();
+    final bytes = status.piperBytes[voice.id];
+    final installed = bytes != null;
+
+    void select() {
+      st.piperVoice = voice.id;
+      audio.setPiperVoice(voice.id);
+    }
+
+    return ListTile(
+      contentPadding: EdgeInsets.zero,
+      leading: Icon(
+        selected && installed ? Icons.radio_button_checked : Icons.radio_button_unchecked,
+        color: installed ? null : Theme.of(context).disabledColor,
+      ),
+      title: Text('${voice.label} · ${voice.description}'),
+      subtitle: Text(
+        installed
+            ? '${NeuralTtsStatus.sizeLabel(bytes)} neste aparelho · ${voice.license}'
+            : '~21 MB para baixar · ${voice.license}',
+      ),
+      onTap: installed ? select : null,
+      trailing: installed
+          ? TextButton(onPressed: () => audio.removePiperVoice(voice.id), child: const Text('Remover'))
+          : OutlinedButton(
+              onPressed: status.isBusy
+                  ? null
+                  : () async {
+                      final messenger = ScaffoldMessenger.of(context);
+                      if (await audio.downloadPiperVoice(voice.id)) {
+                        select();
+                      } else if (audio.neuralTtsStatus.state == NeuralTtsState.error) {
+                        messenger.showSnackBar(
+                          const SnackBar(content: Text('Não foi possível baixar a voz agora. Confira a internet.')),
+                        );
+                      }
+                    },
+              child: const Text('Baixar'),
+            ),
+    );
+  }
+}
+
+/// Web: o modelo Kokoro fica no cache do navegador (baixado uma vez).
+class _WebKokoroCacheTile extends StatelessWidget {
+  const _WebKokoroCacheTile();
 
   @override
   Widget build(BuildContext context) {
     final status = context.select<ReadingAudioController, NeuralTtsStatus>((a) => a.neuralTtsStatus);
     final audio = context.read<ReadingAudioController>();
-    final t = Theme.of(context).textTheme;
+    if (status.isBusy) return const SizedBox.shrink();
 
-    if (status.isBusy) {
-      return Padding(
-        padding: const EdgeInsets.symmetric(vertical: VsSpacing.sm),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(status.label ?? 'Preparando voz neural offline…', style: t.bodySmall),
-            const SizedBox(height: 6),
-            LinearProgressIndicator(value: status.progress),
-          ],
-        ),
-      );
-    }
-
-    final sizeHint = kIsWeb ? '~92 MB' : '~126 MB';
-    final cachedWhere = kIsWeb ? 'Salvo no navegador' : 'Salvo neste aparelho';
     final subtitle = status.cached
-        ? '$cachedWhere (${status.cacheSizeLabel})'
+        ? 'Salvo no navegador (${status.cacheSizeLabel})'
               '${status.deviceLabel.isNotEmpty ? ' · ${status.deviceLabel}' : ''}'
         : status.error != null
-        ? 'Falha no download · tente novamente ($sizeHint offline)'
-        : '$sizeHint · baixado uma única vez para uso offline';
+        ? 'Falha no download · tente novamente (~92 MB offline)'
+        : '~92 MB · baixado uma única vez para uso offline';
 
     return ListTile(
       contentPadding: EdgeInsets.zero,
@@ -348,8 +471,7 @@ class _NeuralKokoroCacheTile extends StatelessWidget {
           : OutlinedButton(
               onPressed: () async {
                 final messenger = ScaffoldMessenger.of(context);
-                final ok = await audio.preloadNeuralTts();
-                if (!ok) {
+                if (!await audio.preloadNeuralTts()) {
                   messenger.showSnackBar(
                     const SnackBar(content: Text('Não foi possível baixar o modelo de voz agora.')),
                   );

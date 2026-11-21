@@ -1,314 +1,292 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 import 'dart:isolate';
 
 import 'package:archive/archive_io.dart';
+import 'package:crypto/crypto.dart';
 import 'package:flutter/foundation.dart' show debugPrint;
+import 'package:flutter/services.dart' show AssetBundle, rootBundle;
 import 'package:http/http.dart' as http;
-import 'package:just_audio/just_audio.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sherpa_onnx/sherpa_onnx.dart' as sherpa_onnx;
 
 import 'neural_tts_types.dart';
 
-/// Retorna `true` em Android e iOS, onde o binário nativo do `sherpa_onnx`
-/// acompanha o app. Mantém testes Linux VM livres de FFI/rede.
+/// Voz neural offline (sherpa-onnx) só em Android e iOS. Mantém os testes na VM livres de FFI.
 bool nativeTtsIsSupported() => Platform.isAndroid || Platform.isIOS;
 
-/// Caminhos validados do pacote Kokoro-82M v1.0 extraído no armazenamento local.
-class KokoroModelFiles {
-  const KokoroModelFiles({
-    required this.modelPath,
-    required this.voicesPath,
-    required this.tokensPath,
-    required this.espeakDataDir,
-  });
+/// Arquivos de um modelo prontos para o sherpa-onnx (Kokoro ou Piper/VITS).
+class NeuralModelFiles {
+  const NeuralModelFiles.kokoro({
+    required this.model,
+    required String this.voices,
+    required this.tokens,
+    required this.espeakDir,
+  }) : isKokoro = true;
+  const NeuralModelFiles.piper({required this.model, required this.tokens, required this.espeakDir})
+    : isKokoro = false,
+      voices = null;
 
-  final String modelPath;
-  final String voicesPath;
-  final String tokensPath;
-  final String espeakDataDir;
+  final bool isKokoro;
+  final String model;
+  final String? voices;
+  final String tokens;
+  final String espeakDir;
 }
 
-/// Gerencia download, extração streaming (`.tar.bz2`), validação e limpeza do
-/// modelo Kokoro-82M multi-idiomas int8 (`sherpa-onnx`).
-class KokoroModelStore {
-  KokoroModelStore(this.baseDir);
+/// A voz Kokoro vem dentro do app, em partes (`assets/voice/kokoro/`, gerada por
+/// `tool/fetch_kokoro_model.py`). O sherpa-onnx precisa de arquivos de verdade, então ela é
+/// copiada uma vez por versão para a pasta do app, uma parte por vez (memória limitada).
+class BundledKokoro {
+  BundledKokoro(this.dir, {AssetBundle? bundle}) : _bundle = bundle ?? rootBundle;
 
-  static const archiveUrl =
-      'https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/kokoro-int8-multi-lang-v1_0.tar.bz2';
-  static const extractSubdir = 'kokoro-int8-multi-lang-v1_0';
-  static const readySentinelName = '.ready-v1';
-  static const _partFileName = 'model.tar.bz2.part';
-  static const defaultMinArchiveBytes = 10 * 1024 * 1024;
+  static const assetDir = 'assets/voice/kokoro';
 
-  final Directory baseDir;
+  final Directory dir;
+  final AssetBundle _bundle;
 
-  File get readySentinel => File('${baseDir.path}/$readySentinelName');
+  File get _versionFile => File('${dir.path}/.version');
 
-  /// Procura os arquivos obrigatórios do modelo em `<baseDir>/kokoro-int8-multi-lang-v1_0`
-  /// (padrão do tarball) ou diretamente em `<baseDir>`.
-  KokoroModelFiles? resolveModelFiles() {
-    for (final dir in [Directory('${baseDir.path}/$extractSubdir'), baseDir]) {
-      if (!dir.existsSync()) continue;
-      final int8Model = File('${dir.path}/model.int8.onnx');
-      final fullModel = File('${dir.path}/model.onnx');
-      final model = int8Model.existsSync()
-          ? int8Model
-          : fullModel.existsSync()
-          ? fullModel
-          : null;
-      final voices = File('${dir.path}/voices.bin');
-      final tokens = File('${dir.path}/tokens.txt');
-      final espeakDir = Directory('${dir.path}/espeak-ng-data');
+  NeuralModelFiles get files => NeuralModelFiles.kokoro(
+    model: '${dir.path}/model.int8.onnx',
+    voices: '${dir.path}/voices.bin',
+    tokens: '${dir.path}/tokens.txt',
+    espeakDir: '${dir.path}/espeak-ng-data',
+  );
 
-      if (model != null &&
-          voices.existsSync() &&
-          tokens.existsSync() &&
-          espeakDir.existsSync() &&
-          espeakDir.listSync().isNotEmpty) {
-        return KokoroModelFiles(
-          modelPath: model.path,
-          voicesPath: voices.path,
-          tokensPath: tokens.path,
-          espeakDataDir: espeakDir.path,
-        );
-      }
-    }
-    return null;
-  }
-
-  bool get isReady => readySentinel.existsSync() && resolveModelFiles() != null;
-
-  int computeCacheBytes() {
-    if (!baseDir.existsSync()) return 0;
-    var total = 0;
-    for (final entity in baseDir.listSync(recursive: true, followLinks: false)) {
-      if (entity is File && !entity.path.endsWith(_partFileName)) {
-        total += entity.lengthSync();
-      }
-    }
-    return total;
-  }
-
-  Future<void> clearCache() async {
-    if (baseDir.existsSync()) {
-      await baseDir.delete(recursive: true);
-    }
-  }
-
-  Future<KokoroModelFiles> ensureDownloaded({
-    required void Function(double? progress, String label) onProgress,
-    http.Client? client,
-    String? url,
-    int minArchiveBytes = defaultMinArchiveBytes,
-  }) async {
-    final existing = resolveModelFiles();
-    if (readySentinel.existsSync() && existing != null) {
-      return existing;
-    }
-
-    if (!baseDir.existsSync()) {
-      await baseDir.create(recursive: true);
-    }
-
-    // Limpa eventual extração parcial anterior sem sentinela válida.
-    final subDir = Directory('${baseDir.path}/$extractSubdir');
-    if (!readySentinel.existsSync() && subDir.existsSync()) {
-      await subDir.delete(recursive: true);
-    }
-    if (readySentinel.existsSync()) {
-      await readySentinel.delete();
-    }
-
-    final partFile = File('${baseDir.path}/$_partFileName');
-    if (partFile.existsSync()) {
-      await partFile.delete();
-    }
-
-    final ownedClient = client == null;
-    final httpClient = client ?? http.Client();
-
+  /// Instala se preciso e devolve o tamanho em bytes, ou `null` se o app foi compilado sem a voz.
+  Future<int?> install({void Function(double progress)? onProgress}) async {
+    final Map<String, dynamic> manifest;
     try {
-      onProgress(0.02, 'Conectando para baixar voz neural Kokoro (~126 MB)…');
-      final req = http.Request('GET', Uri.parse(url ?? archiveUrl));
-      req.headers['User-Agent'] = 'ViaSacra-TTS/1.0';
-      final resp = await httpClient.send(req);
-      if (resp.statusCode != 200) {
-        throw HttpException('HTTP ${resp.statusCode} ao baixar pacote Kokoro');
-      }
+      manifest = jsonDecode(await _bundle.loadString('$assetDir/manifest.json', cache: false)) as Map<String, dynamic>;
+    } catch (_) {
+      return null;
+    }
+    final version = manifest['version'] as String;
+    final files = (manifest['files'] as List).cast<Map<String, dynamic>>();
+    final total = files.fold<int>(0, (sum, f) => sum + (f['size'] as int));
+    if (await _versionFile.exists() && await _versionFile.readAsString() == version) return total;
 
-      final total = resp.contentLength ?? 0;
-      var received = 0;
-      var lastReportMs = 0;
-      final sink = partFile.openWrite();
+    if (await dir.exists()) await dir.delete(recursive: true);
+    var done = 0;
+    for (final f in files) {
+      final out = File('${dir.path}/${f['path']}');
+      await out.parent.create(recursive: true);
+      final sink = out.openWrite();
       try {
-        await for (final chunk in resp.stream) {
-          sink.add(chunk);
-          received += chunk.length;
-          final nowMs = DateTime.now().millisecondsSinceEpoch;
-          if (nowMs - lastReportMs >= 150) {
-            lastReportMs = nowMs;
-            if (total > 0) {
-              final ratio = (received / total).clamp(0.0, 1.0);
-              onProgress(0.02 + ratio * 0.80, 'Baixando voz neural Kokoro (${(ratio * 100).round()}%)…');
-            } else {
-              onProgress(null, 'Baixando voz neural Kokoro…');
-            }
-          }
+        for (final part in (f['parts'] as List).cast<String>()) {
+          final data = await _bundle.load('$assetDir/$part');
+          sink.add(data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes));
+          await sink.flush();
         }
-        await sink.flush();
       } finally {
         await sink.close();
       }
-
-      if (received < minArchiveBytes) {
-        throw StateError('Download incompleto do modelo Kokoro ($received bytes)');
-      }
-
-      onProgress(0.85, 'Extraindo pacote de voz offline…');
-      final partPath = partFile.path;
-      final basePath = baseDir.path;
-      await Isolate.run(() => _extractTarBz2(partPath, basePath));
-
-      final files = resolveModelFiles();
-      if (files == null) {
-        throw StateError('Arquivos do modelo Kokoro ausentes após extração.');
-      }
-
-      await readySentinel.writeAsString(DateTime.now().toUtc().toIso8601String(), flush: true);
-      return files;
-    } finally {
-      if (partFile.existsSync()) {
-        try {
-          await partFile.delete();
-        } catch (_) {}
-      }
-      if (ownedClient) {
-        httpClient.close();
-      }
+      if (await out.length() != f['size']) throw StateError('Voz Kokoro incompleta: ${f['path']}');
+      done += f['size'] as int;
+      onProgress?.call(done / total);
     }
+    await _versionFile.writeAsString(version, flush: true);
+    return total;
   }
-
-  static Future<void> _extractTarBz2(String archivePath, String outputDir) =>
-      extractFileToDisk(archivePath, outputDir, throwOnError: true);
 }
 
-class _KokoroWorker {
-  _KokoroWorker._(this._isolate, this._sendPort, this._receivePort) {
-    _sub = _receivePort.listen((msg) {
-      if (msg is Map) {
-        final id = msg['id'] as int?;
-        final ok = msg['ok'] == true;
-        final err = msg['error'] as String?;
-        if (err != null) debugPrint('Erro no Isolate Kokoro: $err');
-        if (id != null) {
-          _pending.remove(id)?.complete(ok);
-        }
-      }
-    });
+/// Vozes Piper baixadas pelo usuário: `<baseDir>/<id>/<archive>/…` + `.ready` com o tamanho em bytes.
+class PiperStore {
+  PiperStore(this.baseDir);
+
+  final Directory baseDir;
+
+  Directory _dir(PiperVoice v) => Directory('${baseDir.path}/${v.id}');
+  File _ready(PiperVoice v) => File('${_dir(v).path}/.ready');
+
+  NeuralModelFiles files(PiperVoice v) {
+    final d = '${_dir(v).path}/${v.archive}';
+    return NeuralModelFiles.piper(model: '$d/${v.onnx}', tokens: '$d/tokens.txt', espeakDir: '$d/espeak-ng-data');
   }
 
+  /// Vozes instaladas (id → bytes). Lê só os arquivos `.ready`.
+  Future<Map<String, int>> installed() async {
+    final result = <String, int>{};
+    for (final v in PiperVoice.all) {
+      final ready = _ready(v);
+      if (await ready.exists()) result[v.id] = int.tryParse(await ready.readAsString()) ?? 0;
+    }
+    return result;
+  }
+
+  Future<void> remove(PiperVoice v) async {
+    if (await _dir(v).exists()) await _dir(v).delete(recursive: true);
+  }
+
+  /// Baixa, confere o SHA-256 e extrai (em outro Isolate). [isCancelled] interrompe o download.
+  Future<void> download(
+    PiperVoice v, {
+    required void Function(double? progress) onProgress,
+    bool Function()? isCancelled,
+    http.Client? client,
+    String? url,
+    String? sha256Hex,
+  }) async {
+    await remove(v);
+    final dir = await _dir(v).create(recursive: true);
+    final part = File('${dir.path}/download.part');
+    final httpClient = client ?? http.Client();
+    try {
+      final resp = await httpClient.send(http.Request('GET', Uri.parse(url ?? v.url)));
+      if (resp.statusCode != 200) throw HttpException('HTTP ${resp.statusCode} ao baixar a voz ${v.label}');
+      final total = resp.contentLength ?? 0;
+      var received = 0;
+      final sink = part.openWrite();
+      try {
+        await for (final chunk in resp.stream) {
+          if (isCancelled?.call() ?? false) throw const _Cancelled();
+          sink.add(chunk);
+          received += chunk.length;
+          onProgress(total > 0 ? received / total : null);
+        }
+      } finally {
+        await sink.close();
+      }
+      final digest = await sha256.bind(part.openRead()).first;
+      if (digest.toString() != (sha256Hex ?? v.sha256)) throw StateError('Arquivo da voz ${v.label} corrompido.');
+
+      final partPath = part.path;
+      final outPath = dir.path;
+      await Isolate.run(() => extractFileToDisk(partPath, outPath, throwOnError: true));
+      await part.delete();
+      final model = files(v);
+      if (!await File(model.model).exists() || !await File(model.tokens).exists()) {
+        throw StateError('Pacote da voz ${v.label} sem os arquivos esperados.');
+      }
+      var bytes = 0;
+      await for (final e in dir.list(recursive: true)) {
+        if (e is File) bytes += await e.length();
+      }
+      await _ready(v).writeAsString('$bytes', flush: true);
+    } catch (_) {
+      await remove(v);
+      rethrow;
+    } finally {
+      if (client == null) httpClient.close();
+    }
+  }
+}
+
+class _Cancelled implements Exception {
+  const _Cancelled();
+}
+
+/// Um modelo carregado num Isolate próprio. A síntese roda lá; a UI nunca espera por ela.
+class _Worker {
+  _Worker._(this.key, this._isolate, this._sendPort, this._replies, Stream<dynamic> exits) {
+    _replySub = _replies.listen((msg) {
+      if (msg is! Map) return;
+      if (msg['error'] != null) debugPrint('Voz neural: ${msg['error']}');
+      _pending.remove(msg['id'])?.complete(msg['ok'] == true);
+    });
+    _exitSub = exits.listen((_) => _shutdown());
+  }
+
+  final String key;
   final Isolate _isolate;
   final SendPort _sendPort;
-  final ReceivePort _receivePort;
-  late final StreamSubscription<dynamic> _sub;
+  final ReceivePort _replies;
+  late final StreamSubscription<dynamic> _replySub;
+  late final StreamSubscription<dynamic> _exitSub;
   final Map<int, Completer<bool>> _pending = {};
   int _nextId = 1;
-  bool _disposed = false;
+  bool _closed = false;
 
-  static Future<_KokoroWorker> spawn(KokoroModelFiles files) async {
-    final handshakePort = ReceivePort();
-    final runtimePort = ReceivePort();
-    final threads = Platform.numberOfProcessors.clamp(1, 4);
+  /// Chamado se o Isolate morrer sozinho (erro), para o motor não tentar de novo em laço.
+  void Function()? onDied;
 
-    final isolate = await Isolate.spawn(_isolateMain, [handshakePort.sendPort, runtimePort.sendPort, files, threads]);
-    final firstMsg = await handshakePort.first;
-    handshakePort.close();
-
-    if (firstMsg is SendPort) {
-      return _KokoroWorker._(isolate, firstMsg, runtimePort);
-    }
-
-    runtimePort.close();
+  static Future<_Worker> spawn(String key, NeuralModelFiles files) async {
+    final handshake = ReceivePort();
+    final replies = ReceivePort();
+    final exitPort = ReceivePort();
+    final exits = exitPort.asBroadcastStream();
+    // Deixa um núcleo livre para a interface e o áudio (medido no emulador: com menos threads
+    // a síntese fica mais lenta que a fala e surgem pausas entre os trechos).
+    final threads = (Platform.numberOfProcessors - 1).clamp(1, 4);
+    final isolate = await Isolate.spawn(
+      _main,
+      [handshake.sendPort, replies.sendPort, files, threads],
+      onExit: exitPort.sendPort,
+      onError: exitPort.sendPort,
+    );
+    final first = await Future.any([handshake.first, exits.first.then((_) => 'o Isolate terminou ao carregar')]);
+    handshake.close();
+    if (first is SendPort) return _Worker._(key, isolate, first, replies, exits);
+    replies.close();
+    exitPort.close();
     isolate.kill(priority: Isolate.immediate);
-    throw StateError('Falha ao inicializar Kokoro offline: $firstMsg');
+    throw StateError('Falha ao carregar a voz neural: $first');
   }
 
-  static Future<void> _isolateMain(List<Object> args) async {
-    final handshakeTo = args[0] as SendPort;
-    final replyTo = args[1] as SendPort;
-    final files = args[2] as KokoroModelFiles;
-    final numThreads = args[3] as int;
+  static Future<void> _main(List<Object> args) async {
+    final handshake = args[0] as SendPort;
+    final replies = args[1] as SendPort;
+    final files = args[2] as NeuralModelFiles;
+    final threads = args[3] as int;
 
-    sherpa_onnx.OfflineTts? tts;
+    final sherpa_onnx.OfflineTts tts;
     try {
-      // Cada Isolate precisa inicializar seus próprios bindings FFI.
-      sherpa_onnx.initBindings();
-      final config = sherpa_onnx.OfflineTtsConfig(
-        model: sherpa_onnx.OfflineTtsModelConfig(
-          kokoro: sherpa_onnx.OfflineTtsKokoroModelConfig(
-            model: files.modelPath,
-            voices: files.voicesPath,
-            tokens: files.tokensPath,
-            dataDir: files.espeakDataDir,
-            lang: 'pt-br',
-          ),
-          numThreads: numThreads,
-          debug: false,
-        ),
-        maxNumSenetences: 1,
-      );
-      tts = sherpa_onnx.OfflineTts(config);
+      sherpa_onnx.initBindings(); // cada Isolate inicializa os próprios bindings FFI
+      final model = files.isKokoro
+          ? sherpa_onnx.OfflineTtsModelConfig(
+              kokoro: sherpa_onnx.OfflineTtsKokoroModelConfig(
+                model: files.model,
+                voices: files.voices!,
+                tokens: files.tokens,
+                dataDir: files.espeakDir,
+                lang: 'pt-br',
+              ),
+              numThreads: threads,
+              debug: false,
+            )
+          : sherpa_onnx.OfflineTtsModelConfig(
+              vits: sherpa_onnx.OfflineTtsVitsModelConfig(
+                model: files.model,
+                tokens: files.tokens,
+                dataDir: files.espeakDir,
+              ),
+              numThreads: threads,
+              debug: false,
+            );
+      tts = sherpa_onnx.OfflineTts(sherpa_onnx.OfflineTtsConfig(model: model, maxNumSenetences: 1));
     } catch (e) {
-      handshakeTo.send('Erro initBindings/OfflineTts: $e');
+      handshake.send('$e');
       return;
     }
 
     final inbox = ReceivePort();
-    handshakeTo.send(inbox.sendPort);
-
+    handshake.send(inbox.sendPort);
     await for (final msg in inbox) {
       if (msg is! Map) continue;
-      final cmd = msg['cmd'];
-      final id = msg['id'] as int?;
-
-      if (cmd == 'dispose') {
+      final id = msg['id'] as int;
+      if (msg['cmd'] == 'dispose') {
         tts.free();
-        if (id != null) replyTo.send({'id': id, 'ok': true});
+        replies.send({'id': id, 'ok': true});
         inbox.close();
         break;
       }
-
-      if (cmd == 'synth' && id != null) {
-        try {
-          final clean = normalizeTextForKokoro((msg['text'] as String?) ?? '');
-          if (clean.isEmpty) {
-            replyTo.send({'id': id, 'ok': false, 'error': 'Texto vazio após normalização'});
-            continue;
-          }
-          final sid = msg['sid'] as int;
-          final speed = (msg['speed'] as num).toDouble();
-          final espeakLang = (msg['espeakLang'] as String?) ?? 'pt-br';
-          final wavPath = msg['wavPath'] as String;
-
-          final audio = tts.generateWithConfig(
-            text: clean,
-            config: sherpa_onnx.OfflineTtsGenerationConfig(sid: sid, speed: speed, extra: {'lang': espeakLang}),
-          );
-          if (audio.samples.isEmpty || audio.sampleRate <= 0) {
-            replyTo.send({'id': id, 'ok': false, 'error': 'Amostras vazias geradas pelo Kokoro'});
-            continue;
-          }
-          final written = sherpa_onnx.writeWave(
-            filename: wavPath,
-            samples: audio.samples,
-            sampleRate: audio.sampleRate,
-          );
-          replyTo.send({'id': id, 'ok': written});
-        } catch (e) {
-          replyTo.send({'id': id, 'ok': false, 'error': '$e'});
-        }
+      try {
+        final audio = tts.generateWithConfig(
+          text: msg['text'] as String,
+          config: sherpa_onnx.OfflineTtsGenerationConfig(
+            sid: msg['sid'] as int,
+            speed: msg['speed'] as double,
+            extra: files.isKokoro ? {'lang': msg['lang'] as String} : const {},
+          ),
+        );
+        final ok =
+            audio.samples.isNotEmpty &&
+            sherpa_onnx.writeWave(filename: msg['wav'] as String, samples: audio.samples, sampleRate: audio.sampleRate);
+        replies.send({'id': id, 'ok': ok});
+      } catch (e) {
+        replies.send({'id': id, 'ok': false, 'error': '$e'});
       }
     }
   }
@@ -317,358 +295,289 @@ class _KokoroWorker {
     required String text,
     required int sid,
     required double speed,
-    required String espeakLang,
-    required String wavPath,
+    required String lang,
+    required String wav,
   }) {
-    if (_disposed) return Future.value(false);
+    if (_closed) return Future.value(false);
     final id = _nextId++;
-    final completer = Completer<bool>();
-    _pending[id] = completer;
-    _sendPort.send({
-      'cmd': 'synth',
-      'id': id,
-      'text': text,
-      'sid': sid,
-      'speed': speed,
-      'espeakLang': espeakLang,
-      'wavPath': wavPath,
-    });
-    return completer.future;
+    final c = _pending[id] = Completer<bool>();
+    _sendPort.send({'cmd': 'synth', 'id': id, 'text': text, 'sid': sid, 'speed': speed, 'lang': lang, 'wav': wav});
+    return c.future;
   }
 
-  Future<void> dispose() async {
-    if (_disposed) return;
-    _disposed = true;
-    final id = _nextId++;
-    final completer = Completer<bool>();
-    _pending[id] = completer;
-    _sendPort.send({'cmd': 'dispose', 'id': id});
-    try {
-      await completer.future.timeout(const Duration(seconds: 3));
-    } catch (_) {
-      _isolate.kill(priority: Isolate.immediate);
-    }
+  void _shutdown() {
+    if (_closed) return;
+    _closed = true;
     for (final c in _pending.values) {
       if (!c.isCompleted) c.complete(false);
     }
     _pending.clear();
-    await _sub.cancel();
-    _receivePort.close();
-  }
-}
-
-class _PrefetchedChunk {
-  const _PrefetchedChunk({required this.key, required this.slot, required this.wavPath, required this.future});
-
-  final String key;
-  final int slot;
-  final String wavPath;
-  final Future<bool> future;
-}
-
-class _NativeKokoroEngine {
-  AudioPlayer? _player;
-  KokoroModelStore? _store;
-  _KokoroWorker? _worker;
-  Future<_KokoroWorker>? _readyTask;
-  _PrefetchedChunk? _prefetched;
-  Completer<void>? _activePlayCompleter;
-  int _activeSlot = 0;
-  int _epoch = 0;
-
-  NeuralTtsStatus _status = const NeuralTtsStatus();
-  final List<void Function(NeuralTtsStatus)> _listeners = [];
-
-  void _emit(NeuralTtsStatus next) {
-    _status = next;
-    for (final l in List.of(_listeners)) {
-      l(next);
-    }
+    unawaited(_replySub.cancel());
+    unawaited(_exitSub.cancel());
+    _replies.close();
+    onDied?.call();
   }
 
-  Future<KokoroModelStore> _getStore() async {
-    if (_store != null) return _store!;
-    final supportDir = await getApplicationSupportDirectory();
-    final store = KokoroModelStore(Directory('${supportDir.path}/kokoro-v1'));
-    _store = store;
-    return store;
-  }
-
-  Future<String> _wavPathForSlot(int slot) async {
-    final tmp = await getTemporaryDirectory();
-    return '${tmp.path}/vs_kokoro_$slot.wav';
-  }
-
-  Future<_KokoroWorker> _ensureReady() {
-    final existing = _worker;
-    if (existing != null) return Future.value(existing);
-    final inflight = _readyTask;
-    if (inflight != null) return inflight;
-
-    final task = () async {
-      final store = await _getStore();
-      final files = await store.ensureDownloaded(
-        onProgress: (progress, label) {
-          final isExtracting = (progress ?? 0) >= 0.84;
-          _emit(
-            NeuralTtsStatus(
-              state: isExtracting ? NeuralTtsState.loading : NeuralTtsState.downloading,
-              progress: progress,
-              label: label,
-              device: 'onnx-cpu',
-              cached: false,
-              cacheBytes: 0,
-            ),
-          );
-        },
-      );
-
-      final bytes = store.computeCacheBytes();
-      _emit(
-        NeuralTtsStatus(
-          state: NeuralTtsState.loading,
-          progress: 0.96,
-          label: 'Carregando voz neural offline…',
-          device: 'onnx-cpu',
-          cached: true,
-          cacheBytes: bytes,
-        ),
-      );
-
-      final worker = await _KokoroWorker.spawn(files);
-      _worker = worker;
-      _emit(NeuralTtsStatus(state: NeuralTtsState.ready, device: 'onnx-cpu', cached: true, cacheBytes: bytes));
-      return worker;
-    }();
-
-    _readyTask = task.whenComplete(() => _readyTask = null);
-    return _readyTask!;
-  }
-
-  void listenStatus(void Function(NeuralTtsStatus status) onChange) {
-    _listeners.add(onChange);
-    onChange(_status);
-  }
-
-  Future<NeuralTtsStatus> refreshStatus() async {
-    if (!nativeTtsIsSupported()) return const NeuralTtsStatus();
-    if (_status.isBusy || _status.state == NeuralTtsState.speaking) return _status;
+  Future<void> dispose() async {
+    if (_closed) return;
+    onDied = null;
+    final id = _nextId++;
+    final c = _pending[id] = Completer<bool>();
+    _sendPort.send({'cmd': 'dispose', 'id': id});
     try {
-      final store = await _getStore();
-      final ready = store.isReady;
-      final bytes = store.computeCacheBytes();
-      final next = NeuralTtsStatus(
-        state: ready ? NeuralTtsState.ready : NeuralTtsState.idle,
-        device: ready ? 'onnx-cpu' : null,
-        cached: ready,
-        cacheBytes: bytes,
-      );
-      _emit(next);
-      return next;
+      await c.future.timeout(const Duration(seconds: 3));
     } catch (_) {
-      return _status;
+      _isolate.kill(priority: Isolate.immediate);
     }
+    _shutdown();
   }
+}
 
-  Future<bool> preload() async {
-    if (!nativeTtsIsSupported()) return false;
-    try {
-      await _ensureReady();
-      await refreshStatus();
-      return true;
-    } catch (e) {
-      debugPrint('Erro ao baixar/inicializar Kokoro offline: $e');
-      _emit(NeuralTtsStatus(state: NeuralTtsState.error, error: '$e', cached: _store?.isReady ?? false));
-      return false;
-    }
-  }
+/// Modelo e locutor escolhidos para um trecho.
+typedef _Choice = ({String key, NeuralModelFiles files, int sid, String lang});
 
-  Future<bool> clearCache() async {
-    if (!nativeTtsIsSupported()) return false;
-    stop();
-    try {
-      await _readyTask;
-    } catch (_) {}
-    final worker = _worker;
-    _worker = null;
-    if (worker != null) {
-      await worker.dispose();
-    }
-    try {
-      final store = await _getStore();
-      await store.clearCache();
-      for (final slot in [0, 1]) {
-        final f = File(await _wavPathForSlot(slot));
-        if (f.existsSync()) await f.delete();
-      }
-      _emit(const NeuralTtsStatus(state: NeuralTtsState.idle, cached: false, cacheBytes: 0));
-      return true;
-    } catch (e) {
-      debugPrint('Erro ao limpar cache Kokoro offline: $e');
-      return false;
-    }
-  }
+class _NativeEngine {
+  final List<void Function(NeuralTtsStatus)> _listeners = [];
+  NeuralTtsStatus _status = const NeuralTtsStatus();
+  Future<void> Function(String wavPath)? _play;
 
-  String _cacheKey(KokoroSpeaker speaker, double speed, String text) =>
-      '${speaker.sid}|${speaker.espeakLang}|${speed.toStringAsFixed(2)}|$text';
+  Future<void>? _prepared;
+  String? _tmpDir;
+  BundledKokoro? _kokoro;
+  int? _kokoroBytes; // null = app sem a voz embutida
+  PiperStore? _piper;
+  Map<String, int> _piperBytes = const {};
 
-  void _startPrefetch({
-    required _KokoroWorker worker,
-    required KokoroSpeaker speaker,
-    required double speed,
-    required String nextText,
-    required int slot,
-    required String wavPath,
-  }) {
-    final key = _cacheKey(speaker, speed, nextText);
-    if (_prefetched?.key == key) return;
-    final future = worker.synthesize(
-      text: nextText,
-      sid: speaker.sid,
-      speed: speed,
-      espeakLang: speaker.espeakLang,
-      wavPath: wavPath,
+  _Worker? _worker;
+  Future<_Worker>? _spawning;
+  final Set<String> _failed = {}; // modelos que falharam: não tenta de novo nesta sessão
+  Timer? _idleTimer;
+
+  ({String key, Future<bool> done, int slot})? _prefetch;
+  int _slot = 0;
+  int _epoch = 0;
+  bool _cancelDownload = false;
+  int _lastEmitMs = 0;
+
+  void _emit(NeuralTtsState state, {double? progress, String? label, String? error, bool throttle = false}) {
+    final now = DateTime.now().millisecondsSinceEpoch;
+    if (throttle && now - _lastEmitMs < 500) return;
+    _lastEmitMs = now;
+    _status = NeuralTtsStatus(
+      state: state,
+      progress: progress,
+      label: label,
+      error: error,
+      device: _kokoroBytes != null ? 'onnx-cpu' : null,
+      cached: _kokoroBytes != null,
+      cacheBytes: _kokoroBytes ?? 0,
+      piperBytes: _piperBytes,
     );
-    _prefetched = _PrefetchedChunk(key: key, slot: slot, wavPath: wavPath, future: future);
+    for (final l in List.of(_listeners)) {
+      l(_status);
+    }
   }
+
+  void _emitIdle() => _emit(_kokoroBytes != null ? NeuralTtsState.ready : NeuralTtsState.idle);
+
+  /// Copia a voz embutida (só na 1ª vez de cada versão) e lê o que já está instalado.
+  Future<void> prepare() => _prepared ??= _doPrepare();
+
+  Future<void> _doPrepare() async {
+    final support = (await getApplicationSupportDirectory()).path;
+    _tmpDir = (await getTemporaryDirectory()).path;
+    // Versões até a 1.5 baixavam o Kokoro inteiro aqui (~330 MB extraídos).
+    final legacy = Directory('$support/kokoro-v1');
+    if (await legacy.exists()) await legacy.delete(recursive: true);
+
+    _piper = PiperStore(Directory('$support/piper'));
+    _piperBytes = await _piper!.installed();
+    _kokoro = BundledKokoro(Directory('$support/kokoro'));
+    try {
+      _kokoroBytes = await _kokoro!.install(
+        onProgress: (p) =>
+            _emit(NeuralTtsState.loading, progress: p, label: 'Preparando voz offline (1ª vez)…', throttle: true),
+      );
+    } catch (e) {
+      debugPrint('Não foi possível instalar a voz Kokoro embutida: $e');
+      _emit(NeuralTtsState.error, error: '$e');
+      return;
+    }
+    _emitIdle();
+  }
+
+  _Choice? _choose(String voice, String language) {
+    final piper = PiperVoice.byId(voice);
+    if (piper != null && _piperBytes.containsKey(piper.id) && language.toLowerCase().startsWith('pt')) {
+      return (key: piper.id, files: _piper!.files(piper), sid: 0, lang: 'pt-br');
+    }
+    if (_kokoroBytes == null) return null;
+    final speaker = resolveKokoroSpeaker(voiceId: voice, language: language);
+    return (key: 'kokoro', files: _kokoro!.files, sid: speaker.sid, lang: speaker.espeakLang);
+  }
+
+  Future<_Worker> _workerFor(_Choice choice) async {
+    final current = _worker;
+    if (current != null && current.key == choice.key) return current;
+    final spawning = _spawning;
+    if (spawning != null) {
+      final w = await spawning;
+      if (w.key == choice.key) return w;
+    }
+    _worker = null;
+    await current?.dispose();
+    final task = _spawning = _Worker.spawn(choice.key, choice.files);
+    try {
+      final w = await task;
+      w.onDied = () {
+        if (identical(_worker, w)) _worker = null;
+        _failed.add(w.key);
+      };
+      return _worker = w;
+    } finally {
+      _spawning = null;
+    }
+  }
+
+  /// Libera a memória do modelo depois de alguns minutos sem leitura.
+  void _scheduleRelease() {
+    _idleTimer?.cancel();
+    _idleTimer = Timer(const Duration(minutes: 5), () async {
+      final w = _worker;
+      _worker = null;
+      await w?.dispose();
+    });
+  }
+
+  String _wav(int slot) => '$_tmpDir/vs_tts_$slot.wav';
 
   Future<bool> speak(
     String text,
     double speed, {
-    String voice = 'pf_dora',
-    String language = 'pt-BR',
+    required String voice,
+    required String language,
     String? nextText,
   }) async {
-    if (!nativeTtsIsSupported()) return false;
-    if (normalizeTextForKokoro(text).isEmpty) return true;
-
+    if (!nativeTtsIsSupported() || _play == null) return false;
+    final clean = normalizeTextForKokoro(text);
+    if (clean.isEmpty) return true;
     final epoch = _epoch;
-    _KokoroWorker worker;
+    await prepare();
+    final choice = _choose(voice, language);
+    if (choice == null || _failed.contains(choice.key)) return false;
+    _idleTimer?.cancel();
+
+    final _Worker worker;
     try {
-      worker = await _ensureReady();
+      if (_worker?.key != choice.key) _emit(NeuralTtsState.loading, label: 'Carregando voz neural…');
+      worker = await _workerFor(choice);
     } catch (e) {
-      debugPrint('Kokoro offline indisponível, usando fallback do sistema: $e');
-      _emit(NeuralTtsStatus(state: NeuralTtsState.error, error: '$e', cached: _store?.isReady ?? false));
+      debugPrint('Voz neural indisponível, usando a do sistema: $e');
+      _failed.add(choice.key);
+      _emit(NeuralTtsState.error, error: '$e');
       return false;
     }
     if (_epoch != epoch) return true;
 
-    final speaker = resolveKokoroSpeaker(voiceId: voice, language: language);
-    final clampedSpeed = speed.clamp(0.5, 2.0);
-    final key = _cacheKey(speaker, clampedSpeed, text);
-
-    int slot;
-    String wavPath;
-    Future<bool> synthFuture;
-
-    final cachedPrefetch = _prefetched;
-    if (cachedPrefetch != null && cachedPrefetch.key == key) {
-      slot = cachedPrefetch.slot;
-      wavPath = cachedPrefetch.wavPath;
-      synthFuture = cachedPrefetch.future;
-      _prefetched = null;
-    } else {
-      _prefetched = null;
-      slot = 1 - _activeSlot;
-      wavPath = await _wavPathForSlot(slot);
-      synthFuture = worker.synthesize(
-        text: text,
-        sid: speaker.sid,
-        speed: clampedSpeed,
-        espeakLang: speaker.espeakLang,
-        wavPath: wavPath,
-      );
-    }
-
-    final synthOk = await synthFuture;
+    final s = speed.clamp(0.5, 2.0).toDouble();
+    String keyOf(String t) => '${choice.key}|${choice.sid}|$s|$t';
+    final pre = _prefetch;
+    _prefetch = null;
+    final reuse = pre != null && pre.key == keyOf(clean);
+    final slot = reuse ? pre.slot : 1 - _slot;
+    final done = reuse
+        ? pre.done
+        : worker.synthesize(text: clean, sid: choice.sid, speed: s, lang: choice.lang, wav: _wav(slot));
+    final ok = await done;
     if (_epoch != epoch) return true;
-    if (!synthOk) return false;
-    _activeSlot = slot;
+    if (!ok) return false;
+    _slot = slot;
 
-    if (nextText != null && normalizeTextForKokoro(nextText).isNotEmpty) {
-      final nextSlot = 1 - _activeSlot;
-      final nextWavPath = await _wavPathForSlot(nextSlot);
-      if (_epoch != epoch) return true;
-      _startPrefetch(
-        worker: worker,
-        speaker: speaker,
-        speed: clampedSpeed,
-        nextText: nextText,
+    // Sintetiza o próximo trecho enquanto este toca.
+    final next = nextText == null ? '' : normalizeTextForKokoro(nextText);
+    if (next.isNotEmpty) {
+      final nextSlot = 1 - slot;
+      _prefetch = (
+        key: keyOf(next),
         slot: nextSlot,
-        wavPath: nextWavPath,
+        done: worker.synthesize(text: next, sid: choice.sid, speed: s, lang: choice.lang, wav: _wav(nextSlot)),
       );
     }
 
-    final bytes = _store?.computeCacheBytes() ?? 0;
-    _emit(NeuralTtsStatus(state: NeuralTtsState.speaking, device: 'onnx-cpu', cached: true, cacheBytes: bytes));
-
+    _emit(NeuralTtsState.speaking);
     try {
-      await _playWavFile(wavPath, epoch);
-      if (_epoch == epoch) {
-        _emit(NeuralTtsStatus(state: NeuralTtsState.ready, device: 'onnx-cpu', cached: true, cacheBytes: bytes));
-      }
+      await _play!(_wav(slot));
       return true;
     } catch (e) {
-      if (_epoch != epoch) return true;
-      debugPrint('Erro ao reproduzir WAV do Kokoro offline: $e');
-      _emit(NeuralTtsStatus(state: NeuralTtsState.ready, device: 'onnx-cpu', cached: true, cacheBytes: bytes));
-      return false;
-    }
-  }
-
-  Future<void> _playWavFile(String wavPath, int epoch) async {
-    final player = _player ??= AudioPlayer();
-    final completer = Completer<void>();
-    _activePlayCompleter = completer;
-
-    late final StreamSubscription<PlayerState> sub;
-    sub = player.playerStateStream.listen((state) {
-      if (state.processingState == ProcessingState.completed && !completer.isCompleted) {
-        completer.complete();
-      }
-    });
-
-    try {
-      await player.setFilePath(wavPath);
-      await player.setSpeed(1.0);
-      if (_epoch != epoch) return;
-      unawaited(
-        player.play().whenComplete(() {
-          if (!completer.isCompleted) completer.complete();
-        }),
-      );
-      await completer.future;
+      debugPrint('Erro ao tocar a voz neural: $e');
+      return _epoch != epoch;
     } finally {
-      await sub.cancel();
-      if (identical(_activePlayCompleter, completer)) {
-        _activePlayCompleter = null;
+      if (_epoch == epoch) {
+        _emitIdle();
+        _scheduleRelease();
       }
     }
   }
 
   void stop() {
     _epoch++;
-    _prefetched = null;
-    if (_activePlayCompleter != null && !_activePlayCompleter!.isCompleted) {
-      _activePlayCompleter!.complete();
-    }
-    if (_player != null) {
-      unawaited(_player!.stop());
-    }
-    if (_status.state == NeuralTtsState.speaking) {
-      _emit(
-        NeuralTtsStatus(
-          state: _store?.isReady == true ? NeuralTtsState.ready : NeuralTtsState.idle,
-          device: _store?.isReady == true ? 'onnx-cpu' : null,
-          cached: _store?.isReady ?? false,
-          cacheBytes: _store?.computeCacheBytes() ?? 0,
+    _prefetch = null;
+    if (_status.state == NeuralTtsState.speaking) _emitIdle();
+    if (_worker != null) _scheduleRelease();
+  }
+
+  Future<bool> downloadPiper(String voiceId) async {
+    final v = PiperVoice.byId(voiceId);
+    if (v == null || !nativeTtsIsSupported()) return false;
+    await prepare();
+    if (_status.isBusy) return false;
+    _cancelDownload = false;
+    _emit(NeuralTtsState.downloading, progress: 0, label: 'Baixando voz ${v.label}…');
+    try {
+      await _piper!.download(
+        v,
+        isCancelled: () => _cancelDownload,
+        onProgress: (p) => _emit(
+          NeuralTtsState.downloading,
+          progress: p,
+          label: 'Baixando voz ${v.label}${p == null ? '' : ' (${(p * 100).round()}%)'}…',
+          throttle: true,
         ),
       );
+      _piperBytes = await _piper!.installed();
+      _failed.remove(v.id);
+      _emitIdle();
+      return true;
+    } on _Cancelled {
+      _emitIdle();
+      return false;
+    } catch (e) {
+      debugPrint('Erro ao baixar a voz Piper: $e');
+      _emit(NeuralTtsState.error, error: '$e');
+      return false;
     }
+  }
+
+  Future<void> removePiper(String voiceId) async {
+    final v = PiperVoice.byId(voiceId);
+    if (v == null || !nativeTtsIsSupported()) return;
+    await prepare();
+    if (_worker?.key == v.id) {
+      stop();
+      final w = _worker;
+      _worker = null;
+      await w?.dispose();
+    }
+    await _piper!.remove(v);
+    _piperBytes = await _piper!.installed();
+    _emitIdle();
   }
 }
 
-final _engine = _NativeKokoroEngine();
+final _engine = _NativeEngine();
+
+/// Registra quem toca os WAV gerados (o player do `ReadingAudioHandler`): um só player no app.
+void nativeTtsUsePlayer(Future<void> Function(String wavPath) play) => _engine._play = play;
 
 Future<bool> nativeTtsSpeak(
   String text,
@@ -680,10 +589,23 @@ Future<bool> nativeTtsSpeak(
 
 void nativeTtsStop() => _engine.stop();
 
-Future<bool> nativeTtsPreload({String voice = 'pf_dora'}) => _engine.preload();
+Future<void> nativeTtsPrepare() async {
+  if (nativeTtsIsSupported()) await _engine.prepare();
+}
 
-Future<bool> nativeTtsClearCache() => _engine.clearCache();
+Future<NeuralTtsStatus> nativeTtsRefreshStatus() async {
+  if (!nativeTtsIsSupported()) return const NeuralTtsStatus();
+  await _engine.prepare();
+  return _engine._status;
+}
 
-Future<NeuralTtsStatus> nativeTtsRefreshStatus() => _engine.refreshStatus();
+void nativeTtsListenStatus(void Function(NeuralTtsStatus status) onChange) {
+  _engine._listeners.add(onChange);
+  onChange(_engine._status);
+}
 
-void nativeTtsListenStatus(void Function(NeuralTtsStatus status) onChange) => _engine.listenStatus(onChange);
+Future<bool> nativeTtsDownloadPiper(String voiceId) => _engine.downloadPiper(voiceId);
+
+void nativeTtsCancelDownload() => _engine._cancelDownload = true;
+
+Future<void> nativeTtsRemovePiper(String voiceId) => _engine.removePiper(voiceId);

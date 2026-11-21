@@ -94,6 +94,12 @@ class SettingsService extends ChangeNotifier {
   String get kokoroVoice => KokoroVoice.byId(_prefs.getString('kokoro_voice')).id;
   set kokoroVoice(String v) => _set('kokoro_voice', KokoroVoice.byId(v).id);
 
+  TtsEngine get ttsEngine => TtsEngine.byName(_prefs.getString('tts_engine'));
+  set ttsEngine(TtsEngine e) => _set('tts_engine', e.name);
+
+  String get piperVoice => (PiperVoice.byId(_prefs.getString('piper_voice')) ?? PiperVoice.all.first).id;
+  set piperVoice(String v) => _set('piper_voice', v);
+
   /// Usar áudio narrado aberto quando disponível (senão, sempre TTS).
   bool get preferRecordedAudio => _get('prefer_recorded_audio', true);
   set preferRecordedAudio(bool v) => _set('prefer_recorded_audio', v);

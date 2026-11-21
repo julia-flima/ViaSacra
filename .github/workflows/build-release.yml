@@ -1,5 +1,6 @@
 # Compila os instaladores e anexa à aba Releases do GitHub:
 #   • Android: APK universal + APKs por ABI (arm64-v8a, armeabi-v7a, x86_64)
+#     (todos com a voz Kokoro embutida, ~140 MB a mais — ver tool/fetch_kokoro_model.py)
 #   • iOS: .ipa SEM assinatura (para AltStore / SideStore / TrollStore)
 # Dispara ao criar uma tag `vX.Y.Z` (ex.: git tag v1.0.0 && git push origin v1.0.0).
 name: Build & Release
@@ -59,6 +60,9 @@ jobs:
 
       - run: flutter pub get
 
+      - name: Voz Kokoro embutida (SHA-256 conferido)
+        run: python3 ../tool/fetch_kokoro_model.py
+
       - name: Keystore de release (opcional, via secrets)
         env:
           KEYSTORE_B64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
@@ -116,6 +120,9 @@ jobs:
           cache: true
 
       - run: flutter pub get
+
+      - name: Voz Kokoro embutida (SHA-256 conferido)
+        run: python3 ../tool/fetch_kokoro_model.py
 
       - name: Build iOS (sem codesign)
         run: flutter build ios --release --no-codesign
