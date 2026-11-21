@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "data": "2026-11-23",
-  "gerado_em": "2026-11-21T12:50:02-03:00",
+  "gerado_em": "2026-11-21T14:06:03-03:00",
   "calendario": {
     "data": "2026-11-23",
     "dia_semana": "Segunda-feira",
@@ -72,12 +72,42 @@
     ],
     "fallback": "tts_local_pt_BR",
     "liturgia_audio_hash": "f1dff916b00ecbc0",
-    "homilia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-23-homilia.mp3",
-    "homilia_audio_hash": "471f0e47e55f5295",
     "liturgia_audio_marcas": {
       "primeira_leitura": 0.0,
       "salmo": 48.5,
       "evangelho": 105.22
+    },
+    "homilia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-23-homilia.mp3",
+    "homilia_audio_hash": "471f0e47e55f5295",
+    "liturgia_vozes": {
+      "pf_dora": {
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-23.mp3",
+        "hash": "f1dff916b00ecbc0",
+        "marcas": {
+          "primeira_leitura": 0.0,
+          "salmo": 48.5,
+          "evangelho": 105.22
+        }
+      },
+      "pm_alex": {
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-23-pm_alex.mp3",
+        "hash": "a59cd8e384713928",
+        "marcas": {
+          "primeira_leitura": 0.0,
+          "salmo": 48.58,
+          "evangelho": 105.69
+        }
+      }
+    },
+    "homilia_vozes": {
+      "pf_dora": {
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-23-homilia.mp3",
+        "hash": "471f0e47e55f5295"
+      },
+      "pm_alex": {
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-23-homilia-pm_alex.mp3",
+        "hash": "2b97dd3b2041c7c9"
+      }
     }
   },
   "homilias": {
