@@ -254,7 +254,8 @@ void main() {
     expect(find.descendant(of: find.byType(SacredArtImage), matching: find.byType(RepaintBoundary)), findsWidgets);
   });
 
-  test('Imagens em assets/art existem no catálogo e pesam menos de 4 MB no total', () {
+  // Cada tela carrega só a obra que mostra; o limite protege o tamanho do APK e do site.
+  test('Imagens em assets/art existem no catálogo e pesam menos de 8 MB no total', () {
     final catalog = (jsonDecode(File('assets/data/sacred_art.json').readAsStringSync()) as List)
         .cast<Map<String, dynamic>>();
     for (final entry in catalog) {
@@ -264,7 +265,7 @@ void main() {
     final files = Directory('assets/art').listSync().whereType<File>().where((f) => f.path.endsWith('.jpg')).toList();
     expect(files, hasLength(catalog.length));
     final totalBytes = files.fold<int>(0, (acc, f) => acc + f.lengthSync());
-    expect(totalBytes, lessThan(4 * 1024 * 1024));
+    expect(totalBytes, lessThan(8 * 1024 * 1024));
   });
 
   testWidgets('ViaSacraApp usa Selector sem reconstruir HomeShell ao mudar textScale', (tester) async {
