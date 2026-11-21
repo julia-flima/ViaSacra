@@ -84,6 +84,7 @@ def main() -> None:
 
         shutil.rmtree(OUT, ignore_errors=True)
         OUT.mkdir(parents=True)
+        (OUT / ".gitkeep").touch()  # a pasta precisa existir no git (pubspec.yaml a declara)
         files = []
         part_no = 0
         for archive, root, keep, prefix in (
