@@ -10,16 +10,31 @@ import '../data/models/liturgy.dart';
 import 'native_tts.dart';
 import 'web_tts.dart';
 
-/// Um trecho da fila de leitura: texto (TTS local) ou URL de áudio aberto.
+/// Um MP3 pronto (ou um recorte dele) para um item da fila.
+class RecordedClip {
+  const RecordedClip(this.url, {this.start, this.end});
+
+  final String url;
+  final Duration? start;
+  final Duration? end;
+
+  @override
+  bool operator ==(Object other) =>
+      other is RecordedClip && other.url == url && other.start == start && other.end == end;
+
+  @override
+  int get hashCode => Object.hash(url, start, end);
+}
+
+/// Um trecho da fila de leitura: texto (voz neural ou do aparelho) e, quando existe, MP3 pronto.
 class ReadingSegment {
   const ReadingSegment({
     required this.id,
     required this.title,
     this.subtitle,
     this.text,
-    this.audioUrl,
-    this.clipStart,
-    this.clipEnd,
+    this._audioUrl,
+    this._recorded = const {},
     this.language = 'pt-BR',
   });
 
@@ -27,16 +42,16 @@ class ReadingSegment {
   final String title;
   final String? subtitle;
   final String? text;
-  final String? audioUrl;
+  final String? _audioUrl;
+  final Map<String, RecordedClip> _recorded;
 
-  /// Trecho do [audioUrl] que pertence a este item (uma leitura dentro do MP3 da Liturgia).
-  final Duration? clipStart;
-  final Duration? clipEnd;
+  /// MP3 por voz Kokoro (`pf_dora`, `pm_alex`); a chave `*` vale para qualquer voz.
+  Map<String, RecordedClip> get recorded => {if (_audioUrl != null) '*': RecordedClip(_audioUrl), ..._recorded};
 
   /// Idioma do texto (BCP-47) — ex.: "pt-BR", "en", "la".
   final String language;
 
-  bool get isRecorded => audioUrl != null;
+  bool get isRecorded => _audioUrl != null || _recorded.isNotEmpty;
 
   MediaItem toMediaItem() => MediaItem(
     id: id,
@@ -47,11 +62,9 @@ class ReadingSegment {
 }
 
 /// Monta a fila "Ouvir Liturgia": 1ª Leitura → Salmo → 2ª Leitura → Evangelho → (opcional)
-/// Homilia/Reflexão. Com o MP3 narrado preferido:
-/// - se ele traz as marcas de início de cada leitura, cada leitura vira um trecho recortado do
-///   mesmo MP3 (avançar/voltar e "Ouvir a partir daqui" funcionam sem síntese de voz);
-/// - sem marcas, o MP3 inteiro é um item só, usado apenas quando a leitura começa do início.
-/// Fora disso, cada leitura é lida pela voz (neural ou do aparelho).
+/// Homilia/Reflexão. Com o MP3 narrado preferido, cada leitura leva o recorte do MP3 de cada voz
+/// (`liturgia_vozes`); o player toca o da voz escolhida, ou sintetiza se ela não tiver MP3.
+/// Sem marcas, o MP3 inteiro vira um item só, usado apenas quando a leitura começa do início.
 List<ReadingSegment> buildLiturgyQueue(
   DailyLiturgy l, {
   bool preferRecorded = true,
@@ -59,31 +72,40 @@ List<ReadingSegment> buildLiturgyQueue(
   Homily? reflection,
 }) {
   final q = <ReadingSegment>[];
-  final url = preferRecorded ? l.audio.liturgyAudioUrl : null;
-  final marks = l.audio.liturgyAudioMarks;
-  final clipped = url != null && l.readings.isNotEmpty && l.readings.every((r) => marks.containsKey(r.kind.jsonKey));
-  if (url != null && !clipped && startAt == 0) {
+  final voices = preferRecorded ? l.audio.liturgyByVoice : const <String, VoiceAudio>{};
+  final keys = [for (final r in l.readings) r.kind.jsonKey];
+  final clipped = {
+    for (final e in voices.entries)
+      if (keys.isNotEmpty && keys.every(e.value.marks.containsKey)) e.key: e.value,
+  };
+  final date = l.date.toIso8601String();
+  if (clipped.isEmpty && voices.isNotEmpty && startAt == 0) {
     q.add(
       ReadingSegment(
-        id: '${l.date.toIso8601String()}#audio',
+        id: '$date#audio',
         title: 'Liturgia do dia',
         subtitle: l.audio.creditFor('liturgia_audio_url')?.channel,
         text: l.readings.map((r) => r.toSpeech()).join('\n\n'),
-        audioUrl: url,
+        recorded: {for (final e in voices.entries) e.key: RecordedClip(e.value.url)},
       ),
     );
   } else {
     for (final (i, r) in l.readings.indexed) {
       q.add(
         ReadingSegment(
-          id: '${l.date.toIso8601String()}#${r.kind.jsonKey}',
+          id: '$date#${r.kind.jsonKey}',
           title: r.kind.label,
           subtitle: r.reference,
           text: r.toSpeech(),
-          audioUrl: clipped ? url : null,
-          // A 1ª leitura inclui a abertura ("Liturgia Diária. …"); a última vai até o fim do MP3.
-          clipStart: clipped && i > 0 ? marks[r.kind.jsonKey] : null,
-          clipEnd: clipped && i + 1 < l.readings.length ? marks[l.readings[i + 1].kind.jsonKey] : null,
+          recorded: {
+            for (final e in clipped.entries)
+              // A 1ª leitura inclui a abertura ("Liturgia Diária. …"); a última vai até o fim do MP3.
+              e.key: RecordedClip(
+                e.value.url,
+                start: i > 0 ? e.value.marks[r.kind.jsonKey] : null,
+                end: i + 1 < keys.length ? e.value.marks[keys[i + 1]] : null,
+              ),
+          },
         ),
       );
     }
@@ -91,7 +113,7 @@ List<ReadingSegment> buildLiturgyQueue(
   if (reflection != null && reflection.text.isNotEmpty) {
     q.add(
       ReadingSegment(
-        id: '${l.date.toIso8601String()}#reflexao',
+        id: '$date#reflexao',
         title: reflection.title,
         subtitle: reflection.author,
         text: '${reflection.title}. ${reflection.author != null ? '${reflection.author}. ' : ''}${reflection.text}',
@@ -203,13 +225,14 @@ class ReadingAudioHandler extends BaseAudioHandler with QueueHandler {
   bool _playing = false;
   bool _playingRecorded = false;
   bool _recordedFailed = false;
+  RecordedClip? _loadedClip; // recorte do MP3 carregado no player
   bool _disposed = false;
   int _generation = 0; // invalida laços de TTS antigos
   bool _ttsReady = false;
   bool _audioSessionReady = false;
   String? _ttsLanguage;
   String _kokoroVoice = KokoroVoice.dora.id;
-  TtsEngine _engine = TtsEngine.kokoro;
+  TtsEngine _engine = TtsEngine.auto;
   String _piperVoice = PiperVoice.all.first.id;
   final ValueNotifier<NeuralTtsStatus> neuralTtsStatus = ValueNotifier(const NeuralTtsStatus());
 
@@ -337,22 +360,24 @@ class ReadingAudioHandler extends BaseAudioHandler with QueueHandler {
     mediaItem.add(seg.toMediaItem());
     _broadcast();
     final gen = ++_generation;
-    if (seg.isRecorded && !_recordedFailed) {
+    final rec = _recordedFor(seg);
+    if (rec != null && !_recordedFailed) {
       _neuralStop();
       await _tts.stop();
       try {
         if (recordedPlay != null) {
           _playingRecorded = true;
           _chunk = 1;
-          await recordedPlay!(seg.audioUrl!, _speed);
+          await recordedPlay!(rec.url, _speed);
         } else {
-          if (_player.audioSource == null || _chunk == 0) {
-            final source = AudioSource.uri(Uri.parse(seg.audioUrl!));
+          if (_player.audioSource == null || _loadedClip != rec) {
+            final source = AudioSource.uri(Uri.parse(rec.url));
             await _player.setAudioSource(
-              seg.clipStart == null && seg.clipEnd == null
+              rec.start == null && rec.end == null
                   ? source
-                  : ClippingAudioSource(child: source, start: seg.clipStart, end: seg.clipEnd),
+                  : ClippingAudioSource(child: source, start: rec.start, end: rec.end),
             );
+            _loadedClip = rec;
             _chunk = 1; // marca como carregado
           }
           await _player.setSpeed(_speed);
@@ -362,9 +387,10 @@ class ReadingAudioHandler extends BaseAudioHandler with QueueHandler {
         }
         return;
       } catch (e) {
-        debugPrint('Áudio gravado indisponível (${seg.audioUrl}), usando fallback TTS local: $e');
+        debugPrint('Áudio gravado indisponível (${rec.url}), usando fallback TTS local: $e');
         _playingRecorded = false;
         _recordedFailed = true;
+        _loadedClip = null;
         _chunk = 0;
         if (seg.text == null || seg.text!.trim().isEmpty) {
           _playing = false;
@@ -374,7 +400,7 @@ class ReadingAudioHandler extends BaseAudioHandler with QueueHandler {
       }
     }
     _playingRecorded = false;
-    final useNeural = _useNeuralEngine && _engine != TtsEngine.system && supportsKokoro(seg.language);
+    final useNeural = _useNeuralEngine && deviceEngine != TtsEngine.system && supportsKokoro(seg.language);
     if (useNeural && !kIsWeb && fallbackSpeak == null) {
       await _ensureAudioSession();
     } else if (!useNeural && fallbackSpeak == null) {
@@ -464,6 +490,7 @@ class ReadingAudioHandler extends BaseAudioHandler with QueueHandler {
     _generation++;
     _chunk = 0;
     _chunks = const [];
+    _loadedClip = null;
     _neuralStop();
     await _tts.stop();
     await _player.stop();
@@ -530,9 +557,31 @@ class ReadingAudioHandler extends BaseAudioHandler with QueueHandler {
   String get kokoroVoice => _kokoroVoice;
   TtsEngine get engine => _engine;
 
+  /// Motor que de fato sintetiza no aparelho. No Automático, o de melhor qualidade que o aparelho
+  /// aguenta: Kokoro se ele acompanha a fala; senão o Piper (embutido no app do celular) ou a voz do
+  /// sistema. A velocidade do Kokoro é medida no uso (`kokoroSlow`) e lembrada entre aberturas.
+  TtsEngine get deviceEngine {
+    if (_engine != TtsEngine.auto) return _engine;
+    final st = neuralTtsStatus.value;
+    if (!st.kokoroSlow) return TtsEngine.kokoro;
+    if (!kIsWeb && st.piperBytes.containsKey(PiperVoice.faber.id)) return TtsEngine.piper;
+    return TtsEngine.system;
+  }
+
   /// O Piper só fala português; os trechos em outros idiomas seguem com o Kokoro.
-  String _voiceFor(String language) =>
-      _engine == TtsEngine.piper && language.toLowerCase().startsWith('pt') ? _piperVoice : _kokoroVoice;
+  String _voiceFor(String language) {
+    if (deviceEngine != TtsEngine.piper || !language.toLowerCase().startsWith('pt')) return _kokoroVoice;
+    return _engine == TtsEngine.auto ? PiperVoice.faber.id : _piperVoice;
+  }
+
+  /// MP3 pronto deste trecho na voz escolhida. Os MP3 são gravados com as vozes Kokoro (Dora e Alex):
+  /// valem no Kokoro e no Automático (qualidade máxima sem custo para o aparelho). Com Piper ou a voz
+  /// do sistema, a pessoa ouve a voz que escolheu.
+  RecordedClip? _recordedFor(ReadingSegment seg) {
+    final r = seg.recorded;
+    final voice = _engine == TtsEngine.auto || _engine == TtsEngine.kokoro ? _kokoroVoice : null;
+    return r['*'] ?? (voice == null ? null : r[voice]);
+  }
 
   Future<void> setKokoroVoice(String voiceId) => _changeVoice(() => _kokoroVoice = KokoroVoice.byId(voiceId).id);
 
@@ -544,13 +593,25 @@ class ReadingAudioHandler extends BaseAudioHandler with QueueHandler {
   /// Aplica a troca e, se estiver lendo em voz alta, recomeça a frase atual com a nova voz.
   Future<void> _changeVoice(void Function() apply) async {
     final before = (_engine, _kokoroVoice, _piperVoice);
+    final seg = _current;
+    final clipBefore = seg == null ? null : _recordedFor(seg);
     apply();
     if (before == (_engine, _kokoroVoice, _piperVoice)) return;
-    if (_playing && !_playingRecorded) {
+    _trace('voz: ${_engine.name} / $_kokoroVoice / $_piperVoice (tocando=$_playing)');
+    if (_playing) {
+      // Vale na hora, também no MP3: o trecho atual recomeça na voz nova (MP3 dela ou síntese).
+      final wasRecorded = _playingRecorded;
       _generation++;
       _neuralStop();
       await _tts.stop();
       await _player.stop();
+      _loadedClip = null;
+      if (seg != null && _recordedFor(seg) != clipBefore) _recordedFailed = false; // outro MP3: tenta de novo
+      if (wasRecorded) {
+        _playingRecorded = false;
+        _chunk = 0;
+        _chunks = const [];
+      }
       unawaited(play());
     }
     _broadcast();
@@ -778,6 +839,7 @@ class ReadingAudioController extends ChangeNotifier {
   Future<void> setVoice(String? name, String? locale) => _handler.setVoice(name, locale);
   Future<void> setKokoroVoice(String voiceId) => _handler.setKokoroVoice(voiceId);
   Future<void> setEngine(TtsEngine engine) => _handler.setEngine(engine);
+  TtsEngine get deviceEngine => _handler.deviceEngine;
   Future<void> setPiperVoice(String voiceId) => _handler.setPiperVoice(voiceId);
   Future<bool> downloadPiperVoice(String voiceId) => _handler.downloadPiperVoice(voiceId);
   void cancelVoiceDownload() => _handler.cancelVoiceDownload();

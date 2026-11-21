@@ -3,8 +3,11 @@ import 'package:flutter/foundation.dart' show mapEquals;
 /// Estados possíveis do motor neural Kokoro-82M (Web ou Mobile).
 enum NeuralTtsState { idle, downloading, loading, ready, speaking, error }
 
-/// Motor usado para ler em voz alta. Kokoro vem no app; Piper é baixado nas Configurações (só celular).
+/// Motor usado para ler em voz alta. Kokoro e o Piper Faber vêm no app do celular; a voz Piper Dii é
+/// baixada nas Configurações. O padrão é o Automático.
 enum TtsEngine {
+  /// Escolhe sozinho pelo desempenho do aparelho: Kokoro → Piper → voz do sistema.
+  auto('Automático'),
   kokoro('Kokoro'),
   piper('Piper'),
   system('Sistema');
@@ -12,7 +15,7 @@ enum TtsEngine {
   const TtsEngine(this.label);
   final String label;
 
-  static TtsEngine byName(String? name) => values.firstWhere((e) => e.name == name, orElse: () => kokoro);
+  static TtsEngine byName(String? name) => values.firstWhere((e) => e.name == name, orElse: () => auto);
 }
 
 /// Vozes Piper pt-BR (sherpa-onnx, int8, ~21 MB cada), baixadas do release oficial `tts-models`.
@@ -134,6 +137,7 @@ class NeuralTtsStatus {
     this.error,
     this.piperBytes = const {},
     this.kokoroSlow = false,
+    this.faberBundled = false,
   });
 
   final NeuralTtsState state;
@@ -149,6 +153,9 @@ class NeuralTtsStatus {
 
   /// O Kokoro sintetiza mais devagar do que fala neste aparelho (haverá pausas na leitura).
   final bool kokoroSlow;
+
+  /// A voz Piper Faber veio dentro do app (não pode ser removida).
+  final bool faberBundled;
 
   bool get isBusy => state == NeuralTtsState.downloading || state == NeuralTtsState.loading;
 
@@ -177,7 +184,8 @@ class NeuralTtsStatus {
       other.cacheBytes == cacheBytes &&
       other.error == error &&
       mapEquals(other.piperBytes, piperBytes) &&
-      other.kokoroSlow == kokoroSlow;
+      other.kokoroSlow == kokoroSlow &&
+      other.faberBundled == faberBundled;
 
   @override
   int get hashCode => Object.hash(state, progress, label, device, cached, cacheBytes, error, piperBytes.length);

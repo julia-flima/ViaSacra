@@ -503,7 +503,8 @@ class _NativeEngine {
       cached: _kokoroBytes != null,
       cacheBytes: _kokoroBytes ?? 0,
       piperBytes: _piperBytes,
-      kokoroSlow: (_kokoroRtf ?? 0) > 1.15,
+      kokoroSlow: (_kokoroRtf ?? 0) > _slowRtf,
+      faberBundled: _bundledFaber != null,
     );
     for (final l in List.of(_listeners)) {
       l(_status);
@@ -527,8 +528,9 @@ class _NativeEngine {
     if (await legacy.exists()) await legacy.delete(recursive: true);
 
     _piper = PiperStore(Directory('$support/piper'));
-    _piperBytes = await _piper!.installed();
     _kokoro = BundledKokoro(Directory('$support/kokoro'));
+    _rtfFile = File('$support/kokoro_rtf.txt');
+    _kokoroRtf = double.tryParse(await _rtfFile!.readAsString().catchError((_) => ''));
     try {
       _kokoroBytes = await _kokoro!.install(
         onProgress: (p) =>
@@ -539,13 +541,36 @@ class _NativeEngine {
       _emit(NeuralTtsState.error, error: '$e');
       return;
     }
+    // O Piper Faber vem junto no app (reserva do Automático em aparelhos lentos).
+    final faber = File('${_kokoro!.dir.path}/piper_faber/${PiperVoice.faber.onnx}');
+    _bundledFaber = await faber.exists()
+        ? NeuralModelFiles.piper(
+            model: faber.path,
+            tokens: '${_kokoro!.dir.path}/piper_faber/tokens.txt',
+            espeakDir: _kokoro!.files.espeakDir,
+          )
+        : null;
+    _bundledFaberBytes = _bundledFaber == null ? 0 : await faber.length();
+    await _refreshPiper();
     _emitIdle();
   }
+
+  NeuralModelFiles? _bundledFaber;
+  int _bundledFaberBytes = 0;
+
+  /// Vozes Piper disponíveis: as baixadas e o Faber embutido.
+  Future<void> _refreshPiper() async {
+    _piperBytes = {...await _piper!.installed(), if (_bundledFaber != null) PiperVoice.faber.id: _bundledFaberBytes};
+  }
+
+  /// O Faber embutido não pode ser removido.
+  bool isBundled(String voiceId) => voiceId == PiperVoice.faber.id && _bundledFaber != null;
 
   _Choice? _choose(String voice, String language) {
     final piper = PiperVoice.byId(voice);
     if (piper != null && _piperBytes.containsKey(piper.id) && language.toLowerCase().startsWith('pt')) {
-      return (key: piper.id, files: _piper!.files(piper), sid: 0, lang: 'pt-br');
+      final files = isBundled(piper.id) ? _bundledFaber! : _piper!.files(piper);
+      return (key: piper.id, files: files, sid: 0, lang: 'pt-br');
     }
     if (_kokoroBytes == null) return null;
     final speaker = resolveKokoroSpeaker(voiceId: voice, language: language);
@@ -585,9 +610,17 @@ class _NativeEngine {
   void _measure(String key, int synthMs, int audioMs) {
     if (key != 'kokoro' || audioMs < 1000) return;
     final r = synthMs / audioMs;
+    final wasSlow = (_kokoroRtf ?? 0) > _slowRtf;
     _kokoroRtf = _kokoroRtf == null ? r : _kokoroRtf! * 0.7 + r * 0.3;
     if (!kReleaseMode) debugPrint('VS-TTS Kokoro: ${_kokoroRtf!.toStringAsFixed(2)}× o tempo real');
+    // Lembrado entre aberturas: o Automático já começa com o motor certo para este aparelho.
+    unawaited(_rtfFile?.writeAsString(_kokoroRtf!.toStringAsFixed(3)).then((_) {}, onError: (_) {}));
+    if (wasSlow != (_kokoroRtf! > _slowRtf)) _emitIdle();
   }
+
+  /// Acima disto o Kokoro não acompanha a fala (pausas); o Automático passa para o Piper.
+  static const _slowRtf = 1.1;
+  File? _rtfFile;
 
   Future<void> _release() => _locked(() async => _worker?.unload());
 
@@ -696,7 +729,7 @@ class _NativeEngine {
           throttle: true,
         ),
       );
-      _piperBytes = await _piper!.installed();
+      await _refreshPiper();
       _failed.remove(v.id);
       _emitIdle();
       return true;
@@ -714,12 +747,13 @@ class _NativeEngine {
     final v = PiperVoice.byId(voiceId);
     if (v == null || !nativeTtsIsSupported()) return;
     await prepare();
+    if (isBundled(v.id)) return;
     if (_worker?.key == v.id) {
       stop();
       await _release();
     }
     await _piper!.remove(v);
-    _piperBytes = await _piper!.installed();
+    await _refreshPiper();
     _emitIdle();
   }
 }
