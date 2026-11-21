@@ -177,7 +177,10 @@ class _BibleScreenState extends State<BibleScreen> {
       }
     } catch (e) {
       if (mounted) {
-        messenger.showSnackBar(SnackBar(content: Text('Não foi possível baixar a tradução: $e')));
+        debugPrint('Baixar tradução: $e');
+        messenger.showSnackBar(
+          const SnackBar(content: Text('Não foi possível baixar a tradução. Confira a internet e tente de novo.')),
+        );
       }
     }
   }
@@ -407,177 +410,185 @@ class _BibleScreenState extends State<BibleScreen> {
     final notes = data.annotations;
     final highlight = _highlightRef?.book.id == book.id ? _highlightRef : null;
 
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          tooltip: 'Início da Bíblia',
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => setState(() {
-            _reading = false;
-            _chapterCache = null;
-          }),
-        ),
-        title: InkWell(
-          onTap: _pickBook,
-          borderRadius: BorderRadius.circular(8),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Flexible(child: Text('${book.name} ${pos.chapter}', overflow: TextOverflow.ellipsis)),
-                const Icon(Icons.arrow_drop_down),
-              ],
+    void backToHome() => setState(() {
+      _reading = false;
+      _chapterCache = null;
+    });
+
+    // Botão voltar do Android: volta ao início da Bíblia em vez de sair do app.
+    return PopScope(
+      canPop: !TickerMode.valuesOf(context).enabled,
+      onPopInvokedWithResult: (didPop, _) {
+        if (!didPop) backToHome();
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(tooltip: 'Início da Bíblia', icon: const Icon(Icons.arrow_back), onPressed: backToHome),
+          title: InkWell(
+            onTap: _pickBook,
+            borderRadius: BorderRadius.circular(8),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Flexible(child: Text('${book.name} ${pos.chapter}', overflow: TextOverflow.ellipsis)),
+                  const Icon(Icons.arrow_drop_down),
+                ],
+              ),
             ),
           ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: _pickTranslation,
-            child: Text(compare == null ? tr.abbreviation : '${tr.abbreviation}+${compare.abbreviation}'),
-          ),
-          IconButton(
-            tooltip: 'Ouvir capítulo',
-            icon: const Icon(Icons.headphones_outlined),
-            onPressed: () => _listen(tr, book.id, pos.chapter, verses),
-          ),
-          // Em celulares (< 600dp) as ações secundárias vão para o menu ⋮,
-          // para o título caber em 360dp.
-          if (MediaQuery.sizeOf(context).width >= 600) ...[
-            if (bible.translations.length > 1)
-              IconButton(
-                tooltip: compare == null ? 'Ativar leitura comparada' : 'Desativar leitura comparada',
-                icon: Icon(Icons.compare_arrows, color: compare != null ? cs.primary : null),
-                onPressed: () => _toggleCompare(bible),
-              ),
-            const ReadingAppearanceButton(),
-            IconButton(tooltip: 'Buscar', icon: const Icon(Icons.search), onPressed: () => _search(bible)),
-          ] else
-            PopupMenuButton<void Function()>(
-              tooltip: 'Mais opções',
-              onSelected: (action) => action(),
-              itemBuilder: (_) => [
-                if (bible.translations.length > 1)
+          actions: [
+            TextButton(
+              onPressed: _pickTranslation,
+              child: Text(compare == null ? tr.abbreviation : '${tr.abbreviation}+${compare.abbreviation}'),
+            ),
+            IconButton(
+              tooltip: 'Ouvir capítulo',
+              icon: const Icon(Icons.headphones_outlined),
+              onPressed: () => _listen(tr, book.id, pos.chapter, verses),
+            ),
+            // Em celulares (< 600dp) as ações secundárias vão para o menu ⋮,
+            // para o título caber em 360dp.
+            if (MediaQuery.sizeOf(context).width >= 600) ...[
+              if (bible.translations.length > 1)
+                IconButton(
+                  tooltip: compare == null ? 'Ativar leitura comparada' : 'Desativar leitura comparada',
+                  icon: Icon(Icons.compare_arrows, color: compare != null ? cs.primary : null),
+                  onPressed: () => _toggleCompare(bible),
+                ),
+              const ReadingAppearanceButton(),
+              IconButton(tooltip: 'Buscar', icon: const Icon(Icons.search), onPressed: () => _search(bible)),
+            ] else
+              PopupMenuButton<void Function()>(
+                tooltip: 'Mais opções',
+                onSelected: (action) => action(),
+                itemBuilder: (_) => [
+                  if (bible.translations.length > 1)
+                    PopupMenuItem(
+                      value: () => _toggleCompare(bible),
+                      child: ListTile(
+                        leading: Icon(Icons.compare_arrows, color: compare != null ? cs.primary : null),
+                        title: Text(compare == null ? 'Leitura comparada' : 'Desativar comparação'),
+                      ),
+                    ),
                   PopupMenuItem(
-                    value: () => _toggleCompare(bible),
-                    child: ListTile(
-                      leading: Icon(Icons.compare_arrows, color: compare != null ? cs.primary : null),
-                      title: Text(compare == null ? 'Leitura comparada' : 'Desativar comparação'),
+                    value: () => showReadingAppearanceSheet(context),
+                    child: const ListTile(
+                      leading: Icon(Icons.text_fields_rounded),
+                      title: Text('Aparência da leitura'),
                     ),
                   ),
-                PopupMenuItem(
-                  value: () => showReadingAppearanceSheet(context),
-                  child: const ListTile(leading: Icon(Icons.text_fields_rounded), title: Text('Aparência da leitura')),
-                ),
-                PopupMenuItem(
-                  value: () => _search(bible),
-                  child: const ListTile(leading: Icon(Icons.search), title: Text('Buscar')),
-                ),
-              ],
-            ),
-        ],
-      ),
-      body: CustomScrollView(
-        controller: _scroll,
-        slivers: [
-          SliverPadding(
-            padding: EdgeInsets.fromLTRB(pad, VsSpacing.md, pad, VsSpacing.md),
-            sliver: SliverToBoxAdapter(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Eyebrow(book.testament.label),
-                  const SizedBox(height: 4),
-                  Text('${book.name} ${pos.chapter}', style: t.headlineMedium),
-                  if (book.id == 'sl')
-                    Padding(
-                      padding: const EdgeInsets.only(top: 4),
-                      child: Text('Numeração ${tr.psalmNumbering} dos Salmos', style: t.bodySmall),
-                    ),
+                  PopupMenuItem(
+                    value: () => _search(bible),
+                    child: const ListTile(leading: Icon(Icons.search), title: Text('Buscar')),
+                  ),
                 ],
               ),
+          ],
+        ),
+        body: CustomScrollView(
+          controller: _scroll,
+          slivers: [
+            SliverPadding(
+              padding: EdgeInsets.fromLTRB(pad, VsSpacing.md, pad, VsSpacing.md),
+              sliver: SliverToBoxAdapter(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Eyebrow(book.testament.label),
+                    const SizedBox(height: 4),
+                    Text('${book.name} ${pos.chapter}', style: t.headlineMedium),
+                    if (book.id == 'sl')
+                      Padding(
+                        padding: const EdgeInsets.only(top: 4),
+                        child: Text('Numeração ${tr.psalmNumbering} dos Salmos', style: t.bodySmall),
+                      ),
+                  ],
+                ),
+              ),
             ),
-          ),
-          SliverPadding(
-            padding: EdgeInsets.symmetric(horizontal: pad),
-            sliver: SliverList.builder(
-              itemCount: verses.length,
-              itemBuilder: (context, index) {
-                final v = verses[index];
-                final key = v.verse == _scrollTargetVerse
-                    ? _targetVerseKey
-                    : ValueKey('${tr.id}-${book.id}-${pos.chapter}-${v.verse}');
-                return _VerseTile(
-                  key: key,
-                  verse: v,
-                  annotation: notes[v.verse],
-                  compareText: compareVerses[v.verse],
-                  compareLabel: compare?.abbreviation,
-                  emphasized: highlight?.containsAt(pos.chapter - _highlightChapter, v.verse) ?? false,
-                  dark: dark,
-                  onTap: () async {
-                    bible.rememberVerse(tr.id, book.id, pos.chapter, v.verse);
-                    final r = await showVerseActions(
-                      context,
-                      verse: v,
-                      translation: tr,
-                      annotation: notes[v.verse] ?? const VerseAnnotation(),
-                    );
-                    if (r != null) {
-                      bible.repo.saveAnnotation(book.id, pos.chapter, v.verse, r);
-                      if (mounted) {
-                        setState(() {
-                          final updated = Map<int, VerseAnnotation>.of(data.annotations);
-                          if (r.isEmpty) {
-                            updated.remove(v.verse);
-                          } else {
-                            updated[v.verse] = r;
-                          }
-                          _chapterCache = data.copyWithAnnotations(updated);
-                        });
+            SliverPadding(
+              padding: EdgeInsets.symmetric(horizontal: pad),
+              sliver: SliverList.builder(
+                itemCount: verses.length,
+                itemBuilder: (context, index) {
+                  final v = verses[index];
+                  final key = v.verse == _scrollTargetVerse
+                      ? _targetVerseKey
+                      : ValueKey('${tr.id}-${book.id}-${pos.chapter}-${v.verse}');
+                  return _VerseTile(
+                    key: key,
+                    verse: v,
+                    annotation: notes[v.verse],
+                    compareText: compareVerses[v.verse],
+                    compareLabel: compare?.abbreviation,
+                    emphasized: highlight?.containsAt(pos.chapter - _highlightChapter, v.verse) ?? false,
+                    dark: dark,
+                    onTap: () async {
+                      bible.rememberVerse(tr.id, book.id, pos.chapter, v.verse);
+                      final r = await showVerseActions(
+                        context,
+                        verse: v,
+                        translation: tr,
+                        annotation: notes[v.verse] ?? const VerseAnnotation(),
+                      );
+                      if (r != null) {
+                        bible.repo.saveAnnotation(book.id, pos.chapter, v.verse, r);
+                        if (mounted) {
+                          setState(() {
+                            final updated = Map<int, VerseAnnotation>.of(data.annotations);
+                            if (r.isEmpty) {
+                              updated.remove(v.verse);
+                            } else {
+                              updated[v.verse] = r;
+                            }
+                            _chapterCache = data.copyWithAnnotations(updated);
+                          });
+                        }
                       }
-                    }
-                  },
-                );
-              },
-            ),
-          ),
-          SliverPadding(
-            padding: EdgeInsets.fromLTRB(pad, VsSpacing.lg, pad, VsSpacing.xxl),
-            sliver: SliverToBoxAdapter(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      if (pos.chapter > 1)
-                        OutlinedButton.icon(
-                          onPressed: () => _open(book.id, pos.chapter - 1),
-                          icon: const Icon(Icons.chevron_left),
-                          label: Text('Cap. ${pos.chapter - 1}'),
-                        ),
-                      const Spacer(),
-                      if (pos.chapter < total)
-                        FilledButton.tonalIcon(
-                          onPressed: () => _open(book.id, pos.chapter + 1),
-                          icon: const Icon(Icons.chevron_right),
-                          label: Text('Cap. ${pos.chapter + 1}'),
-                        ),
-                    ],
-                  ),
-                  const CrossDivider(),
-                  SourceAttribution(source: tr.name, license: tr.license),
-                  if (compare != null) SourceAttribution(source: compare.name, license: compare.license),
-                  if (highlight != null)
-                    Text(
-                      'Destacado: trecho proclamado na Liturgia (${highlight.label}).',
-                      style: t.bodySmall?.copyWith(color: cs.primary),
-                    ),
-                ],
+                    },
+                  );
+                },
               ),
             ),
-          ),
-        ],
+            SliverPadding(
+              padding: EdgeInsets.fromLTRB(pad, VsSpacing.lg, pad, VsSpacing.xxl),
+              sliver: SliverToBoxAdapter(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        if (pos.chapter > 1)
+                          OutlinedButton.icon(
+                            onPressed: () => _open(book.id, pos.chapter - 1),
+                            icon: const Icon(Icons.chevron_left),
+                            label: Text('Cap. ${pos.chapter - 1}'),
+                          ),
+                        const Spacer(),
+                        if (pos.chapter < total)
+                          FilledButton.tonalIcon(
+                            onPressed: () => _open(book.id, pos.chapter + 1),
+                            icon: const Icon(Icons.chevron_right),
+                            label: Text('Cap. ${pos.chapter + 1}'),
+                          ),
+                      ],
+                    ),
+                    const CrossDivider(),
+                    SourceAttribution(source: tr.name, license: tr.license),
+                    if (compare != null) SourceAttribution(source: compare.name, license: compare.license),
+                    if (highlight != null)
+                      Text(
+                        'Destacado: trecho proclamado na Liturgia (${highlight.label}).',
+                        style: t.bodySmall?.copyWith(color: cs.primary),
+                      ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

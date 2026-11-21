@@ -190,7 +190,7 @@ class _ViaSacraScreenState extends State<ViaSacraScreen> {
         ),
         actions: [
           IconButton(
-            tooltip: 'Ouvir estação (TTS)',
+            tooltip: 'Ouvir estação',
             icon: const Icon(Icons.headphones_outlined),
             onPressed: () => _listen(st),
           ),

@@ -326,7 +326,7 @@ void main() {
     );
     await tester.pump();
 
-    await tester.tap(find.byTooltip('Ouvir estação (TTS)'));
+    await tester.tap(find.byTooltip('Ouvir estação'));
     await _pumpAsync(tester);
     expect(find.text('1ª Estação'), findsOneWidget);
     expect(find.byTooltip('Pausar'), findsOneWidget);

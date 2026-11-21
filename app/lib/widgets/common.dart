@@ -234,3 +234,26 @@ Future<void> showInvalidFileDialog(BuildContext context, {required String what, 
         actions: [FilledButton(onPressed: () => Navigator.pop(ctx), child: const Text('Entendi'))],
       ),
     );
+
+/// Falha ao carregar: mensagem simples e botão para tentar de novo (no lugar de um spinner eterno).
+class LoadError extends StatelessWidget {
+  const LoadError({super.key, required this.message, required this.onRetry});
+
+  final String message;
+  final VoidCallback onRetry;
+
+  @override
+  Widget build(BuildContext context) => Center(
+    child: Padding(
+      padding: const EdgeInsets.all(VsSpacing.lg),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(message, textAlign: TextAlign.center, style: Theme.of(context).textTheme.bodyLarge),
+          const SizedBox(height: VsSpacing.md),
+          FilledButton.tonal(onPressed: onRetry, child: const Text('Tentar de novo')),
+        ],
+      ),
+    ),
+  );
+}

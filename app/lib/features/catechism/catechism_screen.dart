@@ -163,7 +163,8 @@ class _CatechismScreenState extends State<CatechismScreen> {
       if (!mounted) return;
       await showInvalidFileDialog(context, what: 'do catecismo', error: e.message);
     } catch (e) {
-      if (mounted) messenger.showSnackBar(SnackBar(content: Text('Não foi possível importar: $e')));
+      debugPrint('Importar catecismo: $e');
+      if (mounted) messenger.showSnackBar(const SnackBar(content: Text('Não foi possível ler este arquivo.')));
     } finally {
       if (mounted) {
         setState(() {
@@ -608,7 +609,7 @@ class _CatechismEntryScreenState extends State<CatechismEntryScreen> {
       appBar: AppBar(
         title: Text('${widget.work.shortName} · ${widget.work.entryLabel} ${e.number}'),
         actions: [
-          IconButton(tooltip: 'Ouvir (TTS)', icon: const Icon(Icons.headphones_outlined), onPressed: _listen),
+          IconButton(tooltip: 'Ouvir em voz alta', icon: const Icon(Icons.headphones_outlined), onPressed: _listen),
           IconButton(
             tooltip: fav ? 'Remover dos favoritos' : 'Favoritar',
             icon: Icon(fav ? Icons.bookmark : Icons.bookmark_border),

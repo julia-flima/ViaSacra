@@ -59,7 +59,10 @@ class _TranslationsScreenState extends State<TranslationsScreen> {
       }
     } catch (e) {
       if (context.mounted) {
-        messenger.showSnackBar(SnackBar(content: Text('Não foi possível baixar “${item.name}”: $e')));
+        debugPrint('Baixar ${item.id}: $e');
+        messenger.showSnackBar(
+          SnackBar(content: Text('Não foi possível baixar “${item.name}”. Confira a internet e tente de novo.')),
+        );
       }
     }
   }
@@ -90,7 +93,8 @@ class _TranslationsScreenState extends State<TranslationsScreen> {
       );
     } catch (e) {
       if (context.mounted) {
-        messenger.showSnackBar(SnackBar(content: Text('Não foi possível importar: $e')));
+        debugPrint('Importar tradução: $e');
+        messenger.showSnackBar(const SnackBar(content: Text('Não foi possível ler este arquivo.')));
       }
     }
   }

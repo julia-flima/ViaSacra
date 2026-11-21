@@ -168,15 +168,22 @@ class _RosaryScreenState extends State<RosaryScreen> with WidgetsBindingObserver
   @override
   Widget build(BuildContext context) {
     final session = _session;
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(session == null ? 'Santo Terço' : (_mode == RosaryMode.rosario ? 'Rosário' : _set.label)),
-        leading: session == null
-            ? null
-            : IconButton(tooltip: 'Encerrar', icon: const Icon(Icons.close), onPressed: _close),
-        actions: const [ReadingAppearanceButton()],
+    // Botão voltar do Android durante a oração: mesma confirmação do "Encerrar".
+    return PopScope(
+      canPop: session == null || !TickerMode.valuesOf(context).enabled,
+      onPopInvokedWithResult: (didPop, _) {
+        if (!didPop) _close();
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(session == null ? 'Santo Terço' : (_mode == RosaryMode.rosario ? 'Rosário' : _set.label)),
+          leading: session == null
+              ? null
+              : IconButton(tooltip: 'Encerrar', icon: const Icon(Icons.close), onPressed: _close),
+          actions: const [ReadingAppearanceButton()],
+        ),
+        body: session == null ? _buildChooser(context) : _buildPraying(context, session),
       ),
-      body: session == null ? _buildChooser(context) : _buildPraying(context, session),
     );
   }
 

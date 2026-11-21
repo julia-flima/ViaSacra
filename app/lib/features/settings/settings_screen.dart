@@ -159,8 +159,8 @@ class SettingsScreen extends StatelessWidget {
           const SizedBox(height: 8),
           SegmentedButton<ThemeMode>(
             segments: const [
-              ButtonSegment(value: ThemeMode.light, label: Text('Pergaminho'), icon: Icon(Icons.light_mode_outlined)),
-              ButtonSegment(value: ThemeMode.dark, label: Text('Igreja'), icon: Icon(Icons.dark_mode_outlined)),
+              ButtonSegment(value: ThemeMode.light, label: Text('Pergaminho'), icon: Icon(Icons.wb_sunny_outlined)),
+              ButtonSegment(value: ThemeMode.dark, label: Text('Modo Igreja'), icon: Icon(Icons.church_outlined)),
               ButtonSegment(value: ThemeMode.system, label: Text('Auto'), icon: Icon(Icons.brightness_auto_outlined)),
             ],
             selected: {st.themeMode},
@@ -171,7 +171,7 @@ class SettingsScreen extends StatelessWidget {
           const SizedBox(height: 8),
           SegmentedButton<ReadingFont>(
             segments: const [
-              ButtonSegment(value: ReadingFont.serif, label: Text('Serifada clássica')),
+              ButtonSegment(value: ReadingFont.serif, label: Text('Serifa')),
               ButtonSegment(value: ReadingFont.sans, label: Text('Sem serifa')),
             ],
             selected: {st.readingFont},
@@ -500,7 +500,8 @@ class _BackupTiles extends StatelessWidget {
       );
       if (saved != null) messenger.showSnackBar(const SnackBar(content: Text('Backup salvo.')));
     } catch (e) {
-      messenger.showSnackBar(SnackBar(content: Text('Não foi possível salvar o backup: $e')));
+      debugPrint('Salvar backup: $e');
+      messenger.showSnackBar(const SnackBar(content: Text('Não foi possível salvar o backup.')));
     }
   }
 
@@ -529,8 +530,11 @@ class _BackupTiles extends StatelessWidget {
       );
     } on FormatException {
       messenger.showSnackBar(const SnackBar(content: Text('O arquivo não é um JSON válido.')));
+    } on BackupException catch (e) {
+      messenger.showSnackBar(SnackBar(content: Text(e.message)));
     } catch (e) {
-      messenger.showSnackBar(SnackBar(content: Text('Não foi possível restaurar: $e')));
+      debugPrint('Restaurar backup: $e');
+      messenger.showSnackBar(const SnackBar(content: Text('Não foi possível restaurar este backup.')));
     }
   }
 
