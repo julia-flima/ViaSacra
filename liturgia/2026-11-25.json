@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "data": "2026-11-25",
-  "gerado_em": "2026-11-20T08:16:48-03:00",
+  "gerado_em": "2026-11-21T07:52:49-03:00",
   "calendario": {
     "data": "2026-11-25",
     "dia_semana": "Quarta-feira",
@@ -66,17 +66,21 @@
       },
       {
         "campo": "liturgia_audio_url",
-        "canal": "Via Sacra — Voz Neural Piper (pt_BR-cadu-medium, pt-BR)",
-        "licenca": "CC0 / Domínio Público (Piper TTS)"
+        "interprete": "Voz Dora (pf_dora)",
+        "canal": "Via Sacra — Voz Neural Kokoro-82M (Dora, pt-BR)",
+        "licenca": "Apache-2.0 (Kokoro-82M)"
       },
       {
         "campo": "homilia_audio_url",
-        "canal": "Via Sacra — Voz Neural Piper (pt_BR-cadu-medium, pt-BR)",
-        "licenca": "CC0 / Domínio Público (Piper TTS)"
+        "interprete": "Voz Dora (pf_dora)",
+        "canal": "Via Sacra — Voz Neural Kokoro-82M (Dora, pt-BR)",
+        "licenca": "Apache-2.0 (Kokoro-82M)"
       }
     ],
     "fallback": "tts_local_pt_BR",
-    "homilia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-25-homilia.mp3"
+    "liturgia_audio_hash": "08d434f63bd8425e",
+    "homilia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-25-homilia.mp3",
+    "homilia_audio_hash": "5663ba65c498f047"
   },
   "homilias": {
     "vaticano": {

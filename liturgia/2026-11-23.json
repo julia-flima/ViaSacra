@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "data": "2026-11-23",
-  "gerado_em": "2026-11-20T08:16:45-03:00",
+  "gerado_em": "2026-11-21T07:52:46-03:00",
   "calendario": {
     "data": "2026-11-23",
     "dia_semana": "Segunda-feira",
@@ -53,30 +53,27 @@
   "audio": {
     "salmo_audio_url": null,
     "salmo_cifra_ou_melodia": null,
-    "salmo_video_id": "ts6Jvr5v67A",
-    "salmo_video_titulo": "Salmo 23(24) (23/11/2026) É assim a geração dos que buscam vossa face,ó Senhor, Deus de Israel.",
+    "salmo_video_id": null,
+    "salmo_video_titulo": null,
     "liturgia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-23.mp3",
     "creditos": [
       {
-        "campo": "salmo_video_id",
-        "interprete": "Edgar Borges (Salmos responsoriais)",
-        "canal": "Edgar Borges (Salmos responsoriais)",
-        "url_fonte": "https://www.youtube.com/watch?v=ts6Jvr5v67A",
-        "licenca": "YouTube Embed Oficial (Termos de Serviço)"
-      },
-      {
         "campo": "liturgia_audio_url",
-        "canal": "Via Sacra — Voz Neural Piper (pt_BR-cadu-medium, pt-BR)",
-        "licenca": "CC0 / Domínio Público (Piper TTS)"
+        "interprete": "Voz Dora (pf_dora)",
+        "canal": "Via Sacra — Voz Neural Kokoro-82M (Dora, pt-BR)",
+        "licenca": "Apache-2.0 (Kokoro-82M)"
       },
       {
         "campo": "homilia_audio_url",
-        "canal": "Via Sacra — Voz Neural Piper (pt_BR-cadu-medium, pt-BR)",
-        "licenca": "CC0 / Domínio Público (Piper TTS)"
+        "interprete": "Voz Dora (pf_dora)",
+        "canal": "Via Sacra — Voz Neural Kokoro-82M (Dora, pt-BR)",
+        "licenca": "Apache-2.0 (Kokoro-82M)"
       }
     ],
     "fallback": "tts_local_pt_BR",
-    "homilia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-23-homilia.mp3"
+    "liturgia_audio_hash": "f1dff916b00ecbc0",
+    "homilia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-23-homilia.mp3",
+    "homilia_audio_hash": "471f0e47e55f5295"
   },
   "homilias": {
     "vaticano": {

@@ -1,0 +1,139 @@
+{
+  "schema_version": 1,
+  "data": "2026-11-27",
+  "gerado_em": "2026-11-21T07:52:53-03:00",
+  "calendario": {
+    "data": "2026-11-27",
+    "dia_semana": "Sexta-feira",
+    "tempo": "comum",
+    "tempo_nome": "Tempo Comum",
+    "semana": 34,
+    "cor": "verde",
+    "celebracao": "34ª Semana do Tempo Comum, Ano Par (II)",
+    "grau": "feria",
+    "ciclo_dominical": "A",
+    "ciclo_ferial": "II",
+    "misterios_do_dia": "dolorosos",
+    "cor_origem": "cnbb"
+  },
+  "leituras": {
+    "primeira_leitura": {
+      "referencia": "Ap 20,1-4.11-21,2",
+      "introducao": "Leitura do Livro do Apocalipse de São João 20,1-4.11-21,2",
+      "aclamacao": null,
+      "texto": "Eu, João,\n\nvi um anjo descer do céu.\nNas mãos tinha a chave do Abismo\ne uma grande corrente.\n\nEle agarrou o Dragão, a antiga Serpente,\nque é o Diabo, Satanás.\nAcorrentou-o por mil anos\n\ne lançou-o dentro do Abismo.\nDepois, trancou e lacrou o Abismo,\npara que o Dragão não seduzisse mais\nas nações da terra,\naté que terminassem os mil anos.\nDepois dos mil anos,\no Dragão deve ser solto,\nmas por pouco tempo.\n\nVi então tronos,\ne os seus ocupantes sentaram-se\ne receberam o poder de julgar.\nVi também as almas daqueles que foram decapitados\npor causa do Testemunho de Jesus\ne da Palavra de Deus\ne aqueles que não tinham adorado a besta,\nnem a imagem dela,\nnem tinham recebido na fronte ou na mão\na marca da besta.\nEles voltaram a viver,\npara reinarem com Cristo durante mil anos.\n\nVi ainda um grande trono branco\ne aquele que estava sentado nele.\nO céu e a terra fugiram da sua presença\ne não se achou mais o lugar deles.\n\nVi também os mortos,\nos grandes e os pequenos,\nem pé diante do trono.\nForam abertos livros,\ne mais um outro livro ainda:\no livro da vida.\nEntão foram julgados os mortos,\nde acordo com sua conduta,\nconforme está escrito nos livros.\n\nO mar devolveu os mortos que se encontravam nele.\nA morte e a morada dos mortos\nentregaram de volta os seus mortos.\nE cada um foi julgado conforme sua conduta.\n\nA morte e a morada dos mortos\nforam então lançados no lago de fogo.\nEsta é a segunda morte: o lago de fogo.\n\nQuem não tinha o seu nome escrito no livro da vida,\nfoi também lançado no lago de fogo.\n\n21,1\n\nVi então um novo céu e uma nova terra.\nPois o primeiro céu e a primeira terra passaram,\ne o mar já não existe.\n\nVi a cidade santa, a nova Jerusalém,\nque descia do céu, de junto de Deus,\nvestida qual esposa enfeitada para o seu marido.",
+      "fonte": "CNBB"
+    },
+    "salmo": {
+      "referencia": "Sl 83(84),3.4.5-6a",
+      "refrao": "Eis a tenda de Deus, no meio do povo!",
+      "estrofes": [
+        "Minha alma desfalece de saudades *\ne anseia pelos átrios do Senhor!\nMeu coração e minha carne rejubilam *\ne exultam de alegria no Deus vivo!",
+        "Mesmo o pardal encontra abrigo em vossa casa, †\ne a andorinha ali prepara o seu ninho, *\npara nele seus filhotes colocar:\nvossos altares, ó Senhor Deus do universo! *\nvossos altares, ó meu Rei e meu Senhor!",
+        "Felizes os que habitam vossa casa; *\npara sempre haverão de vos louvar!",
+        "Felizes os que em vós têm sua força, *",
+        "Caminharão com um ardor sempre crescente."
+      ],
+      "texto": "Minha alma desfalece de saudades *\ne anseia pelos átrios do Senhor!\nMeu coração e minha carne rejubilam *\ne exultam de alegria no Deus vivo!\n\nMesmo o pardal encontra abrigo em vossa casa, †\ne a andorinha ali prepara o seu ninho, *\npara nele seus filhotes colocar:\nvossos altares, ó Senhor Deus do universo! *\nvossos altares, ó meu Rei e meu Senhor!\n\nFelizes os que habitam vossa casa; *\npara sempre haverão de vos louvar!\n\nFelizes os que em vós têm sua força, *\n\nCaminharão com um ardor sempre crescente.",
+      "fonte": "CNBB"
+    },
+    "segunda_leitura": null,
+    "evangelho": {
+      "referencia": "Lc 21,29-33",
+      "introducao": "Proclamação do Evangelho de Jesus Cristo segundo Lucas 21,29-33",
+      "aclamacao": "R. Aleluia, Aleluia, Aleluia.\nV. Levantai vossa cabeça e olhai,\npois a vossa redenção se aproxima!",
+      "texto": "Naquele tempo,\n\nJesus contou-lhes uma parábola:\n\"Olhai a figueira e todas as árvores.\n\nQuando vedes que elas estão dando brotos,\nlogo sabeis que o verão está perto.\n\nVós também, quando virdes acontecer essas coisas,\nficai sabendo que o Reino de Deus está perto.\n\nEm verdade, eu vos digo:\ntudo isso vai acontecer antes que passe esta geração.\n\nO céu e a terra passarão,\nmas as minhas palavras não hão de passar\".",
+      "fonte": "CNBB"
+    }
+  },
+  "audio": {
+    "salmo_audio_url": null,
+    "salmo_cifra_ou_melodia": null,
+    "salmo_video_id": "ydZawpNetDw",
+    "salmo_video_titulo": "Salmo 83 (84) | Eis a tenda de Deus, no meio do povo! |  Priscila Ocana | Cifra",
+    "liturgia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-27.mp3",
+    "creditos": [
+      {
+        "campo": "salmo_video_id",
+        "interprete": "salmodiahoje",
+        "canal": "Salmodia Hoje",
+        "url_fonte": "https://www.youtube.com/watch?v=ydZawpNetDw",
+        "licenca": "YouTube Embed Oficial (Termos de Serviço)"
+      },
+      {
+        "campo": "liturgia_audio_url",
+        "interprete": "Voz Dora (pf_dora)",
+        "canal": "Via Sacra — Voz Neural Kokoro-82M (Dora, pt-BR)",
+        "licenca": "Apache-2.0 (Kokoro-82M)"
+      },
+      {
+        "campo": "homilia_audio_url",
+        "interprete": "Voz Dora (pf_dora)",
+        "canal": "Via Sacra — Voz Neural Kokoro-82M (Dora, pt-BR)",
+        "licenca": "Apache-2.0 (Kokoro-82M)"
+      }
+    ],
+    "fallback": "tts_local_pt_BR",
+    "liturgia_audio_hash": "f3e50961f9413d06",
+    "homilia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-27-homilia.mp3",
+    "homilia_audio_hash": "ac87af1ec02b9ea9"
+  },
+  "homilias": {
+    "vaticano": {
+      "titulo": "As palavras dos Papas",
+      "autor": "Papa Francisco",
+      "texto": "Em algumas circunstâncias da nossa vida, quando atravessamos uma crise ou vivemos algum fracasso, bem como quando vemos à nossa volta a dor causada pelas guerras, pelas violências, pelas calamidades naturais, temos a sensação de que tudo caminhe para o fim e sentimos que até as coisas mais belas passam. Porém, as crises e os fracassos, ainda que dolorosos, são importantes, porque nos ensinam a dar a devida importância a cada coisa, a não apegar o nosso coração às realidades deste mundo, porque estas passarão: estão destinadas a ser passageiras.\n\nAo mesmo tempo, Jesus fala do que permanece. Tudo passa, mas as suas palavras não passarão: as palavras de Jesus permanecem eternamente. Assim, convida-nos a confiar no Evangelho, que contém uma promessa de salvação e de eternidade, e a deixar de viver sob a angústia da morte. Com efeito, enquanto tudo passa, Cristo permanece. Nele, em Cristo, encontraremos um dia as coisas e as pessoas que passaram e nos acompanharam na existência terrena. À luz desta promessa de ressurreição, cada realidade adquire um novo significado: tudo morre e também nós morreremos um dia, mas não perderemos nada do que construímos e amámos, porque a morte será o início de uma vida nova. (...) Não esqueçamos que Deus prepara para nós um futuro de vida e de alegria. (Papa Francisco, 17 de novembro de 2024)",
+      "resumo": "Em algumas circunstâncias da nossa vida, quando atravessamos uma crise ou vivemos algum fracasso, bem como quando vemos à nossa volta a dor causada pelas guerras, pelas violências, pelas calamidades naturais, temos a sensação de que tudo caminhe para o fim e sentimos que até as…",
+      "url": "https://www.vaticannews.va/pt/palavra-do-dia/2026/11/27.html",
+      "fonte": "Vatican News (Português) — Dicastério para a Comunicação",
+      "licenca": "© Libreria Editrice Vaticana / Dicastério para a Comunicação. Reprodução para fins pastorais e não comerciais, com citação da fonte e link para o original."
+    },
+    "cnbb": null,
+    "patristica": [
+      {
+        "autor": "Santo Agostinho",
+        "obra": "Sermão 169, 13",
+        "texto": "Aquele que te criou sem ti não te justificará sem ti. Criou-te sem que o soubesses; justifica-te, porém, somente se o quiseres.",
+        "url": "https://www.newadvent.org/fathers/",
+        "fonte": "Santos Padres e Doutores da Igreja (domínio público)",
+        "licenca": "Domínio público",
+        "nota": "Tradução livre do latim (Sermo 169) para fins devocionais."
+      },
+      {
+        "autor": "São Tomás de Aquino (Catena Aurea)",
+        "obra": "Catena Aurea sobre São João, cap. 15 (a Videira Verdadeira)",
+        "texto": "Assim como o ramo não pode dar fruto por si mesmo se não permanecer na videira, assim também ninguém pode produzir obras de vida eterna se não permanecer unido a Cristo pela fé viva e pela caridade.",
+        "url": "https://www.newadvent.org/fathers/",
+        "fonte": "Santos Padres e Doutores da Igreja (domínio público)",
+        "licenca": "Domínio público",
+        "nota": "Síntese devocional a partir da Catena Aurea (século XIII — domínio público)."
+      }
+    ]
+  },
+  "fontes": [
+    {
+      "id": "cnbb",
+      "nome": "CNBB — Conferência Nacional dos Bispos do Brasil",
+      "url": "https://liturgiadiaria.edicoescnbb.com.br",
+      "nota": "Textos litúrgicos reproduzidos para uso devocional e não comercial. Fonte: CNBB / Edições CNBB."
+    },
+    {
+      "id": "vaticannews",
+      "nome": "Vatican News (Português) — Dicastério para a Comunicação",
+      "url": "https://www.vaticannews.va/pt.html",
+      "nota": "© Libreria Editrice Vaticana / Dicastério para a Comunicação. Reprodução para fins pastorais e não comerciais, com citação da fonte e link para o original."
+    },
+    {
+      "id": "patristica",
+      "nome": "Santos Padres e Doutores da Igreja (domínio público)",
+      "url": "https://www.newadvent.org/fathers/",
+      "nota": "Obras em domínio público; traduções do projeto Via Sacra (GPL-3.0 / CC0 para o texto)."
+    }
+  ],
+  "url_original": "https://liturgiadiaria.edicoescnbb.com.br",
+  "status": {
+    "cnbb": "ok",
+    "vaticano": "ok",
+    "patristica": "ok"
+  }
+}
