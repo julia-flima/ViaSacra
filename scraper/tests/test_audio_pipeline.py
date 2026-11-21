@@ -31,6 +31,16 @@ def _doc_com_audio_gerado() -> dict:
     }
     ga.upsert_credit(doc["audio"], "liturgia_audio_url")
     ga.upsert_credit(doc["audio"], "homilia_audio_url")
+    lit, hom = ga.build_liturgy_script(doc), ga.build_homily_script(doc)
+    marcas = doc["audio"]["liturgia_audio_marcas"]
+    doc["audio"]["liturgia_vozes"] = {
+        "pf_dora": {"url": URL_LIT, "hash": ga.script_hash(lit), "marcas": marcas},
+        "pm_alex": {"url": "alex.mp3", "hash": ga.script_hash(lit, "pm_alex"), "marcas": marcas},
+    }
+    doc["audio"]["homilia_vozes"] = {
+        "pf_dora": {"url": URL_HOM, "hash": ga.script_hash(hom)},
+        "pm_alex": {"url": "alex-h.mp3", "hash": ga.script_hash(hom, "pm_alex")},
+    }
     return doc
 
 
@@ -55,7 +65,7 @@ def test_preserva_audio_quando_o_texto_nao_mudou():
 
     copiados = scraper.preservar_audio_gerado(novo, anterior)
 
-    assert copiados == ["liturgia_audio_url", "homilia_audio_url"]
+    assert copiados == ["liturgia_audio_url", "homilia_audio_url", "liturgia_vozes", "homilia_vozes"]
     for chave in (
         "liturgia_audio_url",
         "liturgia_audio_hash",
@@ -72,7 +82,8 @@ def test_descarta_audio_quando_o_texto_mudou():
     novo = _doc_recem_coletado(anterior)
     novo["leituras"]["evangelho"]["texto"] += " Correção da CNBB."
 
-    assert scraper.preservar_audio_gerado(novo, anterior) == ["homilia_audio_url"]
+    # Mudou a liturgia: só a homilia (nas duas vozes) continua valendo.
+    assert scraper.preservar_audio_gerado(novo, anterior) == ["homilia_audio_url", "homilia_vozes"]
     assert "liturgia_audio_url" not in novo["audio"]  # será regerado; o app usa a voz local
     assert "liturgia_audio_url" not in _campos(novo["audio"])
 
@@ -100,10 +111,11 @@ def test_salvar_mantem_audio_do_arquivo_existente(tmp_path: Path, forcar: bool):
     assert salvo["audio"]["homilia_audio_url"] == URL_HOM
     # E o generate_audio.py seguinte não precisa sintetizar de novo nem mexer no JSON.
     (tmp_path / "audio").mkdir()
-    for nome in ("2026-11-19.mp3", "2026-11-19-homilia.mp3"):
+    nomes = ("2026-11-19.mp3", "2026-11-19-homilia.mp3", "2026-11-19-pm_alex.mp3", "2026-11-19-homilia-pm_alex.mp3")
+    for nome in nomes:
         (tmp_path / "audio" / nome).write_bytes(b"mp3")
     sintetizados: list[str] = []
-    mudou = ga.process_day(destino, tmp_path / "audio", lambda _t, p: sintetizados.append(p.name))
+    mudou = ga.process_day(destino, tmp_path / "audio", lambda _t, p, _v=None: sintetizados.append(p.name))
     assert (mudou, sintetizados) == (False, [])
 
 

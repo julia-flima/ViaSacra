@@ -90,7 +90,7 @@ def test_process_day_hash_regera_e_creditos(tmp_path: Path):
 
     synth_calls: list[str] = []
 
-    def fake_synth(parts: list[str], out: Path) -> list[float]:
+    def fake_synth(parts: list[str], out: Path, voice: str = ga.VOICE_ID) -> list[float]:
         out.parent.mkdir(parents=True, exist_ok=True)
         out.write_bytes(b"ID3fake")
         synth_calls.append(out.name)
@@ -99,7 +99,12 @@ def test_process_day_hash_regera_e_creditos(tmp_path: Path):
     # 1. Ausência de hash dispara migração Kokoro
     changed1 = ga.process_day(json_path, audio_dir, fake_synth)
     assert changed1 is True
-    assert set(synth_calls) == {"2026-11-19.mp3", "2026-11-19-homilia.mp3"}
+    assert set(synth_calls) == {
+        "2026-11-19.mp3",
+        "2026-11-19-homilia.mp3",
+        "2026-11-19-pm_alex.mp3",
+        "2026-11-19-homilia-pm_alex.mp3",
+    }
 
     saved = json.loads(json_path.read_text(encoding="utf-8"))
     assert saved["audio"]["liturgia_audio_hash"] == ga.script_hash(ga.build_liturgy_script(saved))
@@ -108,6 +113,13 @@ def test_process_day_hash_regera_e_creditos(tmp_path: Path):
     keys = [k for k, _ in ga.build_liturgy_parts(saved)]
     assert saved["audio"]["liturgia_audio_marcas"] == {k: 10.0 * i for i, k in enumerate(keys)}
     assert keys[0] == "primeira_leitura" and "Liturgia Diária" in ga.build_liturgy_parts(saved)[0][1]
+    # Um MP3 por voz, cada um com as próprias marcas (o app toca o da voz escolhida).
+    vozes = saved["audio"]["liturgia_vozes"]
+    assert set(vozes) == {"pf_dora", "pm_alex"}
+    assert vozes["pf_dora"]["url"] == saved["audio"]["liturgia_audio_url"]
+    assert vozes["pm_alex"]["url"].endswith("2026-11-19-pm_alex.mp3")
+    assert vozes["pm_alex"]["hash"] == ga.script_hash(ga.build_liturgy_script(saved), "pm_alex")
+    assert set(saved["audio"]["homilia_vozes"]) == {"pf_dora", "pm_alex"}
     credit = next(c for c in saved["audio"]["creditos"] if c["campo"] == "liturgia_audio_url")
     assert "Kokoro-82M" in credit["canal"]
     assert "Apache-2.0" in credit["licenca"]
@@ -124,7 +136,7 @@ def test_process_day_hash_regera_e_creditos(tmp_path: Path):
     json_path.write_text(json.dumps(doc2), encoding="utf-8")
     changed3 = ga.process_day(json_path, audio_dir, fake_synth)
     assert changed3 is True
-    assert synth_calls == ["2026-11-19.mp3"]
+    assert synth_calls == ["2026-11-19.mp3", "2026-11-19-pm_alex.mp3"]
 
 
 def test_prune_old_audio_limpa_mp3s_e_urls_expiradas(tmp_path: Path):
