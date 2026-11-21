@@ -12,6 +12,8 @@ class SacredArt {
     this.commonsFile,
     this.commonsPage,
     this.license = 'Domínio público',
+    this.seasons = const [],
+    this.feasts = const [],
   });
 
   final String id;
@@ -23,6 +25,12 @@ class SacredArt {
   final String? commonsFile;
   final String? commonsPage;
   final String license;
+
+  /// Tempos litúrgicos (`LiturgicalSeason.name`) em que a obra entra no rodízio do header da Liturgia.
+  final List<String> seasons;
+
+  /// Trechos do nome de celebrações em que a obra tem prioridade (ex.: "pentecostes").
+  final List<String> feasts;
 
   String get caption => '$title — $artist ($year) · $license';
 
@@ -36,6 +44,8 @@ class SacredArt {
     commonsFile: j['arquivo_commons'] as String?,
     commonsPage: j['pagina_commons'] as String?,
     license: j['licenca'] as String? ?? 'Domínio público',
+    seasons: (j['tempos'] as List?)?.cast<String>() ?? const [],
+    feasts: (j['festas'] as List?)?.cast<String>() ?? const [],
   );
 }
 
