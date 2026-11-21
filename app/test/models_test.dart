@@ -39,6 +39,32 @@ void main() {
     expect(chunks.join(' ').replaceAll(' ', ''), text.replaceAll(' ', ''));
   });
 
+  test('splitForSpeech começa com trecho curto e nunca corta palavras', () {
+    const text =
+        'Naquele tempo, quando Jesus se aproximou de Jerusalém e viu a cidade, começou a chorar sobre ela, dizendo: '
+        'Se tu também compreendesses hoje o que te pode trazer a paz! Agora, porém, isso está escondido aos teus olhos. '
+        'Pois dias virão em que os teus inimigos te cercarão de trincheiras, te rodearão e te apertarão de todos os lados.';
+    final chunks = splitForSpeech(text, maxLen: 280, firstLen: 90);
+    expect(chunks.first.length, lessThanOrEqualTo(90));
+    expect(chunks[1].length, lessThanOrEqualTo(180));
+    expect(chunks.every((c) => c.length <= 280), isTrue);
+    final words = text.split(RegExp(r'\s+')).toSet();
+    for (final c in chunks) {
+      expect(c.split(' ').every(words.contains), isTrue, reason: 'trecho cortou palavra: "$c"');
+    }
+    expect(chunks.join(' '), text);
+  });
+
+  test('splitForSpeech divide frase longa sem pontuação entre palavras', () {
+    final text = List.filled(120, 'palavra').join(' ');
+    final chunks = splitForSpeech(text, maxLen: 100);
+    expect(
+      chunks.every((c) => c.length <= 100 && !c.startsWith(' ') && c.split(' ').every((w) => w == 'palavra')),
+      isTrue,
+    );
+    expect(chunks.join(' '), text);
+  });
+
   test('Mensagens das notificações', () {
     final (_, rosary) = NotificationService.rosaryMessage(DateTime(2026, 11, 19));
     expect(rosary, 'Hoje contemplamos os Mistérios Luminosos');

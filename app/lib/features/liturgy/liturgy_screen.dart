@@ -4,12 +4,11 @@ import 'package:provider/provider.dart';
 import '../../app_navigation.dart';
 import '../../app_state.dart';
 import '../../core/constants.dart';
-import '../../core/liturgical_calendar.dart';
 import '../../core/theme.dart';
 import '../../data/bible/bible_reference.dart';
+import '../../data/liturgical_art.dart';
 import '../../data/liturgy_repository.dart';
 import '../../data/models/liturgy.dart';
-import '../../data/models/mystery.dart';
 import '../../data/user_data_repository.dart';
 import '../../services/bible_service.dart';
 import '../../services/reading_audio_service.dart';
@@ -25,20 +24,6 @@ import 'widgets/reading_card.dart';
 /// Aba 1 — Liturgia & Homilias.
 class LiturgyScreen extends StatelessWidget {
   const LiturgyScreen({super.key});
-
-  SacredArt? _seasonArt(AppServices services, LiturgicalDay day) {
-    final art = services.content.art;
-    final cel = day.celebration.toLowerCase();
-    final id = switch (day.season) {
-      LiturgicalSeason.advento => 'gozosos-1',
-      LiturgicalSeason.natal => 'gozosos-3',
-      LiturgicalSeason.quaresma => 'dolorosos-1',
-      LiturgicalSeason.triduo => 'dolorosos-5',
-      LiturgicalSeason.pascoa => cel.contains('pentecostes') ? 'gloriosos-3' : 'gloriosos-1',
-      LiturgicalSeason.comum => 'header-tempo-comum',
-    };
-    return art[id] ?? art['header-tempo-comum'];
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -123,7 +108,7 @@ class LiturgyScreen extends StatelessWidget {
                   SacredArtBanner(
                     title: l.day.celebration,
                     subtitle: LiturgyHeader.formatDate(l.day.date).toUpperCase(),
-                    art: _seasonArt(services, l.day),
+                    art: artForDay(services.content.art.values, l.day) ?? services.content.art['header-tempo-comum'],
                     accentColor: l.day.color.swatch,
                   ),
                   const SizedBox(height: VsSpacing.md),
