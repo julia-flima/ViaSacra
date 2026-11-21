@@ -32,9 +32,17 @@ class _ImitacaoScreenState extends State<ImitacaoScreen> {
     unawaited(_load());
   }
 
+  bool _failed = false;
+
   Future<void> _load() async {
-    final work = await context.read<AppServices>().content.imitation();
-    if (mounted) setState(() => _work = work);
+    if (_failed) setState(() => _failed = false); // nova tentativa: volta ao spinner
+    try {
+      final work = await context.read<AppServices>().content.imitation();
+      if (mounted) setState(() => _work = work);
+    } catch (e) {
+      debugPrint('Imitação de Cristo: $e');
+      if (mounted) setState(() => _failed = true);
+    }
   }
 
   Future<void> _openChapter(ImitationOfChrist work, int index) async {
@@ -54,7 +62,9 @@ class _ImitacaoScreenState extends State<ImitacaoScreen> {
     if (work == null) {
       return Scaffold(
         appBar: AppBar(title: const Text('A Imitação de Cristo')),
-        body: const Center(child: CircularProgressIndicator()),
+        body: _failed
+            ? LoadError(message: 'Não foi possível abrir “A Imitação de Cristo”.', onRetry: _load)
+            : const Center(child: CircularProgressIndicator()),
       );
     }
     final books = work.books;
@@ -191,7 +201,6 @@ class _ImitacaoChapterScreenState extends State<_ImitacaoChapterScreen> {
   }
 
   void _listen(ImitationChapter c) {
-    final settings = context.read<SettingsService>();
     final speech = '${c.label}. ${c.title}. ${c.paragraphs.join(' ')}';
     context.read<ReadingAudioController>().playSingle(
       ReadingSegment(
@@ -201,7 +210,6 @@ class _ImitacaoChapterScreenState extends State<_ImitacaoChapterScreen> {
         text: speech,
         language: 'pt-BR',
       ),
-      speed: settings.ttsSpeed,
     );
   }
 
@@ -217,7 +225,7 @@ class _ImitacaoChapterScreenState extends State<_ImitacaoChapterScreen> {
         title: Text(c.label),
         actions: [
           IconButton(
-            tooltip: 'Ouvir capítulo (TTS)',
+            tooltip: 'Ouvir capítulo',
             icon: const Icon(Icons.headphones_outlined),
             onPressed: () => _listen(c),
           ),

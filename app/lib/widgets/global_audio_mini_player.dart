@@ -129,12 +129,13 @@ class GlobalAudioMiniPlayer extends StatelessWidget {
                     settings?.ttsSpeed = s;
                   },
                   itemBuilder: (_) => [
-                    for (final s in SettingsService.speeds) PopupMenuItem(value: s, child: Text('${_fmt(s)}×')),
+                    for (final s in SettingsService.speeds)
+                      PopupMenuItem(value: s, child: Text(SettingsService.speedLabel(s))),
                   ],
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 8),
                     child: Text(
-                      '${_fmt(audio.speed)}×',
+                      SettingsService.speedLabel(audio.speed),
                       style: t.labelMedium?.copyWith(color: cs.primary, fontWeight: FontWeight.w600),
                     ),
                   ),
@@ -159,6 +160,4 @@ class GlobalAudioMiniPlayer extends StatelessWidget {
       child: useSafeArea ? SafeArea(top: false, child: content) : content,
     );
   }
-
-  static String _fmt(double s) => s == s.roundToDouble() ? s.toStringAsFixed(0) : s.toString().replaceAll('.', ',');
 }

@@ -43,7 +43,7 @@ class StreakCalendar extends StatelessWidget {
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: prayedDays.contains(d) ? cs.primary.withValues(alpha: 0.85) : null,
-                      border: (today.year == month.year && today.month == month.month && today.day == d)
+                      border: DateUtils.isSameDay(today, DateTime(month.year, month.month, d))
                           ? Border.all(color: cs.secondary, width: 1.5)
                           : null,
                     ),

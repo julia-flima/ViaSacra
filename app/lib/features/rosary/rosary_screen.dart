@@ -168,15 +168,22 @@ class _RosaryScreenState extends State<RosaryScreen> with WidgetsBindingObserver
   @override
   Widget build(BuildContext context) {
     final session = _session;
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(session == null ? 'Santo Terço' : (_mode == RosaryMode.rosario ? 'Rosário' : _set.label)),
-        leading: session == null
-            ? null
-            : IconButton(tooltip: 'Encerrar', icon: const Icon(Icons.close), onPressed: _close),
-        actions: const [ReadingAppearanceButton()],
+    // Botão voltar do Android durante a oração: mesma confirmação do "Encerrar".
+    return PopScope(
+      canPop: session == null || !TickerMode.valuesOf(context).enabled,
+      onPopInvokedWithResult: (didPop, _) {
+        if (!didPop) _close();
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(session == null ? 'Santo Terço' : (_mode == RosaryMode.rosario ? 'Rosário' : _set.label)),
+          leading: session == null
+              ? null
+              : IconButton(tooltip: 'Encerrar', icon: const Icon(Icons.close), onPressed: _close),
+          actions: const [ReadingAppearanceButton()],
+        ),
+        body: session == null ? _buildChooser(context) : _buildPraying(context, session),
       ),
-      body: session == null ? _buildChooser(context) : _buildPraying(context, session),
     );
   }
 
@@ -186,10 +193,11 @@ class _RosaryScreenState extends State<RosaryScreen> with WidgetsBindingObserver
   Widget _buildChooser(BuildContext context) {
     final t = Theme.of(context).textTheme;
     final pad = VsSpacing.page(context);
-    final settings = context.watch<SettingsService>();
+    // Só reconstrói quando a opção muda (a aba fica viva no IndexedStack e `streak()` consulta o banco).
+    final showStreak = context.select<SettingsService, bool>((s) => s.showStreak);
     final today = LiturgicalCalendar.mysteriesFor(_today);
     final first = _s.content.mysteriesOf(_set).firstOrNull;
-    final streak = settings.showStreak ? _s.userData.streak() : null;
+    final streak = showStreak ? _s.userData.streak() : null;
 
     return ListView(
       padding: EdgeInsets.fromLTRB(pad, VsSpacing.md, pad, VsSpacing.xxl),

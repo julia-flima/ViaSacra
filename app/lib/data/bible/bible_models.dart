@@ -27,8 +27,6 @@ class BibleTranslation {
   final int verseCount;
   final int moduleVersion;
 
-  bool get isPublicDomain => license.toLowerCase().contains('domínio público') || license.toLowerCase() == 'cc0';
-
   factory BibleTranslation.fromRow(Map<String, Object?> r) => BibleTranslation(
     id: r['id']! as String,
     name: r['name']! as String,
@@ -67,6 +65,9 @@ class BundledTranslationInfo {
   final String psalmNumbering;
   final int version;
   final double? sizeMb;
+
+  /// Ex.: " · ~4,2 MB" (vazio quando o catálogo não informa o tamanho).
+  String get sizeSuffix => sizeMb == null ? '' : ' · ~${sizeMb!.toStringAsFixed(1).replaceAll('.', ',')} MB';
 
   factory BundledTranslationInfo.fromJson(Map<String, dynamic> j) => BundledTranslationInfo(
     id: j['id'] as String,

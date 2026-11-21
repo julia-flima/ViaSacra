@@ -103,10 +103,7 @@ class _PsalmVideoPlayerState extends State<PsalmVideoPlayer> {
       ..loadHtmlString(html, baseUrl: '$_origin/ViaSacra/');
   }
 
-  Future<void> _openExternal() async {
-    final uri = Uri.parse(_watchUrl);
-    await launchUrl(uri, mode: LaunchMode.externalApplication);
-  }
+  Future<void> _openExternal() => openExternal(context, _watchUrl);
 
   @override
   Widget build(BuildContext context) {

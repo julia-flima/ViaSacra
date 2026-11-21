@@ -138,13 +138,15 @@ class AboutScreen extends StatelessWidget {
 class _LicenseText extends StatelessWidget {
   const _LicenseText();
 
+  static final Future<String> _text = rootBundle.loadString('assets/legal/LICENSE.txt'); // lido uma vez
+
   @override
   Widget build(BuildContext context) {
     final pad = VsSpacing.page(context);
     return Scaffold(
       appBar: AppBar(title: const Text('GPL-3.0')),
       body: FutureBuilder<String>(
-        future: rootBundle.loadString('assets/legal/LICENSE.txt'),
+        future: _text,
         builder: (context, snap) => snap.hasData
             ? SingleChildScrollView(
                 padding: EdgeInsets.fromLTRB(pad, VsSpacing.md, pad, VsSpacing.xxl),

@@ -90,7 +90,7 @@ Future<TranslationChoice?> showTranslationSelector(
                 title: Text(item.name),
                 subtitle: Text(
                   '${item.language}'
-                  '${item.sizeMb != null ? ' · ~${item.sizeMb!.toStringAsFixed(1).replaceAll('.', ',')} MB' : ''}',
+                  '${item.sizeSuffix}',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),

@@ -227,9 +227,6 @@ class BibleRepository {
       ),
   };
 
-  VerseAnnotation annotation(String bookId, int chapter, int verse) =>
-      annotations(bookId, chapter)[verse] ?? const VerseAnnotation();
-
   void saveAnnotation(String bookId, int chapter, int verse, VerseAnnotation a) {
     if (a.isEmpty) {
       _db.db.execute('DELETE FROM bible_highlights_notes WHERE book_id = ? AND chapter = ? AND verse = ?', [

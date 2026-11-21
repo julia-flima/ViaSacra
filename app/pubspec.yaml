@@ -9,7 +9,7 @@ issue_tracker: https://github.com/julia-flima/ViaSacra/issues
 
 # versão semântica + build number (usado como versionCode no Android).
 # Para APKs por ABI o Flutter soma 1000*ABI automaticamente.
-version: 1.5.0+5
+version: 1.6.0+6
 
 environment:
   sdk: ^3.13.0

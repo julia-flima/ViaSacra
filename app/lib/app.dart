@@ -199,12 +199,17 @@ class _HomeShellState extends State<HomeShell> {
       index: nav.tab.index,
       children: [
         for (var i = 0; i < _pages.length; i++)
-          ExcludeFocus(
-            excluding: i != nav.tab.index,
-            child: PrimaryScrollController(
-              controller: _scrollControllers[i],
-              automaticallyInheritForPlatforms: _allPlatforms,
-              child: _pages[i],
+          // TickerMode pausa animações das abas ocultas e diz a cada aba se ela está visível
+          // (o botão voltar só é interceptado pela aba que está na tela).
+          TickerMode(
+            enabled: i == nav.tab.index,
+            child: ExcludeFocus(
+              excluding: i != nav.tab.index,
+              child: PrimaryScrollController(
+                controller: _scrollControllers[i],
+                automaticallyInheritForPlatforms: _allPlatforms,
+                child: _pages[i],
+              ),
             ),
           ),
       ],

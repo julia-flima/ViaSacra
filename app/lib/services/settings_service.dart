@@ -75,6 +75,10 @@ class SettingsService extends ChangeNotifier {
 
   // ---------- Áudio / TTS ----------
   static const speeds = [0.75, 1.0, 1.25, 1.5];
+
+  /// Ex.: 1.0 → "1×", 1.25 → "1,25×".
+  static String speedLabel(double s) =>
+      '${s == s.roundToDouble() ? s.toStringAsFixed(0) : s.toString().replaceAll('.', ',')}×';
   double get ttsSpeed => _get('tts_speed', 1.0);
   set ttsSpeed(double v) => _set('tts_speed', v);
 

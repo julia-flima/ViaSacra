@@ -75,7 +75,7 @@ class SettingsScreen extends StatelessWidget {
           if (!kIsWeb && st.notificationsEnabled) ...[
             _ReminderTile(
               title: 'Liturgia Diária',
-              example: NotificationService.liturgyMessage(DateTime.now(), services.liturgyRepository).$2,
+              example: NotificationService.liturgyExample(services.liturgyRepository),
               enabled: st.liturgyReminder,
               time: st.liturgyReminderTime,
               onToggle: (v) async {
@@ -104,7 +104,7 @@ class SettingsScreen extends StatelessWidget {
           SegmentedButton<double>(
             segments: [
               for (final s in SettingsService.speeds)
-                ButtonSegment(value: s, label: Text('${s.toString().replaceAll('.', ',').replaceAll(',0', '')}×')),
+                ButtonSegment(value: s, label: Text(SettingsService.speedLabel(s))),
             ],
             selected: {st.ttsSpeed},
             onSelectionChanged: (v) {
@@ -159,8 +159,8 @@ class SettingsScreen extends StatelessWidget {
           const SizedBox(height: 8),
           SegmentedButton<ThemeMode>(
             segments: const [
-              ButtonSegment(value: ThemeMode.light, label: Text('Pergaminho'), icon: Icon(Icons.light_mode_outlined)),
-              ButtonSegment(value: ThemeMode.dark, label: Text('Igreja'), icon: Icon(Icons.dark_mode_outlined)),
+              ButtonSegment(value: ThemeMode.light, label: Text('Pergaminho'), icon: Icon(Icons.wb_sunny_outlined)),
+              ButtonSegment(value: ThemeMode.dark, label: Text('Modo Igreja'), icon: Icon(Icons.church_outlined)),
               ButtonSegment(value: ThemeMode.system, label: Text('Auto'), icon: Icon(Icons.brightness_auto_outlined)),
             ],
             selected: {st.themeMode},
@@ -171,7 +171,7 @@ class SettingsScreen extends StatelessWidget {
           const SizedBox(height: 8),
           SegmentedButton<ReadingFont>(
             segments: const [
-              ButtonSegment(value: ReadingFont.serif, label: Text('Serifada clássica')),
+              ButtonSegment(value: ReadingFont.serif, label: Text('Serifa')),
               ButtonSegment(value: ReadingFont.sans, label: Text('Sem serifa')),
             ],
             selected: {st.readingFont},
@@ -179,22 +179,22 @@ class SettingsScreen extends StatelessWidget {
           ),
           const SizedBox(height: VsSpacing.md),
           Text('Tamanho da letra', style: t.titleSmall),
-          Slider(
+          CommitSlider(
             value: st.textScale,
             min: SettingsService.minTextScale,
             max: SettingsService.maxTextScale,
             divisions: 15,
-            label: '${(st.textScale * 100).round()}%',
-            onChanged: (v) => st.textScale = v,
+            label: (v) => '${(v * 100).round()}%',
+            onCommit: (v) => st.textScale = v,
           ),
           Text('Espaçamento entre linhas', style: t.titleSmall),
-          Slider(
+          CommitSlider(
             value: st.lineHeight,
             min: 1.3,
             max: 2.1,
             divisions: 8,
-            label: st.lineHeight.toStringAsFixed(1),
-            onChanged: (v) => st.lineHeight = v,
+            label: (v) => v.toStringAsFixed(1),
+            onCommit: (v) => st.lineHeight = v,
           ),
           Container(
             padding: const EdgeInsets.all(VsSpacing.md),
@@ -355,10 +355,8 @@ class _VoiceSettings extends StatelessWidget {
             child: TextButton.icon(
               icon: const Icon(Icons.record_voice_over_outlined),
               label: const Text('Ouvir exemplo'),
-              onPressed: () => audio.playSingle(
-                const ReadingSegment(id: 'exemplo-voz', title: 'Exemplo de voz', text: _sample),
-                speed: st.ttsSpeed,
-              ),
+              onPressed: () =>
+                  audio.playSingle(const ReadingSegment(id: 'exemplo-voz', title: 'Exemplo de voz', text: _sample)),
             ),
           ),
       ],
@@ -502,7 +500,8 @@ class _BackupTiles extends StatelessWidget {
       );
       if (saved != null) messenger.showSnackBar(const SnackBar(content: Text('Backup salvo.')));
     } catch (e) {
-      messenger.showSnackBar(SnackBar(content: Text('Não foi possível salvar o backup: $e')));
+      debugPrint('Salvar backup: $e');
+      messenger.showSnackBar(const SnackBar(content: Text('Não foi possível salvar o backup.')));
     }
   }
 
@@ -531,8 +530,11 @@ class _BackupTiles extends StatelessWidget {
       );
     } on FormatException {
       messenger.showSnackBar(const SnackBar(content: Text('O arquivo não é um JSON válido.')));
+    } on BackupException catch (e) {
+      messenger.showSnackBar(SnackBar(content: Text(e.message)));
     } catch (e) {
-      messenger.showSnackBar(SnackBar(content: Text('Não foi possível restaurar: $e')));
+      debugPrint('Restaurar backup: $e');
+      messenger.showSnackBar(const SnackBar(content: Text('Não foi possível restaurar este backup.')));
     }
   }
 

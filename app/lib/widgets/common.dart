@@ -133,3 +133,127 @@ class StreakBadge extends StatelessWidget {
     );
   }
 }
+
+/// Slider que só salva ao soltar: durante o arraste o valor fica local, sem gravar preferências
+/// nem reconstruir o tema do app inteiro a cada passo.
+class CommitSlider extends StatefulWidget {
+  const CommitSlider({
+    super.key,
+    required this.value,
+    required this.min,
+    required this.max,
+    required this.onCommit,
+    this.divisions,
+    this.label,
+  });
+
+  final double value;
+  final double min;
+  final double max;
+  final int? divisions;
+  final String Function(double value)? label;
+  final ValueChanged<double> onCommit;
+
+  @override
+  State<CommitSlider> createState() => _CommitSliderState();
+}
+
+class _CommitSliderState extends State<CommitSlider> {
+  double? _dragging;
+
+  @override
+  Widget build(BuildContext context) {
+    final v = _dragging ?? widget.value;
+    return Slider(
+      value: v,
+      min: widget.min,
+      max: widget.max,
+      divisions: widget.divisions,
+      label: widget.label?.call(v),
+      onChanged: (x) => setState(() => _dragging = x),
+      onChangeEnd: (x) {
+        widget.onCommit(x);
+        setState(() => _dragging = null);
+      },
+    );
+  }
+}
+
+/// Trecho de resultado de busca (FTS5): o que vem entre «» aparece em destaque.
+class SearchSnippet extends StatelessWidget {
+  const SearchSnippet(this.text, {super.key, this.style});
+
+  final String text;
+  final TextStyle? style;
+
+  @override
+  Widget build(BuildContext context) {
+    final hl = TextStyle(color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.w700);
+    final spans = <TextSpan>[];
+    var last = 0;
+    for (final m in RegExp('«(.*?)»').allMatches(text)) {
+      spans
+        ..add(TextSpan(text: text.substring(last, m.start)))
+        ..add(TextSpan(text: m.group(1), style: hl));
+      last = m.end;
+    }
+    spans.add(TextSpan(text: text.substring(last)));
+    return Text.rich(
+      TextSpan(style: style, children: spans),
+      maxLines: 3,
+      overflow: TextOverflow.ellipsis,
+    );
+  }
+}
+
+/// Pergunta antes de excluir algo do aparelho. Devolve `true` só se a pessoa confirmar.
+Future<bool> confirmDelete(BuildContext context, {required String name, required String details}) async =>
+    await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text('Excluir “$name”?'),
+        content: Text(details),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('Cancelar')),
+          FilledButton(onPressed: () => Navigator.pop(ctx, true), child: const Text('Excluir')),
+        ],
+      ),
+    ) ??
+    false;
+
+/// Explica por que um `.json` importado foi recusado.
+Future<void> showInvalidFileDialog(BuildContext context, {required String what, required String error, String? hint}) =>
+    showDialog<void>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Arquivo fora do padrão'),
+        content: Text(
+          'Não foi possível validar o arquivo JSON $what:\n\n$error\n\n'
+          '${hint ?? 'Consulte o formato padrão documentado no README do Via Sacra.'}',
+        ),
+        actions: [FilledButton(onPressed: () => Navigator.pop(ctx), child: const Text('Entendi'))],
+      ),
+    );
+
+/// Falha ao carregar: mensagem simples e botão para tentar de novo (no lugar de um spinner eterno).
+class LoadError extends StatelessWidget {
+  const LoadError({super.key, required this.message, required this.onRetry});
+
+  final String message;
+  final VoidCallback onRetry;
+
+  @override
+  Widget build(BuildContext context) => Center(
+    child: Padding(
+      padding: const EdgeInsets.all(VsSpacing.lg),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(message, textAlign: TextAlign.center, style: Theme.of(context).textTheme.bodyLarge),
+          const SizedBox(height: VsSpacing.md),
+          FilledButton.tonal(onPressed: onRetry, child: const Text('Tentar de novo')),
+        ],
+      ),
+    ),
+  );
+}

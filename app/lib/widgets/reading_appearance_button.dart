@@ -75,12 +75,12 @@ Future<void> showReadingAppearanceSheet(BuildContext context) {
                   children: [
                     const Text('A', style: TextStyle(fontSize: 13)),
                     Expanded(
-                      child: Slider(
+                      child: CommitSlider(
                         value: s.textScale,
                         min: SettingsService.minTextScale,
                         max: SettingsService.maxTextScale,
                         divisions: 15,
-                        onChanged: (v) => s.textScale = v,
+                        onCommit: (v) => s.textScale = v,
                       ),
                     ),
                     const Text('A', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600)),

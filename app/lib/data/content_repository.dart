@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart' show compute;
 import 'package:flutter/services.dart' show rootBundle;
 
 import '../core/liturgical_calendar.dart';
@@ -42,7 +43,7 @@ class ContentRepository {
   Future<ImitationOfChrist> _loadImitation() async {
     try {
       final raw = await rootBundle.loadString('assets/data/imitacao_de_cristo.json');
-      return ImitationOfChrist.fromJson(jsonDecode(raw) as Map<String, dynamic>);
+      return await compute(_parseImitation, raw); // ~360 KB: fora do thread da interface
     } catch (_) {
       _imitation = null; // permite nova tentativa
       rethrow;
@@ -62,3 +63,5 @@ class ContentRepository {
       ...mysteriesOf(s),
   ];
 }
+
+ImitationOfChrist _parseImitation(String raw) => ImitationOfChrist.fromJson(jsonDecode(raw) as Map<String, dynamic>);

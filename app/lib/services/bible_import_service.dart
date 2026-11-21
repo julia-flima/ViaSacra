@@ -1,19 +1,10 @@
-import 'dart:convert';
-
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
+import 'json_file.dart';
 import '../data/bible/bible_module.dart';
 import '../data/bible/bible_repository.dart';
-
-Map<String, dynamic> _decodeJsonObject(String raw) {
-  final decoded = jsonDecode(raw);
-  if (decoded is! Map<String, dynamic>) {
-    throw BibleModuleException('O arquivo JSON deve conter um objeto na raiz ({ ... }).');
-  }
-  return decoded;
-}
 
 /// Resumo de uma tradução importada com sucesso.
 class BibleImportResult {
@@ -75,22 +66,12 @@ class BibleImportService {
 
   /// Valida e instala um módulo JSON a partir de bytes UTF-8.
   Future<BibleImportResult> importFromBytes(Uint8List bytes, {BibleImportProgress? onProgress}) async {
-    if (bytes.isEmpty) {
-      throw BibleModuleException('O arquivo selecionado está vazio.');
-    }
     onProgress?.call(0.1, 'Validando estrutura do JSON…');
-    final String raw;
-    try {
-      raw = utf8.decode(bytes);
-    } on FormatException {
-      throw BibleModuleException('O arquivo não está codificado em UTF-8 válido.');
-    }
-
     final Map<String, dynamic> json;
     try {
-      json = await compute(_decodeJsonObject, raw);
+      json = await decodeJsonFile(bytes);
     } on FormatException catch (e) {
-      throw BibleModuleException('JSON malformado: ${e.message}');
+      throw BibleModuleException(e.message);
     }
 
     final module = BibleModule.parse(json);

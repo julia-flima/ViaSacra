@@ -43,7 +43,6 @@ class LiturgyScreen extends StatelessWidget {
         queueKey,
         buildLiturgyQueue(l, preferRecorded: settings.preferRecordedAudio, startAt: index),
         startAt: index,
-        speed: settings.ttsSpeed,
       );
     }
 
@@ -60,7 +59,6 @@ class LiturgyScreen extends StatelessWidget {
           text: '${h.work ?? h.title}. ${h.author != null ? '${h.author}. ' : ''}${h.text}',
           audioUrl: recordedUrl,
         ),
-        speed: settings.ttsSpeed,
       );
     }
 
@@ -218,8 +216,6 @@ class _QuickDateBar extends StatelessWidget {
   final ValueChanged<DateTime> onSelect;
   final VoidCallback onPickDate;
 
-  static bool _sameDay(DateTime a, DateTime b) => a.year == b.year && a.month == b.month && a.day == b.day;
-
   @override
   Widget build(BuildContext context) {
     final now = DateTime.now();
@@ -233,19 +229,19 @@ class _QuickDateBar extends StatelessWidget {
         children: [
           ChoiceChip(
             label: const Text('Ontem'),
-            selected: _sameDay(selected, yesterday),
+            selected: DateUtils.isSameDay(selected, yesterday),
             onSelected: (_) => onSelect(yesterday),
           ),
           const SizedBox(width: 8),
           ChoiceChip(
             label: const Text('Hoje'),
-            selected: _sameDay(selected, today),
+            selected: DateUtils.isSameDay(selected, today),
             onSelected: (_) => onSelect(today),
           ),
           const SizedBox(width: 8),
           ChoiceChip(
             label: const Text('Amanhã'),
-            selected: _sameDay(selected, tomorrow),
+            selected: DateUtils.isSameDay(selected, tomorrow),
             onSelected: (_) => onSelect(tomorrow),
           ),
           const SizedBox(width: 8),
@@ -306,12 +302,9 @@ class _MarkAsRead extends StatefulWidget {
 class _MarkAsReadState extends State<_MarkAsRead> {
   @override
   Widget build(BuildContext context) {
-    final settings = context.watch<SettingsService>();
-    if (!settings.showStreak) return const SizedBox.shrink();
+    if (!context.select<SettingsService, bool>((s) => s.showStreak)) return const SizedBox.shrink();
+    if (!DateUtils.isSameDay(widget.date, DateTime.now())) return const SizedBox.shrink();
     final repo = context.read<AppServices>().userData;
-    final now = DateTime.now();
-    final today = widget.date.year == now.year && widget.date.month == now.month && widget.date.day == now.day;
-    if (!today) return const SizedBox.shrink();
     final done = repo.prayedOn(widget.date, kind: PrayerKind.liturgia);
     return Center(
       child: done

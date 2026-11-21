@@ -49,12 +49,15 @@ class AppServices {
   final NavigationController navigation;
 
   static Future<AppServices> bootstrap() async {
-    final settings = await SettingsService.load();
-    final db = await AppDatabase.open();
+    // O que não depende entre si roda junto: o 1º quadro aparece mais cedo.
     final content = ContentRepository();
-    await content.load();
+    final (settings, db, _, audio) = await (
+      SettingsService.load(),
+      AppDatabase.open(),
+      content.load(),
+      ReadingAudioController.create(),
+    ).wait;
     final liturgy = LiturgyRepository(db)..prune();
-    final audio = await ReadingAudioController.create();
     await audio.setSpeed(settings.ttsSpeed);
     await audio.setKokoroVoice(settings.kokoroVoice);
     await audio.setPiperVoice(settings.piperVoice);
@@ -67,7 +70,8 @@ class AppServices {
     if (!kIsWeb) {
       try {
         notifications = await NotificationService.create(onTap: navigation.openFromNotification);
-        await notifications.reschedule(settings, liturgy);
+        // Não precisa segurar a abertura do app.
+        unawaited(notifications.reschedule(settings, liturgy).catchError((Object e) => debugPrint('Lembretes: $e')));
         // App aberto a frio pelo toque no lembrete.
         navigation.openFromNotification(await notifications.launchPayload());
       } catch (e) {
@@ -118,9 +122,10 @@ class LiturgyController extends ChangeNotifier {
     date = DateTime(d.year, d.month, d.day);
     loading = true;
     error = null; // não carrega o erro da data anterior
-    liturgy = _repo.cached(date) ?? DailyLiturgy.calendarOnly(date);
+    final local = _repo.cached(date);
+    liturgy = local ?? DailyLiturgy.calendarOnly(date);
     notifyListeners();
-    final result = await _repo.load(date, forceRefresh: force);
+    final result = await _repo.load(date, forceRefresh: force, local: local);
     if (DateTime(d.year, d.month, d.day) != date) return; // usuário trocou de data
     liturgy = result.liturgy;
     origin = result.origin;

@@ -10,7 +10,6 @@ import '../../core/theme.dart';
 import '../../data/models/catechism.dart';
 import '../../services/catechism_import_service.dart';
 import '../../services/reading_audio_service.dart';
-import '../../services/settings_service.dart';
 import '../../widgets/reading_appearance_button.dart';
 import '../../widgets/common.dart';
 import '../../widgets/local_note_field.dart';
@@ -162,19 +161,10 @@ class _CatechismScreenState extends State<CatechismScreen> {
       }
     } on CatechismModuleException catch (e) {
       if (!mounted) return;
-      await showDialog<void>(
-        context: context,
-        builder: (ctx) => AlertDialog(
-          title: const Text('Arquivo fora do padrão'),
-          content: Text(
-            'Não foi possível validar o arquivo JSON do catecismo:\n\n${e.message}\n\n'
-            'Consulte o formato padrão documentado no README do Via Sacra.',
-          ),
-          actions: [FilledButton(onPressed: () => Navigator.pop(ctx), child: const Text('Entendi'))],
-        ),
-      );
+      await showInvalidFileDialog(context, what: 'do catecismo', error: e.message);
     } catch (e) {
-      if (mounted) messenger.showSnackBar(SnackBar(content: Text('Não foi possível importar: $e')));
+      debugPrint('Importar catecismo: $e');
+      if (mounted) messenger.showSnackBar(const SnackBar(content: Text('Não foi possível ler este arquivo.')));
     } finally {
       if (mounted) {
         setState(() {
@@ -186,18 +176,12 @@ class _CatechismScreenState extends State<CatechismScreen> {
   }
 
   Future<void> _deleteWork(CatechismWork work) async {
-    final ok = await showDialog<bool>(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: Text('Excluir “${work.name}”?'),
-        content: Text('As ${work.entryCount} entradas serão removidas deste aparelho para liberar espaço.'),
-        actions: [
-          TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('Cancelar')),
-          FilledButton(onPressed: () => Navigator.pop(ctx, true), child: const Text('Excluir')),
-        ],
-      ),
+    final ok = await confirmDelete(
+      context,
+      name: work.name,
+      details: 'As ${work.entryCount} entradas serão removidas deste aparelho para liberar espaço.',
     );
-    if ((ok ?? false) && mounted) {
+    if (ok && mounted) {
       await CatechismImportService(context.read<AppServices>().catechism).deleteWork(work.id);
       if (mounted) {
         setState(() {
@@ -556,45 +540,19 @@ class _EntryTile extends StatelessWidget {
     final t = Theme.of(context).textTheme;
     final cs = Theme.of(context).colorScheme;
     final preview = entry.snippet ?? entry.answer;
-    final hl = TextStyle(color: cs.primary, fontWeight: FontWeight.w700);
     return ListTile(
       contentPadding: EdgeInsets.zero,
       onTap: onTap,
       leading: Text('$label ${entry.number}', style: t.titleSmall?.copyWith(color: cs.primary)),
       title: entry.question != null
           ? Text(entry.question!, style: t.titleSmall)
-          : _Highlighted(text: preview, style: t.bodyMedium, highlight: hl),
-      subtitle: entry.question != null ? _Highlighted(text: preview, style: t.bodySmall, highlight: hl) : null,
+          : SearchSnippet(preview, style: t.bodyMedium),
+      subtitle: entry.question != null ? SearchSnippet(preview, style: t.bodySmall) : null,
     );
   }
 }
 
 /// Renderiza trechos «destacados» retornados pelo snippet() do FTS5.
-class _Highlighted extends StatelessWidget {
-  const _Highlighted({required this.text, this.style, required this.highlight});
-  final String text;
-  final TextStyle? style;
-  final TextStyle highlight;
-
-  @override
-  Widget build(BuildContext context) {
-    final spans = <TextSpan>[];
-    final re = RegExp('«(.*?)»');
-    var last = 0;
-    for (final m in re.allMatches(text)) {
-      spans.add(TextSpan(text: text.substring(last, m.start)));
-      spans.add(TextSpan(text: m.group(1), style: highlight));
-      last = m.end;
-    }
-    spans.add(TextSpan(text: text.substring(last)));
-    return Text.rich(
-      TextSpan(style: style, children: spans),
-      maxLines: 3,
-      overflow: TextOverflow.ellipsis,
-    );
-  }
-}
-
 class _OfficialTocTile extends StatelessWidget {
   const _OfficialTocTile({required this.node, required this.onOpen});
 
@@ -628,7 +586,6 @@ class CatechismEntryScreen extends StatefulWidget {
 class _CatechismEntryScreenState extends State<CatechismEntryScreen> {
   void _listen() {
     final e = widget.entry;
-    final settings = context.read<SettingsService>();
     final speech = e.question != null ? '${e.question} ${e.answer}' : e.answer;
     context.read<ReadingAudioController>().playSingle(
       ReadingSegment(
@@ -638,7 +595,6 @@ class _CatechismEntryScreenState extends State<CatechismEntryScreen> {
         text: speech,
         language: widget.work.language,
       ),
-      speed: settings.ttsSpeed,
     );
   }
 
@@ -653,7 +609,7 @@ class _CatechismEntryScreenState extends State<CatechismEntryScreen> {
       appBar: AppBar(
         title: Text('${widget.work.shortName} · ${widget.work.entryLabel} ${e.number}'),
         actions: [
-          IconButton(tooltip: 'Ouvir (TTS)', icon: const Icon(Icons.headphones_outlined), onPressed: _listen),
+          IconButton(tooltip: 'Ouvir em voz alta', icon: const Icon(Icons.headphones_outlined), onPressed: _listen),
           IconButton(
             tooltip: fav ? 'Remover dos favoritos' : 'Favoritar',
             icon: Icon(fav ? Icons.bookmark : Icons.bookmark_border),

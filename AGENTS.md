@@ -56,7 +56,7 @@ O Via Sacra é um aplicativo devocional católico. Qualquer alteração de conte
 ## 4. APIs Atualizadas, Ambiente Local e Verificação de Métodos
 
 - **Nunca assuma contratos antigos de APIs externas ou pacotes:** antes de alterar integrações externas (ex.: API das Edições CNBB `api-liturgia.edicoescnbb.com.br`, Vatican News) ou atualizar dependências Flutter/Dart/Python, **consulte a documentação oficial na web e verifique as assinaturas/métodos atuais**.
-- **Confira o sistema antes de usar uma ferramenta.** Aqui usamos **Fedora Workstation**: pacotes do sistema pelo `dnf` e ferramentas de desenvolvimento (Flutter/Dart, Python/uv, Node) pelo `mise` (shims em `~/.local/share/mise/shims`). Outros sistemas podem usar outros gerenciadores. Antes de dizer que algo não existe, verifique com `command -v`, `mise ls`, `mise which flutter` e `flutter doctor`.
+- **Confira o sistema antes de usar uma ferramenta.** Aqui usamos **Fedora Workstation**: pacotes do sistema pelo `dnf` e ferramentas de desenvolvimento (Flutter/Dart, Java 21, Android CLI, Python/uv, Node) pelo `mise`, instaladas de forma global (shims em `~/.local/share/mise/shims`). O Android SDK fica em `~/Android/Sdk` (`ANDROID_HOME` no `mise`, `--sdk=` no `~/.androidrc`) e é gerenciado com `android sdk`; o `sdkmanager` está obsoleto. Outros sistemas podem usar outros gerenciadores. Antes de dizer que algo não existe, verifique com `command -v`, `mise ls`, `mise which flutter` e `flutter doctor`.
 - **Peça antes de instalar.** Se faltar uma ferramenta (emulador, Android SDK, Chrome, Playwright, ferramentas de build…), diga o que falta, para que serve e o comando sugerido para o sistema detectado, e **peça ao usuário para instalar**. Não instale nada no sistema por conta própria.
 - **Verificação de qualidade antes de concluir:**
   - **Flutter/Dart (`app/`):** `dart format --output=none --set-exit-if-changed lib test` (`page_width: 120` em `app/analysis_options.yaml`), `flutter analyze` (zero warnings/erros) e `flutter test`.
@@ -64,8 +64,9 @@ O Via Sacra é um aplicativo devocional católico. Qualquer alteração de conte
   - **GitHub Actions:** sempre confirmar via `gh run list` / `gh run view` que o CI passou sem erros após o push.
 - **Testes independentes do relógio:** datas fixas ou relativas a dias inteiros; nada de "agora + 1 h", que quebra perto da meia-noite UTC.
 - **Teste a interface de ponta a ponta (E2E) antes de concluir** qualquer mudança visível ao usuário:
-  - **Web:** abra o app no navegador (integração com o Google Chrome, Playwright ou ferramenta equivalente), percorra o fluxo alterado e confira o console sem erros.
-  - **Mobile:** rode a build Android num **emulador** (`flutter emulators --launch <id>` e `flutter run`) e repita o fluxo.
+  - **Web:** `flutter build web` servido localmente e aberto no Chromium/Chrome (navegador integrado, Playwright ou equivalente); percorra o fluxo alterado e confira o console sem erros.
+  - **Mobile:** emulador Android (`flutter emulators --launch medium_phone`), `flutter build apk --profile --target-platform android-x64`, `adb install -r …` e `adb logcat` durante o fluxo. Sem janela, toque pelos textos da tela com `adb shell uiautomator dump` + `adb shell input tap x y`. A voz neural só é testável num build com `tool/fetch_kokoro_model.py` rodado antes.
+  - **Memória:** a máquina de referência tem 7,4 GB. Nunca rode Gradle e emulador juntos (`adb emu kill` antes de compilar e `./gradlew --stop` depois); `~/.gradle/gradle.properties` limita o Gradle a 3 GB. O binário *headless* do emulador crasha aqui: use o emulador com janela.
   - Se a ferramenta não estiver instalada, peça a instalação (item acima). Se mesmo assim não der para testar, diga claramente o que ficou sem teste.
 
 ---
@@ -80,7 +81,7 @@ Para permitir testar novas funcionalidades no celular (Android `.apk` e iOS `.ip
   1. `app/pubspec.yaml`: `version: X.Y.Z+N`, com `N` (versionCode) maior que o da release anterior;
   2. `AppInfo.version` em `app/lib/core/constants.dart` e a receita `fdroid/io.github.juliaflima.via_sacra.yml` com a mesma versão (teste `app_version_test.dart`);
   3. notas da versão em `docs/releases/vX.Y.Z.md` (obrigatórias em releases estáveis) e changelog do F-Droid em `fastlane/metadata/android/pt-BR/changelogs/N.txt` (até 500 caracteres).
-- **Artefatos gerados:** `ViaSacra-universal.apk`, APKs por ABI (`arm64-v8a`, `armeabi-v7a`, `x86_64`) e `ViaSacra-unsigned.ipa`, todos verificados sem dependências proprietárias (F-Droid ready).
+- **Artefatos gerados:** `ViaSacra-universal.apk`, APKs por ABI (`arm64-v8a`, `armeabi-v7a`, `x86_64`) e `ViaSacra-unsigned.ipa`, todos com a voz Kokoro embutida (`tool/fetch_kokoro_model.py`) e verificados sem dependências proprietárias (F-Droid ready).
 
 ---
 
@@ -94,7 +95,7 @@ Para permitir testar novas funcionalidades no celular (Android `.apk` e iOS `.ip
 
 ## 7. Estado atual e próximos passos
 
-**Versão em produção: v1.5.0** (`main` = `dev`). Sem issues ou PRs abertos.
+**Versão em produção: v1.5.0** (`main`). Na `dev`: **v1.6.0-beta.1** (voz Kokoro embutida no APK, Piper opcional, desempenho e botão voltar), aguardando teste no celular antes do PR `dev → main`.
 
 **Fluxo usado até aqui:** uma branch por tarefa a partir da `dev` → PR para a `dev` → CI verde → merge e apagar a branch. Para lançar: subir a versão (seção 5), PR `dev → main`, tag `vX.Y.Z` e conferir Release e site.
 
@@ -102,9 +103,11 @@ Para permitir testar novas funcionalidades no celular (Android `.apk` e iOS `.ip
 
 | Assunto | Arquivos |
 |---|---|
-| Voz neural (celular) | `services/native_tts_io.dart` (Kokoro via sherpa-onnx num Isolate) |
+| Voz neural (celular) | `services/native_tts_io.dart` (Kokoro embutido + Piper baixável, sherpa-onnx num Isolate; um modelo por vez) |
+| Voz embutida no APK | `tool/fetch_kokoro_model.py` → `app/assets/voice/kokoro/` (partes + `manifest.json`, fora do git); `build-release.yml` e receita F-Droid rodam o script |
+| Escolha do motor de voz | `SettingsService.ttsEngine`/`piperVoice` e `_VoiceSettings` em `features/settings/settings_screen.dart` |
 | Voz neural (Web) | `web/kokoro_tts.js` e `web/kokoro_worker.js` (onnxruntime-web) |
-| Fila de leitura e divisão do texto | `services/reading_audio_service.dart` (`splitForSpeech`, aquecimento do modelo) |
+| Fila de leitura e divisão do texto | `services/reading_audio_service.dart` (`splitForSpeech`, pré-síntese da leitura seguinte, um só `AudioPlayer`) |
 | Limpeza do texto para a voz | `services/neural_tts_types.dart` (`normalizeTextForKokoro`) |
 | MP3 diários da Liturgia | `scraper/generate_audio.py` + `update-liturgy.yml` (branch `data`, via jsDelivr) |
 | Arte sacra | `tool/sacred_art_catalog.json` → `tool/fetch_sacred_art.py` → `assets/data/sacred_art.json`; rodízio em `data/liturgical_art.dart` |
@@ -120,4 +123,8 @@ Para permitir testar novas funcionalidades no celular (Android `.apk` e iOS `.ip
 - **Áudio instantâneo** para conteúdo fixo (orações, Terço, Via Sacra): gerar MP3 no CI, como já é feito com a Liturgia.
 - **Web:** onnxruntime-web e ephone ainda vêm do jsDelivr (hospedar junto do site); a voz roda numa só thread porque o GitHub Pages não envia COOP/COEP (avaliar `coi-serviceworker`).
 - **Telas grandes** a dividir em widgets: `bible_screen.dart`, `catechism_screen.dart`, `settings_screen.dart`.
-- **Ambiente de testes E2E** (verificado em 2026-11-21): faltam Google Chrome (ou Chromium), Android SDK e um emulador (AVD). `npx` já existe via `mise`, então o Playwright pode ser usado assim que um navegador estiver instalado.
+- **Voz no aparelho real:** no emulador x86_64 a síntese do Kokoro fica um pouco mais lenta que a fala (pausas de 2–6 s entre trechos); medir num celular arm64 e, se preciso, ajustar `kNeuralChunkLen` ou as threads.
+- **Licença da voz Dii (Piper):** CC BY-NC-SA 4.0 (não comercial). Não vem no app, só é baixada a pedido; decidir se fica (F-Droid pode marcar como *NonFreeAssets*). Faber é CC0.
+- **MP3 da Liturgia já gerados** na branch `data` com a voz Piper antiga (ex.: 2026-11-21) não são refeitos pelo gerador atual (Kokoro).
+- **Pequenas limpezas restantes:** `widgets/keyboard_scroll.dart` reimplementa atalhos que o Flutter já oferece; o texto da Via Sacra está em constantes Dart (`via_sacra_screen.dart`) em vez de `assets/data/`; o catálogo da Bíblia na Web não mostra "Tentar de novo" se falhar.
+- **Testes de tela:** `test/support/app_harness.dart` não suporta dois `buildServices` no mesmo arquivo (o 2º trava); use um arquivo por teste de fluxo.

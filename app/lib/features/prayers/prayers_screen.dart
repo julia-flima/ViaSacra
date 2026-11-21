@@ -125,7 +125,7 @@ class _PrayerScreenState extends State<PrayerScreen> {
         actions: [
           IconButton(
             tooltip: fav ? 'Remover dos favoritos' : 'Favoritar',
-            icon: Icon(fav ? Icons.favorite : Icons.favorite_border),
+            icon: Icon(fav ? Icons.bookmark : Icons.bookmark_border),
             onPressed: () => setState(() => s.userData.toggleFavorite('prayer', p.id, label: p.title)),
           ),
           IconButton(

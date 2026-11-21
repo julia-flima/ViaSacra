@@ -150,6 +150,17 @@ class NotificationService {
     return ('Liturgia Diária · ${_capitalize(date)}', body.toString());
   }
 
+  /// Exemplo de hoje mostrado nas Configurações. Guardado por dia: o `build` da tela roda a cada
+  /// ajuste (ex.: slider) e a mensagem consulta o banco e decodifica a liturgia.
+  static String liturgyExample(LiturgyRepository repo) {
+    final today = DateTime.now();
+    final key = DateFormat('yyyy-MM-dd').format(today);
+    if (_example?.$1 != key) _example = (key, liturgyMessage(today, repo).$2);
+    return _example!.$2;
+  }
+
+  static (String, String)? _example;
+
   /// Ex.: "Hora do Santo Terço: Hoje contemplamos os Mistérios Luminosos"
   static (String, String) rosaryMessage(DateTime day) {
     final set = LiturgicalCalendar.mysteriesFor(day);

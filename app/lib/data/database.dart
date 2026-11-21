@@ -186,7 +186,9 @@ class AppDatabase {
       if (current != null && current >= version) continue;
       try {
         final raw = await rootBundle.loadString(asset);
-        await importCatechismWork(jsonDecode(raw) as Map<String, dynamic>, bundled: true);
+        // Decodifica fora do thread da interface (centenas de KB, só na instalação/atualização).
+        final data = await compute(jsonDecode, raw) as Map<String, dynamic>;
+        await importCatechismWork(data, bundled: true);
       } on FlutterError {
         debugPrint('$asset ausente.');
       }
