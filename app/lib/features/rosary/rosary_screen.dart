@@ -186,10 +186,11 @@ class _RosaryScreenState extends State<RosaryScreen> with WidgetsBindingObserver
   Widget _buildChooser(BuildContext context) {
     final t = Theme.of(context).textTheme;
     final pad = VsSpacing.page(context);
-    final settings = context.watch<SettingsService>();
+    // Só reconstrói quando a opção muda (a aba fica viva no IndexedStack e `streak()` consulta o banco).
+    final showStreak = context.select<SettingsService, bool>((s) => s.showStreak);
     final today = LiturgicalCalendar.mysteriesFor(_today);
     final first = _s.content.mysteriesOf(_set).firstOrNull;
-    final streak = settings.showStreak ? _s.userData.streak() : null;
+    final streak = showStreak ? _s.userData.streak() : null;
 
     return ListView(
       padding: EdgeInsets.fromLTRB(pad, VsSpacing.md, pad, VsSpacing.xxl),

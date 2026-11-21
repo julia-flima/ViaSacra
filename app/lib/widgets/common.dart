@@ -133,3 +133,48 @@ class StreakBadge extends StatelessWidget {
     );
   }
 }
+
+/// Slider que só salva ao soltar: durante o arraste o valor fica local, sem gravar preferências
+/// nem reconstruir o tema do app inteiro a cada passo.
+class CommitSlider extends StatefulWidget {
+  const CommitSlider({
+    super.key,
+    required this.value,
+    required this.min,
+    required this.max,
+    required this.onCommit,
+    this.divisions,
+    this.label,
+  });
+
+  final double value;
+  final double min;
+  final double max;
+  final int? divisions;
+  final String Function(double value)? label;
+  final ValueChanged<double> onCommit;
+
+  @override
+  State<CommitSlider> createState() => _CommitSliderState();
+}
+
+class _CommitSliderState extends State<CommitSlider> {
+  double? _dragging;
+
+  @override
+  Widget build(BuildContext context) {
+    final v = _dragging ?? widget.value;
+    return Slider(
+      value: v,
+      min: widget.min,
+      max: widget.max,
+      divisions: widget.divisions,
+      label: widget.label?.call(v),
+      onChanged: (x) => setState(() => _dragging = x),
+      onChangeEnd: (x) {
+        widget.onCommit(x);
+        setState(() => _dragging = null);
+      },
+    );
+  }
+}

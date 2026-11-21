@@ -306,12 +306,9 @@ class _MarkAsRead extends StatefulWidget {
 class _MarkAsReadState extends State<_MarkAsRead> {
   @override
   Widget build(BuildContext context) {
-    final settings = context.watch<SettingsService>();
-    if (!settings.showStreak) return const SizedBox.shrink();
+    if (!context.select<SettingsService, bool>((s) => s.showStreak)) return const SizedBox.shrink();
+    if (!DateUtils.isSameDay(widget.date, DateTime.now())) return const SizedBox.shrink();
     final repo = context.read<AppServices>().userData;
-    final now = DateTime.now();
-    final today = widget.date.year == now.year && widget.date.month == now.month && widget.date.day == now.day;
-    if (!today) return const SizedBox.shrink();
     final done = repo.prayedOn(widget.date, kind: PrayerKind.liturgia);
     return Center(
       child: done

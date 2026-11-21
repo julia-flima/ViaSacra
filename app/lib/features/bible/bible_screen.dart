@@ -519,7 +519,7 @@ class _BibleScreenState extends State<BibleScreen> {
                   emphasized: highlight?.containsAt(pos.chapter - _highlightChapter, v.verse) ?? false,
                   dark: dark,
                   onTap: () async {
-                    bible.open(tr.id, book.id, pos.chapter, verse: v.verse);
+                    bible.rememberVerse(tr.id, book.id, pos.chapter, v.verse);
                     final r = await showVerseActions(
                       context,
                       verse: v,

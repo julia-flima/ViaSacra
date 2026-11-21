@@ -75,7 +75,7 @@ class SettingsScreen extends StatelessWidget {
           if (!kIsWeb && st.notificationsEnabled) ...[
             _ReminderTile(
               title: 'Liturgia Diária',
-              example: NotificationService.liturgyMessage(DateTime.now(), services.liturgyRepository).$2,
+              example: NotificationService.liturgyExample(services.liturgyRepository),
               enabled: st.liturgyReminder,
               time: st.liturgyReminderTime,
               onToggle: (v) async {
@@ -179,22 +179,22 @@ class SettingsScreen extends StatelessWidget {
           ),
           const SizedBox(height: VsSpacing.md),
           Text('Tamanho da letra', style: t.titleSmall),
-          Slider(
+          CommitSlider(
             value: st.textScale,
             min: SettingsService.minTextScale,
             max: SettingsService.maxTextScale,
             divisions: 15,
-            label: '${(st.textScale * 100).round()}%',
-            onChanged: (v) => st.textScale = v,
+            label: (v) => '${(v * 100).round()}%',
+            onCommit: (v) => st.textScale = v,
           ),
           Text('Espaçamento entre linhas', style: t.titleSmall),
-          Slider(
+          CommitSlider(
             value: st.lineHeight,
             min: 1.3,
             max: 2.1,
             divisions: 8,
-            label: st.lineHeight.toStringAsFixed(1),
-            onChanged: (v) => st.lineHeight = v,
+            label: (v) => v.toStringAsFixed(1),
+            onCommit: (v) => st.lineHeight = v,
           ),
           Container(
             padding: const EdgeInsets.all(VsSpacing.md),

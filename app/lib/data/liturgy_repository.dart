@@ -60,8 +60,9 @@ class LiturgyRepository {
   /// Liturgia com leituras e Salmo: não precisa de nova busca para ser exibida.
   static bool isComplete(DailyLiturgy? l) => l != null && l.hasReadings && l.readings.any((r) => r.isPsalm);
 
-  Future<LiturgyResult> load(DateTime date, {bool forceRefresh = false, DateTime? now}) async {
-    final local = cached(date);
+  /// [local] evita decodificar de novo o cache que quem chama já leu.
+  Future<LiturgyResult> load(DateTime date, {bool forceRefresh = false, DateTime? now, DailyLiturgy? local}) async {
+    local ??= cached(date);
     final complete = isComplete(local);
     final n = now ?? DateTime.now();
     final past = DateTime(date.year, date.month, date.day).isBefore(DateTime(n.year, n.month, n.day));
