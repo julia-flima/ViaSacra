@@ -18,6 +18,8 @@ class ReadingSegment {
     this.subtitle,
     this.text,
     this.audioUrl,
+    this.clipStart,
+    this.clipEnd,
     this.language = 'pt-BR',
   });
 
@@ -26,6 +28,10 @@ class ReadingSegment {
   final String? subtitle;
   final String? text;
   final String? audioUrl;
+
+  /// Trecho do [audioUrl] que pertence a este item (uma leitura dentro do MP3 da Liturgia).
+  final Duration? clipStart;
+  final Duration? clipEnd;
 
   /// Idioma do texto (BCP-47) — ex.: "pt-BR", "en", "la".
   final String language;
@@ -40,11 +46,12 @@ class ReadingSegment {
   );
 }
 
-/// Monta a fila "Ouvir Liturgia": 1ª Leitura → Salmo → 2ª Leitura → Evangelho
-/// → (opcional) Homilia/Reflexão. Usa o áudio gravado completo somente quando
-/// `preferRecorded` é verdadeiro e a leitura começa do início (`startAt == 0`);
-/// caso contrário monta segmentos individuais para iniciar exatamente no ponto
-/// escolhido pelo usuário.
+/// Monta a fila "Ouvir Liturgia": 1ª Leitura → Salmo → 2ª Leitura → Evangelho → (opcional)
+/// Homilia/Reflexão. Com o MP3 narrado preferido:
+/// - se ele traz as marcas de início de cada leitura, cada leitura vira um trecho recortado do
+///   mesmo MP3 (avançar/voltar e "Ouvir a partir daqui" funcionam sem síntese de voz);
+/// - sem marcas, o MP3 inteiro é um item só, usado apenas quando a leitura começa do início.
+/// Fora disso, cada leitura é lida pela voz (neural ou do aparelho).
 List<ReadingSegment> buildLiturgyQueue(
   DailyLiturgy l, {
   bool preferRecorded = true,
@@ -52,24 +59,31 @@ List<ReadingSegment> buildLiturgyQueue(
   Homily? reflection,
 }) {
   final q = <ReadingSegment>[];
-  if (preferRecorded && startAt == 0 && l.audio.liturgyAudioUrl != null) {
+  final url = preferRecorded ? l.audio.liturgyAudioUrl : null;
+  final marks = l.audio.liturgyAudioMarks;
+  final clipped = url != null && l.readings.isNotEmpty && l.readings.every((r) => marks.containsKey(r.kind.jsonKey));
+  if (url != null && !clipped && startAt == 0) {
     q.add(
       ReadingSegment(
         id: '${l.date.toIso8601String()}#audio',
         title: 'Liturgia do dia',
         subtitle: l.audio.creditFor('liturgia_audio_url')?.channel,
         text: l.readings.map((r) => r.toSpeech()).join('\n\n'),
-        audioUrl: l.audio.liturgyAudioUrl,
+        audioUrl: url,
       ),
     );
   } else {
-    for (final r in l.readings) {
+    for (final (i, r) in l.readings.indexed) {
       q.add(
         ReadingSegment(
           id: '${l.date.toIso8601String()}#${r.kind.jsonKey}',
           title: r.kind.label,
           subtitle: r.reference,
           text: r.toSpeech(),
+          audioUrl: clipped ? url : null,
+          // A 1ª leitura inclui a abertura ("Liturgia Diária. …"); a última vai até o fim do MP3.
+          clipStart: clipped && i > 0 ? marks[r.kind.jsonKey] : null,
+          clipEnd: clipped && i + 1 < l.readings.length ? marks[l.readings[i + 1].kind.jsonKey] : null,
         ),
       );
     }
@@ -318,6 +332,7 @@ class ReadingAudioHandler extends BaseAudioHandler with QueueHandler {
     if (_disposed) return;
     final seg = _current;
     if (seg == null) return;
+    _trace('play #$_index ${seg.id} chunk $_chunk recorded=${seg.isRecorded}');
     _playing = true;
     mediaItem.add(seg.toMediaItem());
     _broadcast();
@@ -332,11 +347,17 @@ class ReadingAudioHandler extends BaseAudioHandler with QueueHandler {
           await recordedPlay!(seg.audioUrl!, _speed);
         } else {
           if (_player.audioSource == null || _chunk == 0) {
-            await _player.setUrl(seg.audioUrl!);
+            final source = AudioSource.uri(Uri.parse(seg.audioUrl!));
+            await _player.setAudioSource(
+              seg.clipStart == null && seg.clipEnd == null
+                  ? source
+                  : ClippingAudioSource(child: source, start: seg.clipStart, end: seg.clipEnd),
+            );
             _chunk = 1; // marca como carregado
           }
           await _player.setSpeed(_speed);
           _playingRecorded = true;
+          _broadcast(); // a interface deixa de mostrar "Sintetizando…"
           unawaited(_player.play());
         }
         return;
@@ -473,6 +494,7 @@ class ReadingAudioHandler extends BaseAudioHandler with QueueHandler {
   Future<void> skipToQueueItem(int index) => _jump(index);
 
   Future<void> jumpTo(int index, {bool autoplay = false}) async {
+    _trace('jumpTo $index (atual $_index de ${_segments.length}) autoplay=$autoplay');
     if (_disposed || _segments.isEmpty) return;
     await stop();
     _index = index.clamp(0, _segments.length - 1);
@@ -498,6 +520,11 @@ class ReadingAudioHandler extends BaseAudioHandler with QueueHandler {
       unawaited(play());
     }
     _broadcast();
+  }
+
+  /// Registro para diagnóstico (só fora do modo release; aparece no `adb logcat` como `VS-TTS`).
+  void _trace(String msg) {
+    if (!kReleaseMode) debugPrint('VS-TTS $msg');
   }
 
   String get kokoroVoice => _kokoroVoice;

@@ -147,6 +147,7 @@ class LiturgyAudio {
     this.psalmVideoTitle,
     this.liturgyAudioUrl,
     this.homilyAudioUrl,
+    this.liturgyAudioMarks = const {},
     this.credits = const [],
   });
 
@@ -156,6 +157,10 @@ class LiturgyAudio {
   final String? psalmVideoTitle;
   final String? liturgyAudioUrl;
   final String? homilyAudioUrl;
+
+  /// Onde começa cada leitura no MP3 da Liturgia (chave = `ReadingKind.jsonKey`).
+  /// Permite avançar/voltar entre leituras e começar de qualquer uma sem voz sintetizada.
+  final Map<String, Duration> liturgyAudioMarks;
   final List<AudioCredit> credits;
 
   factory LiturgyAudio.fromJson(Map<String, dynamic>? j) => j == null
@@ -167,6 +172,10 @@ class LiturgyAudio {
           psalmVideoTitle: _s(j['salmo_video_titulo']),
           liturgyAudioUrl: _s(j['liturgia_audio_url']),
           homilyAudioUrl: _s(j['homilia_audio_url']),
+          liturgyAudioMarks: {
+            for (final e in ((j['liturgia_audio_marcas'] as Map?) ?? const {}).entries)
+              if (e.value is num) '${e.key}': Duration(milliseconds: ((e.value as num) * 1000).round()),
+          },
           credits:
               (j['creditos'] as List?)?.whereType<Map<String, dynamic>>().map(AudioCredit.fromJson).toList() ??
               const [],

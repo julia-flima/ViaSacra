@@ -79,6 +79,14 @@ class AppServices {
       }
     }
     final bible = BibleService(BibleRepository(db));
+    if (kIsWeb) {
+      // Depois do primeiro quadro, sem disputar a abertura do app.
+      unawaited(
+        Future<void>.delayed(const Duration(seconds: 3), bible.prefetchPortuguese).catchError((Object e) {
+          debugPrint('Bíblia em segundo plano: $e');
+        }),
+      );
+    }
     return AppServices(
       settings: settings,
       database: db,
