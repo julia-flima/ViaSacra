@@ -57,7 +57,7 @@ O Via Sacra nasceu para ser um companheiro de oração **silencioso e respeitoso
    A Biblioteca traz também **A Imitação de Cristo** (114 capítulos, com "Continuar lendo" e favoritos) e a **Via Sacra** de Santo Afonso (14 estações).
 5. **Ajustes** — lembretes locais (Liturgia e Terço), voz e velocidade do narrador, tipografia, temas Pergaminho / Modo Igreja / Automático, **backup** (exportar/importar favoritos, anotações, constância e marcações) e página "Sobre & Licenças".
 
-O áudio usa a voz neural **Kokoro-82M**, que já vem no app do celular e toca sem internet (no navegador, roda num Web Worker). Nas Configurações dá para trocar por uma voz **Piper** (baixada à parte) ou pela voz do aparelho. A Liturgia e a homilia do dia também têm MP3 gerado diariamente com a mesma voz, que toca na hora. Um **mini-player** acompanha a leitura em todas as telas.
+O áudio usa a voz neural **Kokoro-82M**, que já vem no app do celular e toca sem internet (no navegador, roda num Web Worker). Nas Configurações dá para trocar por uma voz **Piper** (baixada à parte) ou pela voz do aparelho. A Liturgia e a homilia do dia também têm MP3 gerado diariamente com voz neural, que toca na hora. Um **mini-player** acompanha a leitura em todas as telas.
 
 ## Instalação para usuários (sem programar)
 
@@ -126,9 +126,21 @@ Quando disponível, o link do TestFlight será publicado aqui e nas Releases. Ba
 ### Pré-requisitos
 
 - [Flutter](https://docs.flutter.dev/get-started/install) **3.50+** (canal stable) e Dart 3.13+
-- Android: Android Studio ou SDK de linha de comando, JDK 17
+- Android: SDK e emulador (pelo [Android CLI](https://developer.android.com/tools/agents/android-cli) ou pelo Android Studio) e um **JDK 21** completo (com `javac`)
 - iOS: macOS com Xcode 15+ e CocoaPods
-- Python **3.11+** (somente para o scraper)
+- Python **3.11+** (scraper e scripts de `tool/`)
+
+No projeto usamos o [mise](https://mise.jdx.dev) para instalar tudo isso de forma global. Ambiente de referência (Fedora):
+
+```bash
+mise use -g flutter@3.50.0 java@temurin-21 android-cli python uv && mise set --global ANDROID_HOME="$HOME/Android/Sdk"
+```
+
+```bash
+android sdk install platform-tools emulator platforms/android-37.0 build-tools/37.0.0 system-images/android-36/google_apis/x86_64 && android emulator create medium_phone && flutter config --android-sdk "$ANDROID_HOME" --jdk-dir "$(mise where java@temurin-21)"
+```
+
+Plataformas novas do SDK têm nomes como `platforms/android-37.0`; confira com `android sdk list --all`.
 
 ### Rodando o app
 
@@ -146,6 +158,12 @@ flutter pub get
 
 ```bash
 flutter run            # escolhe automaticamente um emulador/aparelho conectado
+```
+
+A voz neural Kokoro vai dentro do APK/IPA. Antes de compilar um instalador, prepare-a (≈140 MB, SHA-256 conferido, fora do git). Sem ela o app funciona e lê com a voz do aparelho:
+
+```bash
+python3 ../tool/fetch_kokoro_model.py
 ```
 
 Compilando instaladores localmente:
@@ -195,6 +213,11 @@ Na raiz (scripts Python e scraper):
 ```bash
 ruff check . && (cd scraper && python -m pytest -q)
 ```
+
+Mudanças visíveis também são testadas no app de verdade:
+
+- **Android:** emulador (`flutter emulators --launch medium_phone`), `flutter build apk --profile --target-platform android-x64`, `adb install -r` e `adb logcat` para ver erros. Em máquinas com pouca memória, não rode o Gradle e o emulador ao mesmo tempo.
+- **Web:** `flutter build web` e o site servido localmente, aberto no Chrome/Chromium com o console sem erros (para o Flutter achar o Chromium: `CHROME_EXECUTABLE=/usr/bin/chromium-browser`).
 
 ### Rodando o scraper
 
