@@ -270,13 +270,15 @@ function tokenizePhonemes(phonemes) {
   return ids;
 }
 
-// Divide em sentenças (. ! ? ; :); junta as muito curtas e corta as longas nas vírgulas.
+// Divide em sentenças (. ! ? ; :) e as longas nas vírgulas; junta pedaços muito curtos.
+// Pedaços menores = o som começa antes. No navegador a síntese roda em uma só thread
+// (~2× o tempo da fala, medido em 2026-11), então esperar a frase inteira atrasava muito.
 function splitSentences(text) {
   const out = [];
   let buf = '';
   const push = (piece) => {
     buf = buf ? `${buf} ${piece}` : piece;
-    if (buf.length >= 40) {
+    if (buf.length >= 24) {
       out.push(buf);
       buf = '';
     }
@@ -284,7 +286,7 @@ function splitSentences(text) {
   for (const m of text.matchAll(/[^.!?;:]+[.!?;:]*/g)) {
     const sentence = m[0].trim();
     if (!sentence) continue;
-    if (sentence.length <= 220) {
+    if (sentence.length <= 90) {
       push(sentence);
       continue;
     }
