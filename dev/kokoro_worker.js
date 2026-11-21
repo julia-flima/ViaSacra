@@ -493,6 +493,9 @@ self.onmessage = (event) => {
         const speed = Math.max(0.5, Math.min(2.0, Number(msg.speed) || 1.0));
         // Uma sentença por vez: cada uma é enviada assim que fica pronta e já pode tocar,
         // em vez de esperar o trecho inteiro (era a espera longa no Salmo).
+        // Tempo de síntese e duração do áudio: a página mede se o Kokoro acompanha a fala aqui.
+        let synthMs = 0;
+        let audioMs = 0;
         for (const sentence of splitSentences(cleanText)) {
           const ids = tokenizePhonemes(mapIpaToKokoro(ephone.textToIpa(sentence), ephoneVoice));
           for (const chunk of ids.length ? splitTokenChunks(ids) : []) {
@@ -500,14 +503,17 @@ self.onmessage = (event) => {
               self.postMessage({ type: 'synthResult', id: msg.id, cancelled: true });
               return;
             }
+            const t0 = performance.now();
             const pcm = await runChunkInference(chunk, styleFloats, speed);
+            synthMs += performance.now() - t0;
+            audioMs += (pcm.length * 1000) / SAMPLE_RATE;
             self.postMessage({ type: 'synthPart', id: msg.id, pcm, sampleRate: SAMPLE_RATE }, [pcm.buffer]);
           }
         }
 
         const stats = await computeCacheStats();
         postStatus({ state: 'ready', device: activeDevice, ...stats });
-        self.postMessage({ type: 'synthResult', id: msg.id, done: true });
+        self.postMessage({ type: 'synthResult', id: msg.id, done: true, synthMs, audioMs });
       } catch (err) {
         const stats = await computeCacheStats();
         postStatus({ state: 'error', error: String(err?.message || err), ...stats });

@@ -20,8 +20,39 @@
     error: null,
   };
 
+  // Velocidade do Kokoro neste navegador: média de "síntese ÷ duração do áudio" (1 = tempo real),
+  // guardada entre visitas. O modo Automático usa a voz do sistema quando ela passa de 1,1.
+  const RTF_KEY = 'vs-kokoro-rtf';
+  function readRtf() {
+    try {
+      const v = parseFloat(localStorage.getItem(RTF_KEY));
+      return Number.isFinite(v) ? v : null;
+    } catch (_) {
+      return null;
+    }
+  }
+  function recordRtf(synthMs, audioMs) {
+    if (!(audioMs >= 1000)) return;
+    const prev = readRtf();
+    const r = synthMs / audioMs;
+    const next = prev == null ? r : prev * 0.7 + r * 0.3;
+    console.debug(`VS-TTS web: Kokoro a ${next.toFixed(2)}× o tempo real`);
+    try {
+      localStorage.setItem(RTF_KEY, String(next));
+    } catch (_) {}
+    emitStatus({});
+  }
+  // Sem medição: sem WebGPU e sem o modelo baixado, supõe lento (WASM numa só thread fica ~2× mais
+  // lento que a fala) e não baixa 92 MB à toa. Com o modelo no cache ou WebGPU, tenta e mede.
+  function isSlow() {
+    const rtf = readRtf();
+    if (rtf != null) return rtf > 1.1;
+    return !('gpu' in navigator) && !currentStatus.cached;
+  }
+
   function emitStatus(patch) {
     currentStatus = { ...currentStatus, ...patch };
+    currentStatus.slow = isSlow();
     if (patch.state !== 'error' && !('error' in patch)) {
       currentStatus.error = null;
     }
@@ -134,7 +165,8 @@
         job.parts.push(msg);
         wake();
       },
-      resolve() {
+      resolve(msg) {
+        if (msg && msg.synthMs != null) recordRtf(msg.synthMs, msg.audioMs);
         job.done = true;
         wake();
       },
