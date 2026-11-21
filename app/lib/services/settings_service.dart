@@ -60,10 +60,21 @@ class SettingsService extends ChangeNotifier {
   ReadingFont get readingFont => _enum('reading_font', ReadingFont.values, ReadingFont.serif);
   set readingFont(ReadingFont f) => _set('reading_font', f.index);
 
+  /// O "100%" dos Ajustes equivale a 85% do tamanho de texto do sistema: o tamanho padrão do
+  /// Flutter ficava grande demais para leitura longa. A escala escolhida multiplica este valor.
+  static const baseTextScale = 0.85;
   static const minTextScale = 0.85;
-  static const maxTextScale = 1.6;
-  double get textScale => _get('text_scale', 1.0).clamp(minTextScale, maxTextScale);
-  set textScale(double v) => _set('text_scale', v.clamp(minTextScale, maxTextScale));
+  static const maxTextScale = 1.9; // ≈ o máximo antigo (160% do tamanho do sistema)
+
+  double get textScale {
+    final saved = _prefs.get('text_scale_rel');
+    if (saved is num) return saved.toDouble().clamp(minTextScale, maxTextScale);
+    // Até a v1.6.0-beta.4 a escala era absoluta: converte para continuar no mesmo tamanho.
+    final old = _prefs.get('text_scale');
+    return old is num ? (old / baseTextScale).clamp(minTextScale, maxTextScale) : 1.0;
+  }
+
+  set textScale(double v) => _set('text_scale_rel', v.clamp(minTextScale, maxTextScale));
 
   double get lineHeight => _get('line_height', 1.6).clamp(1.3, 2.1);
   set lineHeight(double v) => _set('line_height', v.clamp(1.3, 2.1));

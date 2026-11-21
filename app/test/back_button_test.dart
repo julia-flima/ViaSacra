@@ -13,6 +13,8 @@ void main() {
     await tester.tap(find.text('Terço'));
     await settle(tester);
     await tester.scrollUntilVisible(find.text('Rezar o Terço'), 300, scrollable: find.byType(Scrollable).last);
+    await tester.drag(find.byType(Scrollable).last, const Offset(0, -300)); // tira da borda da tela
+    await settle(tester);
     await tester.tap(find.text('Rezar o Terço'));
     await settle(tester);
     await tester.tap(find.textContaining(RegExp(r'^Amém ·')));

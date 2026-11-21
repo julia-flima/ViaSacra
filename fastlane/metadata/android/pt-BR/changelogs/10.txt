@@ -1,0 +1,4 @@
+• Texto um pouco menor por padrão (o antigo 85% é o novo 100%)
+• Pinturas enquadradas pelos rostos, sem cortes
+• Terço mostra a pintura inteira
+• Imagens mais nítidas

@@ -12,6 +12,10 @@
     ],
     "festas": [
       "anunciação do senhor"
+    ],
+    "foco": [
+      0,
+      -0.15
     ]
   },
   {
@@ -27,6 +31,10 @@
     ],
     "festas": [
       "visitação"
+    ],
+    "foco": [
+      0.02,
+      -0.62
     ]
   },
   {
@@ -43,6 +51,10 @@
     ],
     "festas": [
       "natal do senhor"
+    ],
+    "foco": [
+      0.48,
+      0.23
     ]
   },
   {
@@ -59,6 +71,10 @@
     ],
     "festas": [
       "apresentação do senhor"
+    ],
+    "foco": [
+      -0.11,
+      -0.29
     ]
   },
   {
@@ -74,6 +90,10 @@
     ],
     "festas": [
       "sagrada família"
+    ],
+    "foco": [
+      -0.26,
+      0.1
     ]
   },
   {
@@ -90,6 +110,10 @@
     ],
     "festas": [
       "batismo do senhor"
+    ],
+    "foco": [
+      0,
+      -0.1
     ]
   },
   {
@@ -103,7 +127,11 @@
     "tempos": [
       "comum"
     ],
-    "festas": []
+    "festas": [],
+    "foco": [
+      -0.16,
+      -0.19
+    ]
   },
   {
     "id": "luminosos-3",
@@ -116,7 +144,11 @@
     "tempos": [
       "comum"
     ],
-    "festas": []
+    "festas": [],
+    "foco": [
+      0.23,
+      -0.1
+    ]
   },
   {
     "id": "luminosos-4",
@@ -133,6 +165,10 @@
     ],
     "festas": [
       "transfiguração"
+    ],
+    "foco": [
+      0,
+      -0.6
     ]
   },
   {
@@ -150,6 +186,10 @@
     "festas": [
       "corpo e sangue de cristo",
       "ceia do senhor"
+    ],
+    "foco": [
+      0.46,
+      -0.39
     ]
   },
   {
@@ -163,7 +203,11 @@
     "tempos": [
       "quaresma"
     ],
-    "festas": []
+    "festas": [],
+    "foco": [
+      0,
+      0
+    ]
   },
   {
     "id": "dolorosos-2",
@@ -176,7 +220,11 @@
     "tempos": [
       "quaresma"
     ],
-    "festas": []
+    "festas": [],
+    "foco": [
+      0.42,
+      -0.08
+    ]
   },
   {
     "id": "dolorosos-3",
@@ -189,7 +237,11 @@
     "tempos": [
       "quaresma"
     ],
-    "festas": []
+    "festas": [],
+    "foco": [
+      -0.13,
+      -0.59
+    ]
   },
   {
     "id": "dolorosos-4",
@@ -202,7 +254,11 @@
     "tempos": [
       "quaresma"
     ],
-    "festas": []
+    "festas": [],
+    "foco": [
+      -0.1,
+      -0.4
+    ]
   },
   {
     "id": "dolorosos-5",
@@ -219,6 +275,10 @@
     "festas": [
       "sexta-feira santa",
       "exaltação da santa cruz"
+    ],
+    "foco": [
+      -0.24,
+      -0.43
     ]
   },
   {
@@ -234,6 +294,10 @@
     ],
     "festas": [
       "ressurreição do senhor"
+    ],
+    "foco": [
+      0,
+      -0.55
     ]
   },
   {
@@ -249,6 +313,10 @@
     ],
     "festas": [
       "ascensão do senhor"
+    ],
+    "foco": [
+      0,
+      -0.5
     ]
   },
   {
@@ -264,6 +332,10 @@
     ],
     "festas": [
       "pentecostes"
+    ],
+    "foco": [
+      0,
+      -0.25
     ]
   },
   {
@@ -279,6 +351,10 @@
     ],
     "festas": [
       "assunção"
+    ],
+    "foco": [
+      0,
+      -0.25
     ]
   },
   {
@@ -294,6 +370,10 @@
     ],
     "festas": [
       "nossa senhora rainha"
+    ],
+    "foco": [
+      -0.06,
+      -0.21
     ]
   },
   {
@@ -309,7 +389,11 @@
       "pascoa",
       "comum"
     ],
-    "festas": []
+    "festas": [],
+    "foco": [
+      0.26,
+      -0.35
+    ]
   },
   {
     "id": "header-biblia",
@@ -319,7 +403,11 @@
     "ano": "c. 1475",
     "acervo": "National Gallery, Londres",
     "busca": "Antonello da Messina São Jerônimo no seu Estúdio",
-    "arquivo_commons": "File:Antonello da Messina - St Jerome in his study - National Gallery London.jpg"
+    "arquivo_commons": "File:Antonello da Messina - St Jerome in his study - National Gallery London.jpg",
+    "foco": [
+      0,
+      0.25
+    ]
   },
   {
     "id": "header-catecismo",
@@ -329,7 +417,11 @@
     "ano": "1509–1510",
     "acervo": "Museus Vaticanos, Roma",
     "busca": "Rafael Sanzio A Disputa do Santíssimo Sacramento",
-    "arquivo_commons": "File:Raffael 039.jpg"
+    "arquivo_commons": "File:Raffael 039.jpg",
+    "foco": [
+      0.11,
+      -0.5
+    ]
   },
   {
     "id": "header-imitacao",
@@ -345,6 +437,10 @@
     ],
     "festas": [
       "são mateus"
+    ],
+    "foco": [
+      0,
+      0
     ]
   },
   {
@@ -355,7 +451,11 @@
     "ano": "c. 1640–1650",
     "acervo": "National Gallery, Londres",
     "busca": "Sassoferrato Virgin in Prayer National Gallery",
-    "arquivo_commons": "File:SASSOFERRATO - Virgen rezando (National Gallery, Londres, 1640-50).jpg"
+    "arquivo_commons": "File:SASSOFERRATO - Virgen rezando (National Gallery, Londres, 1640-50).jpg",
+    "foco": [
+      0.07,
+      -0.18
+    ]
   },
   {
     "id": "header-lectio",
@@ -365,7 +465,11 @@
     "ano": "c. 1655",
     "acervo": "National Galleries of Scotland, Edimburgo",
     "busca": "Vermeer Christ in the House of Martha and Mary",
-    "arquivo_commons": "File:Christ in the House of Martha and Mary attributed to Vermeer.jpg"
+    "arquivo_commons": "File:Christ in the House of Martha and Mary attributed to Vermeer.jpg",
+    "foco": [
+      0.41,
+      -0.49
+    ]
   },
   {
     "id": "advento-1",
@@ -378,7 +482,11 @@
     "tempos": [
       "advento"
     ],
-    "festas": []
+    "festas": [],
+    "foco": [
+      0.47,
+      -0.58
+    ]
   },
   {
     "id": "advento-2",
@@ -393,6 +501,10 @@
     ],
     "festas": [
       "natividade de são joão batista"
+    ],
+    "foco": [
+      -0.74,
+      0.13
     ]
   },
   {
@@ -406,7 +518,11 @@
     "tempos": [
       "advento"
     ],
-    "festas": []
+    "festas": [],
+    "foco": [
+      -0.04,
+      -0.61
+    ]
   },
   {
     "id": "advento-4",
@@ -421,6 +537,10 @@
     ],
     "festas": [
       "imaculada conceição"
+    ],
+    "foco": [
+      0,
+      -0.5
     ]
   },
   {
@@ -436,6 +556,10 @@
     ],
     "festas": [
       "epifania"
+    ],
+    "foco": [
+      0.08,
+      -0.43
     ]
   },
   {
@@ -451,6 +575,10 @@
     ],
     "festas": [
       "natal do senhor"
+    ],
+    "foco": [
+      -0.05,
+      -0.16
     ]
   },
   {
@@ -467,6 +595,10 @@
     "festas": [
       "sagrada família",
       "são josé"
+    ],
+    "foco": [
+      0.35,
+      -0.31
     ]
   },
   {
@@ -482,6 +614,10 @@
     ],
     "festas": [
       "santos inocentes"
+    ],
+    "foco": [
+      0.21,
+      0.05
     ]
   },
   {
@@ -497,6 +633,10 @@
     ],
     "festas": [
       "quarta-feira de cinzas"
+    ],
+    "foco": [
+      0.07,
+      -0.49
     ]
   },
   {
@@ -510,7 +650,11 @@
     "tempos": [
       "quaresma"
     ],
-    "festas": []
+    "festas": [],
+    "foco": [
+      0,
+      -0.35
+    ]
   },
   {
     "id": "quaresma-3",
@@ -523,7 +667,11 @@
     "tempos": [
       "quaresma"
     ],
-    "festas": []
+    "festas": [],
+    "foco": [
+      -0.01,
+      0.28
+    ]
   },
   {
     "id": "quaresma-4",
@@ -538,6 +686,10 @@
     ],
     "festas": [
       "domingo de ramos"
+    ],
+    "foco": [
+      0.45,
+      0.29
     ]
   },
   {
@@ -551,7 +703,11 @@
     "tempos": [
       "quaresma"
     ],
-    "festas": []
+    "festas": [],
+    "foco": [
+      0.3,
+      -0.63
+    ]
   },
   {
     "id": "triduo-1",
@@ -566,6 +722,10 @@
     ],
     "festas": [
       "ceia do senhor"
+    ],
+    "foco": [
+      -0.19,
+      -0.73
     ]
   },
   {
@@ -582,6 +742,10 @@
     "festas": [
       "sábado santo",
       "fiéis defuntos"
+    ],
+    "foco": [
+      0,
+      -0.45
     ]
   },
   {
@@ -597,6 +761,10 @@
     ],
     "festas": [
       "sexta-feira santa"
+    ],
+    "foco": [
+      -0.04,
+      0.0
     ]
   },
   {
@@ -610,7 +778,11 @@
     "tempos": [
       "pascoa"
     ],
-    "festas": []
+    "festas": [],
+    "foco": [
+      0,
+      0.2
+    ]
   },
   {
     "id": "pascoa-2",
@@ -625,6 +797,10 @@
     ],
     "festas": [
       "são tomé"
+    ],
+    "foco": [
+      0.1,
+      -0.2
     ]
   },
   {
@@ -641,7 +817,11 @@
     "festas": [
       "ressurreição do senhor"
     ],
-    "arquivo_commons": "File:BurnandJeanPierre.jpg"
+    "arquivo_commons": "File:BurnandJeanPierre.jpg",
+    "foco": [
+      -0.71,
+      -0.33
+    ]
   },
   {
     "id": "pascoa-4",
@@ -656,6 +836,10 @@
     ],
     "festas": [
       "santíssima trindade"
+    ],
+    "foco": [
+      0,
+      -0.35
     ]
   },
   {
@@ -669,7 +853,11 @@
     "tempos": [
       "comum"
     ],
-    "festas": []
+    "festas": [],
+    "foco": [
+      -0.24,
+      0.23
+    ]
   },
   {
     "id": "comum-2",
@@ -684,6 +872,10 @@
     ],
     "festas": [
       "são pedro e são paulo"
+    ],
+    "foco": [
+      0.0,
+      -0.1
     ]
   },
   {
@@ -697,7 +889,11 @@
     "tempos": [
       "comum"
     ],
-    "festas": []
+    "festas": [],
+    "foco": [
+      0,
+      0
+    ]
   },
   {
     "id": "comum-4",
@@ -710,7 +906,11 @@
     "tempos": [
       "comum"
     ],
-    "festas": []
+    "festas": [],
+    "foco": [
+      0.1,
+      -0.56
+    ]
   },
   {
     "id": "comum-5",
@@ -723,7 +923,11 @@
     "tempos": [
       "comum"
     ],
-    "festas": []
+    "festas": [],
+    "foco": [
+      0,
+      0
+    ]
   },
   {
     "id": "comum-6",
@@ -738,6 +942,10 @@
     ],
     "festas": [
       "rei do universo"
+    ],
+    "foco": [
+      0,
+      -0.35
     ]
   },
   {
@@ -753,6 +961,10 @@
     ],
     "festas": [
       "sagrado coração"
+    ],
+    "foco": [
+      0.12,
+      -0.53
     ]
   },
   {
@@ -768,6 +980,10 @@
     ],
     "festas": [
       "todos os santos"
+    ],
+    "foco": [
+      0,
+      -0.6
     ]
   }
 ]

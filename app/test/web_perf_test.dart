@@ -242,11 +242,13 @@ void main() {
       ),
     );
 
+    // Banner, cartão e, no Terço, a obra inteira + o fundo desfocado (decodificado pequeno).
     final imgs = tester.widgetList<Image>(find.byType(Image)).toList();
-    expect(imgs, hasLength(3));
+    expect(imgs, hasLength(4));
     for (final img in imgs) {
       expect(img.image, isA<ResizeImage>());
-      expect((img.image as ResizeImage).width, 800);
+      // Decodifica na largura real da tela (até 1080 px, a largura do arquivo).
+      expect((img.image as ResizeImage).width, inInclusiveRange(160, 1080));
     }
     expect(find.ancestor(of: find.byType(SacredArtBanner), matching: find.byType(RepaintBoundary)), findsWidgets);
     expect(find.descendant(of: find.byType(SacredArtBanner), matching: find.byType(RepaintBoundary)), findsWidgets);
@@ -255,7 +257,8 @@ void main() {
   });
 
   // Cada tela carrega só a obra que mostra; o limite protege o tamanho do APK e do site.
-  test('Imagens em assets/art existem no catálogo e pesam menos de 8 MB no total', () {
+  // 1080 px (largura real dos cabeçalhos no celular) em JPEG 78: ~12 MB para 54 obras.
+  test('Imagens em assets/art existem no catálogo e pesam menos de 13 MB no total', () {
     final catalog = (jsonDecode(File('assets/data/sacred_art.json').readAsStringSync()) as List)
         .cast<Map<String, dynamic>>();
     for (final entry in catalog) {
@@ -265,7 +268,7 @@ void main() {
     final files = Directory('assets/art').listSync().whereType<File>().where((f) => f.path.endsWith('.jpg')).toList();
     expect(files, hasLength(catalog.length));
     final totalBytes = files.fold<int>(0, (acc, f) => acc + f.lengthSync());
-    expect(totalBytes, lessThan(8 * 1024 * 1024));
+    expect(totalBytes, lessThan(13 * 1024 * 1024));
   });
 
   testWidgets('ViaSacraApp usa Selector sem reconstruir HomeShell ao mudar textScale', (tester) async {
@@ -296,6 +299,7 @@ void main() {
     settings.textScale = 1.3;
     await tester.pump();
     expect(tester.state(find.byType(HomeShell)), same(shellState));
-    expect(MediaQuery.textScalerOf(tester.element(find.byType(HomeShell))).scale(10), closeTo(13, 0.01));
+    // 130% dos Ajustes sobre a base de 85% do tamanho do sistema.
+    expect(MediaQuery.textScalerOf(tester.element(find.byType(HomeShell))).scale(10), closeTo(13 * 0.85, 0.01));
   });
 }

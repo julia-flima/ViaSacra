@@ -9,7 +9,14 @@ Para cada entrada de ``tool/sacred_art_catalog.json``:
 5. grava ``app/assets/data/sacred_art.json`` com título, artista, ano, acervo,
    arquivo do Commons, URL da página e licença — exibidos como legenda no app.
 
-Uso: python tool/fetch_sacred_art.py [--width 900] [--dry-run]
+Uso: uv run --with requests --with pillow python tool/fetch_sacred_art.py [--dry-run] [--refazer-imagens]
+
+As imagens são gravadas com no máximo 1080 px de largura (a largura real dos cabeçalhos num
+celular) em JPEG progressivo de qualidade 78: nítidas sem pesar no app (~12 MB no total).
+
+--refazer-imagens baixa de novo, na largura pedida, o mesmo arquivo do Commons já escolhido
+(sem nova busca). O campo foco do catálogo ([x, y] de -1 a 1, centro dos rostos principais) diz
+ao app como enquadrar a pintura quando ela precisa ser recortada.
 """
 
 from __future__ import annotations
@@ -82,9 +89,21 @@ def pontuar(pagina: dict, item: dict) -> float:
     return pontos
 
 
+def salvar_jpeg(dados: bytes, destino: Path, largura: int = 1080) -> None:
+    from io import BytesIO
+
+    from PIL import Image
+
+    im = Image.open(BytesIO(dados)).convert("RGB")
+    if im.width > largura:
+        im = im.resize((largura, round(im.height * largura / im.width)), Image.LANCZOS)
+    im.save(destino, "JPEG", quality=78, optimize=True, progressive=True)
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--width", type=int, default=900)
+    ap.add_argument("--width", type=int, default=1280)
+    ap.add_argument("--refazer-imagens", action="store_true", help="baixa de novo as imagens já escolhidas")
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--only", help="processar apenas este id")
     args = ap.parse_args()
@@ -100,7 +119,9 @@ def main() -> int:
     for item in catalogo:
         anterior = anteriores.get(item["id"])
         ja_baixado = anterior and anterior.get("imagem") and (RAIZ / "app" / anterior["imagem"]).exists()
-        if (args.only and item["id"] != args.only) or (ja_baixado and not args.only):
+        if args.refazer_imagens and anterior and anterior.get("arquivo_commons"):
+            item = item | {"arquivo_commons": anterior["arquivo_commons"]}
+        elif (args.only and item["id"] != args.only) or (ja_baixado and not args.only):
             resultado.append(anterior | {k: v for k, v in item.items() if k != "busca"} if anterior else item)
             continue
         if item.get("arquivo_commons"):
@@ -122,7 +143,7 @@ def main() -> int:
         if not args.dry_run:
             img = sessao.get(info.get("thumburl") or info["url"], timeout=60)
             img.raise_for_status()
-            destino.write_bytes(img.content)
+            salvar_jpeg(img.content, destino)
             time.sleep(1)
         registro = item | {
             "arquivo_commons": pagina["title"],
