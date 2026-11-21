@@ -85,6 +85,11 @@ jobs:
           flutter build apk --release --target-platform android-arm,android-arm64
           mkdir -p ../dist
           cp build/app/outputs/flutter-apk/app-release.apk ../dist/ViaSacra.apk
+          # O ícone da notificação é usado só pelo nome; sem ele o app fecha ao tocar áudio
+          # (v1.6.0-beta.2). O R8 não pode tê-lo apagado (ver res/raw/keep.xml).
+          aapt2="$(ls "$ANDROID_HOME"/build-tools/*/aapt2 | sort -V | tail -1)"
+          "$aapt2" dump resources ../dist/ViaSacra.apk | grep -q "drawable/ic_stat_cross" \
+            || { echo "::error::drawable/ic_stat_cross sumiu do APK"; exit 1; }
 
       - uses: actions/upload-artifact@v4
         with:
