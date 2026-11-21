@@ -57,7 +57,7 @@ O Via Sacra nasceu para ser um companheiro de oração **silencioso e respeitoso
    A Biblioteca traz também **A Imitação de Cristo** (114 capítulos, com "Continuar lendo" e favoritos) e a **Via Sacra** de Santo Afonso (14 estações).
 5. **Ajustes** — lembretes locais (Liturgia e Terço), voz e velocidade do narrador, tipografia, temas Pergaminho / Modo Igreja / Automático, **backup** (exportar/importar favoritos, anotações, constância e marcações) e página "Sobre & Licenças".
 
-O áudio usa a voz neural **Kokoro-82M** (offline no celular, Web Worker no navegador). A Liturgia e a homilia do dia também têm MP3 gerado diariamente com a mesma voz, que toca na hora. Um **mini-player** acompanha a leitura em todas as telas.
+O áudio usa a voz neural **Kokoro-82M**, que já vem no app do celular e toca sem internet (no navegador, roda num Web Worker). Nas Configurações dá para trocar por uma voz **Piper** (baixada à parte) ou pela voz do aparelho. A Liturgia e a homilia do dia também têm MP3 gerado diariamente com a mesma voz, que toca na hora. Um **mini-player** acompanha a leitura em todas as telas.
 
 ## Instalação para usuários (sem programar)
 
@@ -278,7 +278,7 @@ O Via Sacra **não tem fins lucrativos** e atribui todas as fontes explicitament
 | Catecismo da Igreja Católica | © Libreria Editrice Vaticana | **Não incluído** no repositório; importável mediante licença — ver [`docs/COPYRIGHT.md`](docs/COPYRIGHT.md) |
 | Catecismo Maior de São Pio X | Original de 1905 (Tipografia Vaticana), domínio público | Embutido — tradução do projeto, em domínio público (CC0) |
 | A Imitação de Cristo | Trad. E. L. de Souza Campos, © 2023 Valdemar Teodoro Editor | Embutida — cópia e divulgação permitidas com citação da fonte |
-| Voz neural | Kokoro-82M, sherpa-onnx (Apache-2.0), eSpeak-NG (GPL-3.0) | Modelo baixado sob demanda; nada é enviado para fora |
+| Voz neural | Kokoro-82M, sherpa-onnx (Apache-2.0), eSpeak-NG (GPL-3.0); vozes Piper opcionais (Faber CC0, Dii CC BY-NC-SA 4.0) | Kokoro embutido no app do celular (na Web, baixado uma vez); Piper só ao tocar em “Baixar”; nada é enviado para fora |
 
 Se você é titular de algum conteúdo e deseja ajustes ou remoção, abra uma *issue* ou escreva para a mantenedora — atenderemos prontamente.
 

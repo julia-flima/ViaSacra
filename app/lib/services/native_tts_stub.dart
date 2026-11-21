@@ -3,6 +3,8 @@ import 'neural_tts_types.dart';
 /// Stub para Web / ambientes sem `dart:io`.
 bool nativeTtsIsSupported() => false;
 
+void nativeTtsUsePlayer(Future<void> Function(String wavPath) play) {}
+
 Future<bool> nativeTtsSpeak(
   String text,
   double speed, {
@@ -13,10 +15,14 @@ Future<bool> nativeTtsSpeak(
 
 void nativeTtsStop() {}
 
-Future<bool> nativeTtsPreload({String voice = 'pf_dora'}) async => false;
-
-Future<bool> nativeTtsClearCache() async => false;
+Future<void> nativeTtsPrepare() async {}
 
 Future<NeuralTtsStatus> nativeTtsRefreshStatus() async => const NeuralTtsStatus();
 
 void nativeTtsListenStatus(void Function(NeuralTtsStatus status) onChange) {}
+
+Future<bool> nativeTtsDownloadPiper(String voiceId) async => false;
+
+void nativeTtsCancelDownload() {}
+
+Future<void> nativeTtsRemovePiper(String voiceId) async {}

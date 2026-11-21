@@ -156,6 +156,7 @@ class ReadingAudioHandler extends BaseAudioHandler with QueueHandler {
       }
     });
     if (_useNeuralEngine && neuralSpeak == null) {
+      if (!kIsWeb) nativeTtsUsePlayer(_playSynthesized);
       if (kIsWeb) {
         webTtsListenStatus((s) {
           if (!_disposed) neuralTtsStatus.value = s;
@@ -194,6 +195,8 @@ class ReadingAudioHandler extends BaseAudioHandler with QueueHandler {
   bool _audioSessionReady = false;
   String? _ttsLanguage;
   String _kokoroVoice = KokoroVoice.dora.id;
+  TtsEngine _engine = TtsEngine.kokoro;
+  String _piperVoice = PiperVoice.all.first.id;
   final ValueNotifier<NeuralTtsStatus> neuralTtsStatus = ValueNotifier(const NeuralTtsStatus());
 
   @visibleForTesting
@@ -350,7 +353,7 @@ class ReadingAudioHandler extends BaseAudioHandler with QueueHandler {
       }
     }
     _playingRecorded = false;
-    final useNeural = _useNeuralEngine && supportsKokoro(seg.language);
+    final useNeural = _useNeuralEngine && _engine != TtsEngine.system && supportsKokoro(seg.language);
     if (useNeural && !kIsWeb && fallbackSpeak == null) {
       await _ensureAudioSession();
     } else if (!useNeural && fallbackSpeak == null) {
@@ -367,11 +370,11 @@ class ReadingAudioHandler extends BaseAudioHandler with QueueHandler {
     while (_playing && gen == _generation && _chunk < _chunks.length) {
       var spoken = false;
       if (useNeural && !neuralFailed) {
-        final next = _chunk + 1 < _chunks.length ? _chunks[_chunk + 1] : null;
+        final next = _chunk + 1 < _chunks.length ? _chunks[_chunk + 1] : _firstChunkOfNext(seg);
         spoken = await _neuralSpeak(
           _chunks[_chunk],
           _speed,
-          voice: _kokoroVoice,
+          voice: _voiceFor(seg.language),
           language: seg.language,
           nextText: next,
         );
@@ -393,14 +396,25 @@ class ReadingAudioHandler extends BaseAudioHandler with QueueHandler {
     if (_playing && gen == _generation) await _advance();
   }
 
+  /// 1º trecho da próxima leitura, para a voz neural já sintetizá-lo enquanto a atual termina
+  /// (evita o silêncio na troca de leitura). Só quando a próxima também será falada no mesmo idioma.
+  String? _firstChunkOfNext(ReadingSegment current) {
+    if (_index + 1 >= _segments.length) return null;
+    final next = _segments[_index + 1];
+    if (next.isRecorded || next.language != current.language) return null;
+    final chunks = splitForSpeech(next.text ?? '', maxLen: kNeuralChunkLen, firstLen: kNeuralFirstChunkLen);
+    return chunks.isEmpty ? null : chunks.first;
+  }
+
   Future<void> _advance() async {
+    final wasRecorded = _playingRecorded;
     _playingRecorded = false;
     _recordedFailed = false;
     if (_index < _segments.length - 1) {
       _index++;
       _chunk = 0;
       _chunks = const [];
-      await _player.stop();
+      if (wasRecorded) await _player.stop();
       await play();
     } else {
       _playing = false;
@@ -480,24 +494,47 @@ class ReadingAudioHandler extends BaseAudioHandler with QueueHandler {
       _generation++;
       _neuralStop();
       await _tts.stop();
+      await _player.stop();
       unawaited(play());
     }
     _broadcast();
   }
 
   String get kokoroVoice => _kokoroVoice;
+  TtsEngine get engine => _engine;
 
-  Future<void> setKokoroVoice(String voiceId) async {
-    final normalized = KokoroVoice.byId(voiceId).id;
-    if (_kokoroVoice == normalized) return;
-    _kokoroVoice = normalized;
-    if (_playing && _useNeuralEngine && !_playingRecorded) {
+  /// O Piper só fala português; os trechos em outros idiomas seguem com o Kokoro.
+  String _voiceFor(String language) =>
+      _engine == TtsEngine.piper && language.toLowerCase().startsWith('pt') ? _piperVoice : _kokoroVoice;
+
+  Future<void> setKokoroVoice(String voiceId) => _changeVoice(() => _kokoroVoice = KokoroVoice.byId(voiceId).id);
+
+  Future<void> setEngine(TtsEngine engine) => _changeVoice(() => _engine = engine);
+
+  Future<void> setPiperVoice(String voiceId) =>
+      _changeVoice(() => _piperVoice = (PiperVoice.byId(voiceId) ?? PiperVoice.all.first).id);
+
+  /// Aplica a troca e, se estiver lendo em voz alta, recomeça a frase atual com a nova voz.
+  Future<void> _changeVoice(void Function() apply) async {
+    final before = (_engine, _kokoroVoice, _piperVoice);
+    apply();
+    if (before == (_engine, _kokoroVoice, _piperVoice)) return;
+    if (_playing && !_playingRecorded) {
       _generation++;
       _neuralStop();
       await _tts.stop();
+      await _player.stop();
       unawaited(play());
     }
     _broadcast();
+  }
+
+  /// Toca o WAV gerado pela voz neural no mesmo player do áudio narrado.
+  /// O `play()` do just_audio termina ao fim do arquivo ou quando a leitura é pausada/parada.
+  Future<void> _playSynthesized(String path) async {
+    await _player.setFilePath(path);
+    await _player.setSpeed(1.0);
+    if (_playing) await _player.play();
   }
 
   Future<void> dispose() async {
@@ -515,27 +552,34 @@ class ReadingAudioHandler extends BaseAudioHandler with QueueHandler {
     neuralTtsStatus.dispose();
   }
 
-  /// Carrega a voz neural em segundo plano se o modelo já estiver no aparelho — nunca inicia
-  /// o download. Assim o primeiro "Ouvir" não espera o modelo subir.
-  Future<void> warmUpNeuralTts() async {
+  /// Deixa a voz neural pronta em segundo plano, sem nunca baixar nada sozinho:
+  /// no celular copia a voz embutida no app (1ª vez); na Web carrega o modelo se já estiver no cache.
+  Future<void> prepareNeuralTts() async {
     if (!_useNeuralEngine || _disposed) return;
+    if (!kIsWeb) return nativeTtsPrepare();
     final s = await refreshNeuralTtsStatus();
     if (s.cached && !s.isBusy && !_playing && !_disposed) await preloadNeuralTts();
   }
 
+  /// Web: baixa o modelo Kokoro para o cache do navegador.
   Future<bool> preloadNeuralTts() async {
-    if (!_useNeuralEngine) return false;
-    final ok = kIsWeb ? await webTtsPreload(voice: _kokoroVoice) : await nativeTtsPreload(voice: _kokoroVoice);
+    if (!_useNeuralEngine || !kIsWeb) return false;
+    final ok = await webTtsPreload(voice: _kokoroVoice);
     await refreshNeuralTtsStatus();
     return ok;
   }
 
+  /// Web: apaga o modelo do cache do navegador.
   Future<bool> clearNeuralTtsCache() async {
-    if (!_useNeuralEngine) return false;
-    final ok = kIsWeb ? await webTtsClearCache() : await nativeTtsClearCache();
+    if (!_useNeuralEngine || !kIsWeb) return false;
+    final ok = await webTtsClearCache();
     await refreshNeuralTtsStatus();
     return ok;
   }
+
+  Future<bool> downloadPiperVoice(String voiceId) => nativeTtsDownloadPiper(voiceId);
+  void cancelVoiceDownload() => nativeTtsCancelDownload();
+  Future<void> removePiperVoice(String voiceId) => nativeTtsRemovePiper(voiceId);
 
   Future<NeuralTtsStatus> refreshNeuralTtsStatus() async {
     if (!_useNeuralEngine) return const NeuralTtsStatus();
@@ -625,10 +669,10 @@ class ReadingAudioController extends ChangeNotifier {
       debugPrint('audio_service indisponível, usando modo local: $e');
       handler = ReadingAudioHandler();
     }
-    // Aquece a voz neural depois que o app já abriu, sem disputar a inicialização.
+    // Prepara a voz neural depois que o app já abriu, sem disputar a inicialização.
     unawaited(
-      Future<void>.delayed(const Duration(seconds: 4), handler.warmUpNeuralTts).catchError((Object e) {
-        debugPrint('Aquecimento da voz neural falhou: $e');
+      Future<void>.delayed(const Duration(seconds: 2), handler.prepareNeuralTts).catchError((Object e) {
+        debugPrint('Preparo da voz neural falhou: $e');
       }),
     );
     return ReadingAudioController._(handler);
@@ -706,6 +750,11 @@ class ReadingAudioController extends ChangeNotifier {
   Future<void> setSpeed(double s) => _handler.setSpeed(s);
   Future<void> setVoice(String? name, String? locale) => _handler.setVoice(name, locale);
   Future<void> setKokoroVoice(String voiceId) => _handler.setKokoroVoice(voiceId);
+  Future<void> setEngine(TtsEngine engine) => _handler.setEngine(engine);
+  Future<void> setPiperVoice(String voiceId) => _handler.setPiperVoice(voiceId);
+  Future<bool> downloadPiperVoice(String voiceId) => _handler.downloadPiperVoice(voiceId);
+  void cancelVoiceDownload() => _handler.cancelVoiceDownload();
+  Future<void> removePiperVoice(String voiceId) => _handler.removePiperVoice(voiceId);
   Future<bool> preloadNeuralTts() => _handler.preloadNeuralTts();
   Future<bool> clearNeuralTtsCache() => _handler.clearNeuralTtsCache();
   Future<NeuralTtsStatus> refreshNeuralTtsStatus() => _handler.refreshNeuralTtsStatus();

@@ -12,6 +12,9 @@
 #        `prebuild:` com Android NDK/CMake (substituindo os .so em .pub-cache); ou
 #     2. Remover/desabilitar `sherpa_onnx` no `prebuild:` para o flavor F-Droid,
 #        mantendo o fallback automático via `flutter_tts` + áudio MP3 narrado.
+# - A voz Kokoro (Apache-2.0) vai dentro do APK: `tool/fetch_kokoro_model.py` baixa o
+#   pacote oficial do sherpa-onnx no prebuild, confere o SHA-256 e grava as partes em
+#   app/assets/voice/kokoro/ (nada disso fica no git).
 Categories:
   - Reading
   - Religion
@@ -39,6 +42,7 @@ Builds:
     prebuild:
       - export PUB_CACHE=$(pwd)/.pub-cache
       - bash ../tool/fdroid_prebuild.sh
+      - python3 ../tool/fetch_kokoro_model.py
       - $$flutter$$/bin/flutter config --no-analytics
       - $$flutter$$/bin/flutter pub get
     scanignore:

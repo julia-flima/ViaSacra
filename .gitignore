@@ -107,3 +107,7 @@ uv.lock
 .env.*
 !.env.example
 secrets/
+
+# Voz Kokoro embutida no APK/IPA: gerada por tool/fetch_kokoro_model.py (nunca no git)
+app/assets/voice/kokoro/*
+!app/assets/voice/kokoro/.gitkeep
