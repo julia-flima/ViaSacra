@@ -43,17 +43,23 @@ class SacredArtBanner extends StatelessWidget {
           child: Stack(
             fit: StackFit.expand,
             children: [
-              if (a?.assetPath != null)
-                Image.asset(
-                  a!.assetPath!,
-                  fit: BoxFit.cover,
-                  alignment: alignment,
-                  cacheWidth: 800,
-                  filterQuality: FilterQuality.medium,
-                  errorBuilder: (_, _, _) => _ArtFallback(cs: cs),
-                )
-              else
-                _ArtFallback(cs: cs),
+              // Troca de obra (outro dia ou tempo) com transição suave; sem animação se o sistema pedir.
+              AnimatedSwitcher(
+                duration: MediaQuery.disableAnimationsOf(context) ? Duration.zero : const Duration(milliseconds: 450),
+                child: a?.assetPath != null
+                    ? Image.asset(
+                        a!.assetPath!,
+                        key: ValueKey(a.id),
+                        fit: BoxFit.cover,
+                        alignment: alignment,
+                        width: double.infinity,
+                        height: double.infinity,
+                        cacheWidth: 800,
+                        filterQuality: FilterQuality.medium,
+                        errorBuilder: (_, _, _) => _ArtFallback(cs: cs),
+                      )
+                    : _ArtFallback(key: const ValueKey('sem-arte'), cs: cs),
+              ),
               DecoratedBox(
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
@@ -298,7 +304,7 @@ Future<void> showSacredArtCreditsSheet(BuildContext context, SacredArt art) {
 }
 
 class _ArtFallback extends StatelessWidget {
-  const _ArtFallback({required this.cs});
+  const _ArtFallback({super.key, required this.cs});
   final ColorScheme cs;
 
   @override

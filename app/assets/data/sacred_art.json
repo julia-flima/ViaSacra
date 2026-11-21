@@ -12,7 +12,13 @@
     "licenca": "Domínio público",
     "licenca_original": "Public domain",
     "imagem": "assets/art/gozosos-1.jpg",
-    "credito": "A Anunciação — Fra Angelico (c. 1426). Museo del Prado, Madri. Domínio público, via Wikimedia Commons."
+    "credito": "A Anunciação — Fra Angelico (c. 1426). Museo del Prado, Madri. Domínio público, via Wikimedia Commons.",
+    "tempos": [
+      "advento"
+    ],
+    "festas": [
+      "anunciação do senhor"
+    ]
   },
   {
     "id": "gozosos-2",
@@ -27,7 +33,13 @@
     "licenca": "Domínio público",
     "licenca_original": "Public domain",
     "imagem": "assets/art/gozosos-2.jpg",
-    "credito": "A Visitação — Domenico Ghirlandaio (1491). Museu do Louvre, Paris. Domínio público, via Wikimedia Commons."
+    "credito": "A Visitação — Domenico Ghirlandaio (1491). Museu do Louvre, Paris. Domínio público, via Wikimedia Commons.",
+    "tempos": [
+      "advento"
+    ],
+    "festas": [
+      "visitação"
+    ]
   },
   {
     "id": "gozosos-3",
@@ -42,7 +54,13 @@
     "licenca": "Domínio público",
     "licenca_original": "Public domain",
     "imagem": "assets/art/gozosos-3.jpg",
-    "credito": "Natividade — Giotto di Bondone (c. 1305). Capela Scrovegni, Pádua. Domínio público, via Wikimedia Commons."
+    "credito": "Natividade — Giotto di Bondone (c. 1305). Capela Scrovegni, Pádua. Domínio público, via Wikimedia Commons.",
+    "tempos": [
+      "natal"
+    ],
+    "festas": [
+      "natal do senhor"
+    ]
   },
   {
     "id": "gozosos-4",
@@ -57,7 +75,13 @@
     "licenca": "Domínio público",
     "licenca_original": "Public domain",
     "imagem": "assets/art/gozosos-4.jpg",
-    "credito": "Apresentação no Templo — Andrea Mantegna (c. 1455). Gemäldegalerie, Berlim. Domínio público, via Wikimedia Commons."
+    "credito": "Apresentação no Templo — Andrea Mantegna (c. 1455). Gemäldegalerie, Berlim. Domínio público, via Wikimedia Commons.",
+    "tempos": [
+      "natal"
+    ],
+    "festas": [
+      "apresentação do senhor"
+    ]
   },
   {
     "id": "gozosos-5",
@@ -72,7 +96,13 @@
     "licenca": "Domínio público",
     "licenca_original": "Public domain",
     "imagem": "assets/art/gozosos-5.jpg",
-    "credito": "Cristo entre os Doutores — Albrecht Dürer (1506). Museo Thyssen-Bornemisza, Madri. Domínio público, via Wikimedia Commons."
+    "credito": "Cristo entre os Doutores — Albrecht Dürer (1506). Museo Thyssen-Bornemisza, Madri. Domínio público, via Wikimedia Commons.",
+    "tempos": [
+      "natal"
+    ],
+    "festas": [
+      "sagrada família"
+    ]
   },
   {
     "id": "luminosos-1",
@@ -87,7 +117,14 @@
     "licenca": "Domínio público",
     "licenca_original": "Public domain",
     "imagem": "assets/art/luminosos-1.jpg",
-    "credito": "O Batismo de Cristo — Piero della Francesca (c. 1450). National Gallery, Londres. Domínio público, via Wikimedia Commons."
+    "credito": "O Batismo de Cristo — Piero della Francesca (c. 1450). National Gallery, Londres. Domínio público, via Wikimedia Commons.",
+    "tempos": [
+      "natal",
+      "comum"
+    ],
+    "festas": [
+      "batismo do senhor"
+    ]
   },
   {
     "id": "luminosos-2",
@@ -102,7 +139,11 @@
     "licenca": "Domínio público",
     "licenca_original": "Public domain",
     "imagem": "assets/art/luminosos-2.jpg",
-    "credito": "As Bodas de Caná — Paolo Veronese (1563). Museu do Louvre, Paris. Domínio público, via Wikimedia Commons."
+    "credito": "As Bodas de Caná — Paolo Veronese (1563). Museu do Louvre, Paris. Domínio público, via Wikimedia Commons.",
+    "tempos": [
+      "comum"
+    ],
+    "festas": []
   },
   {
     "id": "luminosos-3",
@@ -117,7 +158,11 @@
     "licenca": "Domínio público",
     "licenca_original": "Public domain",
     "imagem": "assets/art/luminosos-3.jpg",
-    "credito": "O Sermão da Montanha — Carl Heinrich Bloch (1877). Capela do Castelo de Frederiksborg, Dinamarca. Domínio público, via Wikimedia Commons."
+    "credito": "O Sermão da Montanha — Carl Heinrich Bloch (1877). Capela do Castelo de Frederiksborg, Dinamarca. Domínio público, via Wikimedia Commons.",
+    "tempos": [
+      "comum"
+    ],
+    "festas": []
   },
   {
     "id": "luminosos-4",
@@ -132,7 +177,14 @@
     "licenca": "Domínio público",
     "licenca_original": "Public domain",
     "imagem": "assets/art/luminosos-4.jpg",
-    "credito": "A Transfiguração — Rafael Sanzio (1516–1520). Pinacoteca Vaticana. Domínio público, via Wikimedia Commons."
+    "credito": "A Transfiguração — Rafael Sanzio (1516–1520). Pinacoteca Vaticana. Domínio público, via Wikimedia Commons.",
+    "tempos": [
+      "quaresma",
+      "comum"
+    ],
+    "festas": [
+      "transfiguração"
+    ]
   },
   {
     "id": "luminosos-5",
@@ -147,7 +199,14 @@
     "licenca": "Domínio público",
     "licenca_original": "Public domain",
     "imagem": "assets/art/luminosos-5.jpg",
-    "credito": "A Última Ceia — Juan de Juanes (c. 1562). Museo del Prado, Madri. Domínio público, via Wikimedia Commons."
+    "credito": "A Última Ceia — Juan de Juanes (c. 1562). Museo del Prado, Madri. Domínio público, via Wikimedia Commons.",
+    "tempos": [
+      "comum"
+    ],
+    "festas": [
+      "corpo e sangue de cristo",
+      "ceia do senhor"
+    ]
   },
   {
     "id": "dolorosos-1",
@@ -162,7 +221,11 @@
     "licenca": "Domínio público",
     "licenca_original": "Public domain",
     "imagem": "assets/art/dolorosos-1.jpg",
-    "credito": "A Agonia no Horto — Giovanni Bellini (c. 1465). National Gallery, Londres. Domínio público, via Wikimedia Commons."
+    "credito": "A Agonia no Horto — Giovanni Bellini (c. 1465). National Gallery, Londres. Domínio público, via Wikimedia Commons.",
+    "tempos": [
+      "quaresma"
+    ],
+    "festas": []
   },
   {
     "id": "dolorosos-2",
@@ -177,7 +240,11 @@
     "licenca": "Domínio público",
     "licenca_original": "Public domain",
     "imagem": "assets/art/dolorosos-2.jpg",
-    "credito": "A Flagelação de Cristo — Piero della Francesca (c. 1460). Galleria Nazionale delle Marche, Urbino. Domínio público, via Wikimedia Commons."
+    "credito": "A Flagelação de Cristo — Piero della Francesca (c. 1460). Galleria Nazionale delle Marche, Urbino. Domínio público, via Wikimedia Commons.",
+    "tempos": [
+      "quaresma"
+    ],
+    "festas": []
   },
   {
     "id": "dolorosos-3",
@@ -192,7 +259,11 @@
     "licenca": "Domínio público",
     "licenca_original": "Public domain",
     "imagem": "assets/art/dolorosos-3.jpg",
-    "credito": "A Coroação de Espinhos — Caravaggio (c. 1603). Kunsthistorisches Museum, Viena. Domínio público, via Wikimedia Commons."
+    "credito": "A Coroação de Espinhos — Caravaggio (c. 1603). Kunsthistorisches Museum, Viena. Domínio público, via Wikimedia Commons.",
+    "tempos": [
+      "quaresma"
+    ],
+    "festas": []
   },
   {
     "id": "dolorosos-4",
@@ -207,7 +278,11 @@
     "licenca": "CC0",
     "licenca_original": "CC0",
     "imagem": "assets/art/dolorosos-4.jpg",
-    "credito": "Cristo carregando a Cruz — El Greco (c. 1580). The Metropolitan Museum of Art, Nova York (Open Access). Domínio público, via Wikimedia Commons."
+    "credito": "Cristo carregando a Cruz — El Greco (c. 1580). The Metropolitan Museum of Art, Nova York (Open Access). Domínio público, via Wikimedia Commons.",
+    "tempos": [
+      "quaresma"
+    ],
+    "festas": []
   },
   {
     "id": "dolorosos-5",
@@ -222,7 +297,14 @@
     "licenca": "Domínio público",
     "licenca_original": "Public domain",
     "imagem": "assets/art/dolorosos-5.jpg",
-    "credito": "Cristo Crucificado — Diego Velázquez (c. 1632). Museo del Prado, Madri. Domínio público, via Wikimedia Commons."
+    "credito": "Cristo Crucificado — Diego Velázquez (c. 1632). Museo del Prado, Madri. Domínio público, via Wikimedia Commons.",
+    "tempos": [
+      "triduo"
+    ],
+    "festas": [
+      "sexta-feira santa",
+      "exaltação da santa cruz"
+    ]
   },
   {
     "id": "gloriosos-1",
@@ -237,7 +319,13 @@
     "licenca": "Domínio público",
     "licenca_original": "Public domain",
     "imagem": "assets/art/gloriosos-1.jpg",
-    "credito": "A Ressurreição de Cristo — Rafael Sanzio (c. 1499–1502). MASP — Museu de Arte de São Paulo. Domínio público, via Wikimedia Commons."
+    "credito": "A Ressurreição de Cristo — Rafael Sanzio (c. 1499–1502). MASP — Museu de Arte de São Paulo. Domínio público, via Wikimedia Commons.",
+    "tempos": [
+      "pascoa"
+    ],
+    "festas": [
+      "ressurreição do senhor"
+    ]
   },
   {
     "id": "gloriosos-2",
@@ -252,7 +340,13 @@
     "licenca": "Domínio público",
     "licenca_original": "Public domain",
     "imagem": "assets/art/gloriosos-2.jpg",
-    "credito": "A Ascensão — Rembrandt van Rijn (1636). Alte Pinakothek, Munique. Domínio público, via Wikimedia Commons."
+    "credito": "A Ascensão — Rembrandt van Rijn (1636). Alte Pinakothek, Munique. Domínio público, via Wikimedia Commons.",
+    "tempos": [
+      "pascoa"
+    ],
+    "festas": [
+      "ascensão do senhor"
+    ]
   },
   {
     "id": "gloriosos-3",
@@ -267,7 +361,13 @@
     "licenca": "Domínio público",
     "licenca_original": "Public domain",
     "imagem": "assets/art/gloriosos-3.jpg",
-    "credito": "Pentecostes — El Greco (c. 1600). Museo del Prado, Madri. Domínio público, via Wikimedia Commons."
+    "credito": "Pentecostes — El Greco (c. 1600). Museo del Prado, Madri. Domínio público, via Wikimedia Commons.",
+    "tempos": [
+      "pascoa"
+    ],
+    "festas": [
+      "pentecostes"
+    ]
   },
   {
     "id": "gloriosos-4",
@@ -282,7 +382,13 @@
     "licenca": "Domínio público",
     "licenca_original": "Public domain",
     "imagem": "assets/art/gloriosos-4.jpg",
-    "credito": "Assunção da Virgem (Assunta) — Ticiano (1516–1518). Basílica de Santa Maria Gloriosa dei Frari, Veneza. Domínio público, via Wikimedia Commons."
+    "credito": "Assunção da Virgem (Assunta) — Ticiano (1516–1518). Basílica de Santa Maria Gloriosa dei Frari, Veneza. Domínio público, via Wikimedia Commons.",
+    "tempos": [
+      "comum"
+    ],
+    "festas": [
+      "assunção"
+    ]
   },
   {
     "id": "gloriosos-5",
@@ -297,7 +403,13 @@
     "licenca": "Domínio público",
     "licenca_original": "Public domain",
     "imagem": "assets/art/gloriosos-5.jpg",
-    "credito": "A Coroação da Virgem — Diego Velázquez (c. 1635). Museo del Prado, Madri. Domínio público, via Wikimedia Commons."
+    "credito": "A Coroação da Virgem — Diego Velázquez (c. 1635). Museo del Prado, Madri. Domínio público, via Wikimedia Commons.",
+    "tempos": [
+      "comum"
+    ],
+    "festas": [
+      "nossa senhora rainha"
+    ]
   },
   {
     "id": "header-tempo-comum",
@@ -312,7 +424,12 @@
     "licenca": "Domínio público",
     "licenca_original": "Public domain",
     "imagem": "assets/art/header-tempo-comum.jpg",
-    "credito": "A Ceia em Emaús — Caravaggio (1601). National Gallery, Londres. Domínio público, via Wikimedia Commons."
+    "credito": "A Ceia em Emaús — Caravaggio (1601). National Gallery, Londres. Domínio público, via Wikimedia Commons.",
+    "tempos": [
+      "pascoa",
+      "comum"
+    ],
+    "festas": []
   },
   {
     "id": "header-biblia",
@@ -357,7 +474,13 @@
     "licenca": "Domínio público",
     "licenca_original": "Public domain",
     "imagem": "assets/art/header-imitacao.jpg",
-    "credito": "A Vocação de São Mateus — Caravaggio (1599–1600). Igreja de São Luís dos Franceses, Roma. Domínio público, via Wikimedia Commons."
+    "credito": "A Vocação de São Mateus — Caravaggio (1599–1600). Igreja de São Luís dos Franceses, Roma. Domínio público, via Wikimedia Commons.",
+    "tempos": [
+      "comum"
+    ],
+    "festas": [
+      "são mateus"
+    ]
   },
   {
     "id": "header-oracoes",
@@ -388,5 +511,575 @@
     "licenca_original": "Public domain",
     "imagem": "assets/art/header-lectio.jpg",
     "credito": "Cristo em Casa de Marta e Maria — Johannes Vermeer (c. 1655). National Galleries of Scotland, Edimburgo. Domínio público, via Wikimedia Commons."
+  },
+  {
+    "id": "advento-1",
+    "misterio": "Liturgia — Advento",
+    "titulo": "A Anunciação",
+    "artista": "Leonardo da Vinci",
+    "ano": "c. 1472–1475",
+    "acervo": "Galleria degli Uffizi, Florença",
+    "busca": "Leonardo da Vinci Annunciation Uffizi",
+    "tempos": [
+      "advento"
+    ],
+    "festas": [],
+    "arquivo_commons": "File:Leonardo da Vinci - Annunciazione - Google Art Project.jpg",
+    "pagina_commons": "https://commons.wikimedia.org/wiki/File:Leonardo_da_Vinci_-_Annunciazione_-_Google_Art_Project.jpg",
+    "licenca": "Domínio público",
+    "licenca_original": "Public domain",
+    "imagem": "assets/art/advento-1.jpg",
+    "credito": "A Anunciação — Leonardo da Vinci (c. 1472–1475). Galleria degli Uffizi, Florença. Domínio público, via Wikimedia Commons."
+  },
+  {
+    "id": "advento-2",
+    "misterio": "Liturgia — Advento",
+    "titulo": "A Pregação de São João Batista",
+    "artista": "Pieter Bruegel, o Velho",
+    "ano": "1566",
+    "acervo": "Museu de Belas-Artes, Budapeste",
+    "busca": "Bruegel Sermon of Saint John the Baptist Budapest",
+    "tempos": [
+      "advento"
+    ],
+    "festas": [
+      "natividade de são joão batista"
+    ],
+    "arquivo_commons": "File:Pieter Bruegel the Elder - The Sermon of Saint John the Baptist - Google Art Project.jpg",
+    "pagina_commons": "https://commons.wikimedia.org/wiki/File:Pieter_Bruegel_the_Elder_-_The_Sermon_of_Saint_John_the_Baptist_-_Google_Art_Project.jpg",
+    "licenca": "Domínio público",
+    "licenca_original": "Public domain",
+    "imagem": "assets/art/advento-2.jpg",
+    "credito": "A Pregação de São João Batista — Pieter Bruegel, o Velho (1566). Museu de Belas-Artes, Budapeste. Domínio público, via Wikimedia Commons."
+  },
+  {
+    "id": "advento-3",
+    "misterio": "Liturgia — Advento",
+    "titulo": "O Profeta Isaías",
+    "artista": "Michelangelo",
+    "ano": "1508–1512",
+    "acervo": "Capela Sistina, Vaticano",
+    "busca": "Michelangelo Isaiah Sistine Chapel prophet",
+    "tempos": [
+      "advento"
+    ],
+    "festas": [],
+    "arquivo_commons": "File:Jesaja (Michelangelo).jpg",
+    "pagina_commons": "https://commons.wikimedia.org/wiki/File:Jesaja_(Michelangelo).jpg",
+    "licenca": "Domínio público",
+    "licenca_original": "Public domain",
+    "imagem": "assets/art/advento-3.jpg",
+    "credito": "O Profeta Isaías — Michelangelo (1508–1512). Capela Sistina, Vaticano. Domínio público, via Wikimedia Commons."
+  },
+  {
+    "id": "advento-4",
+    "misterio": "Liturgia — Advento",
+    "titulo": "A Imaculada Conceição (de Soult)",
+    "artista": "Bartolomé Esteban Murillo",
+    "ano": "c. 1678",
+    "acervo": "Museo del Prado, Madri",
+    "busca": "Murillo Inmaculada de Soult Prado",
+    "tempos": [
+      "advento"
+    ],
+    "festas": [
+      "imaculada conceição"
+    ],
+    "arquivo_commons": "File:Murillo - Inmaculada Concepción de los Venerables o de Soult (Museo del Prado, 1678).jpg",
+    "pagina_commons": "https://commons.wikimedia.org/wiki/File:Murillo_-_Inmaculada_Concepci%C3%B3n_de_los_Venerables_o_de_Soult_(Museo_del_Prado,_1678).jpg",
+    "licenca": "Domínio público",
+    "licenca_original": "Public domain",
+    "imagem": "assets/art/advento-4.jpg",
+    "credito": "A Imaculada Conceição (de Soult) — Bartolomé Esteban Murillo (c. 1678). Museo del Prado, Madri. Domínio público, via Wikimedia Commons."
+  },
+  {
+    "id": "natal-1",
+    "misterio": "Liturgia — Natal",
+    "titulo": "A Adoração dos Magos",
+    "artista": "Gentile da Fabriano",
+    "ano": "1423",
+    "acervo": "Galleria degli Uffizi, Florença",
+    "busca": "Gentile da Fabriano Adoration of the Magi Uffizi",
+    "tempos": [
+      "natal"
+    ],
+    "festas": [
+      "epifania"
+    ],
+    "arquivo_commons": "File:Gentile da fabriano, adorazione dei magi.jpg",
+    "pagina_commons": "https://commons.wikimedia.org/wiki/File:Gentile_da_fabriano,_adorazione_dei_magi.jpg",
+    "licenca": "Domínio público",
+    "licenca_original": "Public domain",
+    "imagem": "assets/art/natal-1.jpg",
+    "credito": "A Adoração dos Magos — Gentile da Fabriano (1423). Galleria degli Uffizi, Florença. Domínio público, via Wikimedia Commons."
+  },
+  {
+    "id": "natal-2",
+    "misterio": "Liturgia — Natal",
+    "titulo": "A Adoração dos Pastores",
+    "artista": "Bartolomé Esteban Murillo",
+    "ano": "c. 1650",
+    "acervo": "Museo del Prado, Madri",
+    "busca": "Murillo Adoración de los pastores Prado",
+    "tempos": [
+      "natal"
+    ],
+    "festas": [
+      "natal do senhor"
+    ],
+    "arquivo_commons": "File:Adoration of the Shepherds, Murillo (Prado Museum).jpg",
+    "pagina_commons": "https://commons.wikimedia.org/wiki/File:Adoration_of_the_Shepherds,_Murillo_(Prado_Museum).jpg",
+    "licenca": "Domínio público",
+    "licenca_original": "Public domain",
+    "imagem": "assets/art/natal-2.jpg",
+    "credito": "A Adoração dos Pastores — Bartolomé Esteban Murillo (c. 1650). Museo del Prado, Madri. Domínio público, via Wikimedia Commons."
+  },
+  {
+    "id": "natal-3",
+    "misterio": "Liturgia — Natal",
+    "titulo": "A Sagrada Família do Passarinho",
+    "artista": "Bartolomé Esteban Murillo",
+    "ano": "c. 1650",
+    "acervo": "Museo del Prado, Madri",
+    "busca": "Murillo Sagrada Familia del pajarito",
+    "tempos": [
+      "natal"
+    ],
+    "festas": [
+      "sagrada família",
+      "são josé"
+    ],
+    "arquivo_commons": "File:Sagrada Familia del pajarito (Murillo).jpg",
+    "pagina_commons": "https://commons.wikimedia.org/wiki/File:Sagrada_Familia_del_pajarito_(Murillo).jpg",
+    "licenca": "Domínio público",
+    "licenca_original": "Public domain",
+    "imagem": "assets/art/natal-3.jpg",
+    "credito": "A Sagrada Família do Passarinho — Bartolomé Esteban Murillo (c. 1650). Museo del Prado, Madri. Domínio público, via Wikimedia Commons."
+  },
+  {
+    "id": "natal-4",
+    "misterio": "Liturgia — Natal",
+    "titulo": "A Fuga para o Egito",
+    "artista": "Giotto di Bondone",
+    "ano": "c. 1305",
+    "acervo": "Capela dos Scrovegni, Pádua",
+    "busca": "Giotto Scrovegni Flight into Egypt",
+    "tempos": [
+      "natal"
+    ],
+    "festas": [
+      "santos inocentes"
+    ],
+    "arquivo_commons": "File:Giotto di Bondone - No. 20 Scenes from the Life of Christ - 4. Flight into Egypt - WGA09198.jpg",
+    "pagina_commons": "https://commons.wikimedia.org/wiki/File:Giotto_di_Bondone_-_No._20_Scenes_from_the_Life_of_Christ_-_4._Flight_into_Egypt_-_WGA09198.jpg",
+    "licenca": "Domínio público",
+    "licenca_original": "Public domain",
+    "imagem": "assets/art/natal-4.jpg",
+    "credito": "A Fuga para o Egito — Giotto di Bondone (c. 1305). Capela dos Scrovegni, Pádua. Domínio público, via Wikimedia Commons."
+  },
+  {
+    "id": "quaresma-1",
+    "misterio": "Liturgia — Quaresma",
+    "titulo": "Cristo no Deserto",
+    "artista": "Ivan Kramskoi",
+    "ano": "1872",
+    "acervo": "Galeria Tretyakov, Moscou",
+    "busca": "Kramskoi Christ in the Wilderness",
+    "tempos": [
+      "quaresma"
+    ],
+    "festas": [
+      "quarta-feira de cinzas"
+    ],
+    "arquivo_commons": "File:Christ in the Wilderness - Ivan Kramskoy - Google Cultural Institute.jpg",
+    "pagina_commons": "https://commons.wikimedia.org/wiki/File:Christ_in_the_Wilderness_-_Ivan_Kramskoy_-_Google_Cultural_Institute.jpg",
+    "licenca": "Domínio público",
+    "licenca_original": "Public domain",
+    "imagem": "assets/art/quaresma-1.jpg",
+    "credito": "Cristo no Deserto — Ivan Kramskoi (1872). Galeria Tretyakov, Moscou. Domínio público, via Wikimedia Commons."
+  },
+  {
+    "id": "quaresma-2",
+    "misterio": "Liturgia — Quaresma",
+    "titulo": "O Retorno do Filho Pródigo",
+    "artista": "Rembrandt van Rijn",
+    "ano": "c. 1668",
+    "acervo": "Museu Hermitage, São Petersburgo",
+    "busca": "Rembrandt Return of the Prodigal Son Hermitage",
+    "tempos": [
+      "quaresma"
+    ],
+    "festas": [],
+    "arquivo_commons": "File:Rembrandt Harmensz van Rijn - Return of the Prodigal Son - Google Art Project.jpg",
+    "pagina_commons": "https://commons.wikimedia.org/wiki/File:Rembrandt_Harmensz_van_Rijn_-_Return_of_the_Prodigal_Son_-_Google_Art_Project.jpg",
+    "licenca": "Domínio público",
+    "licenca_original": "Public domain",
+    "imagem": "assets/art/quaresma-2.jpg",
+    "credito": "O Retorno do Filho Pródigo — Rembrandt van Rijn (c. 1668). Museu Hermitage, São Petersburgo. Domínio público, via Wikimedia Commons."
+  },
+  {
+    "id": "quaresma-3",
+    "misterio": "Liturgia — Quaresma",
+    "titulo": "Ecce Homo",
+    "artista": "Antonio Ciseri",
+    "ano": "1871",
+    "acervo": "Galleria d’arte moderna, Florença",
+    "busca": "Antonio Ciseri Ecce Homo",
+    "tempos": [
+      "quaresma"
+    ],
+    "festas": [],
+    "arquivo_commons": "File:Antonio Ciseri - Ecce Homo.jpg",
+    "pagina_commons": "https://commons.wikimedia.org/wiki/File:Antonio_Ciseri_-_Ecce_Homo.jpg",
+    "licenca": "Domínio público",
+    "licenca_original": "Public domain",
+    "imagem": "assets/art/quaresma-3.jpg",
+    "credito": "Ecce Homo — Antonio Ciseri (1871). Galleria d’arte moderna, Florença. Domínio público, via Wikimedia Commons."
+  },
+  {
+    "id": "quaresma-4",
+    "misterio": "Liturgia — Quaresma",
+    "titulo": "A Entrada em Jerusalém",
+    "artista": "Giotto di Bondone",
+    "ano": "c. 1305",
+    "acervo": "Capela dos Scrovegni, Pádua",
+    "busca": "Giotto Scrovegni Entry into Jerusalem",
+    "tempos": [
+      "quaresma"
+    ],
+    "festas": [
+      "domingo de ramos"
+    ],
+    "arquivo_commons": "File:Giotto di Bondone - No. 26 Scenes from the Life of Christ - 10. Entry into Jerusalem - WGA09206.jpg",
+    "pagina_commons": "https://commons.wikimedia.org/wiki/File:Giotto_di_Bondone_-_No._26_Scenes_from_the_Life_of_Christ_-_10._Entry_into_Jerusalem_-_WGA09206.jpg",
+    "licenca": "Domínio público",
+    "licenca_original": "Public domain",
+    "imagem": "assets/art/quaresma-4.jpg",
+    "credito": "A Entrada em Jerusalém — Giotto di Bondone (c. 1305). Capela dos Scrovegni, Pádua. Domínio público, via Wikimedia Commons."
+  },
+  {
+    "id": "quaresma-5",
+    "misterio": "Liturgia — Quaresma",
+    "titulo": "A Ressurreição de Lázaro",
+    "artista": "Giotto di Bondone",
+    "ano": "c. 1305",
+    "acervo": "Capela dos Scrovegni, Pádua",
+    "busca": "Giotto Scrovegni Raising of Lazarus",
+    "tempos": [
+      "quaresma"
+    ],
+    "festas": [],
+    "arquivo_commons": "File:Résurrection de Lazare, dans la chapelle des Scrovegni, à Padoue (Histoire du Christ par Giotto).jpg",
+    "pagina_commons": "https://commons.wikimedia.org/wiki/File:R%C3%A9surrection_de_Lazare,_dans_la_chapelle_des_Scrovegni,_%C3%A0_Padoue_(Histoire_du_Christ_par_Giotto).jpg",
+    "licenca": "Domínio público",
+    "licenca_original": "Public domain",
+    "imagem": "assets/art/quaresma-5.jpg",
+    "credito": "A Ressurreição de Lázaro — Giotto di Bondone (c. 1305). Capela dos Scrovegni, Pádua. Domínio público, via Wikimedia Commons."
+  },
+  {
+    "id": "triduo-1",
+    "misterio": "Liturgia — Tríduo Pascal",
+    "titulo": "Cristo Lavando os Pés dos Discípulos",
+    "artista": "Tintoretto",
+    "ano": "c. 1547",
+    "acervo": "Museo del Prado, Madri",
+    "busca": "Tintoretto Lavatorio Prado washing of the feet",
+    "tempos": [
+      "triduo"
+    ],
+    "festas": [
+      "ceia do senhor"
+    ],
+    "arquivo_commons": "File:El Lavatorio (Tintoretto).jpg",
+    "pagina_commons": "https://commons.wikimedia.org/wiki/File:El_Lavatorio_(Tintoretto).jpg",
+    "licenca": "Domínio público",
+    "licenca_original": "Public domain",
+    "imagem": "assets/art/triduo-1.jpg",
+    "credito": "Cristo Lavando os Pés dos Discípulos — Tintoretto (c. 1547). Museo del Prado, Madri. Domínio público, via Wikimedia Commons."
+  },
+  {
+    "id": "triduo-2",
+    "misterio": "Liturgia — Tríduo Pascal",
+    "titulo": "O Sepultamento de Cristo",
+    "artista": "Caravaggio",
+    "ano": "1603–1604",
+    "acervo": "Pinacoteca Vaticana",
+    "busca": "Caravaggio Entombment of Christ Vatican",
+    "tempos": [
+      "triduo"
+    ],
+    "festas": [
+      "sábado santo",
+      "fiéis defuntos"
+    ],
+    "arquivo_commons": "File:The Entombment of Christ-Caravaggio (c.1602-3).jpg",
+    "pagina_commons": "https://commons.wikimedia.org/wiki/File:The_Entombment_of_Christ-Caravaggio_(c.1602-3).jpg",
+    "licenca": "Domínio público",
+    "licenca_original": "Public domain",
+    "imagem": "assets/art/triduo-2.jpg",
+    "credito": "O Sepultamento de Cristo — Caravaggio (1603–1604). Pinacoteca Vaticana. Domínio público, via Wikimedia Commons."
+  },
+  {
+    "id": "triduo-3",
+    "misterio": "Liturgia — Tríduo Pascal",
+    "titulo": "A Lamentação",
+    "artista": "Giotto di Bondone",
+    "ano": "c. 1305",
+    "acervo": "Capela dos Scrovegni, Pádua",
+    "busca": "Giotto Scrovegni Lamentation Mourning of Christ",
+    "tempos": [
+      "triduo"
+    ],
+    "festas": [
+      "sexta-feira santa"
+    ],
+    "arquivo_commons": "File:Giotto - Scrovegni - -36- - Lamentation (The Mourning of Christ) adj.jpg",
+    "pagina_commons": "https://commons.wikimedia.org/wiki/File:Giotto_-_Scrovegni_-_-36-_-_Lamentation_(The_Mourning_of_Christ)_adj.jpg",
+    "licenca": "Domínio público",
+    "licenca_original": "Public domain",
+    "imagem": "assets/art/triduo-3.jpg",
+    "credito": "A Lamentação — Giotto di Bondone (c. 1305). Capela dos Scrovegni, Pádua. Domínio público, via Wikimedia Commons."
+  },
+  {
+    "id": "pascoa-1",
+    "misterio": "Liturgia — Tempo Pascal",
+    "titulo": "Noli me tangere",
+    "artista": "Fra Angelico",
+    "ano": "c. 1440",
+    "acervo": "Convento de São Marcos, Florença",
+    "busca": "Fra Angelico Noli me tangere San Marco",
+    "tempos": [
+      "pascoa"
+    ],
+    "festas": [],
+    "arquivo_commons": "File:Angelico, noli me tangere.jpg",
+    "pagina_commons": "https://commons.wikimedia.org/wiki/File:Angelico,_noli_me_tangere.jpg",
+    "licenca": "Domínio público",
+    "licenca_original": "Public domain",
+    "imagem": "assets/art/pascoa-1.jpg",
+    "credito": "Noli me tangere — Fra Angelico (c. 1440). Convento de São Marcos, Florença. Domínio público, via Wikimedia Commons."
+  },
+  {
+    "id": "pascoa-2",
+    "misterio": "Liturgia — Tempo Pascal",
+    "titulo": "A Incredulidade de São Tomé",
+    "artista": "Caravaggio",
+    "ano": "1601–1602",
+    "acervo": "Palácio de Sanssouci, Potsdam",
+    "busca": "Caravaggio Incredulity of Saint Thomas",
+    "tempos": [
+      "pascoa"
+    ],
+    "festas": [
+      "são tomé"
+    ],
+    "arquivo_commons": "File:Der ungläubige Thomas - Michelangelo Merisi, named Caravaggio.jpg",
+    "pagina_commons": "https://commons.wikimedia.org/wiki/File:Der_ungl%C3%A4ubige_Thomas_-_Michelangelo_Merisi,_named_Caravaggio.jpg",
+    "licenca": "Domínio público",
+    "licenca_original": "Public domain",
+    "imagem": "assets/art/pascoa-2.jpg",
+    "credito": "A Incredulidade de São Tomé — Caravaggio (1601–1602). Palácio de Sanssouci, Potsdam. Domínio público, via Wikimedia Commons."
+  },
+  {
+    "id": "pascoa-3",
+    "misterio": "Liturgia — Tempo Pascal",
+    "titulo": "Pedro e João correndo ao Sepulcro",
+    "artista": "Eugène Burnand",
+    "ano": "1898",
+    "acervo": "Musée d’Orsay, Paris",
+    "busca": "Eugène Burnand disciples Peter and John running sepulchre",
+    "tempos": [
+      "pascoa"
+    ],
+    "festas": [
+      "ressurreição do senhor"
+    ],
+    "arquivo_commons": "File:BurnandJeanPierre.jpg",
+    "pagina_commons": "https://commons.wikimedia.org/wiki/File:BurnandJeanPierre.jpg",
+    "licenca": "Domínio público",
+    "licenca_original": "Public domain",
+    "imagem": "assets/art/pascoa-3.jpg",
+    "credito": "Pedro e João correndo ao Sepulcro — Eugène Burnand (1898). Musée d’Orsay, Paris. Domínio público, via Wikimedia Commons."
+  },
+  {
+    "id": "pascoa-4",
+    "misterio": "Liturgia — Tempo Pascal",
+    "titulo": "A Santíssima Trindade",
+    "artista": "Andrei Rublev",
+    "ano": "c. 1411–1425",
+    "acervo": "Galeria Tretyakov, Moscou",
+    "busca": "Rublev Trinity icon Tretyakov",
+    "tempos": [
+      "pascoa"
+    ],
+    "festas": [
+      "santíssima trindade"
+    ],
+    "arquivo_commons": "File:Andrey Rublev - Св. Троица - Google Art Project.jpg",
+    "pagina_commons": "https://commons.wikimedia.org/wiki/File:Andrey_Rublev_-_%D0%A1%D0%B2._%D0%A2%D1%80%D0%BE%D0%B8%D1%86%D0%B0_-_Google_Art_Project.jpg",
+    "licenca": "Domínio público",
+    "licenca_original": "Public domain",
+    "imagem": "assets/art/pascoa-4.jpg",
+    "credito": "A Santíssima Trindade — Andrei Rublev (c. 1411–1425). Galeria Tretyakov, Moscou. Domínio público, via Wikimedia Commons."
+  },
+  {
+    "id": "comum-1",
+    "misterio": "Liturgia — Tempo Comum",
+    "titulo": "Cristo na Tempestade no Mar da Galileia",
+    "artista": "Rembrandt van Rijn",
+    "ano": "1633",
+    "acervo": "Museu Isabella Stewart Gardner, Boston",
+    "busca": "Rembrandt Storm on the Sea of Galilee",
+    "tempos": [
+      "comum"
+    ],
+    "festas": [],
+    "arquivo_commons": "File:Rembrandt Christ in the Storm on the Lake of Galilee.jpg",
+    "pagina_commons": "https://commons.wikimedia.org/wiki/File:Rembrandt_Christ_in_the_Storm_on_the_Lake_of_Galilee.jpg",
+    "licenca": "Domínio público",
+    "licenca_original": "Public domain",
+    "imagem": "assets/art/comum-1.jpg",
+    "credito": "Cristo na Tempestade no Mar da Galileia — Rembrandt van Rijn (1633). Museu Isabella Stewart Gardner, Boston. Domínio público, via Wikimedia Commons."
+  },
+  {
+    "id": "comum-2",
+    "misterio": "Liturgia — Tempo Comum",
+    "titulo": "A Pesca Milagrosa",
+    "artista": "Rafael Sanzio",
+    "ano": "1515–1516",
+    "acervo": "Victoria and Albert Museum, Londres",
+    "busca": "Raphael cartoon Miraculous Draught of Fishes",
+    "tempos": [
+      "comum"
+    ],
+    "festas": [
+      "são pedro e são paulo"
+    ],
+    "arquivo_commons": "File:Raphael - The Miraculous Draft of Fishes - Google Art Project.jpg",
+    "pagina_commons": "https://commons.wikimedia.org/wiki/File:Raphael_-_The_Miraculous_Draft_of_Fishes_-_Google_Art_Project.jpg",
+    "licenca": "Domínio público",
+    "licenca_original": "Public domain",
+    "imagem": "assets/art/comum-2.jpg",
+    "credito": "A Pesca Milagrosa — Rafael Sanzio (1515–1516). Victoria and Albert Museum, Londres. Domínio público, via Wikimedia Commons."
+  },
+  {
+    "id": "comum-3",
+    "misterio": "Liturgia — Tempo Comum",
+    "titulo": "O Bom Samaritano",
+    "artista": "Vincent van Gogh",
+    "ano": "1890",
+    "acervo": "Museu Kröller-Müller, Otterlo",
+    "busca": "Van Gogh Good Samaritan after Delacroix",
+    "tempos": [
+      "comum"
+    ],
+    "festas": [],
+    "arquivo_commons": "File:Vincent van Gogh - The Good Samaritan, 1890 - Google Art Project.jpg",
+    "pagina_commons": "https://commons.wikimedia.org/wiki/File:Vincent_van_Gogh_-_The_Good_Samaritan,_1890_-_Google_Art_Project.jpg",
+    "licenca": "Domínio público",
+    "licenca_original": "Public domain",
+    "imagem": "assets/art/comum-3.jpg",
+    "credito": "O Bom Samaritano — Vincent van Gogh (1890). Museu Kröller-Müller, Otterlo. Domínio público, via Wikimedia Commons."
+  },
+  {
+    "id": "comum-4",
+    "misterio": "Liturgia — Tempo Comum",
+    "titulo": "O Tributo",
+    "artista": "Masaccio",
+    "ano": "c. 1425",
+    "acervo": "Capela Brancacci, Florença",
+    "busca": "Masaccio Tribute Money Brancacci",
+    "tempos": [
+      "comum"
+    ],
+    "festas": [],
+    "arquivo_commons": "File:The Tribute Money Masaccio Cappella Brancacci.jpg",
+    "pagina_commons": "https://commons.wikimedia.org/wiki/File:The_Tribute_Money_Masaccio_Cappella_Brancacci.jpg",
+    "licenca": "Domínio público",
+    "licenca_original": "Public domain",
+    "imagem": "assets/art/comum-4.jpg",
+    "credito": "O Tributo — Masaccio (c. 1425). Capela Brancacci, Florença. Domínio público, via Wikimedia Commons."
+  },
+  {
+    "id": "comum-5",
+    "misterio": "Liturgia — Tempo Comum",
+    "titulo": "Cristo curando o Cego",
+    "artista": "El Greco",
+    "ano": "c. 1570",
+    "acervo": "Gemäldegalerie Alte Meister, Dresden",
+    "busca": "El Greco Christ Healing the Blind Dresden",
+    "tempos": [
+      "comum"
+    ],
+    "festas": [],
+    "arquivo_commons": "File:Healing the blind by El Greco - Q50323379.jpg",
+    "pagina_commons": "https://commons.wikimedia.org/wiki/File:Healing_the_blind_by_El_Greco_-_Q50323379.jpg",
+    "licenca": "Domínio público",
+    "licenca_original": "Public domain",
+    "imagem": "assets/art/comum-5.jpg",
+    "credito": "Cristo curando o Cego — El Greco (c. 1570). Gemäldegalerie Alte Meister, Dresden. Domínio público, via Wikimedia Commons."
+  },
+  {
+    "id": "comum-6",
+    "misterio": "Liturgia — Tempo Comum",
+    "titulo": "Cristo Pantocrator",
+    "artista": "Autor desconhecido",
+    "ano": "séc. VI",
+    "acervo": "Mosteiro de Santa Catarina, Sinai",
+    "busca": "Christ Pantocrator Sinai encaustic icon",
+    "tempos": [
+      "comum"
+    ],
+    "festas": [
+      "rei do universo"
+    ],
+    "arquivo_commons": "File:CHRIST PANTOCRATOR-SINAI(6th Century).jpg",
+    "pagina_commons": "https://commons.wikimedia.org/wiki/File:CHRIST_PANTOCRATOR-SINAI(6th_Century).jpg",
+    "licenca": "Domínio público",
+    "licenca_original": "Public domain",
+    "imagem": "assets/art/comum-6.jpg",
+    "credito": "Cristo Pantocrator — Autor desconhecido (séc. VI). Mosteiro de Santa Catarina, Sinai. Domínio público, via Wikimedia Commons."
+  },
+  {
+    "id": "comum-7",
+    "misterio": "Liturgia — Tempo Comum",
+    "titulo": "O Sagrado Coração de Jesus",
+    "artista": "Pompeo Batoni",
+    "ano": "1767",
+    "acervo": "Igreja do Gesù, Roma",
+    "busca": "Pompeo Batoni Sacred Heart Gesù",
+    "tempos": [
+      "comum"
+    ],
+    "festas": [
+      "sagrado coração"
+    ],
+    "arquivo_commons": "File:SacredHeartBatoni.jpg",
+    "pagina_commons": "https://commons.wikimedia.org/wiki/File:SacredHeartBatoni.jpg",
+    "licenca": "CC0",
+    "licenca_original": "CC0",
+    "imagem": "assets/art/comum-7.jpg",
+    "credito": "O Sagrado Coração de Jesus — Pompeo Batoni (1767). Igreja do Gesù, Roma. Domínio público, via Wikimedia Commons."
+  },
+  {
+    "id": "comum-8",
+    "misterio": "Liturgia — Tempo Comum",
+    "titulo": "A Adoração da Santíssima Trindade (Retábulo Landauer)",
+    "artista": "Albrecht Dürer",
+    "ano": "1511",
+    "acervo": "Kunsthistorisches Museum, Viena",
+    "busca": "Dürer Landauer Altarpiece Adoration of the Trinity",
+    "tempos": [
+      "comum"
+    ],
+    "festas": [
+      "todos os santos"
+    ],
+    "arquivo_commons": "File:Albrecht Dürer - Adoration of the Trinity (Landauer Altar) - Google Art Project.jpg",
+    "pagina_commons": "https://commons.wikimedia.org/wiki/File:Albrecht_D%C3%BCrer_-_Adoration_of_the_Trinity_(Landauer_Altar)_-_Google_Art_Project.jpg",
+    "licenca": "Domínio público",
+    "licenca_original": "Public domain",
+    "imagem": "assets/art/comum-8.jpg",
+    "credito": "A Adoração da Santíssima Trindade (Retábulo Landauer) — Albrecht Dürer (1511). Kunsthistorisches Museum, Viena. Domínio público, via Wikimedia Commons."
   }
 ]

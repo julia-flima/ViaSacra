@@ -1,0 +1,4 @@
+• Arte sacra do cabeçalho da Liturgia muda a cada dia, com obra própria nas festas
+• 28 novas obras clássicas em domínio público
+• Voz neural começa a ler mais rápido e não corta mais palavras ao meio
+• Voz neural carregada em segundo plano quando já está no aparelho

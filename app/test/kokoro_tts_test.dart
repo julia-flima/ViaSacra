@@ -186,7 +186,7 @@ void main() {
       '${List.filled(20, 'Segunda parte.').join(' ')} ',
       'Terceira parte.',
     ].join();
-    final chunks = splitForSpeech(longText, maxLen: 280);
+    final chunks = splitForSpeech(longText, maxLen: kNeuralChunkLen, firstLen: kNeuralFirstChunkLen);
     expect(chunks.length, greaterThanOrEqualTo(3));
 
     await handler.setKokoroVoice('pm_alex');
