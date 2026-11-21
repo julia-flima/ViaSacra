@@ -42,4 +42,14 @@ void main() {
     expect(artOn(2026, 3, 4)!.seasons, contains('quaresma'));
     expect(artOn(2026, 4, 22)!.seasons, contains('pascoa'));
   });
+
+  test('toda obra tem foco (rostos principais) dentro da pintura e imagem de até 1080 px', () {
+    for (final a in catalog) {
+      expect(a.focus.x.abs() <= 1 && a.focus.y.abs() <= 1, isTrue, reason: a.id);
+      expect(File(a.assetPath!).lengthSync(), lessThan(700 * 1024), reason: '${a.id}: imagem pesada demais');
+    }
+    // Retratos com o rosto no alto: o recorte dos cartões precisa subir (antes cortava o rosto).
+    expect(catalog.firstWhere((a) => a.id == 'header-catecismo').focus.y, lessThan(-0.3));
+    expect(SacredArt.fromJson({'id': 'x', 'titulo': 't', 'artista': 'a'}).focus.y, -0.3); // sem foco: padrão
+  });
 }

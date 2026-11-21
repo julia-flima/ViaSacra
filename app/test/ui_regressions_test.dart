@@ -9,10 +9,10 @@ import 'package:via_sacra/services/settings_service.dart';
 import 'package:via_sacra/widgets/reading_appearance_button.dart';
 
 void main() {
-  testWidgets('Aa abre sem erro com texto no máximo dos Ajustes (160%)', (tester) async {
-    SharedPreferences.setMockInitialValues({'text_scale': SettingsService.maxTextScale});
+  testWidgets('Aa abre sem erro com texto no máximo dos Ajustes (190%)', (tester) async {
+    SharedPreferences.setMockInitialValues({'text_scale_rel': SettingsService.maxTextScale});
     final settings = await SettingsService.load();
-    expect(settings.textScale, 1.6);
+    expect(settings.textScale, 1.9);
 
     await tester.pumpWidget(
       ChangeNotifierProvider.value(
@@ -26,7 +26,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(tester.takeException(), isNull);
-    expect(find.text('160%'), findsOneWidget);
+    expect(find.text('190%'), findsOneWidget);
     final slider = tester.widget<Slider>(find.byType(Slider));
     expect(slider.max, greaterThanOrEqualTo(settings.textScale));
   });

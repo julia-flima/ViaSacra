@@ -79,7 +79,7 @@ Future<void> showReadingAppearanceSheet(BuildContext context) {
                         value: s.textScale,
                         min: SettingsService.minTextScale,
                         max: SettingsService.maxTextScale,
-                        divisions: 15,
+                        divisions: 21,
                         onCommit: (v) => s.textScale = v,
                       ),
                     ),

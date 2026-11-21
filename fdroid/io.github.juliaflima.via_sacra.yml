@@ -31,7 +31,7 @@ Repo: https://github.com/julia-flima/ViaSacra.git
 
 Builds:
   - versionName: 1.6.0
-    versionCode: 9
+    versionCode: 10
     commit: v1.6.0
     subdir: app
     output: build/app/outputs/flutter-apk/app-release.apk
@@ -57,4 +57,4 @@ AutoUpdateMode: Version
 UpdateCheckMode: Tags ^v[0-9.]+$
 UpdateCheckData: app/pubspec.yaml|version:\s.+\+(\d+)|.|version:\s(.+)\+
 CurrentVersion: 1.6.0
-CurrentVersionCode: 9
+CurrentVersionCode: 10

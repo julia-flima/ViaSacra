@@ -87,7 +87,11 @@ class ViaSacraApp extends StatelessWidget {
                   builder: (context, textScale, child) {
                     final mq = MediaQuery.of(context);
                     return MediaQuery(
-                      data: mq.copyWith(textScaler: TextScaler.linear(mq.textScaler.scale(1) * textScale)),
+                      data: mq.copyWith(
+                        textScaler: TextScaler.linear(
+                          mq.textScaler.scale(1) * textScale * SettingsService.baseTextScale,
+                        ),
+                      ),
                       child: KeyboardScrollScope(child: child!),
                     );
                   },

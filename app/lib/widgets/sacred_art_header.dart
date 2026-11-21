@@ -16,7 +16,7 @@ class SacredArtBanner extends StatelessWidget {
     this.art,
     this.accentColor,
     this.height,
-    this.alignment = const Alignment(0, -0.22),
+    this.alignment,
   });
 
   final String title;
@@ -24,7 +24,9 @@ class SacredArtBanner extends StatelessWidget {
   final SacredArt? art;
   final Color? accentColor;
   final double? height;
-  final Alignment alignment;
+
+  /// Enquadramento da pintura; por padrão, o foco da própria obra (rostos principais).
+  final Alignment? alignment;
 
   @override
   Widget build(BuildContext context) {
@@ -51,10 +53,10 @@ class SacredArtBanner extends StatelessWidget {
                         a!.assetPath!,
                         key: ValueKey(a.id),
                         fit: BoxFit.cover,
-                        alignment: alignment,
+                        alignment: alignment ?? a.focus,
                         width: double.infinity,
                         height: double.infinity,
-                        cacheWidth: 800,
+                        cacheWidth: decodeWidth(context, MediaQuery.sizeOf(context).width),
                         filterQuality: FilterQuality.medium,
                         errorBuilder: (_, _, _) => _ArtFallback(cs: cs),
                       )
@@ -112,7 +114,7 @@ class SacredArtBanner extends StatelessWidget {
                     if (subtitle != null) const SizedBox(height: 3),
                     Text(
                       title,
-                      maxLines: 2,
+                      maxLines: 3, // celebrações longas ("…, Memória") não são cortadas
                       overflow: TextOverflow.ellipsis,
                       style: t.titleLarge?.copyWith(
                         color: Colors.white,
@@ -143,7 +145,7 @@ class SacredArtCard extends StatelessWidget {
     this.badge,
     this.icon,
     this.height = 190,
-    this.alignment = const Alignment(0, -0.2),
+    this.alignment,
   });
 
   final String title;
@@ -153,7 +155,9 @@ class SacredArtCard extends StatelessWidget {
   final String? badge;
   final IconData? icon;
   final double height;
-  final Alignment alignment;
+
+  /// Enquadramento da pintura; por padrão, o foco da própria obra (rostos principais).
+  final Alignment? alignment;
 
   @override
   Widget build(BuildContext context) {
@@ -180,8 +184,8 @@ class SacredArtCard extends StatelessWidget {
                     Image.asset(
                       a!.assetPath!,
                       fit: BoxFit.cover,
-                      alignment: alignment,
-                      cacheWidth: 800,
+                      alignment: alignment ?? a.focus,
+                      cacheWidth: decodeWidth(context, MediaQuery.sizeOf(context).width),
                       filterQuality: FilterQuality.medium,
                       errorBuilder: (_, _, _) => _ArtFallback(cs: cs),
                     )
@@ -262,6 +266,11 @@ class SacredArtCard extends StatelessWidget {
     );
   }
 }
+
+/// Largura em pixels para decodificar uma pintura exibida com [logicalWidth]: nítida na tela, sem
+/// gastar memória além do arquivo (as imagens têm até 1080 px).
+int decodeWidth(BuildContext context, double logicalWidth) =>
+    (logicalWidth * MediaQuery.devicePixelRatioOf(context)).round().clamp(320, 1080);
 
 /// Abre um bottom sheet discreto com os créditos completos da pintura em domínio público.
 Future<void> showSacredArtCreditsSheet(BuildContext context, SacredArt art) {

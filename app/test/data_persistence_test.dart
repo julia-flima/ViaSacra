@@ -117,6 +117,18 @@ void main() {
       expect((await SharedPreferences.getInstance()).getBool('haptics'), isFalse);
     });
 
+    test('escala de texto: 85% antigo vira o novo 100%; quem escolheu um tamanho continua nele', () async {
+      SharedPreferences.setMockInitialValues({});
+      expect((await SettingsService.load()).textScale, 1.0); // padrão novo = 85% do sistema
+      SharedPreferences.setMockInitialValues({'text_scale': 0.85});
+      expect((await SettingsService.load()).textScale, closeTo(1.0, 1e-9));
+      SharedPreferences.setMockInitialValues({'text_scale': 1.0}); // tinha escolhido o tamanho do sistema
+      final s = await SettingsService.load();
+      expect(s.textScale * SettingsService.baseTextScale, closeTo(1.0, 1e-9));
+      s.textScale = 1.2;
+      expect((await SettingsService.load()).textScale, 1.2);
+    });
+
     test('valores corrompidos ou fora do intervalo caem no padrão', () async {
       SharedPreferences.setMockInitialValues({
         'theme_mode': 99,

@@ -183,7 +183,7 @@ class SettingsScreen extends StatelessWidget {
             value: st.textScale,
             min: SettingsService.minTextScale,
             max: SettingsService.maxTextScale,
-            divisions: 15,
+            divisions: 21,
             label: (v) => '${(v * 100).round()}%',
             onCommit: (v) => st.textScale = v,
           ),
