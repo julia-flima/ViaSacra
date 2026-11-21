@@ -55,12 +55,17 @@ O Via Sacra é um aplicativo devocional católico. Qualquer alteração de conte
 ## 4. APIs Atualizadas, Ambiente Local e Verificação de Métodos
 
 - **Nunca assuma contratos antigos de APIs externas ou pacotes:** antes de alterar integrações externas (ex.: API das Edições CNBB `api-liturgia.edicoescnbb.com.br`, Vatican News) ou atualizar dependências Flutter/Dart/Python, **consulte a documentação oficial na web e verifique as assinaturas/métodos atuais**.
-- **Ambiente local com `mise`:** neste ambiente, **Flutter/Dart** e **Python/uv** podem estar instalados globalmente via `mise` (shims em `~/.local/share/mise/shims`). Antes de assumir que `flutter` ou `dart` não existem, verifique o `PATH`, `mise which flutter` ou rode com `mise exec -- flutter ...`.
+- **Confira o sistema antes de usar uma ferramenta.** Aqui usamos **Fedora Workstation**: pacotes do sistema pelo `dnf` e ferramentas de desenvolvimento (Flutter/Dart, Python/uv, Node) pelo `mise` (shims em `~/.local/share/mise/shims`). Outros sistemas podem usar outros gerenciadores. Antes de dizer que algo não existe, verifique com `command -v`, `mise ls`, `mise which flutter` e `flutter doctor`.
+- **Peça antes de instalar.** Se faltar uma ferramenta (emulador, Android SDK, Chrome, Playwright, ferramentas de build…), diga o que falta, para que serve e o comando sugerido para o sistema detectado, e **peça ao usuário para instalar**. Não instale nada no sistema por conta própria.
 - **Verificação de qualidade antes de concluir:**
   - **Flutter/Dart (`app/`):** `dart format --output=none --set-exit-if-changed lib test` (`page_width: 120` em `app/analysis_options.yaml`), `flutter analyze` (zero warnings/erros) e `flutter test`.
   - **Python:** `ruff check .` e `pytest` em `scraper/`, e `ruff check scripts tool` na raiz (`ruff.toml`).
   - **GitHub Actions:** sempre confirmar via `gh run list` / `gh run view` que o CI passou sem erros após o push.
 - **Testes independentes do relógio:** datas fixas ou relativas a dias inteiros; nada de "agora + 1 h", que quebra perto da meia-noite UTC.
+- **Teste a interface de ponta a ponta (E2E) antes de concluir** qualquer mudança visível ao usuário:
+  - **Web:** abra o app no navegador (integração com o Google Chrome, Playwright ou ferramenta equivalente), percorra o fluxo alterado e confira o console sem erros.
+  - **Mobile:** rode a build Android num **emulador** (`flutter emulators --launch <id>` e `flutter run`) e repita o fluxo.
+  - Se a ferramenta não estiver instalada, peça a instalação (item acima). Se mesmo assim não der para testar, diga claramente o que ficou sem teste.
 
 ---
 
@@ -114,3 +119,4 @@ Para permitir testar novas funcionalidades no celular (Android `.apk` e iOS `.ip
 - **Áudio instantâneo** para conteúdo fixo (orações, Terço, Via Sacra): gerar MP3 no CI, como já é feito com a Liturgia.
 - **Web:** onnxruntime-web e ephone ainda vêm do jsDelivr (hospedar junto do site); a voz roda numa só thread porque o GitHub Pages não envia COOP/COEP (avaliar `coi-serviceworker`).
 - **Telas grandes** a dividir em widgets: `bible_screen.dart`, `catechism_screen.dart`, `settings_screen.dart`.
+- **Ambiente de testes E2E** (verificado em 2026-11-21): faltam Google Chrome (ou Chromium), Android SDK e um emulador (AVD). `npx` já existe via `mise`, então o Playwright pode ser usado assim que um navegador estiver instalado.
