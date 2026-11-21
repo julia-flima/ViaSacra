@@ -12,30 +12,46 @@ import '../../widgets/common.dart';
 /// Abre um documento oficial do `vatican.va`:
 /// - No Android e iOS: abre no [VaticanReaderScreen] integrado com CSS do Via Sacra
 ///   (sem copiar nem hospedar o texto protegido — 100% compatível com o F-Droid).
-/// - Na Web/Desktop (onde `vatican.va` envia `X-Frame-Options: SAMEORIGIN`): abre a
-///   seção oficial diretamente em uma nova aba.
-Future<void> openVaticanDocument(BuildContext context, {required String title, required String url}) async {
+/// - Na Web/Desktop: o `vatican.va` envia `X-Frame-Options: SAMEORIGIN`, então não cabe num
+///   iframe. Abre numa nova aba; o fragmento `#:~:text=` da URL leva ao parágrafo.
+///
+/// [paragraph]: § a destacar na página (o CIC traz cada número em negrito, "1324.").
+Future<void> openVaticanDocument(
+  BuildContext context, {
+  required String title,
+  required String url,
+  int? paragraph,
+}) async {
   final nativeWebView =
       !kIsWeb && (defaultTargetPlatform == TargetPlatform.android || defaultTargetPlatform == TargetPlatform.iOS);
   if (!nativeWebView) {
     await openExternal(context, url);
+    if (context.mounted && !_toldAboutTab) {
+      _toldAboutTab = true;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('O Vaticano só permite ler este texto no site dele. Ele abriu numa nova aba.')),
+      );
+    }
     return;
   }
   await Navigator.of(context).push(
     MaterialPageRoute<void>(
-      builder: (_) => VaticanReaderScreen(title: title, url: url),
+      builder: (_) => VaticanReaderScreen(title: title, url: url, paragraph: paragraph),
     ),
   );
 }
+
+bool _toldAboutTab = false;
 
 /// Leitor integrado para páginas oficiais do portal `vatican.va` (CIC 1992 e
 /// Compêndio 2005), com injeção leve de CSS para adaptar cores (Pergaminho /
 /// Modo Igreja), tipografia e margens ao visual do Via Sacra.
 class VaticanReaderScreen extends StatefulWidget {
-  const VaticanReaderScreen({super.key, required this.title, required this.url});
+  const VaticanReaderScreen({super.key, required this.title, required this.url, this.paragraph});
 
   final String title;
   final String url;
+  final int? paragraph;
 
   @override
   State<VaticanReaderScreen> createState() => _VaticanReaderScreenState();
@@ -49,6 +65,7 @@ class _VaticanReaderScreenState extends State<VaticanReaderScreen> {
   bool _canGoBack = false;
   bool _canGoForward = false;
   String? _error;
+  late int? _pendingParagraph = widget.paragraph;
 
   @override
   void initState() {
@@ -65,6 +82,7 @@ class _VaticanReaderScreenState extends State<VaticanReaderScreen> {
           },
           onPageFinished: (_) async {
             await _injectViaSacraCss();
+            await _scrollToParagraph();
             await _syncHistory();
           },
           // Só páginas do vatican.va abrem aqui (com JS e o CSS do app);
@@ -90,6 +108,23 @@ class _VaticanReaderScreenState extends State<VaticanReaderScreen> {
         ),
       )
       ..loadRequest(Uri.parse(widget.url));
+  }
+
+  /// Rola até o § pedido e o destaca. Só na primeira página: depois, a pessoa navega livre.
+  Future<void> _scrollToParagraph() async {
+    final n = _pendingParagraph;
+    if (n == null) return;
+    _pendingParagraph = null;
+    try {
+      await _controller.runJavaScript('''
+        (function() {
+          var b = Array.from(document.querySelectorAll('b')).find(function(e) { return e.textContent.trim() === '$n.'; });
+          if (!b) return;
+          b.scrollIntoView({block: 'start'});
+          b.parentElement.style.setProperty('outline', '2px solid currentColor', 'important');
+        })();
+      ''');
+    } catch (_) {}
   }
 
   Future<void> _syncHistory() async {

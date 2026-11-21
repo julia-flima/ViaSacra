@@ -103,7 +103,8 @@ Mudanças incompatíveis exigem `schema_version: 2` e suporte simultâneo no app
 Só dois pontos mostram conteúdo de terceiros, ambos com navegação restrita (`core/url_safety.dart`):
 
 - **Leitor do CIC** (`VaticanReaderScreen`, Android/iOS): abre só `https://*.vatican.va`, com o
-  CSS do app; outros links vão para o navegador. Na Web/desktop, abre direto em nova aba.
+  CSS do app e rola até o § pedido; outros links vão para o navegador. Na Web/desktop, abre numa
+  nova aba, já no parágrafo (o `vatican.va` não permite iframe).
 - **Salmo cantado** (`PsalmVideoPlayer`): embed oficial `youtube-nocookie.com`, com o id do vídeo
   validado e domínios restritos ao YouTube.
 

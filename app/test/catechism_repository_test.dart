@@ -26,11 +26,29 @@ void main() {
     expect(toc, hasLength(5));
     expect(toc.last.last, 2865);
     expect(toc[2].children.last.children.first.children.last.title, 'O sacramento da Eucaristia');
-    // Cada parte (inclusive o Prólogo, id "prologo") abre a sua página oficial.
-    final urls = [for (final n in toc) ExternalLinks.catechismPartUrl(n.id)];
+    // Cada parte (inclusive o Prólogo) abre a página oficial onde começa.
+    final urls = [for (final n in toc) ExternalLinks.catechismParagraphUrl(n.first)];
     expect(urls.toSet(), hasLength(5));
     expect(urls, isNot(contains(ExternalLinks.catechismVatican)));
-    expect(urls.first, contains('prologo'));
+    expect(urls.first, endsWith('prologo%201-25_po.html'));
+  });
+
+  test('Páginas do CIC cobrem os §§ 1–2865 sem buracos', () {
+    var next = 1;
+    for (final page in ExternalLinks.catechismPages) {
+      final m = RegExp(r'(\d+)-(\d+)$').firstMatch(page)!;
+      expect(int.parse(m[1]!), next, reason: page);
+      expect(int.parse(m[2]!), greaterThanOrEqualTo(next));
+      next = int.parse(m[2]!) + 1;
+    }
+    expect(next, 2866);
+    const base = 'https://www.vatican.va/archive/cathechism_po/index_new/';
+    expect(ExternalLinks.catechismParagraphUrl(1), '${base}prologo%201-25_po.html');
+    expect(ExternalLinks.catechismParagraphUrl(1076), '${base}p2s1cap1_1076-1134_po.html');
+    expect(ExternalLinks.catechismParagraphUrl(1324), '${base}p2s2cap1_1210-1419_po.html#:~:text=1324.');
+    expect(ExternalLinks.catechismParagraphUrl(2865), '${base}p4s2_2759-2865_po.html#:~:text=2865.');
+    expect(ExternalLinks.catechismParagraphUrl(0), ExternalLinks.catechismVatican);
+    expect(ExternalLinks.catechismParagraphUrl(2866), ExternalLinks.catechismVatican);
   });
 
   test('Favoritos, anotações e constância', () {
