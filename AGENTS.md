@@ -19,6 +19,7 @@ O repositório utiliza exatamente **quatro branches** com papéis bem definidos:
 - **Trabalhe na branch `dev`** durante o desenvolvimento para validar código e testes no CI sem republicar o GitHub Pages a cada ajuste.
 - Só faça merge/push para a **`main`** quando as alterações estiverem testadas, formatadas e prontas para produção.
 - Não deixe branches temporárias abandonadas no repositório após concluir uma tarefa.
+- **Nunca adicione atribuição de IA** em commits, PRs, tags ou releases: nada de `Co-Authored-By`, "Generated with…" ou autor "Claude". Todo commit sai com o `user.name`/`user.email` configurado no repositório.
 
 ---
 
