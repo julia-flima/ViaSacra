@@ -80,17 +80,13 @@ class _TranslationsScreenState extends State<TranslationsScreen> {
       }
     } on BibleModuleException catch (e) {
       if (!context.mounted) return;
-      await showDialog<void>(
-        context: context,
-        builder: (ctx) => AlertDialog(
-          title: const Text('Arquivo fora do padrão'),
-          content: Text(
-            'Não foi possível validar o arquivo JSON selecionado:\n\n${e.message}\n\n'
+      await showInvalidFileDialog(
+        context,
+        what: 'selecionado',
+        error: e.message,
+        hint:
             'Verifique se o arquivo possui os metadados obrigatórios (id, nome, sigla, idioma) '
             'e a lista de livros/capítulos/versículos no formato documentado no README.',
-          ),
-          actions: [FilledButton(onPressed: () => Navigator.pop(ctx), child: const Text('Entendi'))],
-        ),
       );
     } catch (e) {
       if (context.mounted) {
@@ -124,21 +120,14 @@ class _TranslationsScreenState extends State<TranslationsScreen> {
   }
 
   Future<void> _confirmDelete(BuildContext context, BibleService bible, BibleTranslation tr) async {
-    final ok = await showDialog<bool>(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: Text('Excluir “${tr.name}”?'),
-        content: Text(
+    final ok = await confirmDelete(
+      context,
+      name: tr.name,
+      details:
           'Os ${tr.verseCount} versículos serão removidos deste aparelho para liberar espaço. '
           'Suas marcações, favoritos e anotações são mantidos.',
-        ),
-        actions: [
-          TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('Cancelar')),
-          FilledButton(onPressed: () => Navigator.pop(ctx, true), child: const Text('Excluir')),
-        ],
-      ),
     );
-    if ((ok ?? false) && context.mounted) {
+    if (ok && context.mounted) {
       await bible.remove(tr.id);
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('“${tr.name}” removida.')));
@@ -200,7 +189,7 @@ class _TranslationsScreenState extends State<TranslationsScreen> {
               title: Text(item.name),
               subtitle: Text(
                 '${item.language} · ${item.license}'
-                '${item.sizeMb != null ? ' · ~${item.sizeMb!.toStringAsFixed(1).replaceAll('.', ',')} MB' : ''}',
+                '${item.sizeSuffix}',
               ),
               trailing: OutlinedButton.icon(
                 onPressed: bible.progress != null ? null : () => _downloadBundled(context, bible, item),

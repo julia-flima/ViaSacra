@@ -192,14 +192,6 @@ class BibleService extends ChangeNotifier {
     }
   }
 
-  Future<BibleImportResult> importFromBytes(Uint8List bytes) async {
-    try {
-      return await importer.importFromBytes(bytes, onProgress: _setProgress);
-    } finally {
-      _done();
-    }
-  }
-
   Future<void> remove(String id) async {
     await importer.deleteTranslation(id);
     _done();

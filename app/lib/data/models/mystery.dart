@@ -32,8 +32,6 @@ class SacredArt {
   /// Trechos do nome de celebrações em que a obra tem prioridade (ex.: "pentecostes").
   final List<String> feasts;
 
-  String get caption => '$title — $artist ($year) · $license';
-
   factory SacredArt.fromJson(Map<String, dynamic> j) => SacredArt(
     id: j['id'] as String,
     title: j['titulo'] as String,
@@ -69,8 +67,6 @@ class Mystery {
   final String reference;
   final String reading;
   final SacredArt? art;
-
-  String get ordinalTitle => '$orderº Mistério';
 
   factory Mystery.fromJson(Map<String, dynamic> j, {SacredArt? art}) => Mystery(
     id: j['id'] as String,

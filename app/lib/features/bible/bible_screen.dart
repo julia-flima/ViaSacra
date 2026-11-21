@@ -11,7 +11,6 @@ import '../../data/bible/psalm_numbering.dart';
 import '../../data/bible/bible_reference.dart';
 import '../../services/bible_service.dart';
 import '../../services/reading_audio_service.dart';
-import '../../services/settings_service.dart';
 import '../../widgets/common.dart';
 import '../../widgets/reading_appearance_button.dart';
 import '../../widgets/sacred_art_header.dart';
@@ -245,7 +244,6 @@ class _BibleScreenState extends State<BibleScreen> {
 
   void _listen(BibleTranslation tr, String bookId, int chapter, List<BibleVerse> verses) {
     final book = bookById(bookId)!;
-    final settings = context.read<SettingsService>();
     context.read<ReadingAudioController>().playSingle(
       ReadingSegment(
         id: 'biblia-${tr.id}-$bookId-$chapter',
@@ -254,7 +252,6 @@ class _BibleScreenState extends State<BibleScreen> {
         text: '${book.name}, capítulo $chapter. ${verses.map((v) => v.text).join(' ')}',
         language: tr.language,
       ),
-      speed: settings.ttsSpeed,
     );
   }
 
@@ -750,7 +747,7 @@ class _WebBibleCatalog extends StatelessWidget {
                                 Text(item.name, style: t.titleMedium),
                                 Text(
                                   '${item.language} · ${item.license}'
-                                  '${item.sizeMb != null ? ' · ~${item.sizeMb!.toStringAsFixed(1).replaceAll('.', ',')} MB' : ''}',
+                                  '${item.sizeSuffix}',
                                   style: t.bodySmall,
                                 ),
                               ],

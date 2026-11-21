@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import '../../app_state.dart';
 import '../../core/theme.dart';
 import '../../services/reading_audio_service.dart';
-import '../../services/settings_service.dart';
 import '../../widgets/common.dart';
 import '../../widgets/global_audio_mini_player.dart';
 import '../../widgets/reading_appearance_button.dart';
@@ -126,7 +125,6 @@ class _ViaSacraScreenState extends State<ViaSacraScreen> {
   ];
 
   void _listen(_Station st) {
-    final settings = context.read<SettingsService>();
     final speech =
         '${st.number}ª Estação: ${st.title}. '
         'Nós vos adoramos, ó Cristo, e vos bendizemos. Porque pela vossa Santa Cruz remistes o mundo. '
@@ -140,7 +138,6 @@ class _ViaSacraScreenState extends State<ViaSacraScreen> {
         text: speech,
         language: 'pt-BR',
       ),
-      speed: settings.ttsSpeed,
     );
   }
 

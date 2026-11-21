@@ -75,35 +75,10 @@ class _BibleSearchScreenState extends State<BibleSearchScreen> {
             contentPadding: EdgeInsets.zero,
             onTap: () => Navigator.pop(context, v),
             title: Text(v.reference, style: t.titleMedium?.copyWith(color: cs.primary)),
-            subtitle: _Highlighted(text: v.snippet ?? v.text, style: t.bodyMedium),
+            subtitle: SearchSnippet(v.snippet ?? v.text, style: t.bodyMedium),
           );
         },
       ),
-    );
-  }
-}
-
-class _Highlighted extends StatelessWidget {
-  const _Highlighted({required this.text, this.style});
-  final String text;
-  final TextStyle? style;
-
-  @override
-  Widget build(BuildContext context) {
-    final hl = TextStyle(color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.w700);
-    final spans = <TextSpan>[];
-    var last = 0;
-    for (final m in RegExp('«(.*?)»').allMatches(text)) {
-      spans
-        ..add(TextSpan(text: text.substring(last, m.start)))
-        ..add(TextSpan(text: m.group(1), style: hl));
-      last = m.end;
-    }
-    spans.add(TextSpan(text: text.substring(last)));
-    return Text.rich(
-      TextSpan(style: style, children: spans),
-      maxLines: 3,
-      overflow: TextOverflow.ellipsis,
     );
   }
 }

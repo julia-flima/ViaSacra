@@ -83,11 +83,15 @@ class AudioPlayerBar extends StatelessWidget {
                     settings.ttsSpeed = s;
                   },
                   itemBuilder: (_) => [
-                    for (final s in SettingsService.speeds) PopupMenuItem(value: s, child: Text('${_fmt(s)}×')),
+                    for (final s in SettingsService.speeds)
+                      PopupMenuItem(value: s, child: Text(SettingsService.speedLabel(s))),
                   ],
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
-                    child: Text('${_fmt(audio.speed)}×', style: t.labelLarge?.copyWith(color: cs.primary)),
+                    child: Text(
+                      SettingsService.speedLabel(audio.speed),
+                      style: t.labelLarge?.copyWith(color: cs.primary),
+                    ),
                   ),
                 ),
               ],
@@ -98,6 +102,4 @@ class AudioPlayerBar extends StatelessWidget {
       ),
     );
   }
-
-  static String _fmt(double s) => s == s.roundToDouble() ? s.toStringAsFixed(0) : s.toString().replaceAll('.', ',');
 }

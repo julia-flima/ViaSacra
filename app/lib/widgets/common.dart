@@ -178,3 +178,59 @@ class _CommitSliderState extends State<CommitSlider> {
     );
   }
 }
+
+/// Trecho de resultado de busca (FTS5): o que vem entre «» aparece em destaque.
+class SearchSnippet extends StatelessWidget {
+  const SearchSnippet(this.text, {super.key, this.style});
+
+  final String text;
+  final TextStyle? style;
+
+  @override
+  Widget build(BuildContext context) {
+    final hl = TextStyle(color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.w700);
+    final spans = <TextSpan>[];
+    var last = 0;
+    for (final m in RegExp('«(.*?)»').allMatches(text)) {
+      spans
+        ..add(TextSpan(text: text.substring(last, m.start)))
+        ..add(TextSpan(text: m.group(1), style: hl));
+      last = m.end;
+    }
+    spans.add(TextSpan(text: text.substring(last)));
+    return Text.rich(
+      TextSpan(style: style, children: spans),
+      maxLines: 3,
+      overflow: TextOverflow.ellipsis,
+    );
+  }
+}
+
+/// Pergunta antes de excluir algo do aparelho. Devolve `true` só se a pessoa confirmar.
+Future<bool> confirmDelete(BuildContext context, {required String name, required String details}) async =>
+    await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text('Excluir “$name”?'),
+        content: Text(details),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('Cancelar')),
+          FilledButton(onPressed: () => Navigator.pop(ctx, true), child: const Text('Excluir')),
+        ],
+      ),
+    ) ??
+    false;
+
+/// Explica por que um `.json` importado foi recusado.
+Future<void> showInvalidFileDialog(BuildContext context, {required String what, required String error, String? hint}) =>
+    showDialog<void>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Arquivo fora do padrão'),
+        content: Text(
+          'Não foi possível validar o arquivo JSON $what:\n\n$error\n\n'
+          '${hint ?? 'Consulte o formato padrão documentado no README do Via Sacra.'}',
+        ),
+        actions: [FilledButton(onPressed: () => Navigator.pop(ctx), child: const Text('Entendi'))],
+      ),
+    );

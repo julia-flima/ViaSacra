@@ -43,7 +43,6 @@ class LiturgyScreen extends StatelessWidget {
         queueKey,
         buildLiturgyQueue(l, preferRecorded: settings.preferRecordedAudio, startAt: index),
         startAt: index,
-        speed: settings.ttsSpeed,
       );
     }
 
@@ -60,7 +59,6 @@ class LiturgyScreen extends StatelessWidget {
           text: '${h.work ?? h.title}. ${h.author != null ? '${h.author}. ' : ''}${h.text}',
           audioUrl: recordedUrl,
         ),
-        speed: settings.ttsSpeed,
       );
     }
 
@@ -218,8 +216,6 @@ class _QuickDateBar extends StatelessWidget {
   final ValueChanged<DateTime> onSelect;
   final VoidCallback onPickDate;
 
-  static bool _sameDay(DateTime a, DateTime b) => a.year == b.year && a.month == b.month && a.day == b.day;
-
   @override
   Widget build(BuildContext context) {
     final now = DateTime.now();
@@ -233,19 +229,19 @@ class _QuickDateBar extends StatelessWidget {
         children: [
           ChoiceChip(
             label: const Text('Ontem'),
-            selected: _sameDay(selected, yesterday),
+            selected: DateUtils.isSameDay(selected, yesterday),
             onSelected: (_) => onSelect(yesterday),
           ),
           const SizedBox(width: 8),
           ChoiceChip(
             label: const Text('Hoje'),
-            selected: _sameDay(selected, today),
+            selected: DateUtils.isSameDay(selected, today),
             onSelected: (_) => onSelect(today),
           ),
           const SizedBox(width: 8),
           ChoiceChip(
             label: const Text('Amanhã'),
-            selected: _sameDay(selected, tomorrow),
+            selected: DateUtils.isSameDay(selected, tomorrow),
             onSelected: (_) => onSelect(tomorrow),
           ),
           const SizedBox(width: 8),

@@ -191,7 +191,6 @@ class _ImitacaoChapterScreenState extends State<_ImitacaoChapterScreen> {
   }
 
   void _listen(ImitationChapter c) {
-    final settings = context.read<SettingsService>();
     final speech = '${c.label}. ${c.title}. ${c.paragraphs.join(' ')}';
     context.read<ReadingAudioController>().playSingle(
       ReadingSegment(
@@ -201,7 +200,6 @@ class _ImitacaoChapterScreenState extends State<_ImitacaoChapterScreen> {
         text: speech,
         language: 'pt-BR',
       ),
-      speed: settings.ttsSpeed,
     );
   }
 

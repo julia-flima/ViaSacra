@@ -104,7 +104,7 @@ class SettingsScreen extends StatelessWidget {
           SegmentedButton<double>(
             segments: [
               for (final s in SettingsService.speeds)
-                ButtonSegment(value: s, label: Text('${s.toString().replaceAll('.', ',').replaceAll(',0', '')}×')),
+                ButtonSegment(value: s, label: Text(SettingsService.speedLabel(s))),
             ],
             selected: {st.ttsSpeed},
             onSelectionChanged: (v) {
@@ -355,10 +355,8 @@ class _VoiceSettings extends StatelessWidget {
             child: TextButton.icon(
               icon: const Icon(Icons.record_voice_over_outlined),
               label: const Text('Ouvir exemplo'),
-              onPressed: () => audio.playSingle(
-                const ReadingSegment(id: 'exemplo-voz', title: 'Exemplo de voz', text: _sample),
-                speed: st.ttsSpeed,
-              ),
+              onPressed: () =>
+                  audio.playSingle(const ReadingSegment(id: 'exemplo-voz', title: 'Exemplo de voz', text: _sample)),
             ),
           ),
       ],

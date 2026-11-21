@@ -50,8 +50,6 @@ class LiturgyRepository {
   bool isCached(DateTime date) =>
       _db.db.select('SELECT 1 FROM liturgy_cache WHERE date = ?', [isoDate(date)]).isNotEmpty;
 
-  Set<String> cachedDates() => _db.db.select('SELECT date FROM liturgy_cache').map((r) => r['date'] as String).toSet();
-
   DateTime? _fetchedAt(DateTime date) {
     final row = _db.db.select('SELECT fetched_at FROM liturgy_cache WHERE date = ?', [isoDate(date)]).firstOrNull;
     return row == null ? null : DateTime.fromMillisecondsSinceEpoch(row['fetched_at'] as int);
