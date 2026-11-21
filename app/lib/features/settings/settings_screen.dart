@@ -319,7 +319,8 @@ class _VoiceSettings extends StatelessWidget {
           SegmentedButton<TtsEngine>(
             segments: [
               for (final e in TtsEngine.values)
-                if (e != TtsEngine.piper || !kIsWeb) ButtonSegment(value: e, label: Text(e.label)),
+                if (e != TtsEngine.piper || !kIsWeb)
+                  ButtonSegment(value: e, label: Text(e == TtsEngine.auto ? 'Auto' : e.label)),
             ],
             selected: {engine},
             onSelectionChanged: (v) => setEngine(v.first),
@@ -336,7 +337,17 @@ class _VoiceSettings extends StatelessWidget {
               child: TextButton(onPressed: audio.cancelVoiceDownload, child: const Text('Cancelar')),
             ),
         ],
-        if (engine == TtsEngine.kokoro) ...[
+        if (engine == TtsEngine.auto)
+          Padding(
+            padding: const EdgeInsets.only(bottom: VsSpacing.sm),
+            child: Text(switch (audio.deviceEngine) {
+              TtsEngine.kokoro =>
+                'Usando a voz Kokoro (a de melhor qualidade). Muda sozinho se o aparelho ficar lento.',
+              TtsEngine.piper => 'Usando a voz Piper: neste aparelho a Kokoro é mais lenta que a fala.',
+              _ => 'Usando a voz do aparelho: aqui a Kokoro é mais lenta que a fala.',
+            }, style: t.bodySmall),
+          ),
+        if (engine == TtsEngine.auto || engine == TtsEngine.kokoro) ...[
           SegmentedButton<String>(
             segments: [for (final v in KokoroVoice.all) ButtonSegment(value: v.id, label: Text(v.label))],
             selected: {st.kokoroVoice},
@@ -346,13 +357,13 @@ class _VoiceSettings extends StatelessWidget {
             },
           ),
           if (kIsWeb) const _WebKokoroCacheTile() else _KokoroInfo(status),
-          if (status.kokoroSlow && !kIsWeb)
+          if (engine == TtsEngine.kokoro && status.kokoroSlow)
             Card(
               child: ListTile(
                 leading: const Icon(Icons.speed_outlined),
                 title: const Text('Neste aparelho, a voz Kokoro é mais lenta que a fala'),
-                subtitle: const Text('Por isso há pausas na leitura. A voz Piper é bem mais rápida (~21 MB).'),
-                trailing: TextButton(onPressed: () => setEngine(TtsEngine.piper), child: const Text('Usar Piper')),
+                subtitle: const Text('Por isso há pausas na leitura. O modo Automático usa uma voz mais rápida.'),
+                trailing: TextButton(onPressed: () => setEngine(TtsEngine.auto), child: const Text('Usar Auto')),
               ),
             ),
         ],
@@ -405,6 +416,7 @@ class _PiperVoiceTile extends StatelessWidget {
     final audio = context.read<ReadingAudioController>();
     final bytes = status.piperBytes[voice.id];
     final installed = bytes != null;
+    final bundled = voice == PiperVoice.faber && status.faberBundled;
 
     void select() {
       st.piperVoice = voice.id;
@@ -419,12 +431,16 @@ class _PiperVoiceTile extends StatelessWidget {
       ),
       title: Text('${voice.label} · ${voice.description}'),
       subtitle: Text(
-        installed
+        bundled
+            ? 'Incluída no app · ${voice.license}'
+            : installed
             ? '${NeuralTtsStatus.sizeLabel(bytes)} neste aparelho · ${voice.license}'
             : '~21 MB para baixar · ${voice.license}',
       ),
       onTap: installed ? select : null,
-      trailing: installed
+      trailing: bundled
+          ? null
+          : installed
           ? TextButton(onPressed: () => audio.removePiperVoice(voice.id), child: const Text('Remover'))
           : OutlinedButton(
               onPressed: status.isBusy

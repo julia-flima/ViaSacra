@@ -61,8 +61,8 @@ class AppServices {
     await audio.setSpeed(settings.ttsSpeed);
     await audio.setKokoroVoice(settings.kokoroVoice);
     await audio.setPiperVoice(settings.piperVoice);
-    // O Piper só existe no celular; na Web a escolha volta para o Kokoro.
-    await audio.setEngine(kIsWeb && settings.ttsEngine == TtsEngine.piper ? TtsEngine.kokoro : settings.ttsEngine);
+    // O Piper só existe no celular; na Web a escolha volta para o Automático.
+    await audio.setEngine(kIsWeb && settings.ttsEngine == TtsEngine.piper ? TtsEngine.auto : settings.ttsEngine);
     if (settings.ttsVoiceName != null) await audio.setVoice(settings.ttsVoiceName, settings.ttsVoiceLocale);
     if (kIsWeb) unawaited(audio.refreshNeuralTtsStatus());
     final navigation = NavigationController();

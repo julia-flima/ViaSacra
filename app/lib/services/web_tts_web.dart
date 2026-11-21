@@ -30,6 +30,7 @@ extension type _JsStatus(JSObject _) implements JSObject {
   external JSBoolean? get cached;
   external JSNumber? get cacheBytes;
   external JSString? get error;
+  external JSBoolean? get slow;
 }
 
 NeuralTtsStatus _mapStatus(_JsStatus? raw) {
@@ -44,6 +45,7 @@ NeuralTtsStatus _mapStatus(_JsStatus? raw) {
     cached: raw.cached?.toDart ?? false,
     cacheBytes: raw.cacheBytes?.toDartInt ?? 0,
     error: raw.error?.toDart,
+    kokoroSlow: raw.slow?.toDart ?? false,
   );
 }
 

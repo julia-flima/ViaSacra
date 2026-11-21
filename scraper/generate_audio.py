@@ -34,6 +34,9 @@ from typing import Any
 
 VOICE_ID = "pf_dora"
 VOICE_LABEL = "Dora"
+# Vozes com MP3 pré-gerado. O app toca o MP3 da voz escolhida (sem síntese no aparelho);
+# a primeira é também a dos campos antigos (liturgia_audio_url…), lidos por versões anteriores.
+VOICES = (("pf_dora", "Dora"), ("pm_alex", "Alex"))
 VOICE_SPEED = 1.0
 LANG_CODE = "pt-br"
 SAMPLE_RATE = 24000
@@ -239,7 +242,7 @@ def script_hash(script: str, voice_id: str = VOICE_ID) -> str:
     return hashlib.sha256(f"{voice_id}:{script}".encode()).hexdigest()[:16]
 
 
-def synthesize_to_mp3(kokoro: Any, parts: list[str], mp3_out: Path) -> list[float]:
+def synthesize_to_mp3(kokoro: Any, parts: list[str], mp3_out: Path, voice: str = VOICE_ID) -> list[float]:
     """Sintetiza as partes em sequência num só MP3 e devolve o segundo em que cada uma começa."""
     import numpy as np
     import phonemizer
@@ -272,13 +275,13 @@ def synthesize_to_mp3(kokoro: Any, parts: list[str], mp3_out: Path) -> list[floa
         if known:
             samples, sr = kokoro.create(
                 known,
-                voice=VOICE_ID,
+                voice=voice,
                 speed=VOICE_SPEED,
                 lang=LANG_CODE,
                 is_phonemes=True,
             )
         else:
-            samples, sr = kokoro.create(chunk, voice=VOICE_ID, speed=VOICE_SPEED, lang=LANG_CODE)
+            samples, sr = kokoro.create(chunk, voice=voice, speed=VOICE_SPEED, lang=LANG_CODE)
         sample_rate = int(sr)
         segments.append(np.asarray(samples, dtype=np.float32))
         position += len(segments[-1])
@@ -359,7 +362,7 @@ def prune_old_audio(audio_dir: Path, lit_dir: Path, today: dt.date) -> int:
 
     if audio_dir.exists():
         for mp3 in sorted(audio_dir.glob("*.mp3")):
-            m = re.match(r"^(\d{4}-\d{2}-\d{2})(?:-homilia)?$", mp3.stem)
+            m = re.match(r"^(\d{4}-\d{2}-\d{2})(?:-homilia)?(?:-[a-z]+_[a-z]+)?$", mp3.stem)
             if not m:
                 continue
             try:
@@ -394,6 +397,8 @@ def prune_old_audio(audio_dir: Path, lit_dir: Path, today: dt.date) -> int:
                 changed = _clear_audio_slot(audio, "liturgia_audio_url", "liturgia_audio_hash") or changed
             if not (audio_dir / f"{iso}-homilia.mp3").exists():
                 changed = _clear_audio_slot(audio, "homilia_audio_url", "homilia_audio_hash") or changed
+            for field in ("liturgia_vozes", "homilia_vozes"):
+                changed = audio.pop(field, None) is not None or changed
 
             if changed:
                 json_path.write_text(json.dumps(doc, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
@@ -408,7 +413,7 @@ MARKS_KEY = "liturgia_audio_marcas"
 def process_day(
     json_path: Path,
     audio_dir: Path,
-    synthesize_fn: Callable[[list[str], Path], list[float] | None],
+    synthesize_fn: Callable[[list[str], Path, str], list[float] | None],
     *,
     force: bool = False,
 ) -> bool:
@@ -452,7 +457,7 @@ def process_day(
         if needs_synth:
             print(f"Sintetizando {kind_label} {iso} ({len(script)} chars)...", flush=True)
             texts = [t for _, t in lit_parts] if is_liturgy else [script]
-            starts = synthesize_fn(texts, mp3_path)
+            starts = synthesize_fn(texts, mp3_path, VOICE_ID)
             if is_liturgy:
                 audio[MARKS_KEY] = {k: float(t) for (k, _), t in zip(lit_parts, starts or [], strict=False)}
                 changed = True
@@ -468,8 +473,60 @@ def process_day(
             upsert_credit(audio, url_key)
             changed = True
 
+    changed = _process_voices(iso, audio, audio_dir, synthesize_fn, lit_parts, doc, force) or changed
+
     if changed:
         json_path.write_text(json.dumps(doc, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    return changed
+
+
+def _process_voices(
+    iso: str,
+    audio: dict[str, Any],
+    audio_dir: Path,
+    synthesize_fn: Callable[[list[str], Path, str], list[float] | None],
+    lit_parts: list[tuple[str, str]],
+    doc: dict[str, Any],
+    force: bool,
+) -> bool:
+    """MP3 por voz: liturgia_vozes = {voz: {url, hash, marcas}}, homilia_vozes = {voz: {url, hash}}.
+
+    A primeira voz reaproveita o MP3 dos campos antigos; as outras ganham arquivos próprios.
+    """
+    changed = False
+    for field, script, parts in (
+        ("liturgia_vozes", build_liturgy_script(doc), [t for _, t in lit_parts]),
+        ("homilia_vozes", build_homily_script(doc), None),
+    ):
+        if len(script) < 80:
+            changed = audio.pop(field, None) is not None or changed
+            continue
+        current = audio.get(field) if isinstance(audio.get(field), dict) else {}
+        entries: dict[str, Any] = {}
+        for i, (voice, _) in enumerate(VOICES):
+            kind = "liturgia" if field == "liturgia_vozes" else "homilia"
+            if i == 0:
+                url_key = f"{kind}_audio_url"
+                entry: dict[str, Any] = {"url": audio.get(url_key), "hash": audio.get(f"{kind}_audio_hash")}
+                if kind == "liturgia":
+                    entry["marcas"] = audio.get(MARKS_KEY)
+                if entry["url"]:
+                    entries[voice] = entry
+                continue
+            name = f"{iso}-{voice}.mp3" if kind == "liturgia" else f"{iso}-homilia-{voice}.mp3"
+            mp3_path = audio_dir / name
+            expected = script_hash(script, voice)
+            old = current.get(voice) if isinstance(current.get(voice), dict) else {}
+            if force or not mp3_path.exists() or old.get("hash") != expected:
+                print(f"Sintetizando {kind} {iso} ({voice})...", flush=True)
+                starts = synthesize_fn(parts or [script], mp3_path, voice)
+                old = {"url": f"{CDN_BASE}/{name}", "hash": expected}
+                if kind == "liturgia":
+                    old["marcas"] = {k: float(t) for (k, _), t in zip(lit_parts, starts or [], strict=False)}
+            entries[voice] = old
+        if entries != current:
+            audio[field] = entries
+            changed = True
     return changed
 
 
@@ -510,7 +567,7 @@ def main() -> int:
         process_day(
             json_path,
             audio_dir,
-            lambda parts, out: synthesize_to_mp3(kokoro, parts, out),
+            lambda parts, out, voice: synthesize_to_mp3(kokoro, parts, out, voice),
             force=args.force,
         )
 

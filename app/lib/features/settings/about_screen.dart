@@ -26,7 +26,9 @@ class AboutScreen extends StatelessWidget {
           Center(child: Text('Versão ${AppInfo.version}', style: t.bodySmall)),
           const SizedBox(height: VsSpacing.lg),
           Text(
-            'Idealizado e desenvolvido por ${AppInfo.author}.\n\n'
+            'Idealizado e desenvolvido por ${AppInfo.author}.\n'
+            'Revisão técnica: Eduardo Lima Moraes (DoodlesEpic), que ajudou a encontrar problemas de '
+            'desempenho e defeitos e a melhorar a infraestrutura e o código do app.\n\n'
             'O Via Sacra é 100% gratuito, sem anúncios, sem rastreadores e de código aberto. '
             'Funciona offline e não coleta nenhum dado: favoritos, anotações e constância '
             'ficam somente no seu aparelho.',

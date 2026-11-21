@@ -44,17 +44,18 @@ class LiturgyScreen extends StatelessWidget {
     }
 
     void listenHomily(Homily h) {
-      // Usa o áudio neural Kokoro-82M pré-gerado para a homilia principal do dia (Vatican News)
-      // quando disponível e preferido; com fallback automático para TTS neural / sistema.
+      // A homilia do Vatican News tem MP3 pronto nas vozes Kokoro; o player escolhe o da voz atual.
       final isDailyHomily = l.vaticanHomily != null && h.text == l.vaticanHomily!.text;
-      final recordedUrl = (settings.preferRecordedAudio && isDailyHomily) ? l.audio.homilyAudioUrl : null;
       audio.playSingle(
         ReadingSegment(
           id: 'homilia-${LiturgyRepository.isoDate(c.date)}#${h.title.hashCode}',
           title: h.work ?? h.title,
           subtitle: h.author,
           text: '${h.work ?? h.title}. ${h.author != null ? '${h.author}. ' : ''}${h.text}',
-          audioUrl: recordedUrl,
+          recorded: {
+            if (settings.preferRecordedAudio && isDailyHomily)
+              for (final e in l.audio.homilyByVoice.entries) e.key: RecordedClip(e.value.url),
+          },
         ),
       );
     }
@@ -114,7 +115,7 @@ class LiturgyScreen extends StatelessWidget {
                   AudioPlayerBar(
                     expectedKey: key,
                     onPlayAll: () => playFrom(0),
-                    recorded: l.audio.liturgyAudioUrl != null,
+                    recorded: l.audio.liturgyByVoice.isNotEmpty,
                   ),
                   if (c.loading && !l.hasReadings)
                     const Padding(

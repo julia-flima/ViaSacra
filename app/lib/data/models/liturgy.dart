@@ -139,6 +139,41 @@ class AudioCredit {
   );
 }
 
+/// MP3 pré-gerado numa voz: o endereço e, na Liturgia, onde começa cada leitura.
+class VoiceAudio {
+  const VoiceAudio(this.url, [this.marks = const {}]);
+
+  final String url;
+
+  /// Início de cada leitura (chave = `ReadingKind.jsonKey`).
+  final Map<String, Duration> marks;
+}
+
+Map<String, Duration> _marks(Object? raw) => {
+  for (final e in ((raw as Map?) ?? const {}).entries)
+    if (e.value is num) '${e.key}': Duration(milliseconds: ((e.value as num) * 1000).round()),
+};
+
+/// `liturgia_vozes`/`homilia_vozes`: {voz: {url, marcas}}. Sem eles (JSON antigo), usa os campos
+/// de uma voz só, mas apenas se forem da voz Kokoro Dora: MP3 antigos com outra voz (ex.: Piper
+/// Cadu) não tocam, para a voz ouvida ser sempre a escolhida.
+Map<String, VoiceAudio> _byVoice(Map<String, dynamic> j, String field, String legacyUrl, Object? legacyMarks) {
+  final raw = j[field];
+  if (raw is Map) {
+    return {
+      for (final e in raw.entries)
+        if (e.value is Map && (e.value as Map)['url'] is String)
+          '${e.key}': VoiceAudio((e.value as Map)['url'] as String, _marks((e.value as Map)['marcas'])),
+    };
+  }
+  final url = _s(j[legacyUrl]);
+  final credit = ((j['creditos'] as List?) ?? const []).whereType<Map<String, dynamic>>().where(
+    (c) => c['campo'] == legacyUrl,
+  );
+  final kokoro = credit.any((c) => '${c['canal']}'.contains('Kokoro'));
+  return url == null || !kokoro ? const {} : {'pf_dora': VoiceAudio(url, _marks(legacyMarks))};
+}
+
 class LiturgyAudio {
   const LiturgyAudio({
     this.psalmAudioUrl,
@@ -148,6 +183,8 @@ class LiturgyAudio {
     this.liturgyAudioUrl,
     this.homilyAudioUrl,
     this.liturgyAudioMarks = const {},
+    this.liturgyByVoice = const {},
+    this.homilyByVoice = const {},
     this.credits = const [],
   });
 
@@ -161,6 +198,10 @@ class LiturgyAudio {
   /// Onde começa cada leitura no MP3 da Liturgia (chave = `ReadingKind.jsonKey`).
   /// Permite avançar/voltar entre leituras e começar de qualquer uma sem voz sintetizada.
   final Map<String, Duration> liturgyAudioMarks;
+
+  /// MP3 da Liturgia e da Homilia em cada voz Kokoro (`pf_dora`, `pm_alex`).
+  final Map<String, VoiceAudio> liturgyByVoice;
+  final Map<String, VoiceAudio> homilyByVoice;
   final List<AudioCredit> credits;
 
   factory LiturgyAudio.fromJson(Map<String, dynamic>? j) => j == null
@@ -172,10 +213,9 @@ class LiturgyAudio {
           psalmVideoTitle: _s(j['salmo_video_titulo']),
           liturgyAudioUrl: _s(j['liturgia_audio_url']),
           homilyAudioUrl: _s(j['homilia_audio_url']),
-          liturgyAudioMarks: {
-            for (final e in ((j['liturgia_audio_marcas'] as Map?) ?? const {}).entries)
-              if (e.value is num) '${e.key}': Duration(milliseconds: ((e.value as num) * 1000).round()),
-          },
+          liturgyAudioMarks: _marks(j['liturgia_audio_marcas']),
+          liturgyByVoice: _byVoice(j, 'liturgia_vozes', 'liturgia_audio_url', j['liturgia_audio_marcas']),
+          homilyByVoice: _byVoice(j, 'homilia_vozes', 'homilia_audio_url', null),
           credits:
               (j['creditos'] as List?)?.whereType<Map<String, dynamic>>().map(AudioCredit.fromJson).toList() ??
               const [],

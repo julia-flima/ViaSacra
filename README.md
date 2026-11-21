@@ -57,7 +57,7 @@ O Via Sacra nasceu para ser um companheiro de oração **silencioso e respeitoso
    A Biblioteca traz também **A Imitação de Cristo** (114 capítulos, com "Continuar lendo" e favoritos) e a **Via Sacra** de Santo Afonso (14 estações).
 5. **Ajustes** — lembretes locais (Liturgia e Terço), voz e velocidade do narrador, tipografia, temas Pergaminho / Modo Igreja / Automático, **backup** (exportar/importar favoritos, anotações, constância e marcações) e página "Sobre & Licenças".
 
-O áudio usa a voz neural **Kokoro-82M**, que já vem no app do celular e toca sem internet (no navegador, roda num Web Worker). Nas Configurações dá para trocar por uma voz **Piper** (baixada à parte) ou pela voz do aparelho. A Liturgia e a homilia do dia também têm MP3 gerado diariamente com voz neural, que toca na hora. Um **mini-player** acompanha a leitura em todas as telas.
+O áudio usa a voz neural **Kokoro-82M** (vozes Dora e Alex). A Liturgia e a homilia do dia vêm em MP3 pronto, gerado todo dia nas duas vozes, que toca na hora. O resto é sintetizado no aparelho, sem internet. O modo **Automático** escolhe a melhor voz que o aparelho aguenta (Kokoro, Piper ou a voz do sistema). Decisões e próximos passos: [`docs/AUDIO.md`](docs/AUDIO.md). Um **mini-player** acompanha a leitura em todas as telas.
 
 ## Instalação para usuários (sem programar)
 
@@ -283,7 +283,7 @@ GitHub Actions (00:05 BRT) ─► scraper.py ─► data/liturgia/AAAA-MM-DD.jso
                     └─► SQLite local (cache litúrgico, CIC FTS5, favoritos, constância)
 ```
 
-Documentação detalhada: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) · [`docs/DATABASE.md`](docs/DATABASE.md) · [`docs/DESIGN_SYSTEM.md`](docs/DESIGN_SYSTEM.md) · [`docs/BIBLE.md`](docs/BIBLE.md) · [`docs/CATECHISM.md`](docs/CATECHISM.md) · [`docs/SACRED_ART.md`](docs/SACRED_ART.md) · [`docs/COPYRIGHT.md`](docs/COPYRIGHT.md) · [`docs/releases/`](docs/releases/)
+Documentação detalhada: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) · [`docs/AUDIO.md`](docs/AUDIO.md) · [`docs/DATABASE.md`](docs/DATABASE.md) · [`docs/DESIGN_SYSTEM.md`](docs/DESIGN_SYSTEM.md) · [`docs/BIBLE.md`](docs/BIBLE.md) · [`docs/CATECHISM.md`](docs/CATECHISM.md) · [`docs/SACRED_ART.md`](docs/SACRED_ART.md) · [`docs/COPYRIGHT.md`](docs/COPYRIGHT.md) · [`docs/releases/`](docs/releases/)
 
 ## Fontes, direitos autorais e créditos
 
@@ -302,11 +302,12 @@ O Via Sacra **não tem fins lucrativos** e atribui todas as fontes explicitament
 | Catecismo da Igreja Católica | © Libreria Editrice Vaticana | **Não incluído** no repositório; importável mediante licença — ver [`docs/COPYRIGHT.md`](docs/COPYRIGHT.md) |
 | Catecismo Maior de São Pio X | Original de 1905 (Tipografia Vaticana), domínio público | Embutido — tradução do projeto, em domínio público (CC0) |
 | A Imitação de Cristo | Trad. E. L. de Souza Campos, © 2023 Valdemar Teodoro Editor | Embutida — cópia e divulgação permitidas com citação da fonte |
-| Voz neural | Kokoro-82M, sherpa-onnx (Apache-2.0), eSpeak-NG (GPL-3.0); vozes Piper opcionais (Faber CC0, Dii CC BY-NC-SA 4.0) | Kokoro embutido no app do celular (na Web, baixado uma vez); Piper só ao tocar em “Baixar”; nada é enviado para fora |
+| Voz neural | Kokoro-82M, sherpa-onnx (Apache-2.0), eSpeak-NG (GPL-3.0); Piper Faber (CC0) e Dii (CC BY-NC-SA 4.0, opcional) | Kokoro e Faber embutidos no app do celular (na Web, Kokoro baixado uma vez); Dii só ao tocar em “Baixar”; nada é enviado para fora |
 
 Se você é titular de algum conteúdo e deseja ajustes ou remoção, abra uma *issue* ou escreva para a mantenedora — atenderemos prontamente.
 
 **Idealização e desenvolvimento:** Júlia Lima.
+**Revisão técnica:** Eduardo Lima Moraes ([DoodlesEpic](https://github.com/DoodlesEpic)) — revisões de código, desempenho, defeitos e infraestrutura nas versões 1.6.
 **Agradecimentos:** CNBB, Vatican News, Wikimedia Commons e a todos os contribuidores.
 
 ## Contribuindo

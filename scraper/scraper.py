@@ -1196,6 +1196,24 @@ def preservar_audio_gerado(doc: dict[str, Any], anterior: dict[str, Any]) -> lis
         creditos += [c for c in audio_ant.get("creditos") or [] if isinstance(c, dict) and c.get("campo") == url_key]
         audio["creditos"] = creditos
         copiados.append(url_key)
+    # MP3 por voz: cada voz vale enquanto o roteiro (e portanto o hash daquela voz) não muda.
+    por_voz = (
+        ("liturgia_vozes", gerador_audio.build_liturgy_script),
+        ("homilia_vozes", gerador_audio.build_homily_script),
+    )
+    for campo, roteiro in por_voz:
+        vozes_ant = audio_ant.get(campo)
+        if not isinstance(vozes_ant, dict) or campo in audio:
+            continue
+        texto = roteiro(doc)
+        validas = {
+            voz: dados
+            for voz, dados in vozes_ant.items()
+            if isinstance(dados, dict) and dados.get("hash") == gerador_audio.script_hash(texto, voz)
+        }
+        if validas:
+            audio[campo] = validas
+            copiados.append(campo)
     return copiados
 
 

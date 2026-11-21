@@ -11,6 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:via_sacra/data/models/liturgy.dart';
 import 'package:via_sacra/features/liturgy/widgets/audio_player_bar.dart';
 import 'package:via_sacra/features/liturgy/widgets/reading_card.dart';
+import 'package:via_sacra/services/neural_tts_types.dart';
 import 'package:via_sacra/services/reading_audio_service.dart';
 import 'package:via_sacra/services/settings_service.dart';
 
@@ -145,6 +146,9 @@ void main() {
       'audio': {
         ...(sampleJson['audio'] as Map<String, dynamic>),
         'liturgia_audio_url': 'https://cdn.example/2026-11-19.mp3',
+        'creditos': [
+          {'campo': 'liturgia_audio_url', 'canal': 'Via Sacra — Voz Neural Kokoro-82M (Dora, pt-BR)'},
+        ],
       },
     };
     final lit = DailyLiturgy.fromJson(withRecorded);
@@ -167,37 +171,44 @@ void main() {
     expect(ttsOnly.every((s) => !s.isRecorded), isTrue);
   });
 
-  test('MP3 com marcas vira um trecho por leitura: avançar/voltar trocam de leitura (bug da v1.6.0-beta.1)', () async {
+  test('MP3 por voz e recortado por leitura: avançar/voltar trocam de leitura e a troca de voz vale na hora', () async {
+    final marks = {'primeira_leitura': 0.0, 'salmo': 61.2, 'evangelho': 120.5};
     final lit = DailyLiturgy.fromJson({
       ...sampleJson,
       'audio': {
         ...(sampleJson['audio'] as Map<String, dynamic>),
-        'liturgia_audio_url': 'https://cdn.example/2026-11-19.mp3',
-        'liturgia_audio_marcas': {'primeira_leitura': 0.0, 'salmo': 61.2, 'evangelho': 120.5},
+        'liturgia_vozes': {
+          'pf_dora': {'url': 'https://cdn.example/dora.mp3', 'marcas': marks},
+          'pm_alex': {
+            'url': 'https://cdn.example/alex.mp3',
+            'marcas': {...marks, 'salmo': 58.0},
+          },
+        },
       },
     });
-    expect(lit.audio.liturgyAudioMarks['salmo'], const Duration(milliseconds: 61200));
-
     final q = buildLiturgyQueue(lit, preferRecorded: true);
     expect(q, hasLength(3));
-    expect(q.every((s) => s.audioUrl == 'https://cdn.example/2026-11-19.mp3'), isTrue);
     expect(
-      [for (final s in q) (s.clipStart, s.clipEnd)],
-      [
-        (null, const Duration(milliseconds: 61200)),
-        (const Duration(milliseconds: 61200), const Duration(milliseconds: 120500)),
-        (const Duration(milliseconds: 120500), null),
-      ],
+      q[1].recorded['pf_dora'],
+      const RecordedClip(
+        'https://cdn.example/dora.mp3',
+        start: Duration(milliseconds: 61200),
+        end: Duration(milliseconds: 120500),
+      ),
     );
+    expect(q[1].recorded['pm_alex']!.start, const Duration(seconds: 58)); // marcas próprias de cada voz
+    expect(q.first.recorded['pf_dora']!.start, isNull); // 1ª leitura inclui a abertura
+    expect(q.last.recorded['pf_dora']!.end, isNull); // última vai até o fim do MP3
     // "Ouvir a partir daqui" também usa o MP3, sem síntese de voz.
     expect(buildLiturgyQueue(lit, preferRecorded: true, startAt: 2).every((s) => s.isRecorded), isTrue);
 
-    final played = <int>[];
+    final played = <String>[];
+    final spoken = <String>[];
     late final ReadingAudioHandler handler;
     handler = ReadingAudioHandler(
       useNeuralEngine: false,
-      recordedPlay: (url, speed) async => played.add(handler.index),
-      fallbackSpeak: (text, lang, speed) async {},
+      recordedPlay: (url, speed) async => played.add('${handler.index}:${url.split('/').last}'),
+      fallbackSpeak: (text, lang, speed) async => spoken.add(text),
     );
     addTearDown(handler.dispose);
     await handler.load(q);
@@ -205,7 +216,44 @@ void main() {
     await handler.skipToNext();
     await handler.skipToNext();
     await handler.skipToPrevious();
-    expect(played, [0, 1, 2, 1]);
+    expect(played, ['0:dora.mp3', '1:dora.mp3', '2:dora.mp3', '1:dora.mp3']);
+
+    // Trocar a voz durante o MP3: o mesmo trecho recomeça na hora, no MP3 da voz nova.
+    await handler.setKokoroVoice('pm_alex');
+    await pumpEventQueue();
+    expect(played.last, '1:alex.mp3');
+
+    // Piper (ou voz do sistema): não há MP3 dessa voz, então o trecho passa a ser sintetizado.
+    await handler.setEngine(TtsEngine.piper);
+    await pumpEventQueue();
+    expect(spoken, isNotEmpty);
+  });
+
+  test('Automático escolhe a melhor voz que o aparelho aguenta: Kokoro → Piper → sistema', () async {
+    final handler = ReadingAudioHandler(useNeuralEngine: false, fallbackSpeak: (t, l, s) async {});
+    addTearDown(handler.dispose);
+    expect(handler.engine, TtsEngine.auto);
+    expect(handler.deviceEngine, TtsEngine.kokoro); // sem medição: tenta a de melhor qualidade
+    handler.neuralTtsStatus.value = const NeuralTtsStatus(kokoroSlow: true, piperBytes: {'piper_faber': 1});
+    expect(handler.deviceEngine, TtsEngine.piper);
+    handler.neuralTtsStatus.value = const NeuralTtsStatus(kokoroSlow: true);
+    expect(handler.deviceEngine, TtsEngine.system);
+    await handler.setEngine(TtsEngine.kokoro); // escolha explícita é respeitada
+    expect(handler.deviceEngine, TtsEngine.kokoro);
+  });
+
+  test('MP3 antigo de outra voz (Piper Cadu) não toca: só MP3 com crédito Kokoro', () {
+    DailyLiturgy withCredit(String canal) => DailyLiturgy.fromJson({
+      ...sampleJson,
+      'audio': {
+        'liturgia_audio_url': 'https://cdn.example/antigo.mp3',
+        'creditos': [
+          {'campo': 'liturgia_audio_url', 'canal': canal},
+        ],
+      },
+    });
+    expect(withCredit('Via Sacra — Voz Neural Piper (pt_BR-cadu-medium, pt-BR)').audio.liturgyByVoice, isEmpty);
+    expect(withCredit('Via Sacra — Voz Neural Kokoro-82M (Dora, pt-BR)').audio.liturgyByVoice.keys, ['pf_dora']);
   });
 
   test('ReadingAudioHandler trata fallback MP3->TTS, velocidade, voz e skipToPrevious', () async {

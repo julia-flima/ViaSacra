@@ -65,7 +65,7 @@ O Via Sacra é um aplicativo devocional católico. Qualquer alteração de conte
 - **Testes independentes do relógio:** datas fixas ou relativas a dias inteiros; nada de "agora + 1 h", que quebra perto da meia-noite UTC.
 - **Teste a interface de ponta a ponta (E2E) antes de concluir** qualquer mudança visível ao usuário:
   - **Web:** `flutter build web` servido localmente e aberto no Chromium/Chrome (navegador integrado, Playwright ou equivalente); percorra o fluxo alterado e confira o console sem erros.
-  - **Mobile:** emulador Android (`flutter emulators --launch medium_phone`), `flutter build apk --profile --target-platform android-x64`, `adb install -r …` e `adb logcat` durante o fluxo. Sem janela, toque pelos textos da tela com `adb shell uiautomator dump` + `adb shell input tap x y`. A voz neural só é testável num build com `tool/fetch_kokoro_model.py` rodado antes. **Antes de publicar, teste também o APK release** (`--release --target-platform android-arm64`; o emulador x86_64 traduz ARM): o R8 só encolhe código e recursos no release, e foi assim que o ícone da notificação sumiu na v1.6.0-beta.2. Recursos usados só pelo nome vão em `res/raw/keep.xml`.
+  - **Mobile:** emulador Android (`flutter emulators --launch medium_phone`), `flutter build apk --profile --target-platform android-x64`, `adb install -r …` e `adb logcat` durante o fluxo. Sem janela, toque pelos textos da tela com `adb shell uiautomator dump` + `adb shell input tap x y`. A voz neural só é testável num build com `tool/fetch_kokoro_model.py` rodado antes. **Antes de publicar, teste também o APK release** (`--release --target-platform android-arm64`; o emulador x86_64 traduz ARM): o R8 só encolhe código e recursos no release, e foi assim que o ícone da notificação sumiu na v1.6.0-beta.2. Recursos usados só pelo nome vão em `res/raw/keep.xml`. **Voz neural não roda em APK ARM no emulador:** sob a tradução ARM→x86 o onnxruntime cai no primeiro `dlopen` (SIGSEGV no `cpuinfo`, `libnative_bridge` no backtrace). Teste a voz com `--release --target-platform android-x64` (mesmo R8, nativo) e o restante (notificação, MP3, botões) também no APK ARM.
   - **Memória:** a máquina de referência tem 7,4 GB. Nunca rode Gradle e emulador juntos (`adb emu kill` antes de compilar e `./gradlew --stop` depois); `~/.gradle/gradle.properties` limita o Gradle a 3 GB. O binário *headless* do emulador crasha aqui: use o emulador com janela.
   - Se a ferramenta não estiver instalada, peça a instalação (item acima). Se mesmo assim não der para testar, diga claramente o que ficou sem teste.
 
@@ -95,7 +95,7 @@ Para permitir testar novas funcionalidades no celular (Android `.apk` e iOS `.ip
 
 ## 7. Estado atual e próximos passos
 
-**Versão em produção: v1.5.0** (`main`). Na `dev`: **v1.6.0-beta.3** (corrige o fechamento ao trocar de leitura no áudio — ícone da notificação apagado pelo R8 —, avançar/voltar no áudio narrado, fechamento por falta de memória ao trocar de voz e a demora da voz neural; Bíblia baixada sozinha na Web), aguardando teste no celular antes do PR `dev → main`.
+**Versão em produção: v1.5.0** (`main`). Na `dev`: **v1.6.0-beta.4** (modo Automático de voz, MP3 nas vozes Dora e Alex, troca de voz imediata, Piper Faber embutido, um só Isolate de voz; corrige o fechamento ao trocar de leitura no áudio — ícone da notificação apagado pelo R8 —, avançar/voltar no áudio narrado, fechamento por falta de memória ao trocar de voz e a demora da voz neural; Bíblia baixada sozinha na Web), aguardando teste no celular antes do PR `dev → main`.
 
 **Fluxo usado até aqui:** uma branch por tarefa a partir da `dev` → PR para a `dev` → CI verde → merge e apagar a branch. Para lançar: subir a versão (seção 5), PR `dev → main`, tag `vX.Y.Z` e conferir Release e site.
 
@@ -103,12 +103,13 @@ Para permitir testar novas funcionalidades no celular (Android `.apk` e iOS `.ip
 
 | Assunto | Arquivos |
 |---|---|
-| Voz neural (celular) | `services/native_tts_io.dart` (Kokoro embutido + Piper baixável, sherpa-onnx num Isolate; um modelo por vez) |
+| Voz: decisões e plano | `docs/AUDIO.md` (MP3 por voz, modo Automático, API de áudio estática) |
+| Voz neural (celular) | `services/native_tts_io.dart` (Kokoro e Piper Faber embutidos, Dii baixável; um só Isolate, um modelo por vez; RTF lembrado em `kokoro_rtf.txt`) |
 | Voz embutida no APK | `tool/fetch_kokoro_model.py` → `app/assets/voice/kokoro/` (partes + `manifest.json`, fora do git); `build-release.yml` e receita F-Droid rodam o script |
-| Escolha do motor de voz | `SettingsService.ttsEngine`/`piperVoice` e `_VoiceSettings` em `features/settings/settings_screen.dart` |
+| Escolha do motor de voz | `ReadingAudioHandler.deviceEngine` (Automático), `SettingsService.ttsEngine`/`piperVoice` e `_VoiceSettings` em `features/settings/settings_screen.dart` |
 | Voz neural (Web) | `web/kokoro_tts.js` e `web/kokoro_worker.js` (onnxruntime-web) |
 | Fila de leitura e divisão do texto | `services/reading_audio_service.dart` (`splitForSpeech`, pré-síntese da leitura seguinte, um só `AudioPlayer`) |
-| MP3 por leitura (marcas) | `scraper/generate_audio.py` grava `liturgia_audio_marcas`; `buildLiturgyQueue` recorta o MP3 com `ClippingAudioSource` |
+| MP3 por voz e por leitura | `scraper/generate_audio.py` grava `liturgia_vozes`/`homilia_vozes` (Dora e Alex, com marcas); `buildLiturgyQueue` recorta e o player toca o da voz escolhida |
 | Diagnóstico da voz | builds profile/debug escrevem `VS-TTS …` no `adb logcat` (síntese, áudio, cancelamento, RTF do Kokoro) e `VS-TTS web` no console |
 | Limpeza do texto para a voz | `services/neural_tts_types.dart` (`normalizeTextForKokoro`) |
 | MP3 diários da Liturgia | `scraper/generate_audio.py` + `update-liturgy.yml` (branch `data`, via jsDelivr) |
@@ -125,7 +126,7 @@ Para permitir testar novas funcionalidades no celular (Android `.apk` e iOS `.ip
 - **Áudio instantâneo** para conteúdo fixo (orações, Terço, Via Sacra): gerar MP3 no CI, como já é feito com a Liturgia.
 - **Web:** onnxruntime-web e ephone ainda vêm do jsDelivr (hospedar junto do site); a voz roda numa só thread porque o GitHub Pages não envia COOP/COEP (avaliar `coi-serviceworker`).
 - **Telas grandes** a dividir em widgets: `bible_screen.dart`, `catechism_screen.dart`, `settings_screen.dart`.
-- **Kokoro em celulares lentos:** no emulador ele leva ~1,04× o tempo da fala (Piper: ~0,2×). Quando a média passa de 1,15×, as Configurações sugerem o Piper. Avaliar embutir o Piper Faber (CC0, ~35 MB) como reserva automática.
+- **Áudio pré-gerado além da Liturgia:** seguir o plano de `docs/AUDIO.md` (textos fixos primeiro, depois a Bíblia).
 - **Voz na Web numa só thread:** sem COOP/COEP no GitHub Pages; avaliar cabeçalhos via `sw.js` (cuidado com o vídeo do YouTube).
 - **Teste local da Web no navegador integrado:** ele não carrega `sw.js` nem `kokoro_worker.js` de um `python -m http.server`; teste a voz Web na prévia `/ViaSacra/dev/`.
 - **Licença da voz Dii (Piper):** CC BY-NC-SA 4.0 (não comercial). Não vem no app, só é baixada a pedido; decidir se fica (F-Droid pode marcar como *NonFreeAssets*). Faber é CC0.
