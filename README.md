@@ -86,8 +86,7 @@ tela inicial, ele abre em tela cheia, como um app, e **funciona mesmo sem intern
 **Opção 1 — Download direto (mais simples)**
 
 1. No celular, abra a página **[Releases](https://github.com/julia-flima/ViaSacra/releases/latest)**.
-2. Em **Assets**, toque em **`ViaSacra-universal.apk`** (funciona em qualquer aparelho).
-   - Quer um arquivo menor? Baixe o específico do seu aparelho: `ViaSacra-arm64-v8a.apk` (a maioria dos celulares atuais), `ViaSacra-armeabi-v7a.apk` (aparelhos antigos) ou `ViaSacra-x86_64.apk` (emuladores/Chromebooks).
+2. Em **Assets**, toque em **`ViaSacra.apk`**: é um arquivo só, que funciona em qualquer celular Android.
 3. Abra o arquivo baixado. Se o Android pedir, toque em **Configurações → Permitir desta fonte** e volte.
 4. Toque em **Instalar**. Pronto! 🙏
 
@@ -169,12 +168,14 @@ python3 ../tool/fetch_kokoro_model.py
 Compilando instaladores localmente:
 
 ```bash
-flutter build apk --release --split-per-abi   # APKs por ABI
+flutter build apk --release --target-platform android-arm,android-arm64   # o mesmo ViaSacra.apk da Release
 ```
 
 ```bash
-flutter build apk --release                   # APK universal
+flutter build apk --profile --target-platform android-x64                 # para o emulador
 ```
+
+A Release publica **um único APK** (`ViaSacra.apk`, ARM 32/64 bits), para ninguém ficar em dúvida sobre qual baixar. O `app/android/app/build.gradle.kts` só empacota as arquiteturas pedidas em `--target-platform`.
 
 ```bash
 flutter build ios --release --no-codesign     # iOS sem assinatura (macOS)

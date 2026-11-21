@@ -1,11 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:ffi';
 import 'dart:io';
 import 'dart:isolate';
 
 import 'package:archive/archive_io.dart';
 import 'package:crypto/crypto.dart';
-import 'package:flutter/foundation.dart' show debugPrint;
+import 'package:ffi/ffi.dart';
+import 'package:flutter/foundation.dart' show debugPrint, kReleaseMode;
 import 'package:flutter/services.dart' show AssetBundle, rootBundle;
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
@@ -178,13 +180,53 @@ class _Cancelled implements Exception {
   const _Cancelled();
 }
 
-/// Um modelo carregado num Isolate próprio. A síntese roda lá; a UI nunca espera por ela.
+/// Uma síntese em andamento. O worker entrega cada sentença como um WAV assim que fica pronta,
+/// e quem toca não precisa esperar o trecho inteiro.
+class _Job {
+  final List<String> parts = [];
+  bool done = false;
+  Completer<void>? _signal;
+
+  void _add(String path) {
+    parts.add(path);
+    _wake();
+  }
+
+  void _finish() {
+    done = true;
+    _wake();
+  }
+
+  void _wake() {
+    _signal?.complete();
+    _signal = null;
+  }
+
+  /// Caminho da sentença [i], ou `null` quando a síntese acabou (ou foi cancelada) antes dela.
+  Future<String?> part(int i) async {
+    while (i >= parts.length && !done) {
+      await (_signal ??= Completer<void>()).future;
+    }
+    return i < parts.length ? parts[i] : null;
+  }
+}
+
+/// Um modelo carregado num Isolate próprio. A síntese roda lá; a interface nunca espera por ela.
+///
+/// Cancelar não depende de mensagens (o Isolate fica ocupado dentro do sherpa-onnx): um inteiro
+/// em memória nativa, lido pelo callback de progresso a cada sentença, diz qual geração vale.
+/// Quando ele muda, o callback devolve 0 e o sherpa-onnx para (ver `offline-tts.h`).
 class _Worker {
-  _Worker._(this.key, this._isolate, this._sendPort, this._replies, Stream<dynamic> exits) {
+  _Worker._(this.key, this._isolate, this._sendPort, this._replies, Stream<dynamic> exits, this._flag) {
     _replySub = _replies.listen((msg) {
       if (msg is! Map) return;
       if (msg['error'] != null) debugPrint('Voz neural: ${msg['error']}');
-      _pending.remove(msg['id'])?.complete(msg['ok'] == true);
+      if (!kReleaseMode && msg['trace'] != null) debugPrint('VS-TTS [$key] ${msg['trace']}');
+      final id = msg['id'] as int;
+      if (msg['part'] != null) _jobs[id]?._add(msg['part'] as String);
+      if (msg['done'] == true) _jobs.remove(id)?._finish();
+      if (msg['synthMs'] case final int synthMs) onMeasured?.call(synthMs, msg['audioMs'] as int);
+      if (msg['disposed'] == true) _disposed?.complete();
     });
     _exitSub = exits.listen((_) => _shutdown());
   }
@@ -193,35 +235,41 @@ class _Worker {
   final Isolate _isolate;
   final SendPort _sendPort;
   final ReceivePort _replies;
+  final Pointer<Int32> _flag;
   late final StreamSubscription<dynamic> _replySub;
   late final StreamSubscription<dynamic> _exitSub;
-  final Map<int, Completer<bool>> _pending = {};
+  final Map<int, _Job> _jobs = {};
+  Completer<void>? _disposed;
   int _nextId = 1;
   bool _closed = false;
 
   /// Chamado se o Isolate morrer sozinho (erro), para o motor não tentar de novo em laço.
   void Function()? onDied;
 
+  /// Tempo de síntese e duração do áudio de cada trecho concluído (velocidade real no aparelho).
+  void Function(int synthMs, int audioMs)? onMeasured;
+
   static Future<_Worker> spawn(String key, NeuralModelFiles files) async {
     final handshake = ReceivePort();
     final replies = ReceivePort();
     final exitPort = ReceivePort();
     final exits = exitPort.asBroadcastStream();
-    // Deixa um núcleo livre para a interface e o áudio (medido no emulador: com menos threads
-    // a síntese fica mais lenta que a fala e surgem pausas entre os trechos).
+    final flag = calloc<Int32>();
+    // Deixa um núcleo livre para a interface e o áudio.
     final threads = (Platform.numberOfProcessors - 1).clamp(1, 4);
     final isolate = await Isolate.spawn(
       _main,
-      [handshake.sendPort, replies.sendPort, files, threads],
+      [handshake.sendPort, replies.sendPort, files, threads, flag.address],
       onExit: exitPort.sendPort,
       onError: exitPort.sendPort,
     );
     final first = await Future.any([handshake.first, exits.first.then((_) => 'o Isolate terminou ao carregar')]);
     handshake.close();
-    if (first is SendPort) return _Worker._(key, isolate, first, replies, exits);
+    if (first is SendPort) return _Worker._(key, isolate, first, replies, exits, flag);
     replies.close();
     exitPort.close();
     isolate.kill(priority: Isolate.immediate);
+    calloc.free(flag);
     throw StateError('Falha ao carregar a voz neural: $first');
   }
 
@@ -230,6 +278,7 @@ class _Worker {
     final replies = args[1] as SendPort;
     final files = args[2] as NeuralModelFiles;
     final threads = args[3] as int;
+    final flag = Pointer<Int32>.fromAddress(args[4] as int);
 
     final sherpa_onnx.OfflineTts tts;
     try {
@@ -255,12 +304,14 @@ class _Worker {
               numThreads: threads,
               debug: false,
             );
+      // Uma sentença por vez: o callback de progresso recebe cada sentença pronta.
       tts = sherpa_onnx.OfflineTts(sherpa_onnx.OfflineTtsConfig(model: model, maxNumSenetences: 1));
     } catch (e) {
       handshake.send('$e');
       return;
     }
 
+    final sampleRate = tts.sampleRate;
     final inbox = ReceivePort();
     handshake.send(inbox.sendPort);
     await for (final msg in inbox) {
@@ -268,68 +319,120 @@ class _Worker {
       final id = msg['id'] as int;
       if (msg['cmd'] == 'dispose') {
         tts.free();
-        replies.send({'id': id, 'ok': true});
+        replies.send({'id': id, 'disposed': true});
         inbox.close();
         break;
       }
+      final epoch = msg['epoch'] as int;
+      final prefix = msg['prefix'] as String;
+      final watch = Stopwatch()..start();
+      var n = 0;
+      var audioMs = 0;
+      var firstMs = 0;
       try {
-        final audio = tts.generateWithConfig(
-          text: msg['text'] as String,
-          config: sherpa_onnx.OfflineTtsGenerationConfig(
-            sid: msg['sid'] as int,
-            speed: msg['speed'] as double,
-            extra: files.isKokoro ? {'lang': msg['lang'] as String} : const {},
-          ),
-        );
-        final ok =
-            audio.samples.isNotEmpty &&
-            sherpa_onnx.writeWave(filename: msg['wav'] as String, samples: audio.samples, sampleRate: audio.sampleRate);
-        replies.send({'id': id, 'ok': ok});
+        if (flag.value == epoch) {
+          tts.generateWithConfig(
+            text: msg['text'] as String,
+            config: sherpa_onnx.OfflineTtsGenerationConfig(
+              sid: msg['sid'] as int,
+              speed: msg['speed'] as double,
+              extra: files.isKokoro ? {'lang': msg['lang'] as String} : const {},
+            ),
+            onProgress: (samples, _) {
+              if (flag.value != epoch) return 0; // cancelado: o sherpa-onnx para aqui
+              final path = '$prefix-$n.wav';
+              if (samples.isNotEmpty &&
+                  sherpa_onnx.writeWave(filename: path, samples: samples, sampleRate: sampleRate)) {
+                if (n == 0) firstMs = watch.elapsedMilliseconds;
+                audioMs += samples.length * 1000 ~/ sampleRate;
+                n++;
+                replies.send({'id': id, 'part': path});
+              }
+              return flag.value == epoch ? 1 : 0;
+            },
+          );
+        }
+        replies.send({
+          'id': id,
+          'done': true,
+          if (flag.value == epoch && n > 0) 'synthMs': watch.elapsedMilliseconds,
+          if (flag.value == epoch && n > 0) 'audioMs': audioMs,
+          'trace':
+              '${(msg['text'] as String).length} chars em $n sentenças: 1ª pronta em $firstMs ms, '
+              'síntese ${watch.elapsedMilliseconds} ms, áudio $audioMs ms${flag.value == epoch ? '' : ' (cancelada)'}',
+        });
       } catch (e) {
-        replies.send({'id': id, 'ok': false, 'error': '$e'});
+        replies.send({'id': id, 'done': true, 'error': '$e'});
       }
     }
   }
 
-  Future<bool> synthesize({
+  /// Enfileira uma síntese; as sentenças chegam pelo [_Job] devolvido.
+  _Job start({
     required String text,
     required int sid,
     required double speed,
     required String lang,
-    required String wav,
+    required String prefix,
   }) {
-    if (_closed) return Future.value(false);
+    final job = _Job();
+    if (_closed) return job.._finish();
     final id = _nextId++;
-    final c = _pending[id] = Completer<bool>();
-    _sendPort.send({'cmd': 'synth', 'id': id, 'text': text, 'sid': sid, 'speed': speed, 'lang': lang, 'wav': wav});
-    return c.future;
+    _jobs[id] = job;
+    _sendPort.send({
+      'cmd': 'synth',
+      'id': id,
+      'epoch': _flag.value,
+      'text': text,
+      'sid': sid,
+      'speed': speed,
+      'lang': lang,
+      'prefix': prefix,
+    });
+    return job;
+  }
+
+  /// Interrompe a síntese atual e descarta as que estão na fila.
+  void cancelAll() {
+    if (_closed) return;
+    _flag.value++;
+    for (final j in _jobs.values) {
+      j._finish();
+    }
+    _jobs.clear();
   }
 
   void _shutdown() {
     if (_closed) return;
     _closed = true;
-    for (final c in _pending.values) {
-      if (!c.isCompleted) c.complete(false);
+    for (final j in _jobs.values) {
+      j._finish();
     }
-    _pending.clear();
+    _jobs.clear();
+    _disposed?.complete();
     unawaited(_replySub.cancel());
     unawaited(_exitSub.cancel());
     _replies.close();
     onDied?.call();
   }
 
+  /// Libera o modelo de verdade (`free()` no Isolate). Antes, um timeout de 3 s matava o Isolate
+  /// no meio da síntese e ~500 MB de memória nativa ficavam presos a cada troca de voz.
   Future<void> dispose() async {
     if (_closed) return;
     onDied = null;
-    final id = _nextId++;
-    final c = _pending[id] = Completer<bool>();
-    _sendPort.send({'cmd': 'dispose', 'id': id});
+    cancelAll(); // a síntese em curso para na próxima sentença
+    final done = _disposed = Completer<void>();
+    _sendPort.send({'cmd': 'dispose', 'id': 0});
     try {
-      await c.future.timeout(const Duration(seconds: 3));
+      await done.future.timeout(const Duration(seconds: 30));
     } catch (_) {
+      debugPrint('Voz neural: o modelo não respondeu ao descarte; encerrando o Isolate.');
       _isolate.kill(priority: Isolate.immediate);
     }
     _shutdown();
+    // O flag só é liberado depois que o Isolate não pode mais lê-lo.
+    Future<void>.delayed(const Duration(seconds: 1), () => calloc.free(_flag));
   }
 }
 
@@ -349,12 +452,11 @@ class _NativeEngine {
   Map<String, int> _piperBytes = const {};
 
   _Worker? _worker;
-  Future<_Worker>? _spawning;
   final Set<String> _failed = {}; // modelos que falharam: não tenta de novo nesta sessão
   Timer? _idleTimer;
 
-  ({String key, Future<bool> done, int slot})? _prefetch;
-  int _slot = 0;
+  ({String key, _Job job})? _prefetch;
+  int _jobSeq = 0;
   int _epoch = 0;
   bool _cancelDownload = false;
   int _lastEmitMs = 0;
@@ -372,6 +474,7 @@ class _NativeEngine {
       cached: _kokoroBytes != null,
       cacheBytes: _kokoroBytes ?? 0,
       piperBytes: _piperBytes,
+      kokoroSlow: (_kokoroRtf ?? 0) > 1.15,
     );
     for (final l in List.of(_listeners)) {
       l(_status);
@@ -386,6 +489,10 @@ class _NativeEngine {
   Future<void> _doPrepare() async {
     final support = (await getApplicationSupportDirectory()).path;
     _tmpDir = (await getTemporaryDirectory()).path;
+    // Sentenças que sobraram de uma leitura interrompida.
+    await for (final f in Directory(_tmpDir!).list()) {
+      if (f is File && f.path.contains('/vs_tts_')) await f.delete().then((_) {}, onError: (_) {});
+    }
     // Versões até a 1.5 baixavam o Kokoro inteiro aqui (~330 MB extraídos).
     final legacy = Directory('$support/kokoro-v1');
     if (await legacy.exists()) await legacy.delete(recursive: true);
@@ -416,40 +523,60 @@ class _NativeEngine {
     return (key: 'kokoro', files: _kokoro!.files, sid: speaker.sid, lang: speaker.espeakLang);
   }
 
-  Future<_Worker> _workerFor(_Choice choice) async {
+  /// Trocas de modelo em fila única: nunca há dois modelos na memória, e o anterior é sempre
+  /// descartado antes de carregar o próximo (pedidos simultâneos deixavam um modelo órfão).
+  Future<void> _lock = Future.value();
+
+  Future<T> _locked<T>(Future<T> Function() body) {
+    final result = _lock.then((_) => body());
+    _lock = result.then((_) {}, onError: (_) {});
+    return result;
+  }
+
+  Future<_Worker> _workerFor(_Choice choice) => _locked(() async {
     final current = _worker;
     if (current != null && current.key == choice.key) return current;
-    final spawning = _spawning;
-    if (spawning != null) {
-      final w = await spawning;
-      if (w.key == choice.key) return w;
-    }
     _worker = null;
     await current?.dispose();
-    final task = _spawning = _Worker.spawn(choice.key, choice.files);
-    try {
-      final w = await task;
-      w.onDied = () {
-        if (identical(_worker, w)) _worker = null;
-        _failed.add(w.key);
-      };
-      return _worker = w;
-    } finally {
-      _spawning = null;
-    }
+    final w = await _Worker.spawn(choice.key, choice.files);
+    w.onMeasured = (synthMs, audioMs) => _measure(w.key, synthMs, audioMs);
+    w.onDied = () {
+      if (identical(_worker, w)) _worker = null;
+      _failed.add(w.key);
+    };
+    return _worker = w;
+  });
+
+  /// Média móvel de "tempo de síntese ÷ duração do áudio" do Kokoro neste aparelho. Acima de 1, a
+  /// voz não acompanha a fala e há pausas; as Configurações então sugerem o Piper (~5× mais rápido).
+  double? _kokoroRtf;
+
+  void _measure(String key, int synthMs, int audioMs) {
+    if (key != 'kokoro' || audioMs < 1000) return;
+    final r = synthMs / audioMs;
+    _kokoroRtf = _kokoroRtf == null ? r : _kokoroRtf! * 0.7 + r * 0.3;
+    if (!kReleaseMode) debugPrint('VS-TTS Kokoro: ${_kokoroRtf!.toStringAsFixed(2)}× o tempo real');
   }
+
+  Future<void> _release() => _locked(() async {
+    final w = _worker;
+    _worker = null;
+    await w?.dispose();
+  });
 
   /// Libera a memória do modelo depois de alguns minutos sem leitura.
   void _scheduleRelease() {
     _idleTimer?.cancel();
-    _idleTimer = Timer(const Duration(minutes: 5), () async {
-      final w = _worker;
-      _worker = null;
-      await w?.dispose();
-    });
+    _idleTimer = Timer(const Duration(minutes: 5), _release);
   }
 
-  String _wav(int slot) => '$_tmpDir/vs_tts_$slot.wav';
+  _Job _start(_Worker worker, _Choice choice, double speed, String text) => worker.start(
+    text: text,
+    sid: choice.sid,
+    speed: speed,
+    lang: choice.lang,
+    prefix: '$_tmpDir/vs_tts_${_jobSeq++}',
+  );
 
   Future<bool> speak(
     String text,
@@ -483,31 +610,28 @@ class _NativeEngine {
     String keyOf(String t) => '${choice.key}|${choice.sid}|$s|$t';
     final pre = _prefetch;
     _prefetch = null;
-    final reuse = pre != null && pre.key == keyOf(clean);
-    final slot = reuse ? pre.slot : 1 - _slot;
-    final done = reuse
-        ? pre.done
-        : worker.synthesize(text: clean, sid: choice.sid, speed: s, lang: choice.lang, wav: _wav(slot));
-    final ok = await done;
-    if (_epoch != epoch) return true;
-    if (!ok) return false;
-    _slot = slot;
-
-    // Sintetiza o próximo trecho enquanto este toca.
+    final job = pre != null && pre.key == keyOf(clean) ? pre.job : _start(worker, choice, s, clean);
+    // O próximo trecho entra na fila já: o worker emenda uma síntese na outra, sem ficar parado.
     final next = nextText == null ? '' : normalizeTextForKokoro(nextText);
-    if (next.isNotEmpty) {
-      final nextSlot = 1 - slot;
-      _prefetch = (
-        key: keyOf(next),
-        slot: nextSlot,
-        done: worker.synthesize(text: next, sid: choice.sid, speed: s, lang: choice.lang, wav: _wav(nextSlot)),
-      );
-    }
+    if (next.isNotEmpty) _prefetch = (key: keyOf(next), job: _start(worker, choice, s, next));
 
-    _emit(NeuralTtsState.speaking);
+    var played = 0;
     try {
-      await _play!(_wav(slot));
-      return true;
+      for (var i = 0; ; i++) {
+        final path = await job.part(i);
+        if (_epoch != epoch) return true;
+        if (path == null) break;
+        _emit(NeuralTtsState.speaking);
+        try {
+          await _play!(path);
+        } finally {
+          unawaited(File(path).delete().then((_) {}, onError: (_) {}));
+        }
+        if (_epoch != epoch) return true;
+        played++;
+        _emitIdle(); // até a próxima sentença chegar, a interface mostra "Sintetizando…"
+      }
+      return played > 0;
     } catch (e) {
       debugPrint('Erro ao tocar a voz neural: $e');
       return _epoch != epoch;
@@ -522,6 +646,7 @@ class _NativeEngine {
   void stop() {
     _epoch++;
     _prefetch = null;
+    _worker?.cancelAll();
     if (_status.state == NeuralTtsState.speaking) _emitIdle();
     if (_worker != null) _scheduleRelease();
   }
@@ -564,9 +689,7 @@ class _NativeEngine {
     await prepare();
     if (_worker?.key == v.id) {
       stop();
-      final w = _worker;
-      _worker = null;
-      await w?.dispose();
+      await _release();
     }
     await _piper!.remove(v);
     _piperBytes = await _piper!.installed();

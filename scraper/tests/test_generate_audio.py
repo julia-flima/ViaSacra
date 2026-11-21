@@ -90,10 +90,11 @@ def test_process_day_hash_regera_e_creditos(tmp_path: Path):
 
     synth_calls: list[str] = []
 
-    def fake_synth(script: str, out: Path) -> None:
+    def fake_synth(parts: list[str], out: Path) -> list[float]:
         out.parent.mkdir(parents=True, exist_ok=True)
         out.write_bytes(b"ID3fake")
         synth_calls.append(out.name)
+        return [10.0 * i for i in range(len(parts))]
 
     # 1. Ausência de hash dispara migração Kokoro
     changed1 = ga.process_day(json_path, audio_dir, fake_synth)
@@ -103,6 +104,10 @@ def test_process_day_hash_regera_e_creditos(tmp_path: Path):
     saved = json.loads(json_path.read_text(encoding="utf-8"))
     assert saved["audio"]["liturgia_audio_hash"] == ga.script_hash(ga.build_liturgy_script(saved))
     assert saved["audio"]["homilia_audio_hash"] == ga.script_hash(ga.build_homily_script(saved))
+    # Marca do início de cada leitura no MP3 (o app usa para avançar/voltar entre leituras).
+    keys = [k for k, _ in ga.build_liturgy_parts(saved)]
+    assert saved["audio"]["liturgia_audio_marcas"] == {k: 10.0 * i for i, k in enumerate(keys)}
+    assert keys[0] == "primeira_leitura" and "Liturgia Diária" in ga.build_liturgy_parts(saved)[0][1]
     credit = next(c for c in saved["audio"]["creditos"] if c["campo"] == "liturgia_audio_url")
     assert "Kokoro-82M" in credit["canal"]
     assert "Apache-2.0" in credit["licenca"]

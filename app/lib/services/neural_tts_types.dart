@@ -133,6 +133,7 @@ class NeuralTtsStatus {
     this.cacheBytes = 0,
     this.error,
     this.piperBytes = const {},
+    this.kokoroSlow = false,
   });
 
   final NeuralTtsState state;
@@ -145,6 +146,9 @@ class NeuralTtsStatus {
 
   /// Vozes Piper instaladas (id → bytes em disco).
   final Map<String, int> piperBytes;
+
+  /// O Kokoro sintetiza mais devagar do que fala neste aparelho (haverá pausas na leitura).
+  final bool kokoroSlow;
 
   bool get isBusy => state == NeuralTtsState.downloading || state == NeuralTtsState.loading;
 
@@ -172,7 +176,8 @@ class NeuralTtsStatus {
       other.cached == cached &&
       other.cacheBytes == cacheBytes &&
       other.error == error &&
-      mapEquals(other.piperBytes, piperBytes);
+      mapEquals(other.piperBytes, piperBytes) &&
+      other.kokoroSlow == kokoroSlow;
 
   @override
   int get hashCode => Object.hash(state, progress, label, device, cached, cacheBytes, error, piperBytes.length);

@@ -79,12 +79,14 @@ def _ensure_punct(text: str) -> str:
     return t if t[-1] in ".!?:;" else f"{t}."
 
 
-def build_liturgy_script(doc: dict[str, Any]) -> str:
-    parts: list[str] = []
+def build_liturgy_parts(doc: dict[str, Any]) -> list[tuple[str, str]]:
+    """Texto de cada leitura, na ordem do MP3 (a abertura vai junto da primeira)."""
+    header = ""
+    parts: list[tuple[str, str]] = []
     cal = doc.get("calendario") if isinstance(doc.get("calendario"), dict) else {}
     celebracao = (cal.get("celebracao") or doc.get("celebracao") or "").strip()
     if celebracao:
-        parts.append(f"Liturgia Diária. {_ensure_punct(celebracao)}")
+        header = f"Liturgia Diária. {_ensure_punct(celebracao)}"
 
     leituras = doc.get("leituras") or {}
     order = (
@@ -135,9 +137,18 @@ def build_liturgy_script(doc: dict[str, Any]) -> str:
             if not texto.rstrip(".! ").lower().endswith("palavra do senhor"):
                 seg.append("Palavra do Senhor.")
 
-        parts.append(" ".join(seg))
+        text = " ".join(seg)
+        if not parts and header:
+            text = f"{header}\n\n{text}"
+        parts.append((key, text))
 
-    return normalize_text_for_speech("\n\n".join(parts))
+    if not parts and header:
+        parts.append(("abertura", header))
+    return parts
+
+
+def build_liturgy_script(doc: dict[str, Any]) -> str:
+    return normalize_text_for_speech("\n\n".join(text for _, text in build_liturgy_parts(doc)))
 
 
 def build_homily_script(doc: dict[str, Any]) -> str:
@@ -228,19 +239,27 @@ def script_hash(script: str, voice_id: str = VOICE_ID) -> str:
     return hashlib.sha256(f"{voice_id}:{script}".encode()).hexdigest()[:16]
 
 
-def synthesize_to_mp3(kokoro: Any, text: str, mp3_out: Path) -> None:
+def synthesize_to_mp3(kokoro: Any, parts: list[str], mp3_out: Path) -> list[float]:
+    """Sintetiza as partes em sequência num só MP3 e devolve o segundo em que cada uma começa."""
     import numpy as np
     import phonemizer
 
-    chunks = split_text_for_kokoro(text)
+    chunks: list[str] = []
+    first_chunk: list[int] = []
+    for part in parts:
+        first_chunk.append(len(chunks))
+        chunks.extend(split_text_for_kokoro(normalize_text_for_speech(part)))
     if not chunks:
         raise ValueError("Nenhum texto para sintetizar")
 
     segments: list[Any] = []
     sample_rate = SAMPLE_RATE
     pause = np.zeros(int(SAMPLE_RATE * 0.18), dtype=np.float32)
+    starts: dict[int, int] = {}  # índice do trecho -> amostra em que começa
+    position = 0
 
     for idx, chunk in enumerate(chunks):
+        starts[idx] = position
         raw_ipa = phonemizer.phonemize(
             chunk,
             language=LANG_CODE,
@@ -262,10 +281,12 @@ def synthesize_to_mp3(kokoro: Any, text: str, mp3_out: Path) -> None:
             samples, sr = kokoro.create(chunk, voice=VOICE_ID, speed=VOICE_SPEED, lang=LANG_CODE)
         sample_rate = int(sr)
         segments.append(np.asarray(samples, dtype=np.float32))
+        position += len(segments[-1])
         if idx < len(chunks) - 1:
             if len(pause) != int(sample_rate * 0.18):
                 pause = np.zeros(int(sample_rate * 0.18), dtype=np.float32)
             segments.append(pause)
+            position += len(pause)
 
     full = np.concatenate(segments) if len(segments) > 1 else segments[0]
     pcm16 = (np.clip(full, -1.0, 1.0) * 32767.0).astype("<i2")
@@ -298,6 +319,7 @@ def synthesize_to_mp3(kokoro: Any, text: str, mp3_out: Path) -> None:
             check=True,
         )
         shutil.move(str(mp3_tmp), str(mp3_out))
+    return [round(starts.get(i, 0) / sample_rate, 2) for i in first_chunk]
 
 
 def upsert_credit(audio: dict[str, Any], field: str) -> None:
@@ -318,7 +340,8 @@ def upsert_credit(audio: dict[str, Any], field: str) -> None:
 
 def _clear_audio_slot(audio: dict[str, Any], url_key: str, hash_key: str) -> bool:
     changed = False
-    for key in (url_key, hash_key):
+    keys = (url_key, hash_key, MARKS_KEY) if url_key == "liturgia_audio_url" else (url_key, hash_key)
+    for key in keys:
         if key in audio and audio.pop(key, None) is not None:
             changed = True
     credits_list = audio.get("creditos")
@@ -379,10 +402,13 @@ def prune_old_audio(audio_dir: Path, lit_dir: Path, today: dt.date) -> int:
     return updated
 
 
+MARKS_KEY = "liturgia_audio_marcas"
+
+
 def process_day(
     json_path: Path,
     audio_dir: Path,
-    synthesize_fn: Callable[[str, Path], None],
+    synthesize_fn: Callable[[list[str], Path], list[float] | None],
     *,
     force: bool = False,
 ) -> bool:
@@ -391,6 +417,7 @@ def process_day(
     audio = doc.setdefault("audio", {})
     changed = False
 
+    lit_parts = build_liturgy_parts(doc)
     slots = (
         (
             build_liturgy_script(doc),
@@ -418,10 +445,17 @@ def process_day(
             continue
 
         expected_hash = script_hash(script)
-        needs_synth = force or not mp3_path.exists() or audio.get(hash_key) != expected_hash
+        is_liturgy = url_key == "liturgia_audio_url"
+        # MP3 antigos não trazem onde começa cada leitura: são refeitos uma vez para ganhar as marcas.
+        missing_marks = is_liturgy and not isinstance(audio.get(MARKS_KEY), dict)
+        needs_synth = force or not mp3_path.exists() or audio.get(hash_key) != expected_hash or missing_marks
         if needs_synth:
             print(f"Sintetizando {kind_label} {iso} ({len(script)} chars)...", flush=True)
-            synthesize_fn(script, mp3_path)
+            texts = [t for _, t in lit_parts] if is_liturgy else [script]
+            starts = synthesize_fn(texts, mp3_path)
+            if is_liturgy:
+                audio[MARKS_KEY] = {k: float(t) for (k, _), t in zip(lit_parts, starts or [], strict=False)}
+                changed = True
             print(f"  -> {mp3_path.name}: {mp3_path.stat().st_size / 1024:.0f} KB", flush=True)
 
         has_kokoro_credit = any(
@@ -476,7 +510,7 @@ def main() -> int:
         process_day(
             json_path,
             audio_dir,
-            lambda script, out: synthesize_to_mp3(kokoro, script, out),
+            lambda parts, out: synthesize_to_mp3(kokoro, parts, out),
             force=args.force,
         )
 

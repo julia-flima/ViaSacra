@@ -152,6 +152,13 @@ class BibleService extends ChangeNotifier {
     }
   }
 
+  /// Web: baixa a Bíblia em português em segundo plano logo depois que o app abre, para que ela já
+  /// esteja pronta (ou a caminho) quando a pessoa tocar na aba Bíblia. No celular ela já vem no app.
+  Future<void> prefetchPortuguese() async {
+    if (autoInstallBundled || repo.installedVersion('bpm') != null) return;
+    await installBundled('bpm');
+  }
+
   /// Instala ou atualiza sob demanda uma tradução embutida pelo seu [id].
   Future<void> installBundled(String id) async {
     if (activeInstallId != null || progress != null) return;

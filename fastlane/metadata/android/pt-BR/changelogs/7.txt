@@ -1,0 +1,5 @@
+• Avançar/voltar funcionam no áudio narrado da Liturgia
+• O app não fecha mais ao trocar de voz durante a leitura
+• A voz neural começa a falar bem mais rápido
+• Aviso e atalho para a voz Piper em aparelhos lentos
+• Um único APK para todos os celulares

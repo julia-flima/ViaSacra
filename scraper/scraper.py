@@ -1189,6 +1189,9 @@ def preservar_audio_gerado(doc: dict[str, Any], anterior: dict[str, Any]) -> lis
         if gerador_audio.script_hash(roteiro(doc)) != hash_ant:
             continue
         audio[url_key], audio[hash_key] = url, hash_ant
+        marcas = audio_ant.get(gerador_audio.MARKS_KEY)
+        if url_key == "liturgia_audio_url" and isinstance(marcas, dict):
+            audio[gerador_audio.MARKS_KEY] = marcas  # início de cada leitura no MP3
         creditos = [c for c in audio.get("creditos") or [] if isinstance(c, dict) and c.get("campo") != url_key]
         creditos += [c for c in audio_ant.get("creditos") or [] if isinstance(c, dict) and c.get("campo") == url_key]
         audio["creditos"] = creditos

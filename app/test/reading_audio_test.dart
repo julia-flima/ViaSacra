@@ -167,6 +167,47 @@ void main() {
     expect(ttsOnly.every((s) => !s.isRecorded), isTrue);
   });
 
+  test('MP3 com marcas vira um trecho por leitura: avançar/voltar trocam de leitura (bug da v1.6.0-beta.1)', () async {
+    final lit = DailyLiturgy.fromJson({
+      ...sampleJson,
+      'audio': {
+        ...(sampleJson['audio'] as Map<String, dynamic>),
+        'liturgia_audio_url': 'https://cdn.example/2026-11-19.mp3',
+        'liturgia_audio_marcas': {'primeira_leitura': 0.0, 'salmo': 61.2, 'evangelho': 120.5},
+      },
+    });
+    expect(lit.audio.liturgyAudioMarks['salmo'], const Duration(milliseconds: 61200));
+
+    final q = buildLiturgyQueue(lit, preferRecorded: true);
+    expect(q, hasLength(3));
+    expect(q.every((s) => s.audioUrl == 'https://cdn.example/2026-11-19.mp3'), isTrue);
+    expect(
+      [for (final s in q) (s.clipStart, s.clipEnd)],
+      [
+        (null, const Duration(milliseconds: 61200)),
+        (const Duration(milliseconds: 61200), const Duration(milliseconds: 120500)),
+        (const Duration(milliseconds: 120500), null),
+      ],
+    );
+    // "Ouvir a partir daqui" também usa o MP3, sem síntese de voz.
+    expect(buildLiturgyQueue(lit, preferRecorded: true, startAt: 2).every((s) => s.isRecorded), isTrue);
+
+    final played = <int>[];
+    late final ReadingAudioHandler handler;
+    handler = ReadingAudioHandler(
+      useNeuralEngine: false,
+      recordedPlay: (url, speed) async => played.add(handler.index),
+      fallbackSpeak: (text, lang, speed) async {},
+    );
+    addTearDown(handler.dispose);
+    await handler.load(q);
+    await handler.play();
+    await handler.skipToNext();
+    await handler.skipToNext();
+    await handler.skipToPrevious();
+    expect(played, [0, 1, 2, 1]);
+  });
+
   test('ReadingAudioHandler trata fallback MP3->TTS, velocidade, voz e skipToPrevious', () async {
     var recordedAttempts = 0;
     final gate = _SpeechGate();

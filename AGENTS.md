@@ -81,7 +81,7 @@ Para permitir testar novas funcionalidades no celular (Android `.apk` e iOS `.ip
   1. `app/pubspec.yaml`: `version: X.Y.Z+N`, com `N` (versionCode) maior que o da release anterior;
   2. `AppInfo.version` em `app/lib/core/constants.dart` e a receita `fdroid/io.github.juliaflima.via_sacra.yml` com a mesma versão (teste `app_version_test.dart`);
   3. notas da versão em `docs/releases/vX.Y.Z.md` (obrigatórias em releases estáveis) e changelog do F-Droid em `fastlane/metadata/android/pt-BR/changelogs/N.txt` (até 500 caracteres).
-- **Artefatos gerados:** `ViaSacra-universal.apk`, APKs por ABI (`arm64-v8a`, `armeabi-v7a`, `x86_64`) e `ViaSacra-unsigned.ipa`, todos com a voz Kokoro embutida (`tool/fetch_kokoro_model.py`) e verificados sem dependências proprietárias (F-Droid ready).
+- **Artefatos gerados:** **um único `ViaSacra.apk`** (ARM 32 e 64 bits, todos os celulares) e `ViaSacra-unsigned.ipa`, com a voz Kokoro embutida (`tool/fetch_kokoro_model.py`) e sem dependências proprietárias (F-Droid ready). Não publique APKs por ABI nem universal: vários arquivos confundem quem baixa. Para o emulador, compile localmente com `--target-platform android-x64`.
 
 ---
 
@@ -95,7 +95,7 @@ Para permitir testar novas funcionalidades no celular (Android `.apk` e iOS `.ip
 
 ## 7. Estado atual e próximos passos
 
-**Versão em produção: v1.5.0** (`main`). Na `dev`: **v1.6.0-beta.1** (voz Kokoro embutida no APK, Piper opcional, desempenho e botão voltar), aguardando teste no celular antes do PR `dev → main`.
+**Versão em produção: v1.5.0** (`main`). Na `dev`: **v1.6.0-beta.2** (corrige avançar/voltar no áudio narrado, fechamento por falta de memória ao trocar de voz e a demora da voz neural; Bíblia baixada sozinha na Web), aguardando teste no celular antes do PR `dev → main`.
 
 **Fluxo usado até aqui:** uma branch por tarefa a partir da `dev` → PR para a `dev` → CI verde → merge e apagar a branch. Para lançar: subir a versão (seção 5), PR `dev → main`, tag `vX.Y.Z` e conferir Release e site.
 
@@ -108,6 +108,8 @@ Para permitir testar novas funcionalidades no celular (Android `.apk` e iOS `.ip
 | Escolha do motor de voz | `SettingsService.ttsEngine`/`piperVoice` e `_VoiceSettings` em `features/settings/settings_screen.dart` |
 | Voz neural (Web) | `web/kokoro_tts.js` e `web/kokoro_worker.js` (onnxruntime-web) |
 | Fila de leitura e divisão do texto | `services/reading_audio_service.dart` (`splitForSpeech`, pré-síntese da leitura seguinte, um só `AudioPlayer`) |
+| MP3 por leitura (marcas) | `scraper/generate_audio.py` grava `liturgia_audio_marcas`; `buildLiturgyQueue` recorta o MP3 com `ClippingAudioSource` |
+| Diagnóstico da voz | builds profile/debug escrevem `VS-TTS …` no `adb logcat` (síntese, áudio, cancelamento, RTF do Kokoro) e `VS-TTS web` no console |
 | Limpeza do texto para a voz | `services/neural_tts_types.dart` (`normalizeTextForKokoro`) |
 | MP3 diários da Liturgia | `scraper/generate_audio.py` + `update-liturgy.yml` (branch `data`, via jsDelivr) |
 | Arte sacra | `tool/sacred_art_catalog.json` → `tool/fetch_sacred_art.py` → `assets/data/sacred_art.json`; rodízio em `data/liturgical_art.dart` |
@@ -123,8 +125,10 @@ Para permitir testar novas funcionalidades no celular (Android `.apk` e iOS `.ip
 - **Áudio instantâneo** para conteúdo fixo (orações, Terço, Via Sacra): gerar MP3 no CI, como já é feito com a Liturgia.
 - **Web:** onnxruntime-web e ephone ainda vêm do jsDelivr (hospedar junto do site); a voz roda numa só thread porque o GitHub Pages não envia COOP/COEP (avaliar `coi-serviceworker`).
 - **Telas grandes** a dividir em widgets: `bible_screen.dart`, `catechism_screen.dart`, `settings_screen.dart`.
-- **Voz no aparelho real:** no emulador x86_64 a síntese do Kokoro fica um pouco mais lenta que a fala (pausas de 2–6 s entre trechos); medir num celular arm64 e, se preciso, ajustar `kNeuralChunkLen` ou as threads.
+- **Kokoro em celulares lentos:** no emulador ele leva ~1,04× o tempo da fala (Piper: ~0,2×). Quando a média passa de 1,15×, as Configurações sugerem o Piper. Avaliar embutir o Piper Faber (CC0, ~35 MB) como reserva automática.
+- **Voz na Web numa só thread:** sem COOP/COEP no GitHub Pages; avaliar cabeçalhos via `sw.js` (cuidado com o vídeo do YouTube).
+- **Teste local da Web no navegador integrado:** ele não carrega `sw.js` nem `kokoro_worker.js` de um `python -m http.server`; teste a voz Web na prévia `/ViaSacra/dev/`.
 - **Licença da voz Dii (Piper):** CC BY-NC-SA 4.0 (não comercial). Não vem no app, só é baixada a pedido; decidir se fica (F-Droid pode marcar como *NonFreeAssets*). Faber é CC0.
-- **MP3 da Liturgia já gerados** na branch `data` com a voz Piper antiga (ex.: 2026-11-21) não são refeitos pelo gerador atual (Kokoro).
+- **MP3 da Liturgia sem marcas** (gerados antes da v1.6.0-beta.2) são refeitos uma vez pelo `update-liturgy.yml`; até lá, avançar/voltar fica desativado nesses dias.
 - **Pequenas limpezas restantes:** `widgets/keyboard_scroll.dart` reimplementa atalhos que o Flutter já oferece; o texto da Via Sacra está em constantes Dart (`via_sacra_screen.dart`) em vez de `assets/data/`; o catálogo da Bíblia na Web não mostra "Tentar de novo" se falhar.
 - **Testes de tela:** `test/support/app_harness.dart` não suporta dois `buildServices` no mesmo arquivo (o 2º trava); use um arquivo por teste de fluxo.

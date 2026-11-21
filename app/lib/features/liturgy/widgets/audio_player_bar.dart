@@ -51,7 +51,9 @@ class AudioPlayerBar extends StatelessWidget {
               children: [
                 IconButton(
                   tooltip: 'Leitura anterior',
-                  onPressed: active ? audio.previous : null,
+                  onPressed: active && audio.titles.length > 1
+                      ? audio.previous
+                      : null, // MP3 inteiro: não há "anterior"
                   icon: const Icon(Icons.skip_previous_rounded),
                 ),
                 IconButton.filled(
@@ -61,7 +63,7 @@ class AudioPlayerBar extends StatelessWidget {
                 ),
                 IconButton(
                   tooltip: 'Próxima leitura',
-                  onPressed: active ? audio.next : null,
+                  onPressed: active && audio.titles.length > 1 ? audio.next : null,
                   icon: const Icon(Icons.skip_next_rounded),
                 ),
                 const SizedBox(width: 4),

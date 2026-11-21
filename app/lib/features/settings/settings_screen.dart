@@ -346,6 +346,15 @@ class _VoiceSettings extends StatelessWidget {
             },
           ),
           if (kIsWeb) const _WebKokoroCacheTile() else _KokoroInfo(status),
+          if (status.kokoroSlow && !kIsWeb)
+            Card(
+              child: ListTile(
+                leading: const Icon(Icons.speed_outlined),
+                title: const Text('Neste aparelho, a voz Kokoro é mais lenta que a fala'),
+                subtitle: const Text('Por isso há pausas na leitura. A voz Piper é bem mais rápida (~21 MB).'),
+                trailing: TextButton(onPressed: () => setEngine(TtsEngine.piper), child: const Text('Usar Piper')),
+              ),
+            ),
         ],
         if (engine == TtsEngine.piper)
           for (final v in PiperVoice.all) _PiperVoiceTile(voice: v, status: status, selected: st.piperVoice == v.id),

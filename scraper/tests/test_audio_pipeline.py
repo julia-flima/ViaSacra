@@ -23,6 +23,7 @@ def _doc_com_audio_gerado() -> dict:
         "salmo_video_id": "abc",
         "liturgia_audio_url": URL_LIT,
         "liturgia_audio_hash": ga.script_hash(ga.build_liturgy_script(doc)),
+        "liturgia_audio_marcas": {"primeira_leitura": 0.0, "salmo": 61.2, "evangelho": 120.5},
         "homilia_audio_url": URL_HOM,
         "homilia_audio_hash": ga.script_hash(ga.build_homily_script(doc)),
         "creditos": [{"campo": "salmo_video_id", "canal": "Canal X"}],
@@ -55,7 +56,13 @@ def test_preserva_audio_quando_o_texto_nao_mudou():
     copiados = scraper.preservar_audio_gerado(novo, anterior)
 
     assert copiados == ["liturgia_audio_url", "homilia_audio_url"]
-    for chave in ("liturgia_audio_url", "liturgia_audio_hash", "homilia_audio_url", "homilia_audio_hash"):
+    for chave in (
+        "liturgia_audio_url",
+        "liturgia_audio_hash",
+        "liturgia_audio_marcas",
+        "homilia_audio_url",
+        "homilia_audio_hash",
+    ):
         assert novo["audio"][chave] == anterior["audio"][chave]
     assert _campos(novo["audio"]) == {"salmo_video_id", "liturgia_audio_url", "homilia_audio_url"}
 

@@ -43,6 +43,21 @@ android {
         // versionCode vem do pubspec.yaml; nos APKs por ABI o Flutter soma 1000*ABI.
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+
+        // `flutter build apk --target-platform …` vira -Ptarget-platform. Sem este filtro, plugins com
+        // bibliotecas nativas (sherpa-onnx) levam todas as arquiteturas para o APK (+50 MB à toa).
+        val abis = (project.findProperty("target-platform") as String?)
+            ?.split(",")
+            ?.mapNotNull {
+                mapOf(
+                    "android-arm" to "armeabi-v7a",
+                    "android-arm64" to "arm64-v8a",
+                    "android-x64" to "x86_64",
+                    "android-x86" to "x86",
+                )[it.trim()]
+            }
+        // Sem --target-platform: as mesmas arquiteturas que o Flutter usaria (ver gradle.properties).
+        ndk { abiFilters += abis?.ifEmpty { null } ?: listOf("armeabi-v7a", "arm64-v8a", "x86_64") }
     }
 
     signingConfigs {

@@ -131,6 +131,23 @@ void main() {
     expect(reads['assets/bible/bpm.json'], 1);
   });
 
+  test('Web baixa a Bíblia em português sozinha ao abrir (prefetchPortuguese), só uma vez', () async {
+    final db = await AppDatabase.memory(schema: File('assets/db/schema.sql').readAsStringSync());
+    addTearDown(db.close);
+    final reads = <String, int>{};
+    Future<String> fakeLoad(String path) async {
+      reads[path] = (reads[path] ?? 0) + 1;
+      if (path == 'assets/bible/bundled.json') return _fakeManifest();
+      return jsonEncode(_miniBible('bpm', 'Bíblia Portuguesa Mundial', 'BPM', 'pt-BR'));
+    }
+
+    final service = BibleService(BibleRepository(db), autoInstallBundled: false, loadAsset: fakeLoad);
+    await service.prefetchPortuguese();
+    expect(service.translations.map((t) => t.id), ['bpm']);
+    await service.prefetchPortuguese();
+    expect(reads['assets/bible/bpm.json'], 1);
+  });
+
   test('Modo Nativo permite retry após erro e pula JSONs já instalados', () async {
     final db = await AppDatabase.memory(schema: File('assets/db/schema.sql').readAsStringSync());
     addTearDown(db.close);

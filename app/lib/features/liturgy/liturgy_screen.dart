@@ -37,13 +37,10 @@ class LiturgyScreen extends StatelessWidget {
 
     Future<void> playFrom(int index) async {
       if (!l.hasReadings) return;
-      final useRecorded = settings.preferRecordedAudio && index == 0 && l.audio.liturgyAudioUrl != null;
-      final queueKey = useRecorded ? '$key#recorded' : '$key#segmented';
-      await audio.playQueue(
-        queueKey,
-        buildLiturgyQueue(l, preferRecorded: settings.preferRecordedAudio, startAt: index),
-        startAt: index,
-      );
+      final queue = buildLiturgyQueue(l, preferRecorded: settings.preferRecordedAudio, startAt: index);
+      // A fila muda de forma (MP3 inteiro, MP3 por leitura ou voz): a chave acompanha.
+      final queueKey = '$key#${queue.length}#${queue.first.isRecorded ? 'mp3' : 'voz'}';
+      await audio.playQueue(queueKey, queue, startAt: queue.length == 1 ? 0 : index);
     }
 
     void listenHomily(Homily h) {
