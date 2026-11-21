@@ -52,6 +52,11 @@
         return;
       }
 
+      if (msg.type === 'synthPart') {
+        pending.get(msg.id)?.part(msg);
+        return;
+      }
+
       if (msg.type === 'synthResult') {
         const entry = pending.get(msg.id);
         if (!entry) return;
@@ -114,13 +119,38 @@
     return `${voice || 'pf_dora'}|${language || 'pt-BR'}|${Number(speed) || 1}|${text}`;
   }
 
+  // Uma síntese em andamento: as sentenças chegam em `parts` à medida que ficam prontas.
   function requestSynthesize(text, speed, voice, language) {
     const id = nextId++;
     const w = ensureWorker();
-    return new Promise((resolve, reject) => {
-      pending.set(id, { resolve, reject });
-      w.postMessage({ type: 'synthesize', id, text, speed, voice, language });
+    const startedAt = performance.now();
+    const job = { parts: [], done: false, failed: false, waiters: [] };
+    const wake = () => job.waiters.splice(0).forEach((fn) => fn());
+    pending.set(id, {
+      part(msg) {
+        if (job.parts.length === 0) {
+          console.debug(`VS-TTS web: 1ª sentença em ${Math.round(performance.now() - startedAt)} ms (${text.length} chars)`);
+        }
+        job.parts.push(msg);
+        wake();
+      },
+      resolve() {
+        job.done = true;
+        wake();
+      },
+      reject() {
+        job.done = true;
+        job.failed = true;
+        wake();
+      },
     });
+    w.postMessage({ type: 'synthesize', id, text, speed, voice, language });
+    // Sentença [i], ou null quando a síntese acabou antes dela.
+    job.part = async (i) => {
+      while (i >= job.parts.length && !job.done) await new Promise((r) => job.waiters.push(r));
+      return i < job.parts.length ? job.parts[i] : null;
+    };
+    return job;
   }
 
   function playPcm(pcm, sampleRate, token) {
@@ -196,33 +226,34 @@
       const selectedLang = language || 'pt-BR';
       const key = makeKey(trimmed, speed, selectedVoice, selectedLang);
 
-      let synthPromise;
+      let job;
       if (prefetched && prefetched.key === key) {
-        synthPromise = prefetched.promise;
+        job = prefetched.job;
         prefetched = null;
       } else {
         prefetched = null;
         if (worker) worker.postMessage({ type: 'cancel', minId: nextId });
-        synthPromise = requestSynthesize(trimmed, speed, selectedVoice, selectedLang);
+        job = requestSynthesize(trimmed, speed, selectedVoice, selectedLang);
+      }
+
+      // O próximo trecho entra na fila do worker já, para ele não ficar parado enquanto este toca.
+      const nextTrimmed = nextText ? String(nextText).trim() : '';
+      if (nextTrimmed) {
+        const nextKey = makeKey(nextTrimmed, speed, selectedVoice, selectedLang);
+        prefetched = { key: nextKey, job: requestSynthesize(nextTrimmed, speed, selectedVoice, selectedLang) };
       }
 
       try {
-        const res = await synthPromise;
-        if (token !== activeToken || res?.cancelled) return true;
-        if (res?.empty || !res?.pcm || res.pcm.length === 0) return true;
-
-        const nextTrimmed = nextText ? String(nextText).trim() : '';
-        if (nextTrimmed) {
-          const nextKey = makeKey(nextTrimmed, speed, selectedVoice, selectedLang);
-          if (!prefetched || prefetched.key !== nextKey) {
-            prefetched = {
-              key: nextKey,
-              promise: requestSynthesize(nextTrimmed, speed, selectedVoice, selectedLang).catch(() => null),
-            };
-          }
+        let played = 0;
+        for (let i = 0; ; i++) {
+          const part = await job.part(i);
+          if (token !== activeToken) return true;
+          if (!part || !part.pcm || part.pcm.length === 0) break;
+          await playPcm(part.pcm, part.sampleRate || 24000, token);
+          if (token !== activeToken) return true;
+          played++;
         }
-
-        return await playPcm(res.pcm, res.sampleRate || 24000, token);
+        return played > 0 || !job.failed;
       } catch (_) {
         prefetched = null;
         return false;
