@@ -39,6 +39,7 @@ O Via Sacra é um aplicativo devocional católico. Qualquer alteração de conte
 ## 3. Simplicidade, Organização e Melhores Práticas
 
 - **Código simples e sucinto:** prefira soluções diretas, legíveis e sem abstrações desnecessárias (*over-engineering*). Se algo pode ser resolvido de forma clara em 20 linhas, não crie 3 camadas extras.
+- **Documentação sucinta e em linguagem natural:** frases curtas, organizadas por assunto, sem jargão nem repetição.
 - **Offline-first e privacidade absoluta:** zero rastreadores, zero Firebase/Google Play Services/Analytics/Crashlytics, zero fontes externas carregadas da internet (todas embutidas em `app/assets/fonts/`).
 - **Compatibilidade multiplataforma:** tudo deve funcionar em Android (inclusive F-Droid), iOS e Web/PWA (`sqlite3.wasm` + IndexedDB).
 - **Organização de arquivos:**
@@ -47,7 +48,7 @@ O Via Sacra é um aplicativo devocional católico. Qualquer alteração de conte
   - `app/lib/services/` — áudio/TTS, notificações locais, preferências, importadores modulares
   - `app/lib/features/` — telas agrupadas por funcionalidade
   - `scraper/` — coletor Python da Liturgia Diária
-  - `scripts/` e `tool/` — scripts auxiliares de geração/padronização de bancos e assets
+  - `scripts/` e `tool/` — scripts auxiliares de geração/padronização de bancos e assets (rode os que usam `requests` com `uv run --with requests python …`)
 
 ---
 
@@ -59,6 +60,7 @@ O Via Sacra é um aplicativo devocional católico. Qualquer alteração de conte
   - **Flutter/Dart (`app/`):** `dart format --output=none --set-exit-if-changed lib test` (`page_width: 120` em `app/analysis_options.yaml`), `flutter analyze` (zero warnings/erros) e `flutter test`.
   - **Python:** `ruff check .` e `pytest` em `scraper/`, e `ruff check scripts tool` na raiz (`ruff.toml`).
   - **GitHub Actions:** sempre confirmar via `gh run list` / `gh run view` que o CI passou sem erros após o push.
+- **Testes independentes do relógio:** datas fixas ou relativas a dias inteiros; nada de "agora + 1 h", que quebra perto da meia-noite UTC.
 
 ---
 
@@ -81,3 +83,34 @@ Para permitir testar novas funcionalidades no celular (Android `.apk` e iOS `.ip
 - **Deixe a documentação um pouco melhor do que encontrou, só onde você mexeu:** ao mudar um comportamento, atualize o trecho de `README.md`/`docs/` que trata dele no mesmo PR. Não reescreva documentos inteiros nem crie novos sem necessidade.
 - **Um lugar para cada assunto:** o `README.md` resume e aponta para `docs/` (Bíblia, catecismos, banco, arquitetura, direitos autorais). Detalhes de implementação ficam em comentários no código, perto de onde valem.
 - **O que mudou em cada versão** vai nas notas de `docs/releases/`, não espalhado pelos documentos.
+
+---
+
+## 7. Estado atual e próximos passos
+
+**Versão em produção: v1.5.0** (`main` = `dev`). Sem issues ou PRs abertos.
+
+**Fluxo usado até aqui:** uma branch por tarefa a partir da `dev` → PR para a `dev` → CI verde → merge e apagar a branch. Para lançar: subir a versão (seção 5), PR `dev → main`, tag `vX.Y.Z` e conferir Release e site.
+
+**Onde fica cada coisa (atalhos):**
+
+| Assunto | Arquivos |
+|---|---|
+| Voz neural (celular) | `services/native_tts_io.dart` (Kokoro via sherpa-onnx num Isolate) |
+| Voz neural (Web) | `web/kokoro_tts.js` e `web/kokoro_worker.js` (onnxruntime-web) |
+| Fila de leitura e divisão do texto | `services/reading_audio_service.dart` (`splitForSpeech`, aquecimento do modelo) |
+| Limpeza do texto para a voz | `services/neural_tts_types.dart` (`normalizeTextForKokoro`) |
+| MP3 diários da Liturgia | `scraper/generate_audio.py` + `update-liturgy.yml` (branch `data`, via jsDelivr) |
+| Arte sacra | `tool/sacred_art_catalog.json` → `tool/fetch_sacred_art.py` → `assets/data/sacred_art.json`; rodízio em `data/liturgical_art.dart` |
+| Calendário litúrgico | `core/liturgical_calendar.dart` |
+| Banco e migrações | `data/database.dart` (`PRAGMA user_version`) |
+| Backup do usuário | `data/backup_repository.dart` |
+| Conferência de versão | `tool/check_release_version.sh` |
+
+**Pendências conhecidas:**
+
+- **Revisão humana** da tradução do Catecismo de São Pio X (feita pelo projeto; italiano ao lado em `scripts/data/sao_pio_x_1905.json`).
+- **Leitura mais natural:** expandir em `normalizeTextForKokoro` referências bíblicas ("Lc 19,41-44"), ordinais, abreviações ("S.", "N. Sra."), "R./V." e números romanos.
+- **Áudio instantâneo** para conteúdo fixo (orações, Terço, Via Sacra): gerar MP3 no CI, como já é feito com a Liturgia.
+- **Web:** onnxruntime-web e ephone ainda vêm do jsDelivr (hospedar junto do site); a voz roda numa só thread porque o GitHub Pages não envia COOP/COEP (avaliar `coi-serviceworker`).
+- **Telas grandes** a dividir em widgets: `bible_screen.dart`, `catechism_screen.dart`, `settings_screen.dart`.

@@ -50,14 +50,14 @@ O Via Sacra nasceu para ser um companheiro de oração **silencioso e respeitoso
 
 ## Funcionalidades
 
-1. **Liturgia & Homilias** — leituras do dia (1ª Leitura, Salmo com refrão em destaque, 2ª Leitura, Evangelho), cabeçalho com Tempo e Cor Litúrgica, player "Ouvir Liturgia" (TTS offline ou áudio aberto), homilia do Vaticano e reflexões CNBB / Santos Padres, modo Lectio Divina em tela cheia, calendário e "Baixar Semana Offline".
+1. **Liturgia & Homilias** — leituras do dia (1ª Leitura, Salmo com refrão em destaque, 2ª Leitura, Evangelho), cabeçalho com Tempo e Cor Litúrgica e uma obra de arte sacra que muda a cada dia (com obra própria nas festas), player "Ouvir Liturgia" (TTS offline ou áudio aberto), homilia do Vaticano e reflexões CNBB / Santos Padres, modo Lectio Divina em tela cheia, calendário e "Baixar Semana Offline".
 2. **Bíblia Sagrada (73 livros, cânon católico)** — Antigo Testamento com os deuterocanônicos e Novo Testamento; seletor Livro › Capítulo, "Continuar lendo", busca offline por referência ("Jo 3,16") ou palavra (FTS5), leitura comparada versículo a versículo, marcações em cores suaves, favoritos e anotações locais, compartilhamento formatado e áudio do capítulo (TTS). Traduções modulares: **Bíblia Portuguesa Mundial (pt-BR)**, **Vulgata Clementina (Latim)** e **Douay-Rheims (Inglês)** embutidas (domínio público) e importação local de módulos — ver [`docs/BIBLE.md`](docs/BIBLE.md). Na Liturgia, tocar na referência de uma leitura abre o capítulo completo.
 3. **Santo Terço & Rosário** — mistérios do dia automáticos, Rosário completo (20 mistérios), arte sacra em domínio público, contador tátil com vibração e registro opcional de constância.
 4. **Biblioteca** — duas sub-abas: **Catecismo** — índice das 4 partes do CIC (texto oficial no vatican.va) e Catecismo Maior de São Pio X com busca offline (SQLite FTS5) por número ou palavra, favoritos e anotações locais; e **Devocionário**, com orações fundamentais, eucarísticas, marianas e de proteção, com alternância Português ⇄ Latim.
    A Biblioteca traz também **A Imitação de Cristo** (114 capítulos, com "Continuar lendo" e favoritos) e a **Via Sacra** de Santo Afonso (14 estações).
 5. **Ajustes** — lembretes locais (Liturgia e Terço), voz e velocidade do narrador, tipografia, temas Pergaminho / Modo Igreja / Automático, **backup** (exportar/importar favoritos, anotações, constância e marcações) e página "Sobre & Licenças".
 
-O áudio usa a voz neural **Kokoro-82M** (offline no celular, Web Worker no navegador), e um **mini-player** acompanha a leitura em todas as telas.
+O áudio usa a voz neural **Kokoro-82M** (offline no celular, Web Worker no navegador). A Liturgia e a homilia do dia também têm MP3 gerado diariamente com a mesma voz, que toca na hora. Um **mini-player** acompanha a leitura em todas as telas.
 
 ## Instalação para usuários (sem programar)
 
@@ -180,6 +180,20 @@ O endpoint de dados é configurável em tempo de build (útil para forks):
 
 ```bash
 flutter run --dart-define=VIA_SACRA_DATA_URL=https://cdn.jsdelivr.net/gh/SEU_USUARIO/ViaSacra@data
+```
+
+### Antes de enviar alterações
+
+Na pasta `app/`:
+
+```bash
+dart format --output=none --set-exit-if-changed lib test && flutter analyze && flutter test
+```
+
+Na raiz (scripts Python e scraper):
+
+```bash
+ruff check . && (cd scraper && python -m pytest -q)
 ```
 
 ### Rodando o scraper
