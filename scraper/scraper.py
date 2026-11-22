@@ -238,7 +238,7 @@ RE_LINHAS = re.compile(r"\n{3,}")
 # Ex.: "Lc 19,41-44", "1Cor 15,20-26.28", "Sl 121(122)", "Is 2,1-5"
 RE_REFERENCIA = re.compile(
     r"\b((?:[1-3]\s?)?[A-ZÁÉÍÓÚ][a-zçãõáéíóúê]{0,3}\.?\s?\d{1,3}(?:\(\d{1,3}\))?"
-    r"(?:\s?[,:]\s?\d{1,3}[a-z]?(?:\s?[-–.]\s?\d{1,3}[a-z]?)*)*)"
+    r"(?:\s?[,:]\s?\d{1,3}[a-z]{0,2}(?:(?:\s?[-–.]\s?|\se\s)\d{1,3}[a-z]{0,2})*)*)"
 )
 SECOES = {
     "primeira_leitura": ("primeira leitura", "1ª leitura", "1a leitura", "leitura i"),
@@ -310,28 +310,54 @@ def identificar_secao(titulo: str) -> str | None:
 # ---------------------------------------------------------------------------
 
 
+def _fim_de_frase(linha: str) -> bool:
+    return linha.rstrip("\"'”»)").endswith((".", "!", "?"))
+
+
 def parse_salmo(texto: str, titulo_secao: str = "") -> dict[str, Any]:
     """Separa refrão e estrofes do Salmo Responsorial.
 
     Convenções encontradas nas fontes brasileiras:
-    - linha iniciada por "R." / "— " / "Refrão:" marca o refrão;
-    - estrofes separadas por linha em branco; o refrão repetido é removido.
+    - linha iniciada por "R." / "— " / "Refrão:" marca o refrão, que pode seguir
+      nas linhas de baixo até terminar em ".", "!" ou "?";
+    - "Ou:" abre um refrão alternativo, que é omitido;
+    - estrofes separadas por linha em branco; o refrão repetido é removido;
+    - verso partido após "*" ou "†" continua na mesma estrofe.
     """
     linhas = [linha.strip() for linha in texto.split("\n")]
     referencia = extrair_referencia(titulo_secao)
     refrao = None
     corpo: list[str] = []
+    juntando: str | None = None  # "refrao" ou "alternativo" enquanto a frase não termina
     for linha in linhas:
         if not linha:
+            if juntando == "refrao":
+                juntando = None
             corpo.append("")
             continue
-        if referencia is None and (ref := extrair_referencia(linha)) and len(linha) < 50:
+        if juntando and re.search(r"[*†]\s*$", linha):  # já é verso de estrofe
+            juntando = None
+        if juntando:
+            if juntando == "refrao":
+                refrao = f"{refrao}\n{linha}"
+            if _fim_de_frase(linha):
+                juntando = None
+            continue
+        # A referência pode trazer a do refrão: "Sl 94(95),1-2 (R. 1Cor 16,22b e Ap 22,20c)".
+        sem_refrao = re.sub(r"\s*\(R\..*\)\s*$", "", linha)
+        if referencia is None and (ref := extrair_referencia(sem_refrao)) and len(sem_refrao) < 50:
             referencia = ref
+            continue
+        if re.fullmatch(r"[a-z]", linha):  # letra de versículo solta ("b")
+            continue
+        if re.match(r"^Ou:", linha, re.I):
+            juntando = None if _fim_de_frase(linha) else "alternativo"
             continue
         marcador = re.match(r"^(?:R\.|R\/|Refr[ãa]o:?|—|–|-)\s*(.+)$", linha)
         if marcador:
             if refrao is None:
                 refrao = marcador.group(1).strip()
+                juntando = None if _fim_de_frase(refrao) else "refrao"
             continue
         if refrao and normalizar(linha) == normalizar(refrao):
             continue
@@ -341,7 +367,14 @@ def parse_salmo(texto: str, titulo_secao: str = "") -> dict[str, Any]:
         nao_vazias = [i for i, linha in enumerate(corpo) if linha]
         if nao_vazias:
             refrao = corpo.pop(nao_vazias[0])
-    estrofes = [e.strip() for e in "\n".join(corpo).split("\n\n") if e.strip()]
+    estrofes: list[str] = []
+    for bloco in "\n".join(corpo).split("\n\n"):
+        if not (bloco := bloco.strip()):
+            continue
+        if estrofes and estrofes[-1].endswith(("*", "†")):
+            estrofes[-1] += "\n" + bloco
+        else:
+            estrofes.append(bloco)
     return {
         "referencia": referencia,
         "refrao": refrao,

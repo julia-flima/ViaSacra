@@ -111,12 +111,12 @@ class BibleRef {
   }
 
   // Grupos: 1 livro · 2 capítulo · 3 capítulo alternativo (Salmos) · 4 versículo
-  // inicial · 5 capítulo final · 6 versículo (ou capítulo) final · 7 trechos ".a-b".
+  // inicial · 5 capítulo final · 6 versículo (ou capítulo) final · 7 trechos ".a-b" ou " e a".
   static final _re = RegExp(
     r'^\s*([1-3]?\s*[A-Za-zÀ-ÿ\.]+(?:\s+[A-Za-zÀ-ÿ]+)*?)\s*(\d{1,3})(?:\s*\((\d{1,3})\))?'
-    r'(?:\s*[,:]\s*(\d{1,3})[a-z]?)?'
-    r'(?:\s*[-–]\s*(?:(\d{1,3})\s*[,:]\s*)?(\d{1,3})[a-z]?)?'
-    r'((?:\s*\.\s*\d{1,3}[a-z]?(?:\s*[-–]\s*\d{1,3}[a-z]?)?)*)',
+    r'(?:\s*[,:]\s*(\d{1,3})[a-z]{0,2})?'
+    r'(?:\s*[-–]\s*(?:(\d{1,3})\s*[,:]\s*)?(\d{1,3})[a-z]{0,2})?'
+    r'((?:(?:\s*\.\s*|\s+e\s+)\d{1,3}[a-z]{0,2}(?:\s*[-–]\s*\d{1,3}[a-z]{0,2})?)*)',
   );
   static final _extra = RegExp(r'(\d{1,3})[a-z]?(?:\s*[-–]\s*(\d{1,3}))?');
 

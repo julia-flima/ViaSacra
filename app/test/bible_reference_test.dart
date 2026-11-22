@@ -49,6 +49,15 @@ void main() {
       expect(r.contains(22), isTrue);
     });
 
+    test('salmos com meio versículo "ab" e trecho com "e" (CNBB)', () {
+      final ab = BibleRef.parse('Sl 23(24),1-2.3-4ab.5-6')!;
+      expect((ab.verseStart, ab.verseEnd), (1, 2));
+      expect(ab.extraVerses, [3, 4, 5, 6]);
+      final e = BibleRef.parse('Sl 149,1-2.3-4.5-6a e 9b')!;
+      expect(e.extraVerses, [3, 4, 5, 6, 9]);
+      expect(e.contains(7), isFalse);
+    });
+
     test('intervalo de capítulos inteiros e entradas inválidas', () {
       final r = BibleRef.parse('Mt 5-7')!;
       expect((r.chapter, r.chapterEnd, r.hasVerses), (5, 7, false));
