@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "data": "2026-11-21",
-  "gerado_em": "2026-11-21T14:05:57-03:00",
+  "gerado_em": "2026-11-22T20:35:33-03:00",
   "calendario": {
     "data": "2026-11-21",
     "dia_semana": "Sábado",
@@ -26,12 +26,9 @@
     },
     "salmo": {
       "referencia": "Lc 1,46-47.48-49.50-51.52-53.54-55",
-      "refrao": "O Poderoso fez por mim maravilhas,",
+      "refrao": "O Poderoso fez por mim maravilhas,\ne Santo é o seu nome.",
       "estrofes": [
-        "e Santo é o seu nome.",
-        "trouxestes no ventre a Palavra eterna!",
-        "A minh'alma engrandece ao Senhor, *",
-        "e se alegrou o meu espírito em Deus, meu Salvador,",
+        "A minh'alma engrandece ao Senhor, *\ne se alegrou o meu espírito em Deus, meu Salvador,",
         "pois, ele viu a pequenez de sua serva, *\neis que agora as gerações hão de chamar-me de bendita.",
         "O Poderoso fez por mim maravilhas *\ne Santo é o seu nome!",
         "Seu amor, de geração em geração, *\nchega a todos que o respeitam.",
@@ -41,7 +38,7 @@
         "Acolheu Israel, seu servidor, *\nfiel ao seu amor,",
         "como havia prometido aos nossos pais, *\nem favor de Abraão e de seus filhos, para sempre."
       ],
-      "texto": "e Santo é o seu nome.\n\ntrouxestes no ventre a Palavra eterna!\n\nA minh'alma engrandece ao Senhor, *\n\ne se alegrou o meu espírito em Deus, meu Salvador,\n\npois, ele viu a pequenez de sua serva, *\neis que agora as gerações hão de chamar-me de bendita.\n\nO Poderoso fez por mim maravilhas *\ne Santo é o seu nome!\n\nSeu amor, de geração em geração, *\nchega a todos que o respeitam.\n\nDemonstrou o poder de seu braço, *\ndispersou os orgulhosos.\n\nDerrubou os poderosos de seus tronos *\ne os humildes exaltou.\n\nDe bens saciou os famintos *\ne despediu, sem nada, os ricos.\n\nAcolheu Israel, seu servidor, *\nfiel ao seu amor,\n\ncomo havia prometido aos nossos pais, *\nem favor de Abraão e de seus filhos, para sempre.",
+      "texto": "A minh'alma engrandece ao Senhor, *\ne se alegrou o meu espírito em Deus, meu Salvador,\n\npois, ele viu a pequenez de sua serva, *\neis que agora as gerações hão de chamar-me de bendita.\n\nO Poderoso fez por mim maravilhas *\ne Santo é o seu nome!\n\nSeu amor, de geração em geração, *\nchega a todos que o respeitam.\n\nDemonstrou o poder de seu braço, *\ndispersou os orgulhosos.\n\nDerrubou os poderosos de seus tronos *\ne os humildes exaltou.\n\nDe bens saciou os famintos *\ne despediu, sem nada, os ricos.\n\nAcolheu Israel, seu servidor, *\nfiel ao seu amor,\n\ncomo havia prometido aos nossos pais, *\nem favor de Abraão e de seus filhos, para sempre.",
       "fonte": "CNBB"
     },
     "segunda_leitura": null,
@@ -58,7 +55,7 @@
     "salmo_cifra_ou_melodia": null,
     "salmo_video_id": "i0YtFR31Hcc",
     "salmo_video_titulo": "Salmo (Lc 1) - 21/11/2026: O Poderoso fez por mim maravilhas, e santo é o seu nome.",
-    "liturgia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-21.mp3",
+    "liturgia_audio_url": null,
     "creditos": [
       {
         "campo": "salmo_video_id",
@@ -68,12 +65,6 @@
         "licenca": "YouTube Embed Oficial (Termos de Serviço)"
       },
       {
-        "campo": "liturgia_audio_url",
-        "interprete": "Voz Dora (pf_dora)",
-        "canal": "Via Sacra — Voz Neural Kokoro-82M (Dora, pt-BR)",
-        "licenca": "Apache-2.0 (Kokoro-82M)"
-      },
-      {
         "campo": "homilia_audio_url",
         "interprete": "Voz Dora (pf_dora)",
         "canal": "Via Sacra — Voz Neural Kokoro-82M (Dora, pt-BR)",
@@ -81,34 +72,8 @@
       }
     ],
     "fallback": "tts_local_pt_BR",
-    "liturgia_audio_hash": "966b26cab3a58958",
-    "liturgia_audio_marcas": {
-      "primeira_leitura": 0.0,
-      "salmo": 32.68,
-      "evangelho": 101.33
-    },
     "homilia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-21-homilia.mp3",
     "homilia_audio_hash": "34a96543b9046e22",
-    "liturgia_vozes": {
-      "pf_dora": {
-        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-21.mp3",
-        "hash": "966b26cab3a58958",
-        "marcas": {
-          "primeira_leitura": 0.0,
-          "salmo": 32.68,
-          "evangelho": 101.33
-        }
-      },
-      "pm_alex": {
-        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-21-pm_alex.mp3",
-        "hash": "a03f65fb03480161",
-        "marcas": {
-          "primeira_leitura": 0.0,
-          "salmo": 32.59,
-          "evangelho": 101.07
-        }
-      }
-    },
     "homilia_vozes": {
       "pf_dora": {
         "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-21-homilia.mp3",

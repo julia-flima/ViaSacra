@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "data": "2026-11-28",
-  "gerado_em": "2026-11-22T08:02:14-03:00",
+  "gerado_em": "2026-11-22T20:35:48-03:00",
   "calendario": {
     "data": "2026-11-28",
     "dia_semana": "Sábado",
@@ -28,7 +28,6 @@
       "referencia": "Sl 94(95),1-2.3-5.6-7",
       "refrao": "Amém! Vem, ó Senhor Jesus! Amém!",
       "estrofes": [
-        "Sl 94(95),1-2.3-5.6-7 (R. 1Cor 16,22b e Ap 22,20c)",
         "Vinde, exultemos de alegria no Senhor, *\naclamemos o Rochedo que nos salva!",
         "Ao seu encontro caminhemos com louvores, *\ne com cantos de alegria o celebremos!",
         "Na verdade, o Senhor é o grande Deus, *\no grande Rei, muito maior que os deuses todos.",
@@ -37,7 +36,7 @@
         "Vinde adoremos e prostremo-nos por terra, *\ne ajoelhemos ante o Deus que nos criou!",
         "Porque ele é o nosso Deus, nosso Pastor, †\ne nós somos o seu povo e seu rebanho, *\nas ovelhas que conduz com sua mão."
       ],
-      "texto": "Sl 94(95),1-2.3-5.6-7 (R. 1Cor 16,22b e Ap 22,20c)\n\nVinde, exultemos de alegria no Senhor, *\naclamemos o Rochedo que nos salva!\n\nAo seu encontro caminhemos com louvores, *\ne com cantos de alegria o celebremos!\n\nNa verdade, o Senhor é o grande Deus, *\no grande Rei, muito maior que os deuses todos.\n\nTem nas mãos as profundezas dos abismos, *\ne as alturas das montanhas lhe pertencem;\n\no mar é dele, pois foi ele quem o fez, *\ne a terra firme suas mãos a modelaram.\n\nVinde adoremos e prostremo-nos por terra, *\ne ajoelhemos ante o Deus que nos criou!\n\nPorque ele é o nosso Deus, nosso Pastor, †\ne nós somos o seu povo e seu rebanho, *\nas ovelhas que conduz com sua mão.",
+      "texto": "Vinde, exultemos de alegria no Senhor, *\naclamemos o Rochedo que nos salva!\n\nAo seu encontro caminhemos com louvores, *\ne com cantos de alegria o celebremos!\n\nNa verdade, o Senhor é o grande Deus, *\no grande Rei, muito maior que os deuses todos.\n\nTem nas mãos as profundezas dos abismos, *\ne as alturas das montanhas lhe pertencem;\n\no mar é dele, pois foi ele quem o fez, *\ne a terra firme suas mãos a modelaram.\n\nVinde adoremos e prostremo-nos por terra, *\ne ajoelhemos ante o Deus que nos criou!\n\nPorque ele é o nosso Deus, nosso Pastor, †\ne nós somos o seu povo e seu rebanho, *\nas ovelhas que conduz com sua mão.",
       "fonte": "CNBB"
     },
     "segunda_leitura": null,
@@ -64,47 +63,21 @@
         "licenca": "YouTube Embed Oficial (Termos de Serviço)"
       },
       {
-        "campo": "liturgia_audio_url",
+        "campo": "homilia_audio_url",
         "interprete": "Voz Dora (pf_dora)",
         "canal": "Via Sacra — Voz Neural Kokoro-82M (Dora, pt-BR)",
         "licenca": "Apache-2.0 (Kokoro-82M)"
       },
       {
-        "campo": "homilia_audio_url",
+        "campo": "liturgia_audio_url",
         "interprete": "Voz Dora (pf_dora)",
         "canal": "Via Sacra — Voz Neural Kokoro-82M (Dora, pt-BR)",
         "licenca": "Apache-2.0 (Kokoro-82M)"
       }
     ],
     "fallback": "tts_local_pt_BR",
-    "liturgia_audio_marcas": {
-      "primeira_leitura": 0.0,
-      "salmo": 60.18,
-      "evangelho": 122.26
-    },
-    "liturgia_audio_hash": "ac661555d83031d1",
     "homilia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-28-homilia.mp3",
     "homilia_audio_hash": "706c11161b3ad790",
-    "liturgia_vozes": {
-      "pf_dora": {
-        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-28.mp3",
-        "hash": "ac661555d83031d1",
-        "marcas": {
-          "primeira_leitura": 0.0,
-          "salmo": 60.18,
-          "evangelho": 122.26
-        }
-      },
-      "pm_alex": {
-        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-28-pm_alex.mp3",
-        "hash": "960727e305eb78f6",
-        "marcas": {
-          "primeira_leitura": 0.0,
-          "salmo": 60.18,
-          "evangelho": 122.32
-        }
-      }
-    },
     "homilia_vozes": {
       "pf_dora": {
         "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-28-homilia.mp3",
@@ -113,6 +86,32 @@
       "pm_alex": {
         "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-28-homilia-pm_alex.mp3",
         "hash": "c6c1f5a3a2438a97"
+      }
+    },
+    "liturgia_audio_marcas": {
+      "primeira_leitura": 0.0,
+      "salmo": 60.18,
+      "evangelho": 110.66
+    },
+    "liturgia_audio_hash": "62c667947aa675c4",
+    "liturgia_vozes": {
+      "pf_dora": {
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-28.mp3",
+        "hash": "62c667947aa675c4",
+        "marcas": {
+          "primeira_leitura": 0.0,
+          "salmo": 60.18,
+          "evangelho": 110.66
+        }
+      },
+      "pm_alex": {
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-28-pm_alex.mp3",
+        "hash": "6f1efd881a568ac3",
+        "marcas": {
+          "primeira_leitura": 0.0,
+          "salmo": 60.18,
+          "evangelho": 110.55
+        }
       }
     }
   },

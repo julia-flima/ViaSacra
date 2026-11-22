@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "data": "2026-11-25",
-  "gerado_em": "2026-11-22T08:02:08-03:00",
+  "gerado_em": "2026-11-22T20:35:42-03:00",
   "calendario": {
     "data": "2026-11-25",
     "dia_semana": "Quarta-feira",
@@ -25,20 +25,17 @@
       "fonte": "CNBB"
     },
     "salmo": {
-      "referencia": "Sl 97(98),1.2-3a",
-      "refrao": "Como são grandes e admiráveis vossas obras,",
+      "referencia": "Sl 97(98),1.2-3ab.7-8.9",
+      "refrao": "Como são grandes e admiráveis vossas obras,\nó Senhor e nosso Deus onipotente!",
       "estrofes": [
-        "ó Senhor e nosso Deus onipotente!",
         "Cantai ao Senhor Deus um canto novo, *\nporque ele fez prodígios!\nSua mão e o seu braço forte e santo *\nalcançaram-lhe a vitória.",
         "O Senhor fez conhecer a salvação, *\ne às nações, sua justiça;",
-        "recordou o seu amor sempre fiel *",
-        "b",
-        "pela casa de Israel",
+        "recordou o seu amor sempre fiel *\npela casa de Israel",
         "Aplauda o mar com todo ser que nele vive, *\no mundo inteiro e toda gente!",
         "As montanhas e os rios batam palmas *\ne exultem de alegria.",
         "na presença do Senhor, pois ele vem, *\nvem julgar a terra inteira.\nJulgará o universo com justiça *\ne as nações com equidade."
       ],
-      "texto": "ó Senhor e nosso Deus onipotente!\n\nCantai ao Senhor Deus um canto novo, *\nporque ele fez prodígios!\nSua mão e o seu braço forte e santo *\nalcançaram-lhe a vitória.\n\nO Senhor fez conhecer a salvação, *\ne às nações, sua justiça;\n\nrecordou o seu amor sempre fiel *\n\nb\n\npela casa de Israel\n\nAplauda o mar com todo ser que nele vive, *\no mundo inteiro e toda gente!\n\nAs montanhas e os rios batam palmas *\ne exultem de alegria.\n\nna presença do Senhor, pois ele vem, *\nvem julgar a terra inteira.\nJulgará o universo com justiça *\ne as nações com equidade.",
+      "texto": "Cantai ao Senhor Deus um canto novo, *\nporque ele fez prodígios!\nSua mão e o seu braço forte e santo *\nalcançaram-lhe a vitória.\n\nO Senhor fez conhecer a salvação, *\ne às nações, sua justiça;\n\nrecordou o seu amor sempre fiel *\npela casa de Israel\n\nAplauda o mar com todo ser que nele vive, *\no mundo inteiro e toda gente!\n\nAs montanhas e os rios batam palmas *\ne exultem de alegria.\n\nna presença do Senhor, pois ele vem, *\nvem julgar a terra inteira.\nJulgará o universo com justiça *\ne as nações com equidade.",
       "fonte": "CNBB"
     },
     "segunda_leitura": null,
@@ -65,47 +62,21 @@
         "licenca": "YouTube Embed Oficial (Termos de Serviço)"
       },
       {
-        "campo": "liturgia_audio_url",
+        "campo": "homilia_audio_url",
         "interprete": "Voz Dora (pf_dora)",
         "canal": "Via Sacra — Voz Neural Kokoro-82M (Dora, pt-BR)",
         "licenca": "Apache-2.0 (Kokoro-82M)"
       },
       {
-        "campo": "homilia_audio_url",
+        "campo": "liturgia_audio_url",
         "interprete": "Voz Dora (pf_dora)",
         "canal": "Via Sacra — Voz Neural Kokoro-82M (Dora, pt-BR)",
         "licenca": "Apache-2.0 (Kokoro-82M)"
       }
     ],
     "fallback": "tts_local_pt_BR",
-    "liturgia_audio_hash": "08d434f63bd8425e",
-    "liturgia_audio_marcas": {
-      "primeira_leitura": 0.0,
-      "salmo": 50.1,
-      "evangelho": 111.19
-    },
     "homilia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-25-homilia.mp3",
     "homilia_audio_hash": "5663ba65c498f047",
-    "liturgia_vozes": {
-      "pf_dora": {
-        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-25.mp3",
-        "hash": "08d434f63bd8425e",
-        "marcas": {
-          "primeira_leitura": 0.0,
-          "salmo": 50.1,
-          "evangelho": 111.19
-        }
-      },
-      "pm_alex": {
-        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-25-pm_alex.mp3",
-        "hash": "57f9bf78e6a40d34",
-        "marcas": {
-          "primeira_leitura": 0.0,
-          "salmo": 50.18,
-          "evangelho": 111.81
-        }
-      }
-    },
     "homilia_vozes": {
       "pf_dora": {
         "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-25-homilia.mp3",
@@ -114,6 +85,32 @@
       "pm_alex": {
         "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-25-homilia-pm_alex.mp3",
         "hash": "648a447ada6dd7e2"
+      }
+    },
+    "liturgia_audio_marcas": {
+      "primeira_leitura": 0.0,
+      "salmo": 50.1,
+      "evangelho": 114.6
+    },
+    "liturgia_audio_hash": "7d719aa2179a0803",
+    "liturgia_vozes": {
+      "pf_dora": {
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-25.mp3",
+        "hash": "7d719aa2179a0803",
+        "marcas": {
+          "primeira_leitura": 0.0,
+          "salmo": 50.1,
+          "evangelho": 114.6
+        }
+      },
+      "pm_alex": {
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-25-pm_alex.mp3",
+        "hash": "8543775639b454fc",
+        "marcas": {
+          "primeira_leitura": 0.0,
+          "salmo": 50.18,
+          "evangelho": 115.16
+        }
       }
     }
   },

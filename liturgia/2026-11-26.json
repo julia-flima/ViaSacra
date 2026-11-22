@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "data": "2026-11-26",
-  "gerado_em": "2026-11-22T08:02:11-03:00",
+  "gerado_em": "2026-11-22T20:35:44-03:00",
   "calendario": {
     "data": "2026-11-26",
     "dia_semana": "Quinta-feira",
@@ -26,15 +26,14 @@
     },
     "salmo": {
       "referencia": "Sl 99(100),2.3.4.5",
-      "refrao": "São bem-aventurados os que foram convidados",
+      "refrao": "São bem-aventurados os que foram convidados\npara a Ceia Nupcial das bodas do Cordeiro!",
       "estrofes": [
-        "para a Ceia Nupcial das bodas do Cordeiro!",
         "Aclamai o Senhor, ó terra inteira, †\nservi ao Senhor com alegria, *\nide a ele cantando jubilosos!",
         "Sabei que o Senhor, só ele, é Deus, †\nEle mesmo nos fez, e somos seus, *\nnós somos seu povo e seu rebanho.",
         "Entrai por suas portas dando graças, †\ne em seus átrios com hinos de louvor; *\ndai-lhe graças, seu nome bendizei!",
         "Sim, é bom o Senhor e nosso Deus, †\nsua bondade perdura para sempre, *\nseu amor é fiel eternamente!"
       ],
-      "texto": "para a Ceia Nupcial das bodas do Cordeiro!\n\nAclamai o Senhor, ó terra inteira, †\nservi ao Senhor com alegria, *\nide a ele cantando jubilosos!\n\nSabei que o Senhor, só ele, é Deus, †\nEle mesmo nos fez, e somos seus, *\nnós somos seu povo e seu rebanho.\n\nEntrai por suas portas dando graças, †\ne em seus átrios com hinos de louvor; *\ndai-lhe graças, seu nome bendizei!\n\nSim, é bom o Senhor e nosso Deus, †\nsua bondade perdura para sempre, *\nseu amor é fiel eternamente!",
+      "texto": "Aclamai o Senhor, ó terra inteira, †\nservi ao Senhor com alegria, *\nide a ele cantando jubilosos!\n\nSabei que o Senhor, só ele, é Deus, †\nEle mesmo nos fez, e somos seus, *\nnós somos seu povo e seu rebanho.\n\nEntrai por suas portas dando graças, †\ne em seus átrios com hinos de louvor; *\ndai-lhe graças, seu nome bendizei!\n\nSim, é bom o Senhor e nosso Deus, †\nsua bondade perdura para sempre, *\nseu amor é fiel eternamente!",
       "fonte": "CNBB"
     },
     "segunda_leitura": null,
@@ -61,47 +60,21 @@
         "licenca": "YouTube Embed Oficial (Termos de Serviço)"
       },
       {
-        "campo": "liturgia_audio_url",
+        "campo": "homilia_audio_url",
         "interprete": "Voz Dora (pf_dora)",
         "canal": "Via Sacra — Voz Neural Kokoro-82M (Dora, pt-BR)",
         "licenca": "Apache-2.0 (Kokoro-82M)"
       },
       {
-        "campo": "homilia_audio_url",
+        "campo": "liturgia_audio_url",
         "interprete": "Voz Dora (pf_dora)",
         "canal": "Via Sacra — Voz Neural Kokoro-82M (Dora, pt-BR)",
         "licenca": "Apache-2.0 (Kokoro-82M)"
       }
     ],
     "fallback": "tts_local_pt_BR",
-    "liturgia_audio_hash": "39a3a2a075ab8f5d",
-    "liturgia_audio_marcas": {
-      "primeira_leitura": 0.0,
-      "salmo": 88.03,
-      "evangelho": 130.9
-    },
     "homilia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-26-homilia.mp3",
     "homilia_audio_hash": "367e1144fe9ef364",
-    "liturgia_vozes": {
-      "pf_dora": {
-        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-26.mp3",
-        "hash": "39a3a2a075ab8f5d",
-        "marcas": {
-          "primeira_leitura": 0.0,
-          "salmo": 88.03,
-          "evangelho": 130.9
-        }
-      },
-      "pm_alex": {
-        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-26-pm_alex.mp3",
-        "hash": "088a2789c85504c9",
-        "marcas": {
-          "primeira_leitura": 0.0,
-          "salmo": 88.14,
-          "evangelho": 130.96
-        }
-      }
-    },
     "homilia_vozes": {
       "pf_dora": {
         "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-26-homilia.mp3",
@@ -110,6 +83,32 @@
       "pm_alex": {
         "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-26-homilia-pm_alex.mp3",
         "hash": "3a2b4b2b1590a4f8"
+      }
+    },
+    "liturgia_audio_marcas": {
+      "primeira_leitura": 0.0,
+      "salmo": 88.03,
+      "evangelho": 137.39
+    },
+    "liturgia_audio_hash": "799bb20aa90b0f5b",
+    "liturgia_vozes": {
+      "pf_dora": {
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-26.mp3",
+        "hash": "799bb20aa90b0f5b",
+        "marcas": {
+          "primeira_leitura": 0.0,
+          "salmo": 88.03,
+          "evangelho": 137.39
+        }
+      },
+      "pm_alex": {
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-26-pm_alex.mp3",
+        "hash": "141064815b9f2b21",
+        "marcas": {
+          "primeira_leitura": 0.0,
+          "salmo": 88.14,
+          "evangelho": 137.56
+        }
       }
     }
   },

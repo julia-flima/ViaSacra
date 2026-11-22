@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "data": "2026-11-23",
-  "gerado_em": "2026-11-22T08:02:06-03:00",
+  "gerado_em": "2026-11-22T20:35:39-03:00",
   "calendario": {
     "data": "2026-11-23",
     "dia_semana": "Segunda-feira",
@@ -25,20 +25,17 @@
       "fonte": "CNBB"
     },
     "salmo": {
-      "referencia": "Sl 23(24),1-2.3-4a",
-      "refrao": "É assim a geração dos que buscam vossa face,",
+      "referencia": "Sl 23(24),1-2.3-4ab.5-6",
+      "refrao": "É assim a geração dos que buscam vossa face,\nó Senhor, Deus de Israel.",
       "estrofes": [
-        "ó Senhor, Deus de Israel.",
         "Ao Senhor pertence a terra e o que ela encerra, *\no mundo inteiro com os seres que o povoam;",
         "porque ele a tornou firme sobre os mares, *\ne sobre as águas a mantém inabalável.",
         "\"Quem subirá até o monte do Senhor, *\nquem ficará em sua santa habitação?\"",
-        "\"Quem tem mãos puras e inocente coração, *",
-        "b",
-        "quem não dirige sua mente para o crime.",
+        "\"Quem tem mãos puras e inocente coração, *\nquem não dirige sua mente para o crime.",
         "Sobre este desce a bênção do Senhor *\ne a recompensa de seu Deus e Salvador\".",
         "\"É assim a geração dos que o procuram, *\ne do Deus de Israel buscam a face\"."
       ],
-      "texto": "ó Senhor, Deus de Israel.\n\nAo Senhor pertence a terra e o que ela encerra, *\no mundo inteiro com os seres que o povoam;\n\nporque ele a tornou firme sobre os mares, *\ne sobre as águas a mantém inabalável.\n\n\"Quem subirá até o monte do Senhor, *\nquem ficará em sua santa habitação?\"\n\n\"Quem tem mãos puras e inocente coração, *\n\nb\n\nquem não dirige sua mente para o crime.\n\nSobre este desce a bênção do Senhor *\ne a recompensa de seu Deus e Salvador\".\n\n\"É assim a geração dos que o procuram, *\ne do Deus de Israel buscam a face\".",
+      "texto": "Ao Senhor pertence a terra e o que ela encerra, *\no mundo inteiro com os seres que o povoam;\n\nporque ele a tornou firme sobre os mares, *\ne sobre as águas a mantém inabalável.\n\n\"Quem subirá até o monte do Senhor, *\nquem ficará em sua santa habitação?\"\n\n\"Quem tem mãos puras e inocente coração, *\nquem não dirige sua mente para o crime.\n\nSobre este desce a bênção do Senhor *\ne a recompensa de seu Deus e Salvador\".\n\n\"É assim a geração dos que o procuram, *\ne do Deus de Israel buscam a face\".",
       "fonte": "CNBB"
     },
     "segunda_leitura": null,
@@ -53,52 +50,33 @@
   "audio": {
     "salmo_audio_url": null,
     "salmo_cifra_ou_melodia": null,
-    "salmo_video_id": null,
-    "salmo_video_titulo": null,
+    "salmo_video_id": "RHjp1z7u6AU",
+    "salmo_video_titulo": "Salmo 23(24) É assim a geração dos que buscam vossa face,ó Senhor, Deus de Israel.",
     "liturgia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-23.mp3",
     "creditos": [
       {
-        "campo": "liturgia_audio_url",
-        "interprete": "Voz Dora (pf_dora)",
-        "canal": "Via Sacra — Voz Neural Kokoro-82M (Dora, pt-BR)",
-        "licenca": "Apache-2.0 (Kokoro-82M)"
+        "campo": "salmo_video_id",
+        "interprete": "Edgar Borges (Salmos responsoriais)",
+        "canal": "Edgar Borges (Salmos responsoriais)",
+        "url_fonte": "https://www.youtube.com/watch?v=RHjp1z7u6AU",
+        "licenca": "YouTube Embed Oficial (Termos de Serviço)"
       },
       {
         "campo": "homilia_audio_url",
         "interprete": "Voz Dora (pf_dora)",
         "canal": "Via Sacra — Voz Neural Kokoro-82M (Dora, pt-BR)",
         "licenca": "Apache-2.0 (Kokoro-82M)"
+      },
+      {
+        "campo": "liturgia_audio_url",
+        "interprete": "Voz Dora (pf_dora)",
+        "canal": "Via Sacra — Voz Neural Kokoro-82M (Dora, pt-BR)",
+        "licenca": "Apache-2.0 (Kokoro-82M)"
       }
     ],
     "fallback": "tts_local_pt_BR",
-    "liturgia_audio_hash": "f1dff916b00ecbc0",
-    "liturgia_audio_marcas": {
-      "primeira_leitura": 0.0,
-      "salmo": 48.5,
-      "evangelho": 105.22
-    },
     "homilia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-23-homilia.mp3",
     "homilia_audio_hash": "471f0e47e55f5295",
-    "liturgia_vozes": {
-      "pf_dora": {
-        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-23.mp3",
-        "hash": "f1dff916b00ecbc0",
-        "marcas": {
-          "primeira_leitura": 0.0,
-          "salmo": 48.5,
-          "evangelho": 105.22
-        }
-      },
-      "pm_alex": {
-        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-23-pm_alex.mp3",
-        "hash": "a59cd8e384713928",
-        "marcas": {
-          "primeira_leitura": 0.0,
-          "salmo": 48.58,
-          "evangelho": 105.69
-        }
-      }
-    },
     "homilia_vozes": {
       "pf_dora": {
         "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-23-homilia.mp3",
@@ -107,6 +85,32 @@
       "pm_alex": {
         "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-23-homilia-pm_alex.mp3",
         "hash": "2b97dd3b2041c7c9"
+      }
+    },
+    "liturgia_audio_marcas": {
+      "primeira_leitura": 0.0,
+      "salmo": 48.5,
+      "evangelho": 105.52
+    },
+    "liturgia_audio_hash": "b901d50222b78678",
+    "liturgia_vozes": {
+      "pf_dora": {
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-23.mp3",
+        "hash": "b901d50222b78678",
+        "marcas": {
+          "primeira_leitura": 0.0,
+          "salmo": 48.5,
+          "evangelho": 105.52
+        }
+      },
+      "pm_alex": {
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-23-pm_alex.mp3",
+        "hash": "91cde5128d7f930b",
+        "marcas": {
+          "primeira_leitura": 0.0,
+          "salmo": 48.58,
+          "evangelho": 105.67
+        }
       }
     }
   },

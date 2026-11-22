@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "data": "2026-11-22",
-  "gerado_em": "2026-11-22T08:02:02-03:00",
+  "gerado_em": "2026-11-22T20:35:35-03:00",
   "calendario": {
     "data": "2026-11-22",
     "dia_semana": "Domingo",
@@ -26,15 +26,13 @@
     },
     "salmo": {
       "referencia": "Sl 22(23),1-2a.2b-3.5-6",
-      "refrao": "O Senhor é o pastor que me conduz;",
+      "refrao": "O Senhor é o pastor que me conduz;\nnão me falta coisa alguma.",
       "estrofes": [
-        "não me falta coisa alguma.",
-        "Pelos prados e campinas verdejantes *\nele me leva a descansar.\nPara as águas repousantes me encaminha, *",
-        "e restaura as minhas forças.",
+        "Pelos prados e campinas verdejantes *\nele me leva a descansar.\nPara as águas repousantes me encaminha, *\ne restaura as minhas forças.",
         "Preparais à minha frente uma mesa, *\nbem à vista do inimigo,\ne com óleo vós ungis minha cabeça; *\no meu cálice transborda.",
         "Felicidade e todo bem hão de seguir-me *\npor toda a minha vida;\ne, na casa do Senhor, habitarei *\npelos tempos infinitos."
       ],
-      "texto": "não me falta coisa alguma.\n\nPelos prados e campinas verdejantes *\nele me leva a descansar.\nPara as águas repousantes me encaminha, *\n\ne restaura as minhas forças.\n\nPreparais à minha frente uma mesa, *\nbem à vista do inimigo,\ne com óleo vós ungis minha cabeça; *\no meu cálice transborda.\n\nFelicidade e todo bem hão de seguir-me *\npor toda a minha vida;\ne, na casa do Senhor, habitarei *\npelos tempos infinitos.",
+      "texto": "Pelos prados e campinas verdejantes *\nele me leva a descansar.\nPara as águas repousantes me encaminha, *\ne restaura as minhas forças.\n\nPreparais à minha frente uma mesa, *\nbem à vista do inimigo,\ne com óleo vós ungis minha cabeça; *\no meu cálice transborda.\n\nFelicidade e todo bem hão de seguir-me *\npor toda a minha vida;\ne, na casa do Senhor, habitarei *\npelos tempos infinitos.",
       "fonte": "CNBB"
     },
     "segunda_leitura": {
@@ -67,50 +65,21 @@
         "licenca": "YouTube Embed Oficial (Termos de Serviço)"
       },
       {
-        "campo": "liturgia_audio_url",
+        "campo": "homilia_audio_url",
         "interprete": "Voz Dora (pf_dora)",
         "canal": "Via Sacra — Voz Neural Kokoro-82M (Dora, pt-BR)",
         "licenca": "Apache-2.0 (Kokoro-82M)"
       },
       {
-        "campo": "homilia_audio_url",
+        "campo": "liturgia_audio_url",
         "interprete": "Voz Dora (pf_dora)",
         "canal": "Via Sacra — Voz Neural Kokoro-82M (Dora, pt-BR)",
         "licenca": "Apache-2.0 (Kokoro-82M)"
       }
     ],
     "fallback": "tts_local_pt_BR",
-    "liturgia_audio_hash": "cac8a72f07cb63f9",
-    "liturgia_audio_marcas": {
-      "primeira_leitura": 0.0,
-      "salmo": 49.76,
-      "segunda_leitura": 87.6,
-      "evangelho": 139.42
-    },
     "homilia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-22-homilia.mp3",
     "homilia_audio_hash": "e167b1fc81588b8f",
-    "liturgia_vozes": {
-      "pf_dora": {
-        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-22.mp3",
-        "hash": "cac8a72f07cb63f9",
-        "marcas": {
-          "primeira_leitura": 0.0,
-          "salmo": 49.76,
-          "segunda_leitura": 87.6,
-          "evangelho": 139.42
-        }
-      },
-      "pm_alex": {
-        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-22-pm_alex.mp3",
-        "hash": "5f5861bee8707c4d",
-        "marcas": {
-          "primeira_leitura": 0.0,
-          "salmo": 49.84,
-          "segunda_leitura": 87.6,
-          "evangelho": 139.51
-        }
-      }
-    },
     "homilia_vozes": {
       "pf_dora": {
         "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-22-homilia.mp3",
@@ -119,6 +88,35 @@
       "pm_alex": {
         "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-22-homilia-pm_alex.mp3",
         "hash": "0c640cc8021745d6"
+      }
+    },
+    "liturgia_audio_marcas": {
+      "primeira_leitura": 0.0,
+      "salmo": 49.76,
+      "segunda_leitura": 88.55,
+      "evangelho": 140.37
+    },
+    "liturgia_audio_hash": "06982e93e500d222",
+    "liturgia_vozes": {
+      "pf_dora": {
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-22.mp3",
+        "hash": "06982e93e500d222",
+        "marcas": {
+          "primeira_leitura": 0.0,
+          "salmo": 49.76,
+          "segunda_leitura": 88.55,
+          "evangelho": 140.37
+        }
+      },
+      "pm_alex": {
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-22-pm_alex.mp3",
+        "hash": "c967621c9f8d49a5",
+        "marcas": {
+          "primeira_leitura": 0.0,
+          "salmo": 49.84,
+          "segunda_leitura": 88.53,
+          "evangelho": 140.44
+        }
       }
     }
   },
