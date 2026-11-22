@@ -11,6 +11,7 @@ import 'package:via_sacra/core/theme.dart';
 import 'package:via_sacra/data/database.dart';
 import 'package:via_sacra/data/liturgy_repository.dart';
 import 'package:via_sacra/data/user_data_repository.dart';
+import 'package:via_sacra/services/neural_tts_types.dart';
 import 'package:via_sacra/services/settings_service.dart';
 
 Future<AppDatabase> _db() => AppDatabase.memory(schema: File('assets/db/schema.sql').readAsStringSync());
@@ -145,6 +146,46 @@ void main() {
       expect(s.textScale, SettingsService.maxTextScale);
       expect(s.lineHeight, 1.3);
       expect(s.liturgyReminderTime, const TimeOfDay(hour: 7, minute: 0));
+    });
+
+    test('redefinir volta todos os ajustes ao padrão e mantém os dados da pessoa', () async {
+      SharedPreferences.setMockInitialValues({});
+      final s = await SettingsService.load();
+      await s.setOnboardingDone();
+      s
+        ..imitationLastRef = 'I-12'
+        ..themeMode = ThemeMode.dark
+        ..readingFont = ReadingFont.sans
+        ..textScale = 1.5
+        ..lineHeight = 2.0
+        ..ttsSpeed = 1.5
+        ..kokoroVoice = 'pm_alex'
+        ..ttsEngine = TtsEngine.system
+        ..piperVoice = 'piper_faber'
+        ..preferRecordedAudio = false
+        ..showStreak = false
+        ..haptics = false
+        ..preferLatin = true
+        ..notificationsEnabled = true
+        ..liturgyReminder = false
+        ..liturgyReminderTime = const TimeOfDay(hour: 6, minute: 30)
+        ..rosaryReminder = false
+        ..rosaryReminderTime = const TimeOfDay(hour: 21, minute: 0);
+      await s.setTtsVoice('voz', 'pt-PT');
+      await s.saved;
+
+      // Toda preferência salva é ajuste (redefinível) ou dado da pessoa: ajuste novo precisa entrar na lista.
+      final prefs = await SharedPreferences.getInstance();
+      const keep = {'onboarding_done', 'imitacao_last'};
+      expect(prefs.getKeys().difference(keep), everyElement(isIn(SettingsService.resettableKeys)));
+
+      await s.resetToDefaults();
+      final d = await SettingsService.load();
+      expect(prefs.getKeys(), keep);
+      expect((d.onboardingDone, d.imitationLastRef), (true, 'I-12'));
+      expect((d.themeMode, d.readingFont, d.textScale, d.lineHeight), (ThemeMode.system, ReadingFont.serif, 1.0, 1.6));
+      expect((d.ttsSpeed, d.ttsEngine, d.ttsVoiceName, d.preferRecordedAudio), (1.0, TtsEngine.auto, null, true));
+      expect((d.showStreak, d.haptics, d.preferLatin, d.notificationsEnabled), (true, true, false, false));
     });
   });
 }
