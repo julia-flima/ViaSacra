@@ -1,0 +1,7 @@
+• Voz neural já vem no app e funciona offline
+• Modo Automático escolhe a melhor voz para o aparelho
+• Trocar de voz vale na hora; áudio pronto da Liturgia nas vozes Dora e Alex
+• Avançar e voltar no áudio; sem fechamentos ao trocar de voz ou leitura
+• Catecismo: "Ir ao §" abre o parágrafo no site do Vaticano
+• Texto padrão menor e pinturas enquadradas pelos rostos
+• Abertura mais rápida e botão voltar corrigido

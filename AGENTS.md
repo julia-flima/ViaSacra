@@ -95,7 +95,7 @@ Para permitir testar novas funcionalidades no celular (Android `.apk` e iOS `.ip
 
 ## 7. Estado atual e próximos passos
 
-**Versão em produção: v1.5.0** (`main`). Na `dev`: **v1.6.0-beta.5** (texto padrão menor, pinturas enquadradas pelos rostos e mais nítidas; modo Automático de voz, MP3 nas vozes Dora e Alex, troca de voz imediata, Piper Faber embutido, um só Isolate de voz; corrige o fechamento ao trocar de leitura no áudio — ícone da notificação apagado pelo R8 —, avançar/voltar no áudio narrado, fechamento por falta de memória ao trocar de voz e a demora da voz neural; Bíblia baixada sozinha na Web), aguardando teste no celular antes do PR `dev → main`.
+**Versão em produção: v1.6.0** (`main`): voz neural embutida com modo Automático, MP3 nas vozes Dora e Alex, troca de voz imediata, "Ir ao §" no Catecismo, texto padrão menor e pinturas enquadradas pelos rostos. A `dev` segue a partir dela.
 
 **Fluxo usado até aqui:** uma branch por tarefa a partir da `dev` → PR para a `dev` → CI verde → merge e apagar a branch. Para lançar: subir a versão (seção 5), PR `dev → main`, tag `vX.Y.Z` e conferir Release e site.
 
