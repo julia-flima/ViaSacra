@@ -32,8 +32,9 @@
 2. **Rede só para conteúdo, nunca para rastrear.** Nenhum cookie, identificador, analytics ou
    SDK de terceiros. O app acessa a rede apenas para:
    - a liturgia diária (JSON e MP3 do branch `data`, via jsDelivr ou GitHub raw);
-   - o modelo de voz Kokoro, baixado uma vez sob demanda (GitHub/sherpa-onnx no celular,
-     Hugging Face na Web, que também carrega o `onnxruntime-web` do jsDelivr);
+   - na Web, o modelo de voz Kokoro, baixado uma vez sob demanda (Hugging Face, com o
+     `onnxruntime-web` do jsDelivr); no celular ele já vem no app;
+   - as vozes Piper opcionais, só quando o usuário toca em "Baixar" (GitHub/sherpa-onnx);
    - páginas que o usuário abre: o texto oficial do CIC no `vatican.va` e o vídeo do Salmo no
      `youtube-nocookie.com`.
 3. **Atribuição sempre visível.** Cada leitura, homilia e imagem mostra sua fonte e link.
@@ -62,8 +63,11 @@ um segmento TTS por leitura. `ReadingAudioHandler` (`audio_service`):
   trecho seguinte (`lookahead` N+1);
 - motor neural unificado **Kokoro-82M** (`pf_dora` e `pm_alex`, além de mapeamento automático para
   inglês, espanhol e italiano/latim):
-  - **Mobile:** `sherpa_onnx: 1.13.8` em `Isolate` dedicado (modelo int8 ~126 MB baixado sob demanda),
-    com fallback automático para `flutter_tts` quando offline antes do download;
+  - **Mobile:** `sherpa_onnx: 1.13.8` em `Isolate` dedicado. O Kokoro int8 (~140 MB) vai dentro do
+    APK/IPA (`tool/fetch_kokoro_model.py` → `assets/voice/kokoro/`) e é copiado uma vez para a pasta
+    do app. Nas Configurações dá para baixar vozes **Piper** pt-BR (~21 MB) e ler o app inteiro com
+    elas, ou usar a voz do sistema (`flutter_tts`), que também é a reserva se a neural falhar.
+    O WAV gerado toca no mesmo `AudioPlayer` do áudio narrado;
   - **Web:** Web Worker (`kokoro_worker.js`) em `onnxruntime-web` (WebGPU/WASM) + `ephone`, modelo
     quantizado ~92 MB em Cache API e áudio via Web Audio API;
 - avanço automático, anterior/próxima, controles na tela de bloqueio e fones Bluetooth;
@@ -99,7 +103,8 @@ Mudanças incompatíveis exigem `schema_version: 2` e suporte simultâneo no app
 Só dois pontos mostram conteúdo de terceiros, ambos com navegação restrita (`core/url_safety.dart`):
 
 - **Leitor do CIC** (`VaticanReaderScreen`, Android/iOS): abre só `https://*.vatican.va`, com o
-  CSS do app; outros links vão para o navegador. Na Web/desktop, abre direto em nova aba.
+  CSS do app e rola até o § pedido; outros links vão para o navegador. Na Web/desktop, abre numa
+  nova aba, já no parágrafo (o `vatican.va` não permite iframe).
 - **Salmo cantado** (`PsalmVideoPlayer`): embed oficial `youtube-nocookie.com`, com o id do vídeo
   validado e domínios restritos ao YouTube.
 

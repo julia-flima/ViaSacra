@@ -46,11 +46,13 @@ class _BookPicker extends StatefulWidget {
 
 class _BookPickerState extends State<_BookPicker> {
   late BibleBook? _book = widget.openChapters ? bookById(widget.currentBookId ?? '') : null;
+  // Consulta uma vez (o build roda a cada toque no seletor).
+  late final Set<String> _available = widget.repo.books(widget.translationId).map((b) => b.id).toSet();
 
   @override
   Widget build(BuildContext context) {
     final t = Theme.of(context).textTheme;
-    final available = widget.repo.books(widget.translationId).map((b) => b.id).toSet();
+    final available = _available;
     final book = _book;
     if (book != null) {
       final count = widget.repo.chapterCount(widget.translationId, book.id);

@@ -152,6 +152,13 @@ class BibleService extends ChangeNotifier {
     }
   }
 
+  /// Web: baixa a Bíblia em português em segundo plano logo depois que o app abre, para que ela já
+  /// esteja pronta (ou a caminho) quando a pessoa tocar na aba Bíblia. No celular ela já vem no app.
+  Future<void> prefetchPortuguese() async {
+    if (autoInstallBundled || repo.installedVersion('bpm') != null) return;
+    await installBundled('bpm');
+  }
+
   /// Instala ou atualiza sob demanda uma tradução embutida pelo seu [id].
   Future<void> installBundled(String id) async {
     if (activeInstallId != null || progress != null) return;
@@ -192,14 +199,6 @@ class BibleService extends ChangeNotifier {
     }
   }
 
-  Future<BibleImportResult> importFromBytes(Uint8List bytes) async {
-    try {
-      return await importer.importFromBytes(bytes, onProgress: _setProgress);
-    } finally {
-      _done();
-    }
-  }
-
   Future<void> remove(String id) async {
     await importer.deleteTranslation(id);
     _done();
@@ -209,6 +208,12 @@ class BibleService extends ChangeNotifier {
     position = ReadingPosition(translationId, bookId, chapter, verse);
     repo.savePosition(position!);
     notifyListeners();
+  }
+
+  /// Guarda o versículo tocado como posição de leitura, sem reconstruir o leitor.
+  void rememberVerse(String translationId, String bookId, int chapter, int verse) {
+    position = ReadingPosition(translationId, bookId, chapter, verse);
+    repo.savePosition(position!);
   }
 
   /// Pedido de abertura vindo de outra aba (a navegação troca para a Bíblia).

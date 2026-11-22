@@ -1,5 +1,6 @@
 # Compila os instaladores e anexa à aba Releases do GitHub:
-#   • Android: APK universal + APKs por ABI (arm64-v8a, armeabi-v7a, x86_64)
+#   • Android: um único ViaSacra.apk (ARM 64 e 32 bits: todos os celulares), com a voz Kokoro
+#     embutida (tool/fetch_kokoro_model.py). Um arquivo só, para ninguém ficar em dúvida qual baixar.
 #   • iOS: .ipa SEM assinatura (para AltStore / SideStore / TrollStore)
 # Dispara ao criar uma tag `vX.Y.Z` (ex.: git tag v1.0.0 && git push origin v1.0.0).
 name: Build & Release
@@ -59,6 +60,9 @@ jobs:
 
       - run: flutter pub get
 
+      - name: Voz Kokoro embutida (SHA-256 conferido)
+        run: python3 ../tool/fetch_kokoro_model.py
+
       - name: Keystore de release (opcional, via secrets)
         env:
           KEYSTORE_B64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
@@ -71,26 +75,21 @@ jobs:
             echo "::warning::Secrets de assinatura ausentes — APKs assinados com a chave de debug."
           fi
 
-      - name: Build APK universal
+      - name: Build ViaSacra.apk
         env:
           ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
           ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
           ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
         run: |
-          flutter build apk --release
+          # Só ARM (64 e 32 bits): é o que os celulares usam; x86_64 seria peso morto para quem baixa.
+          flutter build apk --release --target-platform android-arm,android-arm64
           mkdir -p ../dist
-          cp build/app/outputs/flutter-apk/app-release.apk ../dist/ViaSacra-universal.apk
-
-      - name: Build APKs por ABI
-        env:
-          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
-          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
-          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
-        run: |
-          flutter build apk --release --split-per-abi
-          for abi in arm64-v8a armeabi-v7a x86_64; do
-            cp "build/app/outputs/flutter-apk/app-$abi-release.apk" "../dist/ViaSacra-$abi.apk"
-          done
+          cp build/app/outputs/flutter-apk/app-release.apk ../dist/ViaSacra.apk
+          # O ícone da notificação é usado só pelo nome; sem ele o app fecha ao tocar áudio
+          # (v1.6.0-beta.2). O R8 não pode tê-lo apagado (ver res/raw/keep.xml).
+          aapt2="$(ls "$ANDROID_HOME"/build-tools/*/aapt2 | sort -V | tail -1)"
+          "$aapt2" dump resources ../dist/ViaSacra.apk | grep -q "drawable/ic_stat_cross" \
+            || { echo "::error::drawable/ic_stat_cross sumiu do APK"; exit 1; }
 
       - uses: actions/upload-artifact@v4
         with:
@@ -116,6 +115,9 @@ jobs:
           cache: true
 
       - run: flutter pub get
+
+      - name: Voz Kokoro embutida (SHA-256 conferido)
+        run: python3 ../tool/fetch_kokoro_model.py
 
       - name: Build iOS (sem codesign)
         run: flutter build ios --release --no-codesign
@@ -172,8 +174,8 @@ jobs:
 
           ## Instalação
 
-          **Android** — baixe `ViaSacra-universal.apk` (funciona em qualquer aparelho) ou o APK da sua arquitetura
-          (`arm64-v8a` para a maioria dos celulares atuais). Também funciona com o [Obtainium](https://github.com/ImranR98/Obtainium).
+          **Android** — baixe `ViaSacra.apk` (um arquivo só, para qualquer celular). Também funciona com o
+          [Obtainium](https://github.com/ImranR98/Obtainium).
 
           **iOS** — baixe `ViaSacra-unsigned.ipa` e instale com [AltStore](https://altstore.io),
           [SideStore](https://sidestore.io) ou TrollStore. Veja o passo a passo no README.

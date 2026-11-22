@@ -1,0 +1,5 @@
+• Voz neural Kokoro incluída no app: lê sem internet desde a instalação
+• Vozes Piper opcionais para comparar, baixadas nas Configurações
+• Menos fechamentos e travadas na leitura em voz alta
+• Abertura mais rápida e ajustes de letra sem travar
+• Botão voltar: volta ao início da Bíblia e pede confirmação no Terço

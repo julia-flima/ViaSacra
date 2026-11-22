@@ -1,3 +1,5 @@
+import 'package:flutter/painting.dart' show Alignment;
+
 import '../../core/liturgical_calendar.dart';
 
 /// Obra de arte sacra em domínio público (`assets/data/sacred_art.json`).
@@ -14,6 +16,7 @@ class SacredArt {
     this.license = 'Domínio público',
     this.seasons = const [],
     this.feasts = const [],
+    this.focus = const Alignment(0, -0.3),
   });
 
   final String id;
@@ -32,7 +35,8 @@ class SacredArt {
   /// Trechos do nome de celebrações em que a obra tem prioridade (ex.: "pentecostes").
   final List<String> feasts;
 
-  String get caption => '$title — $artist ($year) · $license';
+  /// Centro dos rostos principais (`foco` no catálogo): onde enquadrar quando a pintura é recortada.
+  final Alignment focus;
 
   factory SacredArt.fromJson(Map<String, dynamic> j) => SacredArt(
     id: j['id'] as String,
@@ -46,6 +50,10 @@ class SacredArt {
     license: j['licenca'] as String? ?? 'Domínio público',
     seasons: (j['tempos'] as List?)?.cast<String>() ?? const [],
     feasts: (j['festas'] as List?)?.cast<String>() ?? const [],
+    focus: switch (j['foco']) {
+      [final num x, final num y] => Alignment(x.toDouble(), y.toDouble()),
+      _ => const Alignment(0, -0.3),
+    },
   );
 }
 
@@ -69,8 +77,6 @@ class Mystery {
   final String reference;
   final String reading;
   final SacredArt? art;
-
-  String get ordinalTitle => '$orderº Mistério';
 
   factory Mystery.fromJson(Map<String, dynamic> j, {SacredArt? art}) => Mystery(
     id: j['id'] as String,

@@ -9,7 +9,7 @@ issue_tracker: https://github.com/julia-flima/ViaSacra/issues
 
 # versão semântica + build number (usado como versionCode no Android).
 # Para APKs por ABI o Flutter soma 1000*ABI automaticamente.
-version: 1.5.0+5
+version: 1.6.0+11
 
 environment:
   sdk: ^3.13.0
@@ -45,7 +45,9 @@ dependencies:
   audio_session: ^0.2.4 # MIT
   # Última versão 1.x com espeak-ng embutido (v2+ removeu); Apache-2.0 + espeak-ng GPL-3.0.
   sherpa_onnx: 1.13.8
-  archive: ^4.7.1 # MIT — extração streaming do pacote de voz Kokoro (.tar.bz2)
+  archive: ^4.7.1 # MIT — extração streaming das vozes Piper (.tar.bz2)
+  crypto: ^3.0.6 # BSD-3-Clause — confere o SHA-256 das vozes baixadas
+  ffi: ^2.1.4 # BSD-3-Clause — sinal de cancelamento compartilhado com o Isolate da voz
 
   # Notificações 100% locais (sem FCM/APNs remoto)
   flutter_local_notifications: ^23.0.3 # BSD-3-Clause
@@ -74,6 +76,8 @@ flutter:
     - assets/db/
     - assets/legal/
     - assets/bible/
+    # Voz Kokoro embutida no APK/IPA (gerada por tool/fetch_kokoro_model.py; vazia no git e na Web).
+    - assets/voice/kokoro/
   # Tipografia 100% embutida (nada é baixado da internet — vale também para a
   # versão Web, que por padrão buscaria fontes no servidor do Google).
   # Licenças em assets/fonts/README.md. Para usar EB Garamond/Inter (OFL):

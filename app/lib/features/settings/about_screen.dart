@@ -26,7 +26,9 @@ class AboutScreen extends StatelessWidget {
           Center(child: Text('Versão ${AppInfo.version}', style: t.bodySmall)),
           const SizedBox(height: VsSpacing.lg),
           Text(
-            'Idealizado e desenvolvido por ${AppInfo.author}.\n\n'
+            'Idealizado e desenvolvido por ${AppInfo.author}.\n'
+            'Revisão técnica: Eduardo Lima Moraes (DoodlesEpic), que ajudou a encontrar problemas de '
+            'desempenho e defeitos e a melhorar a infraestrutura e o código do app.\n\n'
             'O Via Sacra é 100% gratuito, sem anúncios, sem rastreadores e de código aberto. '
             'Funciona offline e não coleta nenhum dado: favoritos, anotações e constância '
             'ficam somente no seu aparelho.',
@@ -88,6 +90,11 @@ class AboutScreen extends StatelessWidget {
             url: 'https://github.com/k2-fsa/sherpa-onnx',
             license: 'Apache-2.0 (Kokoro-82M / sherpa-onnx) e GPL-3.0 (eSpeak-NG).',
           ),
+          const SourceAttribution(
+            source: 'Vozes Piper pt-BR (opcionais, baixadas nas Configurações)',
+            url: 'https://github.com/OHF-Voice/piper1-gpl',
+            license: 'Faber: CC0. Dii (OpenVoiceOS): CC BY-NC-SA 4.0, uso não comercial. Não vêm no app.',
+          ),
           const CrossDivider(),
           const Eyebrow('Código aberto'),
           ListTile(
@@ -133,13 +140,15 @@ class AboutScreen extends StatelessWidget {
 class _LicenseText extends StatelessWidget {
   const _LicenseText();
 
+  static final Future<String> _text = rootBundle.loadString('assets/legal/LICENSE.txt'); // lido uma vez
+
   @override
   Widget build(BuildContext context) {
     final pad = VsSpacing.page(context);
     return Scaffold(
       appBar: AppBar(title: const Text('GPL-3.0')),
       body: FutureBuilder<String>(
-        future: rootBundle.loadString('assets/legal/LICENSE.txt'),
+        future: _text,
         builder: (context, snap) => snap.hasData
             ? SingleChildScrollView(
                 padding: EdgeInsets.fromLTRB(pad, VsSpacing.md, pad, VsSpacing.xxl),

@@ -4,7 +4,6 @@ import 'package:just_audio/just_audio.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../../core/theme.dart';
 import '../../../data/models/liturgy.dart';
@@ -167,8 +166,7 @@ class _PsalmCardState extends State<PsalmCard> {
     final ref = widget.psalm.reference?.split(',').first.trim() ?? '';
     final refrainWords = (widget.psalm.refrain ?? '').split(RegExp(r'\s+')).take(6).join(' ');
     final query = ['Salmo Responsorial', ref, refrainWords].where((s) => s.isNotEmpty).join(' ');
-    final uri = Uri.https('www.youtube.com', '/results', {'search_query': query});
-    await launchUrl(uri, mode: LaunchMode.externalApplication);
+    await openExternal(context, Uri.https('www.youtube.com', '/results', {'search_query': query}).toString());
   }
 
   Future<void> _toggleSung() async {

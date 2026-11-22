@@ -49,22 +49,29 @@ class AppServices {
   final NavigationController navigation;
 
   static Future<AppServices> bootstrap() async {
-    final settings = await SettingsService.load();
-    final db = await AppDatabase.open();
+    // O que não depende entre si roda junto: o 1º quadro aparece mais cedo.
     final content = ContentRepository();
-    await content.load();
+    final (settings, db, _, audio) = await (
+      SettingsService.load(),
+      AppDatabase.open(),
+      content.load(),
+      ReadingAudioController.create(),
+    ).wait;
     final liturgy = LiturgyRepository(db)..prune();
-    final audio = await ReadingAudioController.create();
     await audio.setSpeed(settings.ttsSpeed);
     await audio.setKokoroVoice(settings.kokoroVoice);
+    await audio.setPiperVoice(settings.piperVoice);
+    // O Piper só existe no celular; na Web a escolha volta para o Automático.
+    await audio.setEngine(kIsWeb && settings.ttsEngine == TtsEngine.piper ? TtsEngine.auto : settings.ttsEngine);
     if (settings.ttsVoiceName != null) await audio.setVoice(settings.ttsVoiceName, settings.ttsVoiceLocale);
-    if (kIsWeb || nativeTtsIsSupported()) unawaited(audio.refreshNeuralTtsStatus());
+    if (kIsWeb) unawaited(audio.refreshNeuralTtsStatus());
     final navigation = NavigationController();
     NotificationService? notifications;
     if (!kIsWeb) {
       try {
         notifications = await NotificationService.create(onTap: navigation.openFromNotification);
-        await notifications.reschedule(settings, liturgy);
+        // Não precisa segurar a abertura do app.
+        unawaited(notifications.reschedule(settings, liturgy).catchError((Object e) => debugPrint('Lembretes: $e')));
         // App aberto a frio pelo toque no lembrete.
         navigation.openFromNotification(await notifications.launchPayload());
       } catch (e) {
@@ -72,6 +79,14 @@ class AppServices {
       }
     }
     final bible = BibleService(BibleRepository(db));
+    if (kIsWeb) {
+      // Depois do primeiro quadro, sem disputar a abertura do app.
+      unawaited(
+        Future<void>.delayed(const Duration(seconds: 3), bible.prefetchPortuguese).catchError((Object e) {
+          debugPrint('Bíblia em segundo plano: $e');
+        }),
+      );
+    }
     return AppServices(
       settings: settings,
       database: db,
@@ -115,9 +130,10 @@ class LiturgyController extends ChangeNotifier {
     date = DateTime(d.year, d.month, d.day);
     loading = true;
     error = null; // não carrega o erro da data anterior
-    liturgy = _repo.cached(date) ?? DailyLiturgy.calendarOnly(date);
+    final local = _repo.cached(date);
+    liturgy = local ?? DailyLiturgy.calendarOnly(date);
     notifyListeners();
-    final result = await _repo.load(date, forceRefresh: force);
+    final result = await _repo.load(date, forceRefresh: force, local: local);
     if (DateTime(d.year, d.month, d.day) != date) return; // usuário trocou de data
     liturgy = result.liturgy;
     origin = result.origin;

@@ -50,14 +50,14 @@ O Via Sacra nasceu para ser um companheiro de oração **silencioso e respeitoso
 
 ## Funcionalidades
 
-1. **Liturgia & Homilias** — leituras do dia (1ª Leitura, Salmo com refrão em destaque, 2ª Leitura, Evangelho), cabeçalho com Tempo e Cor Litúrgica, player "Ouvir Liturgia" (TTS offline ou áudio aberto), homilia do Vaticano e reflexões CNBB / Santos Padres, modo Lectio Divina em tela cheia, calendário e "Baixar Semana Offline".
+1. **Liturgia & Homilias** — leituras do dia (1ª Leitura, Salmo com refrão em destaque, 2ª Leitura, Evangelho), cabeçalho com Tempo e Cor Litúrgica e uma obra de arte sacra que muda a cada dia (com obra própria nas festas), player "Ouvir Liturgia" (TTS offline ou áudio aberto), homilia do Vaticano e reflexões CNBB / Santos Padres, modo Lectio Divina em tela cheia, calendário e "Baixar Semana Offline".
 2. **Bíblia Sagrada (73 livros, cânon católico)** — Antigo Testamento com os deuterocanônicos e Novo Testamento; seletor Livro › Capítulo, "Continuar lendo", busca offline por referência ("Jo 3,16") ou palavra (FTS5), leitura comparada versículo a versículo, marcações em cores suaves, favoritos e anotações locais, compartilhamento formatado e áudio do capítulo (TTS). Traduções modulares: **Bíblia Portuguesa Mundial (pt-BR)**, **Vulgata Clementina (Latim)** e **Douay-Rheims (Inglês)** embutidas (domínio público) e importação local de módulos — ver [`docs/BIBLE.md`](docs/BIBLE.md). Na Liturgia, tocar na referência de uma leitura abre o capítulo completo.
 3. **Santo Terço & Rosário** — mistérios do dia automáticos, Rosário completo (20 mistérios), arte sacra em domínio público, contador tátil com vibração e registro opcional de constância.
 4. **Biblioteca** — duas sub-abas: **Catecismo** — índice das 4 partes do CIC (texto oficial no vatican.va) e Catecismo Maior de São Pio X com busca offline (SQLite FTS5) por número ou palavra, favoritos e anotações locais; e **Devocionário**, com orações fundamentais, eucarísticas, marianas e de proteção, com alternância Português ⇄ Latim.
    A Biblioteca traz também **A Imitação de Cristo** (114 capítulos, com "Continuar lendo" e favoritos) e a **Via Sacra** de Santo Afonso (14 estações).
 5. **Ajustes** — lembretes locais (Liturgia e Terço), voz e velocidade do narrador, tipografia, temas Pergaminho / Modo Igreja / Automático, **backup** (exportar/importar favoritos, anotações, constância e marcações) e página "Sobre & Licenças".
 
-O áudio usa a voz neural **Kokoro-82M** (offline no celular, Web Worker no navegador), e um **mini-player** acompanha a leitura em todas as telas.
+O áudio usa a voz neural **Kokoro-82M** (vozes Dora e Alex). A Liturgia e a homilia do dia vêm em MP3 pronto, gerado todo dia nas duas vozes, que toca na hora. O resto é sintetizado no aparelho, sem internet. O modo **Automático** escolhe a melhor voz que o aparelho aguenta (Kokoro, Piper ou a voz do sistema). Decisões e próximos passos: [`docs/AUDIO.md`](docs/AUDIO.md). Um **mini-player** acompanha a leitura em todas as telas.
 
 ## Instalação para usuários (sem programar)
 
@@ -86,8 +86,7 @@ tela inicial, ele abre em tela cheia, como um app, e **funciona mesmo sem intern
 **Opção 1 — Download direto (mais simples)**
 
 1. No celular, abra a página **[Releases](https://github.com/julia-flima/ViaSacra/releases/latest)**.
-2. Em **Assets**, toque em **`ViaSacra-universal.apk`** (funciona em qualquer aparelho).
-   - Quer um arquivo menor? Baixe o específico do seu aparelho: `ViaSacra-arm64-v8a.apk` (a maioria dos celulares atuais), `ViaSacra-armeabi-v7a.apk` (aparelhos antigos) ou `ViaSacra-x86_64.apk` (emuladores/Chromebooks).
+2. Em **Assets**, toque em **`ViaSacra.apk`**: é um arquivo só, que funciona em qualquer celular Android.
 3. Abra o arquivo baixado. Se o Android pedir, toque em **Configurações → Permitir desta fonte** e volte.
 4. Toque em **Instalar**. Pronto! 🙏
 
@@ -126,9 +125,21 @@ Quando disponível, o link do TestFlight será publicado aqui e nas Releases. Ba
 ### Pré-requisitos
 
 - [Flutter](https://docs.flutter.dev/get-started/install) **3.50+** (canal stable) e Dart 3.13+
-- Android: Android Studio ou SDK de linha de comando, JDK 17
+- Android: SDK e emulador (pelo [Android CLI](https://developer.android.com/tools/agents/android-cli) ou pelo Android Studio) e um **JDK 21** completo (com `javac`)
 - iOS: macOS com Xcode 15+ e CocoaPods
-- Python **3.11+** (somente para o scraper)
+- Python **3.11+** (scraper e scripts de `tool/`)
+
+No projeto usamos o [mise](https://mise.jdx.dev) para instalar tudo isso de forma global. Ambiente de referência (Fedora):
+
+```bash
+mise use -g flutter@3.50.0 java@temurin-21 android-cli python uv && mise set --global ANDROID_HOME="$HOME/Android/Sdk"
+```
+
+```bash
+android sdk install platform-tools emulator platforms/android-37.0 build-tools/37.0.0 system-images/android-36/google_apis/x86_64 && android emulator create medium_phone && flutter config --android-sdk "$ANDROID_HOME" --jdk-dir "$(mise where java@temurin-21)"
+```
+
+Plataformas novas do SDK têm nomes como `platforms/android-37.0`; confira com `android sdk list --all`.
 
 ### Rodando o app
 
@@ -148,15 +159,23 @@ flutter pub get
 flutter run            # escolhe automaticamente um emulador/aparelho conectado
 ```
 
+A voz neural Kokoro vai dentro do APK/IPA. Antes de compilar um instalador, prepare-a (≈140 MB, SHA-256 conferido, fora do git). Sem ela o app funciona e lê com a voz do aparelho:
+
+```bash
+python3 ../tool/fetch_kokoro_model.py
+```
+
 Compilando instaladores localmente:
 
 ```bash
-flutter build apk --release --split-per-abi   # APKs por ABI
+flutter build apk --release --target-platform android-arm,android-arm64   # o mesmo ViaSacra.apk da Release
 ```
 
 ```bash
-flutter build apk --release                   # APK universal
+flutter build apk --profile --target-platform android-x64                 # para o emulador
 ```
+
+A Release publica **um único APK** (`ViaSacra.apk`, ARM 32/64 bits), para ninguém ficar em dúvida sobre qual baixar. O `app/android/app/build.gradle.kts` só empacota as arquiteturas pedidas em `--target-platform`.
 
 ```bash
 flutter build ios --release --no-codesign     # iOS sem assinatura (macOS)
@@ -181,6 +200,25 @@ O endpoint de dados é configurável em tempo de build (útil para forks):
 ```bash
 flutter run --dart-define=VIA_SACRA_DATA_URL=https://cdn.jsdelivr.net/gh/SEU_USUARIO/ViaSacra@data
 ```
+
+### Antes de enviar alterações
+
+Na pasta `app/`:
+
+```bash
+dart format --output=none --set-exit-if-changed lib test && flutter analyze && flutter test
+```
+
+Na raiz (scripts Python e scraper):
+
+```bash
+ruff check . && (cd scraper && python -m pytest -q)
+```
+
+Mudanças visíveis também são testadas no app de verdade:
+
+- **Android:** emulador (`flutter emulators --launch medium_phone`), `flutter build apk --profile --target-platform android-x64`, `adb install -r` e `adb logcat` para ver erros. Em máquinas com pouca memória, não rode o Gradle e o emulador ao mesmo tempo.
+- **Web:** `flutter build web` e o site servido localmente, aberto no Chrome/Chromium com o console sem erros (para o Flutter achar o Chromium: `CHROME_EXECUTABLE=/usr/bin/chromium-browser`).
 
 ### Rodando o scraper
 
@@ -245,7 +283,7 @@ GitHub Actions (00:05 BRT) ─► scraper.py ─► data/liturgia/AAAA-MM-DD.jso
                     └─► SQLite local (cache litúrgico, CIC FTS5, favoritos, constância)
 ```
 
-Documentação detalhada: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) · [`docs/DATABASE.md`](docs/DATABASE.md) · [`docs/DESIGN_SYSTEM.md`](docs/DESIGN_SYSTEM.md) · [`docs/BIBLE.md`](docs/BIBLE.md) · [`docs/CATECHISM.md`](docs/CATECHISM.md) · [`docs/SACRED_ART.md`](docs/SACRED_ART.md) · [`docs/COPYRIGHT.md`](docs/COPYRIGHT.md) · [`docs/releases/`](docs/releases/)
+Documentação detalhada: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) · [`docs/AUDIO.md`](docs/AUDIO.md) · [`docs/DATABASE.md`](docs/DATABASE.md) · [`docs/DESIGN_SYSTEM.md`](docs/DESIGN_SYSTEM.md) · [`docs/BIBLE.md`](docs/BIBLE.md) · [`docs/CATECHISM.md`](docs/CATECHISM.md) · [`docs/SACRED_ART.md`](docs/SACRED_ART.md) · [`docs/COPYRIGHT.md`](docs/COPYRIGHT.md) · [`docs/releases/`](docs/releases/)
 
 ## Fontes, direitos autorais e créditos
 
@@ -264,11 +302,12 @@ O Via Sacra **não tem fins lucrativos** e atribui todas as fontes explicitament
 | Catecismo da Igreja Católica | © Libreria Editrice Vaticana | **Não incluído** no repositório; importável mediante licença — ver [`docs/COPYRIGHT.md`](docs/COPYRIGHT.md) |
 | Catecismo Maior de São Pio X | Original de 1905 (Tipografia Vaticana), domínio público | Embutido — tradução do projeto, em domínio público (CC0) |
 | A Imitação de Cristo | Trad. E. L. de Souza Campos, © 2023 Valdemar Teodoro Editor | Embutida — cópia e divulgação permitidas com citação da fonte |
-| Voz neural | Kokoro-82M, sherpa-onnx (Apache-2.0), eSpeak-NG (GPL-3.0) | Modelo baixado sob demanda; nada é enviado para fora |
+| Voz neural | Kokoro-82M, sherpa-onnx (Apache-2.0), eSpeak-NG (GPL-3.0); Piper Faber (CC0) e Dii (CC BY-NC-SA 4.0, opcional) | Kokoro e Faber embutidos no app do celular (na Web, Kokoro baixado uma vez); Dii só ao tocar em “Baixar”; nada é enviado para fora |
 
 Se você é titular de algum conteúdo e deseja ajustes ou remoção, abra uma *issue* ou escreva para a mantenedora — atenderemos prontamente.
 
 **Idealização e desenvolvimento:** Júlia Lima.
+**Revisão técnica:** Eduardo Lima Moraes ([DoodlesEpic](https://github.com/DoodlesEpic)) — revisões de código, desempenho, defeitos e infraestrutura nas versões 1.6.
 **Agradecimentos:** CNBB, Vatican News, Wikimedia Commons e a todos os contribuidores.
 
 ## Contribuindo

@@ -1,10 +1,12 @@
 # Catálogo de Arte Sacra em Domínio Público
 
-Obras clássicas para os 20 Mistérios do Rosário, os cabeçalhos das telas e o rodízio diário da Liturgia por tempo litúrgico. Todas de artistas falecidos há mais de 70 anos; a licença de cada arquivo foi **verificada automaticamente** no Wikimedia Commons (`extmetadata.LicenseShortName`) por [`tool/fetch_sacred_art.py`](../tool/fetch_sacred_art.py), que também baixa as miniaturas (≈ 960 px) para `app/assets/art/`.
+Obras clássicas para os 20 Mistérios do Rosário, os cabeçalhos das telas e o rodízio diário da Liturgia por tempo litúrgico. Todas de artistas falecidos há mais de 70 anos; a licença de cada arquivo foi **verificada automaticamente** no Wikimedia Commons (`extmetadata.LicenseShortName`) por [`tool/fetch_sacred_art.py`](../tool/fetch_sacred_art.py), que também baixa as imagens (até 1080 px, JPEG progressivo) para `app/assets/art/`.
 
 No app, cada imagem exibe a legenda: *título — artista, ano. Acervo. Domínio público (Wikimedia Commons)*, com link para a página do arquivo.
 
-Para trocar uma obra: edite `tool/sacred_art_catalog.json` (campo `busca`, ou fixe `arquivo_commons`) e rode `python tool/fetch_sacred_art.py --only <id>`.
+Para trocar uma obra: edite `tool/sacred_art_catalog.json` (campo `busca`, ou fixe `arquivo_commons`) e rode `uv run --with requests --with pillow python tool/fetch_sacred_art.py --only <id>`.
+
+Cada obra tem um `foco` ([x, y] de -1 a 1): o centro dos rostos principais. Cabeçalhos e cartões recortam a pintura em volta dele; os mistérios do Terço mostram a obra inteira. Os focos foram calculados com detecção de rosto (OpenCV) e revisados à mão; ao trocar uma obra, ajuste o `foco` dela.
 
 
 ## Mistérios Gozosos (segunda e sábado)

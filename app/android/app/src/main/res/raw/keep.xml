@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Recursos usados só pelo nome (strings no Dart), que o R8 (shrinkResources) apagaria do APK de
+  release: sem o ícone, o Android recusa a notificação de mídia e o app fecha ao trocar de leitura
+  ("Invalid notification (no valid small icon)", visto na v1.6.0-beta.2). Os lembretes usam o mesmo ícone.
+-->
+<resources xmlns:tools="http://schemas.android.com/tools"
+    tools:keep="@drawable/ic_stat_cross,@drawable/audio_service_*" />

@@ -1,18 +1,9 @@
-import 'dart:convert';
-
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 
+import 'json_file.dart';
 import '../data/catechism_repository.dart';
 import '../data/models/catechism.dart';
-
-Map<String, dynamic> _decodeJsonObject(String raw) {
-  final decoded = jsonDecode(raw);
-  if (decoded is! Map<String, dynamic>) {
-    throw CatechismModuleException('O arquivo JSON deve conter um objeto na raiz ({ ... }).');
-  }
-  return decoded;
-}
 
 /// Resumo de um catecismo importado localmente pelo usuário.
 class CatechismImportResult {
@@ -47,21 +38,12 @@ class CatechismImportService {
 
   /// Valida e grava localmente um módulo `.json` a partir de bytes UTF-8.
   Future<CatechismImportResult> importFromBytes(Uint8List bytes, {CatechismImportProgress? onProgress}) async {
-    if (bytes.isEmpty) {
-      throw CatechismModuleException('O arquivo selecionado está vazio.');
-    }
     onProgress?.call(0.2, 'Validando estrutura do JSON…');
-    final String raw;
-    try {
-      raw = utf8.decode(bytes);
-    } on FormatException {
-      throw CatechismModuleException('O arquivo não está codificado em UTF-8 válido.');
-    }
     final Map<String, dynamic> json;
     try {
-      json = await compute(_decodeJsonObject, raw);
+      json = await decodeJsonFile(bytes);
     } on FormatException catch (e) {
-      throw CatechismModuleException('JSON malformado: ${e.message}');
+      throw CatechismModuleException(e.message);
     }
     final module = CatechismModule.parse(json);
     onProgress?.call(0.5, 'Indexando ${module.name} (${module.entryCount} entradas)…');

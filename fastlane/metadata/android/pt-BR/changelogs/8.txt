@@ -1,0 +1,4 @@
+• Corrige o fechamento do app ao avançar ou trocar de leitura no áudio
+• Avançar/voltar funcionam no áudio narrado da Liturgia
+• Não fecha mais ao trocar de voz; voz neural começa mais rápido
+• Um único APK para todos os celulares

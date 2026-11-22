@@ -51,7 +51,9 @@ class AudioPlayerBar extends StatelessWidget {
               children: [
                 IconButton(
                   tooltip: 'Leitura anterior',
-                  onPressed: active ? audio.previous : null,
+                  onPressed: active && audio.titles.length > 1
+                      ? audio.previous
+                      : null, // MP3 inteiro: não há "anterior"
                   icon: const Icon(Icons.skip_previous_rounded),
                 ),
                 IconButton.filled(
@@ -61,7 +63,7 @@ class AudioPlayerBar extends StatelessWidget {
                 ),
                 IconButton(
                   tooltip: 'Próxima leitura',
-                  onPressed: active ? audio.next : null,
+                  onPressed: active && audio.titles.length > 1 ? audio.next : null,
                   icon: const Icon(Icons.skip_next_rounded),
                 ),
                 const SizedBox(width: 4),
@@ -83,11 +85,15 @@ class AudioPlayerBar extends StatelessWidget {
                     settings.ttsSpeed = s;
                   },
                   itemBuilder: (_) => [
-                    for (final s in SettingsService.speeds) PopupMenuItem(value: s, child: Text('${_fmt(s)}×')),
+                    for (final s in SettingsService.speeds)
+                      PopupMenuItem(value: s, child: Text(SettingsService.speedLabel(s))),
                   ],
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
-                    child: Text('${_fmt(audio.speed)}×', style: t.labelLarge?.copyWith(color: cs.primary)),
+                    child: Text(
+                      SettingsService.speedLabel(audio.speed),
+                      style: t.labelLarge?.copyWith(color: cs.primary),
+                    ),
                   ),
                 ),
               ],
@@ -98,6 +104,4 @@ class AudioPlayerBar extends StatelessWidget {
       ),
     );
   }
-
-  static String _fmt(double s) => s == s.roundToDouble() ? s.toStringAsFixed(0) : s.toString().replaceAll('.', ',');
 }

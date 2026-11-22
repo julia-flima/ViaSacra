@@ -37,30 +37,26 @@ class LiturgyScreen extends StatelessWidget {
 
     Future<void> playFrom(int index) async {
       if (!l.hasReadings) return;
-      final useRecorded = settings.preferRecordedAudio && index == 0 && l.audio.liturgyAudioUrl != null;
-      final queueKey = useRecorded ? '$key#recorded' : '$key#segmented';
-      await audio.playQueue(
-        queueKey,
-        buildLiturgyQueue(l, preferRecorded: settings.preferRecordedAudio, startAt: index),
-        startAt: index,
-        speed: settings.ttsSpeed,
-      );
+      final queue = buildLiturgyQueue(l, preferRecorded: settings.preferRecordedAudio, startAt: index);
+      // A fila muda de forma (MP3 inteiro, MP3 por leitura ou voz): a chave acompanha.
+      final queueKey = '$key#${queue.length}#${queue.first.isRecorded ? 'mp3' : 'voz'}';
+      await audio.playQueue(queueKey, queue, startAt: queue.length == 1 ? 0 : index);
     }
 
     void listenHomily(Homily h) {
-      // Usa o áudio neural Kokoro-82M pré-gerado para a homilia principal do dia (Vatican News)
-      // quando disponível e preferido; com fallback automático para TTS neural / sistema.
+      // A homilia do Vatican News tem MP3 pronto nas vozes Kokoro; o player escolhe o da voz atual.
       final isDailyHomily = l.vaticanHomily != null && h.text == l.vaticanHomily!.text;
-      final recordedUrl = (settings.preferRecordedAudio && isDailyHomily) ? l.audio.homilyAudioUrl : null;
       audio.playSingle(
         ReadingSegment(
           id: 'homilia-${LiturgyRepository.isoDate(c.date)}#${h.title.hashCode}',
           title: h.work ?? h.title,
           subtitle: h.author,
           text: '${h.work ?? h.title}. ${h.author != null ? '${h.author}. ' : ''}${h.text}',
-          audioUrl: recordedUrl,
+          recorded: {
+            if (settings.preferRecordedAudio && isDailyHomily)
+              for (final e in l.audio.homilyByVoice.entries) e.key: RecordedClip(e.value.url),
+          },
         ),
-        speed: settings.ttsSpeed,
       );
     }
 
@@ -119,7 +115,7 @@ class LiturgyScreen extends StatelessWidget {
                   AudioPlayerBar(
                     expectedKey: key,
                     onPlayAll: () => playFrom(0),
-                    recorded: l.audio.liturgyAudioUrl != null,
+                    recorded: l.audio.liturgyByVoice.isNotEmpty,
                   ),
                   if (c.loading && !l.hasReadings)
                     const Padding(
@@ -218,8 +214,6 @@ class _QuickDateBar extends StatelessWidget {
   final ValueChanged<DateTime> onSelect;
   final VoidCallback onPickDate;
 
-  static bool _sameDay(DateTime a, DateTime b) => a.year == b.year && a.month == b.month && a.day == b.day;
-
   @override
   Widget build(BuildContext context) {
     final now = DateTime.now();
@@ -233,19 +227,19 @@ class _QuickDateBar extends StatelessWidget {
         children: [
           ChoiceChip(
             label: const Text('Ontem'),
-            selected: _sameDay(selected, yesterday),
+            selected: DateUtils.isSameDay(selected, yesterday),
             onSelected: (_) => onSelect(yesterday),
           ),
           const SizedBox(width: 8),
           ChoiceChip(
             label: const Text('Hoje'),
-            selected: _sameDay(selected, today),
+            selected: DateUtils.isSameDay(selected, today),
             onSelected: (_) => onSelect(today),
           ),
           const SizedBox(width: 8),
           ChoiceChip(
             label: const Text('Amanhã'),
-            selected: _sameDay(selected, tomorrow),
+            selected: DateUtils.isSameDay(selected, tomorrow),
             onSelected: (_) => onSelect(tomorrow),
           ),
           const SizedBox(width: 8),
@@ -306,12 +300,9 @@ class _MarkAsRead extends StatefulWidget {
 class _MarkAsReadState extends State<_MarkAsRead> {
   @override
   Widget build(BuildContext context) {
-    final settings = context.watch<SettingsService>();
-    if (!settings.showStreak) return const SizedBox.shrink();
+    if (!context.select<SettingsService, bool>((s) => s.showStreak)) return const SizedBox.shrink();
+    if (!DateUtils.isSameDay(widget.date, DateTime.now())) return const SizedBox.shrink();
     final repo = context.read<AppServices>().userData;
-    final now = DateTime.now();
-    final today = widget.date.year == now.year && widget.date.month == now.month && widget.date.day == now.day;
-    if (!today) return const SizedBox.shrink();
     final done = repo.prayedOn(widget.date, kind: PrayerKind.liturgia);
     return Center(
       child: done

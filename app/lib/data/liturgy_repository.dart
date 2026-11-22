@@ -50,8 +50,6 @@ class LiturgyRepository {
   bool isCached(DateTime date) =>
       _db.db.select('SELECT 1 FROM liturgy_cache WHERE date = ?', [isoDate(date)]).isNotEmpty;
 
-  Set<String> cachedDates() => _db.db.select('SELECT date FROM liturgy_cache').map((r) => r['date'] as String).toSet();
-
   DateTime? _fetchedAt(DateTime date) {
     final row = _db.db.select('SELECT fetched_at FROM liturgy_cache WHERE date = ?', [isoDate(date)]).firstOrNull;
     return row == null ? null : DateTime.fromMillisecondsSinceEpoch(row['fetched_at'] as int);
@@ -60,8 +58,9 @@ class LiturgyRepository {
   /// Liturgia com leituras e Salmo: não precisa de nova busca para ser exibida.
   static bool isComplete(DailyLiturgy? l) => l != null && l.hasReadings && l.readings.any((r) => r.isPsalm);
 
-  Future<LiturgyResult> load(DateTime date, {bool forceRefresh = false, DateTime? now}) async {
-    final local = cached(date);
+  /// [local] evita decodificar de novo o cache que quem chama já leu.
+  Future<LiturgyResult> load(DateTime date, {bool forceRefresh = false, DateTime? now, DailyLiturgy? local}) async {
+    local ??= cached(date);
     final complete = isComplete(local);
     final n = now ?? DateTime.now();
     final past = DateTime(date.year, date.month, date.day).isBefore(DateTime(n.year, n.month, n.day));
