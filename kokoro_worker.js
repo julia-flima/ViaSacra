@@ -270,6 +270,32 @@ function tokenizePhonemes(phonemes) {
   return ids;
 }
 
+// Divide em sentenças (. ! ? ; :) e as longas nas vírgulas; junta pedaços muito curtos.
+// Pedaços menores = o som começa antes. No navegador a síntese roda em uma só thread
+// (~2× o tempo da fala, medido em 2026-11), então esperar a frase inteira atrasava muito.
+function splitSentences(text) {
+  const out = [];
+  let buf = '';
+  const push = (piece) => {
+    buf = buf ? `${buf} ${piece}` : piece;
+    if (buf.length >= 24) {
+      out.push(buf);
+      buf = '';
+    }
+  };
+  for (const m of text.matchAll(/[^.!?;:]+[.!?;:]*/g)) {
+    const sentence = m[0].trim();
+    if (!sentence) continue;
+    if (sentence.length <= 90) {
+      push(sentence);
+      continue;
+    }
+    for (const c of sentence.matchAll(/[^,]+,?/g)) push(c[0].trim());
+  }
+  if (buf) out.push(buf);
+  return out;
+}
+
 function splitTokenChunks(tokenIds) {
   if (tokenIds.length <= MAX_PHONEME_TOKENS) return [tokenIds];
   const breakIds = new Set(
@@ -465,20 +491,29 @@ self.onmessage = (event) => {
         }
 
         const speed = Math.max(0.5, Math.min(2.0, Number(msg.speed) || 1.0));
-        const chunks = splitTokenChunks(tokenIds);
-        const parts = [];
-        for (const chunk of chunks) {
-          if (msg.id < minValidId) {
-            self.postMessage({ type: 'synthResult', id: msg.id, cancelled: true });
-            return;
+        // Uma sentença por vez: cada uma é enviada assim que fica pronta e já pode tocar,
+        // em vez de esperar o trecho inteiro (era a espera longa no Salmo).
+        // Tempo de síntese e duração do áudio: a página mede se o Kokoro acompanha a fala aqui.
+        let synthMs = 0;
+        let audioMs = 0;
+        for (const sentence of splitSentences(cleanText)) {
+          const ids = tokenizePhonemes(mapIpaToKokoro(ephone.textToIpa(sentence), ephoneVoice));
+          for (const chunk of ids.length ? splitTokenChunks(ids) : []) {
+            if (msg.id < minValidId) {
+              self.postMessage({ type: 'synthResult', id: msg.id, cancelled: true });
+              return;
+            }
+            const t0 = performance.now();
+            const pcm = await runChunkInference(chunk, styleFloats, speed);
+            synthMs += performance.now() - t0;
+            audioMs += (pcm.length * 1000) / SAMPLE_RATE;
+            self.postMessage({ type: 'synthPart', id: msg.id, pcm, sampleRate: SAMPLE_RATE }, [pcm.buffer]);
           }
-          parts.push(await runChunkInference(chunk, styleFloats, speed));
         }
 
         const stats = await computeCacheStats();
         postStatus({ state: 'ready', device: activeDevice, ...stats });
-        const pcm = concatWaveforms(parts);
-        self.postMessage({ type: 'synthResult', id: msg.id, pcm, sampleRate: SAMPLE_RATE }, [pcm.buffer]);
+        self.postMessage({ type: 'synthResult', id: msg.id, done: true, synthMs, audioMs });
       } catch (err) {
         const stats = await computeCacheStats();
         postStatus({ state: 'error', error: String(err?.message || err), ...stats });
