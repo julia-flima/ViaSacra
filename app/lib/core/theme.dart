@@ -104,9 +104,10 @@ class AppTheme {
     final reading = font == ReadingFont.serif ? _serifFallback : _sansFallback;
     final base = dark ? Typography.material2021().white : Typography.material2021().black;
 
-    TextStyle? serif(TextStyle? s, {double? size, FontWeight? w, double? h, double? ls}) => s?.copyWith(
-      fontFamily: _serifFallback.first,
-      fontFamilyFallback: _serifFallback.sublist(1),
+    // Títulos seguem a fonte escolhida nos Ajustes, como o texto de leitura.
+    TextStyle? title(TextStyle? s, {double? size, FontWeight? w, double? h, double? ls}) => s?.copyWith(
+      fontFamily: reading.first,
+      fontFamilyFallback: reading.sublist(1),
       fontSize: size,
       fontWeight: w,
       height: h,
@@ -129,10 +130,10 @@ class AppTheme {
     );
 
     final text = base.copyWith(
-      displaySmall: serif(base.displaySmall, size: 34, w: FontWeight.w400, h: 1.15),
-      headlineMedium: serif(base.headlineMedium, size: 28, w: FontWeight.w400, h: 1.2),
-      headlineSmall: serif(base.headlineSmall, size: 23, w: FontWeight.w400, h: 1.25),
-      titleLarge: serif(base.titleLarge, size: 20, w: FontWeight.w400, h: 1.3),
+      displaySmall: title(base.displaySmall, size: 34, w: FontWeight.w400, h: 1.15),
+      headlineMedium: title(base.headlineMedium, size: 28, w: FontWeight.w400, h: 1.2),
+      headlineSmall: title(base.headlineSmall, size: 23, w: FontWeight.w400, h: 1.25),
+      titleLarge: title(base.titleLarge, size: 20, w: FontWeight.w400, h: 1.3),
       titleMedium: ui(base.titleMedium, w: FontWeight.w500),
       titleSmall: ui(base.titleSmall, c: muted, w: FontWeight.w500),
       bodyLarge: body(base.bodyLarge, size: 17),
