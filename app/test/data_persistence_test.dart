@@ -73,6 +73,26 @@ void main() {
       expect(forced.error, isNotNull);
     });
 
+    test('semana automática baixa só o que falta e para no primeiro dia que falhar', () async {
+      final from = DateTime(2026, 11, 19);
+      expect(await repo.prefetchWeek(from), 7);
+      expect(requests, 7);
+      for (var i = 0; i < 7; i++) {
+        expect(repo.isCached(DateTime(2026, 11, 19 + i)), isTrue);
+      }
+
+      // Dias já completos não são buscados de novo; só o novo 7º dia.
+      expect(await repo.prefetchWeek(from.add(const Duration(days: 1))), 1);
+      expect(requests, 8);
+
+      // Sem rede: tenta o primeiro dia que falta e desiste (um pedido por endpoint).
+      online = false;
+      final before = requests;
+      expect(await repo.prefetchWeek(DateTime(2026, 12, 1)), 0);
+      expect(repo.isCached(DateTime(2026, 12, 2)), isFalse);
+      expect(requests - before, lessThanOrEqualTo(3));
+    });
+
     test('sem cache e sem rede: só o calendário, com erro', () async {
       online = false;
       final r = await repo.load(day, now: DateTime(2026, 11, 20));

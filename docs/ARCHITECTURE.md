@@ -51,7 +51,9 @@
 3. falhou a rede → cache completo em silêncio (erro só numa atualização manual), cache
    incompleto com aviso, ou `DailyLiturgy.calendarOnly`.
 
-"Baixar Semana Offline" busca hoje + 6 dias (o workflow pré-gera 7 dias diariamente).
+A semana offline é automática (`LiturgyRepository.prefetchWeek`): pouco depois de abrir o app
+e ao voltar a ele (no máximo a cada 6 h), baixa os dias de hoje + 6 que faltam no cache. O
+workflow pré-gera 7 dias diariamente.
 
 ## Áudio ("Ouvir Liturgia")
 

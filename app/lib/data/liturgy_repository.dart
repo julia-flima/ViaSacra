@@ -75,7 +75,7 @@ class LiturgyRepository {
       final remote = await _fetch(date);
       return LiturgyResult(remote, LiturgyOrigin.network);
     } catch (e) {
-      // Offline com cache completo (ex.: "Semana Offline"): segue em silêncio,
+      // Offline com cache completo (ex.: semana já baixada): segue em silêncio,
       // exceto quando o usuário pediu explicitamente para atualizar.
       if (complete && !forceRefresh) return LiturgyResult(local!, LiturgyOrigin.cache);
       if (local != null) return LiturgyResult(local, LiturgyOrigin.cache, error: '$e');
@@ -111,20 +111,23 @@ class LiturgyRepository {
     throw Exception('Não foi possível baixar a liturgia de $iso ($lastError)');
   }
 
-  /// "Baixar Semana Offline": hoje + 6 dias. Retorna quantos dias ficaram salvos.
-  Future<int> downloadWeek(DateTime from, {void Function(int done, int total)? onProgress}) async {
-    var ok = 0;
+  /// Semana offline automática: de [from] a +6 dias, baixa só o que falta ou está incompleto.
+  /// Retorna quantos dias novos foram salvos. Para no primeiro dia que falhar: sem rede ou
+  /// ainda não publicado, os seguintes também falhariam.
+  Future<int> prefetchWeek(DateTime from) async {
+    var saved = 0;
     for (var i = 0; i < 7; i++) {
-      final d = from.add(Duration(days: i));
+      final d = DateTime(from.year, from.month, from.day + i);
+      if (isComplete(cached(d))) continue;
       try {
         await _fetch(d);
-        ok++;
+        saved++;
       } catch (e) {
         debugPrint('Semana offline: ${isoDate(d)} falhou: $e');
+        break;
       }
-      onProgress?.call(i + 1, 7);
     }
-    return ok;
+    return saved;
   }
 
   /// Mantém o cache enxuto (padrão: 120 dias).
