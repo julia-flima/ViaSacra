@@ -95,7 +95,7 @@ Para permitir testar novas funcionalidades no celular (Android `.apk` e iOS `.ip
 
 ## 7. Estado atual e próximos passos
 
-**Versão em produção: v1.6.0** (`main`): voz neural embutida com modo Automático, MP3 nas vozes Dora e Alex, troca de voz imediata, "Ir ao §" no Catecismo, texto padrão menor e pinturas enquadradas pelos rostos. A `dev` segue a partir dela.
+**Versão em produção: v1.7.0** (`main`): Santo do dia, anotações por leitura, Acompanhar a Missa, semana offline automática, refrão do Salmo completo, voz que lê referências por extenso, redefinir ajustes e lembretes na Web. A `dev` segue a partir dela.
 
 **Fluxo usado até aqui:** uma branch por tarefa a partir da `dev` → PR para a `dev` → CI verde → merge e apagar a branch. Para lançar: subir a versão (seção 5), PR `dev → main`, tag `vX.Y.Z` e conferir Release e site.
 
