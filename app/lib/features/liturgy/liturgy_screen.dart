@@ -79,19 +79,7 @@ class LiturgyScreen extends StatelessWidget {
           icon: const Icon(Icons.calendar_month_outlined),
           onPressed: () => _pickDate(context, c),
         ),
-        actions: [
-          const ReadingAppearanceButton(),
-          IconButton(
-            tooltip: 'Baixar semana offline',
-            onPressed: c.downloadProgress != null ? null : () => _downloadWeek(context, c, services),
-            icon: c.downloadProgress != null
-                ? SizedBox.square(
-                    dimension: 20,
-                    child: CircularProgressIndicator(strokeWidth: 2, value: c.downloadProgress),
-                  )
-                : const Icon(Icons.download_for_offline_outlined),
-          ),
-        ],
+        actions: [const ReadingAppearanceButton()],
       ),
       body: RefreshIndicator(
         onRefresh: () => c.load(c.date, force: true),
@@ -188,23 +176,6 @@ class LiturgyScreen extends StatelessWidget {
     );
     if (picked != null) await c.load(picked);
   }
-
-  Future<void> _downloadWeek(BuildContext context, LiturgyController c, AppServices s) async {
-    final messenger = ScaffoldMessenger.of(context);
-    final ok = await c.downloadWeek();
-    await s.notifications?.reschedule(s.settings, s.liturgyRepository); // Evangelho nos lembretes
-    messenger.showSnackBar(
-      SnackBar(
-        content: Text(
-          ok == 7
-              ? 'Semana salva: os próximos 7 dias estão disponíveis offline.'
-              : ok == 0
-              ? 'Sem conexão. Tente novamente mais tarde.'
-              : '$ok de 7 dias salvos (alguns ainda não foram publicados).',
-        ),
-      ),
-    );
-  }
 }
 
 class _QuickDateBar extends StatelessWidget {
@@ -273,7 +244,7 @@ class _OfflineNotice extends StatelessWidget {
             const SizedBox(height: 8),
             Text(
               'As leituras deste dia ainda não foram baixadas. Conecte-se à internet e toque em tentar '
-              'novamente, ou use "Baixar semana" para rezar sem conexão.',
+              'novamente. Com internet, o app guarda sozinho os próximos 7 dias.',
               style: t.bodyMedium,
             ),
             const SizedBox(height: 12),
