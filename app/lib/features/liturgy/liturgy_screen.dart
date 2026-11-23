@@ -17,6 +17,7 @@ import '../../widgets/common.dart';
 import '../../widgets/reading_appearance_button.dart';
 import '../../widgets/sacred_art_header.dart';
 import '../mass/mass_screen.dart';
+import 'saint_screen.dart';
 import 'widgets/audio_player_bar.dart';
 import 'widgets/homily_section.dart';
 import 'widgets/liturgy_header.dart';
@@ -154,6 +155,12 @@ class LiturgyScreen extends StatelessWidget {
                           onOpenInBible: () => openInBible(r),
                           noteRef: '${LiturgyRepository.isoDate(l.date)}#${r.kind.jsonKey}',
                         ),
+                    ],
+                    if (l.saints.isNotEmpty) ...[
+                      const SizedBox(height: VsSpacing.md),
+                      const Eyebrow('Santo do dia'),
+                      const SizedBox(height: VsSpacing.sm),
+                      SaintCard(liturgy: l),
                     ],
                     const SizedBox(height: VsSpacing.md),
                     const Eyebrow('Homilias e reflexões'),
