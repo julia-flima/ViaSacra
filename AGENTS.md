@@ -95,7 +95,7 @@ Para permitir testar novas funcionalidades no celular (Android `.apk` e iOS `.ip
 
 ## 7. Estado atual e próximos passos
 
-**Versão em produção: v1.7.0** (`main`): Santo do dia, anotações por leitura, Acompanhar a Missa, semana offline automática, refrão do Salmo completo, voz que lê referências por extenso, redefinir ajustes e lembretes na Web. A `dev` segue a partir dela.
+**Versão em produção: v1.7.1** (`main`): cor do dia corrigida nas memórias facultativas; v1.7.0 trouxe Santo do dia, anotações por leitura, Acompanhar a Missa, semana offline automática, refrão do Salmo completo, voz que lê referências por extenso, redefinir ajustes e lembretes na Web. A `dev` segue a partir dela.
 
 **Fluxo usado até aqui:** uma branch por tarefa a partir da `dev` → PR para a `dev` → CI verde → merge e apagar a branch. Para lançar: subir a versão (seção 5), PR `dev → main`, tag `vX.Y.Z` e conferir Release e site.
 
