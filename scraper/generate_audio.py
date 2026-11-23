@@ -450,6 +450,9 @@ def process_day(
             continue
 
         expected_hash = script_hash(script)
+        # "?v=" muda junto com o áudio: o navegador guarda o MP3 (max-age de 7 dias no jsDelivr)
+        # e baixa de novo quando ele é refeito. O jsDelivr ignora a query e serve o arquivo atual.
+        url = f"{url}?v={expected_hash}"
         is_liturgy = url_key == "liturgia_audio_url"
         # MP3 antigos não trazem onde começa cada leitura: são refeitos uma vez para ganhar as marcas.
         missing_marks = is_liturgy and not isinstance(audio.get(MARKS_KEY), dict)
@@ -520,10 +523,10 @@ def _process_voices(
             if force or not mp3_path.exists() or old.get("hash") != expected:
                 print(f"Sintetizando {kind} {iso} ({voice})...", flush=True)
                 starts = synthesize_fn(parts or [script], mp3_path, voice)
-                old = {"url": f"{CDN_BASE}/{name}", "hash": expected}
+                old = {"hash": expected}
                 if kind == "liturgia":
                     old["marcas"] = {k: float(t) for (k, _), t in zip(lit_parts, starts or [], strict=False)}
-            entries[voice] = old
+            entries[voice] = {**old, "url": f"{CDN_BASE}/{name}?v={expected}"}
         if entries != current:
             audio[field] = entries
             changed = True
