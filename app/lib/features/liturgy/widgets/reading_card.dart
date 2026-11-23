@@ -460,8 +460,8 @@ class _NoteButtonState extends State<_NoteButton> {
     return IconButton(
       tooltip: has ? 'Ver anotação' : 'Anotar',
       onPressed: _open,
-      icon: const Icon(Icons.edit_note),
-      color: has ? Theme.of(context).colorScheme.primary : null,
+      // Cor no próprio ícone: o tema dos IconButton sobrepõe o `color` do botão.
+      icon: Icon(Icons.edit_note, color: has ? Theme.of(context).colorScheme.primary : null),
     );
   }
 }
