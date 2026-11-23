@@ -1,20 +1,20 @@
 {
   "schema_version": 1,
   "data": "2026-11-23",
-  "gerado_em": "2026-11-23T14:45:29-03:00",
+  "gerado_em": "2026-11-23T20:07:27-03:00",
   "calendario": {
     "data": "2026-11-23",
     "dia_semana": "Segunda-feira",
     "tempo": "comum",
     "tempo_nome": "Tempo Comum",
     "semana": 34,
-    "cor": "vermelho",
+    "cor": "verde",
     "celebracao": "34ª Semana do Tempo Comum, Ano Par (II)",
     "grau": "feria",
     "ciclo_dominical": "A",
     "ciclo_ferial": "II",
     "misterios_do_dia": "gozosos",
-    "cor_origem": "cnbb"
+    "cor_origem": "calculada"
   },
   "leituras": {
     "primeira_leitura": {
@@ -50,15 +50,15 @@
   "audio": {
     "salmo_audio_url": null,
     "salmo_cifra_ou_melodia": null,
-    "salmo_video_id": "RHjp1z7u6AU",
-    "salmo_video_titulo": "Salmo 23(24) É assim a geração dos que buscam vossa face,ó Senhor, Deus de Israel.",
+    "salmo_video_id": "XYXrHBMZVwY",
+    "salmo_video_titulo": "Salmo 23(24) - 23/11/2026: É assim a geração dos que buscam vossa face, ó Senhor, Deus de Israel.",
     "liturgia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-23.mp3?v=7a60b811d1ec1009",
     "creditos": [
       {
         "campo": "salmo_video_id",
-        "interprete": "Edgar Borges (Salmos responsoriais)",
-        "canal": "Edgar Borges (Salmos responsoriais)",
-        "url_fonte": "https://www.youtube.com/watch?v=RHjp1z7u6AU",
+        "interprete": "Salmos para rezar...",
+        "canal": "Salmos para rezar...",
+        "url_fonte": "https://www.youtube.com/watch?v=XYXrHBMZVwY",
         "licenca": "YouTube Embed Oficial (Termos de Serviço)"
       },
       {

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "data": "2026-11-19",
-  "gerado_em": "2026-11-19T22:20:51-03:00",
+  "gerado_em": "2026-11-23T20:07:11-03:00",
   "calendario": {
     "data": "2026-11-19",
     "dia_semana": "Quinta-feira",
@@ -25,7 +25,7 @@
       "fonte": "CNBB"
     },
     "salmo": {
-      "referencia": "Sl 149,1-2.3-4.5-6a",
+      "referencia": "Sl 149,1-2.3-4.5-6a e 9b",
       "refrao": "Fizestes de nós, para Deus, sacerdotes e povo de reis.",
       "estrofes": [
         "Cantai ao Senhor Deus um canto novo, *\ne o seu louvor na assembleia dos fiéis!",
@@ -33,10 +33,9 @@
         "Com danças glorifiquem o seu nome, *\ntoquem harpa e tambor em sua honra!",
         "Porque, de fato, o Senhor ama seu povo *\ne coroa com vitória os seus humildes.",
         "Exultem os fiéis por sua glória, *\ne cantando se levantem de seus leitos,",
-        "com louvores do Senhor em sua boca *",
-        "Eis a glória para todos os seus santos."
+        "com louvores do Senhor em sua boca *\nEis a glória para todos os seus santos."
       ],
-      "texto": "Cantai ao Senhor Deus um canto novo, *\ne o seu louvor na assembleia dos fiéis!\n\nAlegre-se Israel em Quem o fez, *\ne Sião se rejubile no seu Rei!\n\nCom danças glorifiquem o seu nome, *\ntoquem harpa e tambor em sua honra!\n\nPorque, de fato, o Senhor ama seu povo *\ne coroa com vitória os seus humildes.\n\nExultem os fiéis por sua glória, *\ne cantando se levantem de seus leitos,\n\ncom louvores do Senhor em sua boca *\n\nEis a glória para todos os seus santos.",
+      "texto": "Cantai ao Senhor Deus um canto novo, *\ne o seu louvor na assembleia dos fiéis!\n\nAlegre-se Israel em Quem o fez, *\ne Sião se rejubile no seu Rei!\n\nCom danças glorifiquem o seu nome, *\ntoquem harpa e tambor em sua honra!\n\nPorque, de fato, o Senhor ama seu povo *\ne coroa com vitória os seus humildes.\n\nExultem os fiéis por sua glória, *\ne cantando se levantem de seus leitos,\n\ncom louvores do Senhor em sua boca *\nEis a glória para todos os seus santos.",
       "fonte": "CNBB"
     },
     "segunda_leitura": null,
@@ -53,7 +52,7 @@
     "salmo_cifra_ou_melodia": null,
     "salmo_video_id": "NHUXSd2fdhI",
     "salmo_video_titulo": "Salmo 149 - 19/11/2026: Fizestes de nós, para Deus, sacerdotes e povo de reis.",
-    "liturgia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-19.mp3",
+    "liturgia_audio_url": null,
     "creditos": [
       {
         "campo": "salmo_video_id",
@@ -61,20 +60,9 @@
         "canal": "Salmos para rezar...",
         "url_fonte": "https://www.youtube.com/watch?v=NHUXSd2fdhI",
         "licenca": "YouTube Embed Oficial (Termos de Serviço)"
-      },
-      {
-        "campo": "liturgia_audio_url",
-        "canal": "Via Sacra — Voz Neural Piper (pt_BR-cadu-medium, pt-BR)",
-        "licenca": "CC0 / Domínio Público (Piper TTS)"
-      },
-      {
-        "campo": "homilia_audio_url",
-        "canal": "Via Sacra — Voz Neural Piper (pt_BR-cadu-medium, pt-BR)",
-        "licenca": "CC0 / Domínio Público (Piper TTS)"
       }
     ],
-    "fallback": "tts_local_pt_BR",
-    "homilia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-19-homilia.mp3"
+    "fallback": "tts_local_pt_BR"
   },
   "homilias": {
     "vaticano": {
@@ -108,6 +96,22 @@
       }
     ]
   },
+  "santos": [
+    {
+      "nome": "S. Matilde (Mechtilde), virgem",
+      "resumo": "Viveu na segunda metade do século XIII. Saxônia de nascimento, Santa Matilde entrou para a Comunidade das Irmãs Beneditinas de Rodersdorf. Tornando-se monja, foi para Helfta, onde sua irmã era abadessa. Ali se destacou por sua humildade e amabilidade, dirigiu o coro e teve várias visões místicas.",
+      "url": "https://www.vaticannews.va/pt/santo-do-dia/11/19.html",
+      "fonte": "Vatican News (Português) — Dicastério para a Comunicação",
+      "licenca": "© Libreria Editrice Vaticana / Dicastério para a Comunicação. Reprodução para fins pastorais e não comerciais, com citação da fonte e link para o original."
+    },
+    {
+      "nome": "S. Abdias, profeta",
+      "resumo": "Abdias ou Obadias, quarto dos Profetas Menores, foi autor do livro mais curto do Antigo Testamento. Viveu após a conquista de Jerusalém, em 587 a.C.. Sua profecia era dirigida contra os povos Edomitas, predizendo-lhes a ira do Senhor. Os exegetas o consideram o anunciador do Messias.",
+      "url": "https://www.vaticannews.va/pt/santo-do-dia/11/19.html",
+      "fonte": "Vatican News (Português) — Dicastério para a Comunicação",
+      "licenca": "© Libreria Editrice Vaticana / Dicastério para a Comunicação. Reprodução para fins pastorais e não comerciais, com citação da fonte e link para o original."
+    }
+  ],
   "fontes": [
     {
       "id": "cnbb",
@@ -132,6 +136,7 @@
   "status": {
     "cnbb": "ok",
     "vaticano": "ok",
+    "santo_do_dia": "ok",
     "patristica": "ok"
   }
 }

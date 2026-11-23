@@ -1,20 +1,20 @@
 {
   "schema_version": 1,
   "data": "2026-11-25",
-  "gerado_em": "2026-11-23T14:45:35-03:00",
+  "gerado_em": "2026-11-23T20:07:35-03:00",
   "calendario": {
     "data": "2026-11-25",
     "dia_semana": "Quarta-feira",
     "tempo": "comum",
     "tempo_nome": "Tempo Comum",
     "semana": 34,
-    "cor": "vermelho",
+    "cor": "verde",
     "celebracao": "34ª Semana do Tempo Comum, Ano Par (II)",
     "grau": "feria",
     "ciclo_dominical": "A",
     "ciclo_ferial": "II",
     "misterios_do_dia": "gloriosos",
-    "cor_origem": "cnbb"
+    "cor_origem": "calculada"
   },
   "leituras": {
     "primeira_leitura": {
@@ -50,15 +50,15 @@
   "audio": {
     "salmo_audio_url": null,
     "salmo_cifra_ou_melodia": null,
-    "salmo_video_id": "PO_TCgCnBlU",
-    "salmo_video_titulo": "Salmo 97 (98) | Como são grandes e admiráveis vossas obras, ó Senhor e nosso Deus onipotente.",
+    "salmo_video_id": "Bjj6q4GGtlI",
+    "salmo_video_titulo": "Salmo 97(98) - 25/11/2026: Como são grandes e admiráveis vossas obras, ó Senhor e nosso Deus...",
     "liturgia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-25.mp3?v=8d3bedc947e1f717",
     "creditos": [
       {
         "campo": "salmo_video_id",
-        "interprete": "salmodiahoje",
-        "canal": "Salmodia Hoje",
-        "url_fonte": "https://www.youtube.com/watch?v=PO_TCgCnBlU",
+        "interprete": "Salmos para rezar...",
+        "canal": "Salmos para rezar...",
+        "url_fonte": "https://www.youtube.com/watch?v=Bjj6q4GGtlI",
         "licenca": "YouTube Embed Oficial (Termos de Serviço)"
       },
       {

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "data": "2026-11-21",
-  "gerado_em": "2026-11-22T20:35:33-03:00",
+  "gerado_em": "2026-11-23T20:07:19-03:00",
   "calendario": {
     "data": "2026-11-21",
     "dia_semana": "Sábado",
@@ -63,27 +63,9 @@
         "canal": "Salmos para rezar...",
         "url_fonte": "https://www.youtube.com/watch?v=i0YtFR31Hcc",
         "licenca": "YouTube Embed Oficial (Termos de Serviço)"
-      },
-      {
-        "campo": "homilia_audio_url",
-        "interprete": "Voz Dora (pf_dora)",
-        "canal": "Via Sacra — Voz Neural Kokoro-82M (Dora, pt-BR)",
-        "licenca": "Apache-2.0 (Kokoro-82M)"
       }
     ],
-    "fallback": "tts_local_pt_BR",
-    "homilia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-21-homilia.mp3",
-    "homilia_audio_hash": "34a96543b9046e22",
-    "homilia_vozes": {
-      "pf_dora": {
-        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-21-homilia.mp3",
-        "hash": "34a96543b9046e22"
-      },
-      "pm_alex": {
-        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-21-homilia-pm_alex.mp3",
-        "hash": "403296c4e3fc972f"
-      }
-    }
+    "fallback": "tts_local_pt_BR"
   },
   "homilias": {
     "vaticano": {
@@ -117,6 +99,15 @@
       }
     ]
   },
+  "santos": [
+    {
+      "nome": "B. Maria de Jesus do Bom Pastor, fundadora das Irmãs da Sagrada Família de Nazaré",
+      "resumo": "Francisca Siedliska, filha de uma Polônia nobre, no fim do século XIX, superando seus problemas de saúde e o desejo do pai de um bom casamento, conseguiu consagrar-se a Deus aos 31 anos. Em 1873, fundou as Irmãs da Sagrada Família de Nazaré para fortalecer a fé das crianças, mulheres e migrantes.",
+      "url": "https://www.vaticannews.va/pt/santo-do-dia/11/21.html",
+      "fonte": "Vatican News (Português) — Dicastério para a Comunicação",
+      "licenca": "© Libreria Editrice Vaticana / Dicastério para a Comunicação. Reprodução para fins pastorais e não comerciais, com citação da fonte e link para o original."
+    }
+  ],
   "fontes": [
     {
       "id": "cnbb",
@@ -141,6 +132,7 @@
   "status": {
     "cnbb": "ok",
     "vaticano": "ok",
+    "santo_do_dia": "ok",
     "patristica": "ok"
   }
 }

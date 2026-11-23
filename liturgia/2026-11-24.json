@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "data": "2026-11-24",
-  "gerado_em": "2026-11-23T14:45:32-03:00",
+  "gerado_em": "2026-11-23T20:07:31-03:00",
   "calendario": {
     "data": "2026-11-24",
     "dia_semana": "Terça-feira",
@@ -48,10 +48,17 @@
   "audio": {
     "salmo_audio_url": null,
     "salmo_cifra_ou_melodia": null,
-    "salmo_video_id": null,
-    "salmo_video_titulo": null,
+    "salmo_video_id": "x0vymeMAx0w",
+    "salmo_video_titulo": "Salmo 95(96) - 24/11/2026: O Senhor vem julgar nossa terra.",
     "liturgia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-24.mp3?v=01c35d537487f3d3",
     "creditos": [
+      {
+        "campo": "salmo_video_id",
+        "interprete": "Salmos para rezar...",
+        "canal": "Salmos para rezar...",
+        "url_fonte": "https://www.youtube.com/watch?v=x0vymeMAx0w",
+        "licenca": "YouTube Embed Oficial (Termos de Serviço)"
+      },
       {
         "campo": "liturgia_audio_url",
         "interprete": "Voz Dora (pf_dora)",

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "data": "2026-11-29",
-  "gerado_em": "2026-11-23T14:45:52-03:00",
+  "gerado_em": "2026-11-23T20:07:51-03:00",
   "calendario": {
     "data": "2026-11-29",
     "dia_semana": "Domingo",
@@ -37,15 +37,15 @@
   "audio": {
     "salmo_audio_url": null,
     "salmo_cifra_ou_melodia": null,
-    "salmo_video_id": "gjIVTaJuNCs",
-    "salmo_video_titulo": "Salmo 79(80) 29/11/2026) Iluminai a vossa face sobre nós,    convertei-nos, para que sejamos salvos!",
+    "salmo_video_id": "xohXnMqrfY4",
+    "salmo_video_titulo": "Salmo 79(80) - 29/11/2026: Iluminai a vossa face sobre nós, convertei-nos, para que sejamos salvos!",
     "liturgia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-29.mp3?v=bafd6f62f045051c",
     "creditos": [
       {
         "campo": "salmo_video_id",
-        "interprete": "Edgar Borges (Salmos responsoriais)",
-        "canal": "Edgar Borges (Salmos responsoriais)",
-        "url_fonte": "https://www.youtube.com/watch?v=gjIVTaJuNCs",
+        "interprete": "Salmos para rezar...",
+        "canal": "Salmos para rezar...",
+        "url_fonte": "https://www.youtube.com/watch?v=xohXnMqrfY4",
         "licenca": "YouTube Embed Oficial (Termos de Serviço)"
       },
       {

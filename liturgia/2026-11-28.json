@@ -1,20 +1,20 @@
 {
   "schema_version": 1,
   "data": "2026-11-28",
-  "gerado_em": "2026-11-23T14:45:48-03:00",
+  "gerado_em": "2026-11-23T20:07:47-03:00",
   "calendario": {
     "data": "2026-11-28",
     "dia_semana": "Sábado",
     "tempo": "comum",
     "tempo_nome": "Tempo Comum",
     "semana": 34,
-    "cor": "branco",
+    "cor": "verde",
     "celebracao": "34ª Semana do Tempo Comum, Ano Par (II)",
     "grau": "feria",
     "ciclo_dominical": "A",
     "ciclo_ferial": "II",
     "misterios_do_dia": "gozosos",
-    "cor_origem": "cnbb"
+    "cor_origem": "calculada"
   },
   "leituras": {
     "primeira_leitura": {
@@ -51,15 +51,15 @@
   "audio": {
     "salmo_audio_url": null,
     "salmo_cifra_ou_melodia": null,
-    "salmo_video_id": "_KzxjjGl2LA",
-    "salmo_video_titulo": "Salmo 94 (95) | Amém! Vem, ó Senhor Jesus! Amém! | Priscila Ocana | Cifra | #salmo94",
+    "salmo_video_id": "2VR5Skytojk",
+    "salmo_video_titulo": "Salmo 94(95) - 28/11/2026: Amém! Vem, ó Senhor Jesus! Amém!",
     "liturgia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-28.mp3?v=a606a06e43a307fc",
     "creditos": [
       {
         "campo": "salmo_video_id",
-        "interprete": "salmodiahoje",
-        "canal": "Salmodia Hoje",
-        "url_fonte": "https://www.youtube.com/watch?v=_KzxjjGl2LA",
+        "interprete": "Salmos para rezar...",
+        "canal": "Salmos para rezar...",
+        "url_fonte": "https://www.youtube.com/watch?v=2VR5Skytojk",
         "licenca": "YouTube Embed Oficial (Termos de Serviço)"
       },
       {

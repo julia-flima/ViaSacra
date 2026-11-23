@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "data": "2026-11-20",
-  "gerado_em": "2026-11-20T08:16:39-03:00",
+  "gerado_em": "2026-11-23T20:07:15-03:00",
   "calendario": {
     "data": "2026-11-20",
     "dia_semana": "Sexta-feira",
@@ -14,7 +14,7 @@
     "ciclo_dominical": "A",
     "ciclo_ferial": "II",
     "misterios_do_dia": "dolorosos",
-    "cor_origem": "cnbb"
+    "cor_origem": "calculada"
   },
   "leituras": {
     "primeira_leitura": {
@@ -52,7 +52,7 @@
     "salmo_cifra_ou_melodia": null,
     "salmo_video_id": "ELXJ-FLJpVc",
     "salmo_video_titulo": "Salmo 118(119) - 20/11/2026: Como é doce ao paladar vossa palavra, ó Senhor.",
-    "liturgia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-20.mp3",
+    "liturgia_audio_url": null,
     "creditos": [
       {
         "campo": "salmo_video_id",
@@ -60,20 +60,9 @@
         "canal": "Salmos para rezar...",
         "url_fonte": "https://www.youtube.com/watch?v=ELXJ-FLJpVc",
         "licenca": "YouTube Embed Oficial (Termos de Serviço)"
-      },
-      {
-        "campo": "liturgia_audio_url",
-        "canal": "Via Sacra — Voz Neural Piper (pt_BR-cadu-medium, pt-BR)",
-        "licenca": "CC0 / Domínio Público (Piper TTS)"
-      },
-      {
-        "campo": "homilia_audio_url",
-        "canal": "Via Sacra — Voz Neural Piper (pt_BR-cadu-medium, pt-BR)",
-        "licenca": "CC0 / Domínio Público (Piper TTS)"
       }
     ],
-    "fallback": "tts_local_pt_BR",
-    "homilia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-20-homilia.mp3"
+    "fallback": "tts_local_pt_BR"
   },
   "homilias": {
     "vaticano": {
@@ -107,6 +96,15 @@
       }
     ]
   },
+  "santos": [
+    {
+      "nome": "S. Gelásio I, papa",
+      "resumo": "Gelásio foi um Papa intrépido, que subiu ao trono em 496. Em quatro anos, extinguiu as correntes pagãs, as heresias, o maniqueísmo, o monofisismo e o pelagianismo, sobre o qual escreveu vários tratados. Alguns de seus princípios progressistas foram adotados pelo Concílio Vaticano II.",
+      "url": "https://www.vaticannews.va/pt/santo-do-dia/11/20.html",
+      "fonte": "Vatican News (Português) — Dicastério para a Comunicação",
+      "licenca": "© Libreria Editrice Vaticana / Dicastério para a Comunicação. Reprodução para fins pastorais e não comerciais, com citação da fonte e link para o original."
+    }
+  ],
   "fontes": [
     {
       "id": "cnbb",
@@ -131,6 +129,7 @@
   "status": {
     "cnbb": "ok",
     "vaticano": "ok",
+    "santo_do_dia": "ok",
     "patristica": "ok"
   }
 }

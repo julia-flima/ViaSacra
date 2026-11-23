@@ -1,20 +1,20 @@
 {
   "schema_version": 1,
   "data": "2026-11-18",
-  "gerado_em": "2026-11-19T16:56:38-03:00",
+  "gerado_em": "2026-11-23T20:07:07-03:00",
   "calendario": {
     "data": "2026-11-18",
     "dia_semana": "Quarta-feira",
     "tempo": "comum",
     "tempo_nome": "Tempo Comum",
     "semana": 33,
-    "cor": "branco",
+    "cor": "verde",
     "celebracao": "33ª Semana do Tempo Comum, Ano Par (II)",
     "grau": "feria",
     "ciclo_dominical": "A",
     "ciclo_ferial": "II",
     "misterios_do_dia": "gloriosos",
-    "cor_origem": "cnbb"
+    "cor_origem": "calculada"
   },
   "leituras": {
     "primeira_leitura": {
@@ -50,8 +50,18 @@
   "audio": {
     "salmo_audio_url": null,
     "salmo_cifra_ou_melodia": null,
+    "salmo_video_id": "IQRPs1r67hE",
+    "salmo_video_titulo": "Salmo 150 - 18/11/2026: Santo, Santo, Santo, Senhor Deus onipotente!",
     "liturgia_audio_url": null,
-    "creditos": [],
+    "creditos": [
+      {
+        "campo": "salmo_video_id",
+        "interprete": "Salmos para rezar...",
+        "canal": "Salmos para rezar...",
+        "url_fonte": "https://www.youtube.com/watch?v=IQRPs1r67hE",
+        "licenca": "YouTube Embed Oficial (Termos de Serviço)"
+      }
+    ],
     "fallback": "tts_local_pt_BR"
   },
   "homilias": {
@@ -86,6 +96,29 @@
       }
     ]
   },
+  "santos": [
+    {
+      "nome": "S. Filipina Rosa Duchesne",
+      "resumo": "Filipina estudou nas Visitandinas de Grenoble, mas a Revolução Francesa a impediu de se tornar religiosa. Quando tudo voltou à normalidade, em 1801, entrou para a Sociedade do Sagrado Coração, onde realizou seu sonho de ser missionária no estado de Louisiana, EUA, onde fundou uma nova comunidade.",
+      "url": "https://www.vaticannews.va/pt/santo-do-dia/11/18.html",
+      "fonte": "Vatican News (Português) — Dicastério para a Comunicação",
+      "licenca": "© Libreria Editrice Vaticana / Dicastério para a Comunicação. Reprodução para fins pastorais e não comerciais, com citação da fonte e link para o original."
+    },
+    {
+      "nome": "S. Roman de Antioquia",
+      "resumo": "Romano era diácono da Igreja de Cesareia. Durante as perseguições de Diocleciano contra os cristãos, em 303, viu muitos fiéis se render e oferecer sacrifícios aos ídolos, por obediência às disposições imperiais. Advertindo-os, em voz alta, a permanecer firmes na fé, foi preso e martirizado.",
+      "url": "https://www.vaticannews.va/pt/santo-do-dia/11/18.html",
+      "fonte": "Vatican News (Português) — Dicastério para a Comunicação",
+      "licenca": "© Libreria Editrice Vaticana / Dicastério para a Comunicação. Reprodução para fins pastorais e não comerciais, com citação da fonte e link para o original."
+    },
+    {
+      "nome": "Santo Odão, abade de Cluny",
+      "resumo": "Nascido perto de Tours, por volta de 880, Odão foi encaminhado à vida cavalariana, mas, depois, se tornou monge em Cluny, principal centro de espiritualidade da Europa contemporânea. Ali, retomou, com rigor, a Regra beneditina, a ponto de ser considerado o reformador da Regra monacal.",
+      "url": "https://www.vaticannews.va/pt/santo-do-dia/11/18.html",
+      "fonte": "Vatican News (Português) — Dicastério para a Comunicação",
+      "licenca": "© Libreria Editrice Vaticana / Dicastério para a Comunicação. Reprodução para fins pastorais e não comerciais, com citação da fonte e link para o original."
+    }
+  ],
   "fontes": [
     {
       "id": "cnbb",
@@ -110,6 +143,7 @@
   "status": {
     "cnbb": "ok",
     "vaticano": "ok",
+    "santo_do_dia": "ok",
     "patristica": "ok"
   }
 }
