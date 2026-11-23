@@ -1,6 +1,7 @@
 import 'dart:async' show unawaited;
 import 'dart:ui' show PointerDeviceKind;
 
+import 'package:flutter/foundation.dart' show kIsWeb, visibleForTesting;
 import 'package:flutter/services.dart' show HardwareKeyboard, KeyDownEvent, KeyRepeatEvent, LogicalKeyboardKey;
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
@@ -38,6 +39,10 @@ class ViaSacraApp extends StatelessWidget {
   const ViaSacraApp({super.key, required this.services});
 
   final AppServices services;
+
+  /// Se o voltar na tela inicial pode sair do app (não na Web; ver `home:` abaixo).
+  @visibleForTesting
+  static bool rootCanPop = !kIsWeb;
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +102,14 @@ class ViaSacraApp extends StatelessWidget {
                   },
                   child: child!,
                 ),
-                home: state.onboardingDone ? const HomeShell() : const OnboardingScreen(),
+                // Na Web, o voltar na tela inicial não pode "sair" do app: o Flutter desfaz o próprio
+                // histórico e volta mais uma página, e no PWA instalado não há página anterior
+                // (fica a tela preta, issue #50). Telas abertas por cima e os voltares internos da
+                // Bíblia e do Terço continuam funcionando.
+                home: PopScope(
+                  canPop: rootCanPop,
+                  child: state.onboardingDone ? const HomeShell() : const OnboardingScreen(),
+                ),
               );
             },
           ),
