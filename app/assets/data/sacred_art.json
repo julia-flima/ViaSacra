@@ -600,21 +600,21 @@
   {
     "id": "header-lectio",
     "misterio": "Lectio Divina",
-    "titulo": "Cristo em Casa de Marta e Maria",
-    "artista": "Johannes Vermeer",
+    "titulo": "Santa Ana ensinando a Virgem a ler",
+    "artista": "Bartolomé Esteban Murillo",
     "ano": "c. 1655",
-    "acervo": "National Galleries of Scotland, Edimburgo",
-    "busca": "Vermeer Christ in the House of Martha and Mary",
-    "arquivo_commons": "File:Christ in the House of Martha and Mary attributed to Vermeer.jpg",
+    "acervo": "Museo del Prado, Madri",
+    "busca": "Murillo Santa Ana enseñando a leer a la Virgen",
+    "arquivo_commons": "File:Santa Ana y la Virgen.jpg",
     "foco": [
-      0.41,
-      -0.49
+      0,
+      -0.28
     ],
-    "pagina_commons": "https://commons.wikimedia.org/wiki/File:Christ_in_the_House_of_Martha_and_Mary_attributed_to_Vermeer.jpg",
+    "pagina_commons": "https://commons.wikimedia.org/wiki/File:Santa_Ana_y_la_Virgen.jpg",
     "licenca": "Domínio público",
-    "licenca_original": "CC BY-SA 4.0",
+    "licenca_original": "Public domain",
     "imagem": "assets/art/header-lectio.jpg",
-    "credito": "Cristo em Casa de Marta e Maria — Johannes Vermeer (c. 1655). National Galleries of Scotland, Edimburgo. Domínio público, via Wikimedia Commons."
+    "credito": "Santa Ana ensinando a Virgem a ler — Bartolomé Esteban Murillo (c. 1655). Museo del Prado, Madri. Domínio público, via Wikimedia Commons."
   },
   {
     "id": "advento-1",
