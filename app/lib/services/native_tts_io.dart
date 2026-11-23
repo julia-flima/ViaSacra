@@ -672,8 +672,13 @@ class _NativeEngine {
     _prefetch = null;
     final job = pre != null && pre.key == keyOf(clean) ? pre.job : _start(worker, choice, s, clean);
     // O próximo trecho entra na fila já: o worker emenda uma síntese na outra, sem ficar parado.
+    // Exceto enquanto a velocidade do Kokoro neste aparelho é desconhecida (1ª leitura após
+    // instalar): se este trecho mostrar que ele é lento, o Automático passa para o Piper e o
+    // próximo seria descartado — mas, já em síntese, ele não para no meio da frase (~10 s de
+    // silêncio no emulador, issue #52).
     final next = nextText == null ? '' : normalizeTextForKokoro(nextText);
-    if (next.isNotEmpty) _prefetch = (key: keyOf(next), job: _start(worker, choice, s, next));
+    final measuring = choice.key == 'kokoro' && _kokoroRtf == null;
+    if (next.isNotEmpty && !measuring) _prefetch = (key: keyOf(next), job: _start(worker, choice, s, next));
 
     var played = 0;
     try {
