@@ -23,6 +23,19 @@ void main() {
     expect(l.sources.map((s) => s.id), contains('cnbb'));
   });
 
+  test('Cor da CNBB só vale em memória, festa ou solenidade', () {
+    DailyLiturgy day(String data, String celebracao) => DailyLiturgy.fromJson({
+      'data': data,
+      'calendario': {'cor': 'vermelho', 'celebracao': celebracao},
+    });
+    // 23/11/2026: férias com São Clemente (facultativa) — a cor é a do tempo.
+    expect(day('2026-11-23', '34ª Semana do Tempo Comum, Ano Par (II)').day.color, LiturgicalColor.verde);
+    expect(
+      day('2026-11-24', 'Santo André Dung-Lac e companheiros mártires, Memória').day.color,
+      LiturgicalColor.vermelho,
+    );
+  });
+
   test('Fila "Ouvir Liturgia" usa TTS quando não há áudio aberto', () {
     final l = DailyLiturgy.fromJson(json);
     final q = buildLiturgyQueue(l);

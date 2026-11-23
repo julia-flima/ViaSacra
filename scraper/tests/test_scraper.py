@@ -268,3 +268,12 @@ def test_casar_salmo_youtube():
     assert m3 is None
 
 
+
+
+def test_cor_cnbb_ignora_memoria_facultativa():
+    # 23/11/2026: férias com São Clemente (facultativa); a CNBB manda vermelho.
+    assert scraper.cor_cnbb({"cor": "vermelho", "celebracao": "34ª Semana do Tempo Comum, Ano Par (II)"}) is None
+    assert scraper.cor_cnbb({"cor": "branco", "celebracao": "5º Dia na Oitava de Natal"}) is None
+    memoria = "Santo André Dung-Lac, presbítero, e companheiros mártires, Memória"
+    assert scraper.cor_cnbb({"cor": "vermelho", "celebracao": memoria}) == "vermelho"
+    assert scraper.cor_cnbb(None) is None

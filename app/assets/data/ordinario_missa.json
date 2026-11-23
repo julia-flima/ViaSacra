@@ -27,7 +27,7 @@
       "passos": [
         {
           "titulo": "Sinal da cruz",
-          "deixa": "Em nome do Pai, e do Filho, e do Espírito Santo.",
+          "deixa": "Em nome do Pai e do Filho e do Espírito Santo.",
           "povo": "Amém."
         },
         {
@@ -40,14 +40,14 @@
         },
         {
           "titulo": "Ato penitencial",
-          "nota": "O padre escolhe uma das formas. A mais comum é o “Confesso”:",
+          "nota": "O padre escolhe uma das formas. A mais comum é o “Confesso”. Aos domingos, a aspersão com água benta pode substituí-lo.",
           "povo": "Confesso a Deus todo-poderoso e a vós, irmãos e irmãs, que pequei muitas vezes por pensamentos e palavras, atos e omissões, por minha culpa, minha culpa, minha tão grande culpa. E peço à Virgem Maria, aos anjos e santos e a vós, irmãos e irmãs, que rogueis por mim a Deus, nosso Senhor.",
           "conferir": true
         },
         { "deixa": "Deus todo-poderoso tenha compaixão de nós… nos conduza à vida eterna.", "povo": "Amém." },
         {
           "titulo": "Senhor, tende piedade",
-          "nota": "Repete-se o que o padre ou o cantor disser.",
+          "nota": "Repete-se o que o padre ou o cantor disser. Fica de fora se já foi rezado no ato penitencial.",
           "povo": "Senhor, tende piedade de nós.\nCristo, tende piedade de nós.\nSenhor, tende piedade de nós."
         },
         {
@@ -213,7 +213,11 @@
           "deixa": "Senhor Jesus Cristo, dissestes aos vossos Apóstolos… Vós, que sois Deus, com o Pai e o Espírito Santo.",
           "povo": "Amém."
         },
-        { "deixa": "A paz do Senhor esteja sempre convosco.", "povo": "O amor de Cristo nos uniu." },
+        {
+          "nota": "Depois da resposta, o padre ou o diácono pode convidar: “Irmãos e irmãs, saudai-vos em Cristo Jesus.” A paz se dá com sobriedade, só a quem está mais perto.",
+          "deixa": "A paz do Senhor esteja sempre convosco.",
+          "povo": "O amor de Cristo nos uniu."
+        },
         {
           "titulo": "Cordeiro de Deus",
           "povo": "Cordeiro de Deus, que tirais o pecado do mundo, tende piedade de nós.\nCordeiro de Deus, que tirais o pecado do mundo, tende piedade de nós.\nCordeiro de Deus, que tirais o pecado do mundo, dai-nos a paz."
@@ -241,10 +245,14 @@
           "deixa": "O Senhor esteja convosco.",
           "povo": "Ele está no meio de nós."
         },
-        { "deixa": "Abençoe-vos Deus todo-poderoso, Pai e Filho e Espírito Santo.", "povo": "Amém." },
+        {
+          "nota": "Em certos dias, o padre dá uma bênção solene ou reza uma oração sobre o povo. Responde-se “Amém” a cada parte.",
+          "deixa": "Abençoe-vos Deus todo-poderoso, Pai e Filho e Espírito Santo.",
+          "povo": "Amém."
+        },
         {
           "titulo": "Despedida",
-          "deixa": "Ide em paz, e o Senhor vos acompanhe.",
+          "deixa": "Ide em paz e o Senhor vos acompanhe.",
           "povo": "Graças a Deus."
         }
       ]
