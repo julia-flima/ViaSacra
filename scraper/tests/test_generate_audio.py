@@ -117,7 +117,8 @@ def test_process_day_hash_regera_e_creditos(tmp_path: Path):
     vozes = saved["audio"]["liturgia_vozes"]
     assert set(vozes) == {"pf_dora", "pm_alex"}
     assert vozes["pf_dora"]["url"] == saved["audio"]["liturgia_audio_url"]
-    assert vozes["pm_alex"]["url"].endswith("2026-11-19-pm_alex.mp3")
+    assert vozes["pm_alex"]["url"].endswith(f"2026-11-19-pm_alex.mp3?v={vozes['pm_alex']['hash']}")
+    assert saved["audio"]["liturgia_audio_url"].endswith(f".mp3?v={saved['audio']['liturgia_audio_hash']}")
     assert vozes["pm_alex"]["hash"] == ga.script_hash(ga.build_liturgy_script(saved), "pm_alex")
     assert set(saved["audio"]["homilia_vozes"]) == {"pf_dora", "pm_alex"}
     credit = next(c for c in saved["audio"]["creditos"] if c["campo"] == "liturgia_audio_url")
@@ -195,3 +196,40 @@ def test_prune_old_audio_limpa_mp3s_e_urls_expiradas(tmp_path: Path):
     fresh = json.loads((lit_dir / f"{fresh_iso}.json").read_text(encoding="utf-8"))
     assert fresh["audio"]["liturgia_audio_url"] == f"https://cdn/audio/{fresh_iso}.mp3"
     assert len(fresh["audio"]["creditos"]) == 3
+
+
+def test_speakable_text_igual_ao_app():
+    # Mesmos casos de app/test/speech_text_test.dart (issue #55).
+    casos = {
+        "Salmos 4,7-9": "Salmo 4, versículos 7 a 9",
+        "Lc 19,41-44": "Lucas 19, versículos 41 a 44",
+        "Jo 3,16": "João 3, versículo 16",
+        "Sl 22(23),1-2a.2b-3.5-6": "Salmo 22, versículos 1 a 2, 2 a 3 e 5 a 6",
+        "Sl 149,1-2.3-4.5-6a e 9b": "Salmo 149, versículos 1 a 2, 3 a 4, 5 a 6 e 9",
+        "1Cor 15,20-26.28": "Primeira Coríntios 15, versículos 20 a 26 e 28",
+        "1 Rs 19,4": "Primeiro Reis 19, versículo 4",
+        "1Mc 2,15": "Primeiro Macabeus 2, versículo 15",
+        "Mc 1,15": "Marcos 1, versículo 15",
+        "Is 52,13-53,12": "Isaías 52, versículo 13 ao capítulo 53, versículo 12",
+        "Ap 20,1-4.11-21,2": "Apocalipse 20, versículos 1 a 4 e 11 ao capítulo 21, versículo 2",
+        "Leitura da Profecia de Ezequiel 34,11-12.15-17": (
+            "Leitura da Profecia de Ezequiel 34, versículos 11 a 12 e 15 a 17"
+        ),
+        "(cf. Jo 14,6)": "(conforme João 14, versículo 6)",
+        "No ano 2026, 1 de janeiro": "No ano 2026, 1 de janeiro",
+        "na 3,5 do texto": "na 3,5 do texto",
+        "Mt 5": "Mt 5",
+        "Pelos prados verdejantes *\nele me leva a descansar. R.": "Pelos prados verdejantes\nele me leva a descansar.",
+        "V. Nós vos adoramos.\nR. Porque pela vossa santa cruz": "Nós vos adoramos.\nPorque pela vossa santa cruz",
+        "S. José e N. Sra. com Sto. Antônio e Sta. Teresa": "São José e Nossa Senhora com Santo Antônio e Santa Teresa",
+    }
+    for entrada, falado in casos.items():
+        assert ga.speakable_text(entrada) == falado, entrada
+
+
+def test_roteiro_da_liturgia_sem_asteriscos():
+    doc = _sample_doc()
+    doc["leituras"]["salmo"] = {"refrao": "O Senhor é o meu pastor.", "estrofes": ["Pelos prados *\nele me leva."]}
+    roteiro = ga.build_liturgy_script(doc)
+    assert "*" not in roteiro
+    assert "Pelos prados ele me leva." in roteiro

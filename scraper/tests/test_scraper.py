@@ -39,6 +39,59 @@ def test_parse_salmo_sem_marcador():
     assert s["estrofes"] == ["Ele me faz repousar.", "Guia-me pelo caminho."]
 
 
+def test_parse_salmo_refrao_de_duas_linhas():
+    # CNBB, 22/11/2026: o refrão continua na linha de baixo e um verso é partido após o "*".
+    s = scraper.parse_salmo(
+        "Sl 22(23),1-2a.2b-3.5-6 (R.1)\nR. O Senhor é o pastor que me conduz;\nnão me falta coisa alguma.\n\n"
+        "Pelos prados e campinas verdejantes *\nele me leva a descansar.\n"
+        "Para as águas repousantes me encaminha, *\n\ne restaura as minhas forças. R.\n\n"
+        "Preparais à minha frente uma mesa, *\nbem à vista do inimigo, R."
+    )
+    assert s["referencia"] == "Sl 22(23),1-2a.2b-3.5-6"
+    assert s["refrao"] == "O Senhor é o pastor que me conduz;\nnão me falta coisa alguma."
+    assert len(s["estrofes"]) == 2
+    assert s["estrofes"][0].endswith("e restaura as minhas forças. R.")
+
+
+def test_parse_salmo_refrao_alternativo_e_referencia_longa():
+    # CNBB, 21/11/2026: "Ou:" de duas linhas é omitido.
+    s = scraper.parse_salmo(
+        "R. O Poderoso fez por mim maravilhas,\ne Santo é o seu nome.\n\n"
+        "Ou: Bendita sejais, ó Virgem Maria;\n\ntrouxestes no ventre a Palavra eterna!\n\n"
+        "A minh'alma engrandece ao Senhor, *\n\ne se alegrou o meu espírito em Deus, meu Salvador, R."
+    )
+    assert s["refrao"] == "O Poderoso fez por mim maravilhas,\ne Santo é o seu nome."
+    assert len(s["estrofes"]) == 1 and "trouxestes" not in s["texto"]
+    # CNBB, 19/11 e 28/11/2026: "Ou: Aleluia" sem ponto não engole a estrofe; referência com "(R. …)".
+    s = scraper.parse_salmo(
+        "Sl 94(95),1-2.3-5.6-7 (R. 1Cor 16,22b e Ap 22,20c)\n\nR. Amém! Vem, ó Senhor Jesus! Amém!\n\n"
+        "Ou: Aleluia, Aleluia, Aleluia\n\nVinde, exultemos de alegria no Senhor, *\naclamemos o Rochedo que nos salva!"
+    )
+    assert s["referencia"] == "Sl 94(95),1-2.3-5.6-7"
+    assert s["estrofes"] == ["Vinde, exultemos de alegria no Senhor, *\naclamemos o Rochedo que nos salva!"]
+
+
+def test_extrair_referencia_com_letras_e_conjuncao():
+    assert scraper.extrair_referencia("Sl 23(24),1-2.3-4ab.5-6 (R. cf. 6)") == "Sl 23(24),1-2.3-4ab.5-6"
+    assert scraper.extrair_referencia("Sl 149,1-2.3-4.5-6a e 9b") == "Sl 149,1-2.3-4.5-6a e 9b"
+
+
+def test_santo_do_dia_vatican():
+    # Página real do Vatican News de 22/11/2026 (Santa Cecília).
+    html = (FIX / "vatican_santo_sample.html").read_text(encoding="utf-8")
+    santos = scraper.parse_santo_do_dia(html, "https://www.vaticannews.va/pt/santo-do-dia/11/22.html")
+    assert len(santos) == 1
+    s = santos[0]
+    assert s["nome"] == "S. Cecília, virgem e mártir, no cemitério de Calisto"
+    assert s["resumo"].startswith("História e lenda se entrelaçam em torno da figura de Santa Cecília")
+    assert s["resumo"].endswith("A Igreja a recorda no dia 22 de novembro.")
+    assert s["url"] == (
+        "https://www.vaticannews.va/pt/santo-do-dia/11/22/s--cecilia--virgem-e-martir--no-cemiterio-de-calisto.html"
+    )
+    assert "Libreria Editrice Vaticana" in s["licenca"]
+    assert scraper.parse_santo_do_dia("<html><body><p>nada</p></body></html>", "x") == []
+
+
 def test_vatican_evangelho_do_dia():
     html = (FIX / "vatican_gospel_sample.html").read_text(encoding="utf-8")
     h = scraper.parse_vatican_evangelho_do_dia(html, "https://www.vaticannews.va/pt/evangelho-do-dia/2026/11/19.html")
@@ -162,7 +215,7 @@ def test_parse_cnbb_api():
     assert r["primeira_leitura"]["introducao"].startswith("Leitura do Livro do Apocalipse")
     assert r["primeira_leitura"]["texto"].startswith("Eu, João")
     assert "Palavra do Senhor" not in r["primeira_leitura"]["texto"]
-    assert r["salmo"]["referencia"] == "Sl 149,1-2.3-4.5-6a"
+    assert r["salmo"]["referencia"] == "Sl 149,1-2.3-4.5-6a e 9b"
     assert r["salmo"]["refrao"] == "Fizestes de nós, para Deus, sacerdotes e povo de reis."
     assert len(r["salmo"]["estrofes"]) == 1
     assert not r["salmo"]["estrofes"][0].endswith("R.")

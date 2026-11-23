@@ -11,6 +11,7 @@ import 'package:via_sacra/core/theme.dart';
 import 'package:via_sacra/data/database.dart';
 import 'package:via_sacra/data/liturgy_repository.dart';
 import 'package:via_sacra/data/user_data_repository.dart';
+import 'package:via_sacra/services/neural_tts_types.dart';
 import 'package:via_sacra/services/settings_service.dart';
 
 Future<AppDatabase> _db() => AppDatabase.memory(schema: File('assets/db/schema.sql').readAsStringSync());
@@ -24,12 +25,15 @@ void main() {
     late int requests;
     late bool online;
     late LiturgyRepository repo;
+    late List<Uri> uris;
 
     setUp(() async {
       requests = 0;
       online = true;
-      final client = MockClient((_) async {
+      uris = [];
+      final client = MockClient((req) async {
         requests++;
+        uris.add(req.url);
         if (!online) throw const SocketException('sem rede');
         return http.Response.bytes(fixture, 200);
       });
@@ -71,6 +75,32 @@ void main() {
       final forced = await repo.load(today, forceRefresh: true);
       expect(forced.origin, LiturgyOrigin.cache);
       expect(forced.error, isNotNull);
+    });
+
+    test('semana automática baixa só o que falta e para no primeiro dia que falhar', () async {
+      final from = DateTime(2026, 11, 19);
+      expect(await repo.prefetchWeek(from), 7);
+      expect(requests, 7);
+      for (var i = 0; i < 7; i++) {
+        expect(repo.isCached(DateTime(2026, 11, 19 + i)), isTrue);
+      }
+
+      // Dias já completos não são buscados de novo; só o novo 7º dia.
+      expect(await repo.prefetchWeek(from.add(const Duration(days: 1))), 1);
+      expect(requests, 8);
+
+      // Sem rede: tenta o primeiro dia que falta e desiste (um pedido por endpoint).
+      online = false;
+      final before = requests;
+      expect(await repo.prefetchWeek(DateTime(2026, 12, 1)), 0);
+      expect(repo.isCached(DateTime(2026, 12, 2)), isFalse);
+      expect(requests - before, lessThanOrEqualTo(3));
+    });
+
+    test('pedido com "t" para fugir do cache de 7 dias do navegador (Web)', () async {
+      await repo.load(day, now: DateTime(2026, 11, 20));
+      expect(uris.single.path, endsWith('/liturgia/2026-11-19.json'));
+      expect(uris.single.queryParameters['t'], isNotEmpty);
     });
 
     test('sem cache e sem rede: só o calendário, com erro', () async {
@@ -145,6 +175,46 @@ void main() {
       expect(s.textScale, SettingsService.maxTextScale);
       expect(s.lineHeight, 1.3);
       expect(s.liturgyReminderTime, const TimeOfDay(hour: 7, minute: 0));
+    });
+
+    test('redefinir volta todos os ajustes ao padrão e mantém os dados da pessoa', () async {
+      SharedPreferences.setMockInitialValues({});
+      final s = await SettingsService.load();
+      await s.setOnboardingDone();
+      s
+        ..imitationLastRef = 'I-12'
+        ..themeMode = ThemeMode.dark
+        ..readingFont = ReadingFont.sans
+        ..textScale = 1.5
+        ..lineHeight = 2.0
+        ..ttsSpeed = 1.5
+        ..kokoroVoice = 'pm_alex'
+        ..ttsEngine = TtsEngine.system
+        ..piperVoice = 'piper_faber'
+        ..preferRecordedAudio = false
+        ..showStreak = false
+        ..haptics = false
+        ..preferLatin = true
+        ..notificationsEnabled = true
+        ..liturgyReminder = false
+        ..liturgyReminderTime = const TimeOfDay(hour: 6, minute: 30)
+        ..rosaryReminder = false
+        ..rosaryReminderTime = const TimeOfDay(hour: 21, minute: 0);
+      await s.setTtsVoice('voz', 'pt-PT');
+      await s.saved;
+
+      // Toda preferência salva é ajuste (redefinível) ou dado da pessoa: ajuste novo precisa entrar na lista.
+      final prefs = await SharedPreferences.getInstance();
+      const keep = {'onboarding_done', 'imitacao_last'};
+      expect(prefs.getKeys().difference(keep), everyElement(isIn(SettingsService.resettableKeys)));
+
+      await s.resetToDefaults();
+      final d = await SettingsService.load();
+      expect(prefs.getKeys(), keep);
+      expect((d.onboardingDone, d.imitationLastRef), (true, 'I-12'));
+      expect((d.themeMode, d.readingFont, d.textScale, d.lineHeight), (ThemeMode.system, ReadingFont.serif, 1.0, 1.6));
+      expect((d.ttsSpeed, d.ttsEngine, d.ttsVoiceName, d.preferRecordedAudio), (1.0, TtsEngine.auto, null, true));
+      expect((d.showStreak, d.haptics, d.preferLatin, d.notificationsEnabled), (true, true, false, false));
     });
   });
 }

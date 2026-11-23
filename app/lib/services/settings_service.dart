@@ -146,6 +146,38 @@ class SettingsService extends ChangeNotifier {
   TimeOfDay get rosaryReminderTime => _time('notif_rosary_time', const TimeOfDay(hour: 18, minute: 0));
   set rosaryReminderTime(TimeOfDay t) => _set('notif_rosary_time', t.hour * 60 + t.minute);
 
+  // ---------- Redefinir ----------
+  /// Ajustes que "Redefinir ajustes" volta ao padrão. Ficam de fora os dados da pessoa:
+  /// `onboarding_done`, `imitacao_last` e tudo do banco (Bíblias, anotações, favoritos…).
+  /// Ajuste novo entra aqui (o teste em `data_persistence_test.dart` confere).
+  static const resettableKeys = [
+    'theme_mode',
+    'reading_font',
+    'text_scale_rel',
+    'text_scale',
+    'line_height',
+    'tts_speed',
+    'tts_voice_name',
+    'tts_voice_locale',
+    'kokoro_voice',
+    'tts_engine',
+    'piper_voice',
+    'prefer_recorded_audio',
+    'show_streak',
+    'haptics',
+    'prefer_latin',
+    'notif_enabled',
+    'notif_liturgy',
+    'notif_liturgy_time',
+    'notif_rosary',
+    'notif_rosary_time',
+  ];
+
+  Future<void> resetToDefaults() async {
+    await Future.wait([for (final k in resettableKeys) _prefs.remove(k)]);
+    notifyListeners();
+  }
+
   TimeOfDay _time(String k, TimeOfDay def) {
     final v = _get<int?>(k, null);
     return v == null || v < 0 || v >= 24 * 60 ? def : TimeOfDay(hour: v ~/ 60, minute: v % 60);

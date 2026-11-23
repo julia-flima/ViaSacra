@@ -233,6 +233,7 @@ class DailyLiturgy {
     this.vaticanHomily,
     this.cnbbReflection,
     this.patristic = const [],
+    this.saints = const [],
     this.sources = const [],
     this.originalUrl,
     this.fromNetwork = true,
@@ -245,6 +246,9 @@ class DailyLiturgy {
   final Homily? vaticanHomily;
   final Homily? cnbbReflection;
   final List<Homily> patristic;
+
+  /// Santo(s) do dia (resumo do Vatican News, com link para a história completa).
+  final List<Saint> saints;
   final List<SourceInfo> sources;
   final String? originalUrl;
 
@@ -303,6 +307,13 @@ class DailyLiturgy {
               .map((m) => Homily.fromJson(m.cast<String, dynamic>()))
               .toList() ??
           const [],
+      saints:
+          (j['santos'] as List?)
+              ?.whereType<Map<dynamic, dynamic>>()
+              .map((m) => Saint.fromJson(m.cast<String, dynamic>()))
+              .where((s) => s.name.isNotEmpty && s.summary.isNotEmpty)
+              .toList() ??
+          const [],
       sources:
           (j['fontes'] as List?)
               ?.whereType<Map<dynamic, dynamic>>()
@@ -312,4 +323,23 @@ class DailyLiturgy {
       originalUrl: _s(j['url_original']),
     );
   }
+}
+
+/// Santo do dia: nome e resumo do "Santo do dia" do Vatican News, com link para o texto completo.
+class Saint {
+  const Saint({required this.name, required this.summary, this.url, this.source, this.license});
+
+  factory Saint.fromJson(Map<String, dynamic> j) => Saint(
+    name: _s(j['nome']) ?? '',
+    summary: _s(j['resumo']) ?? '',
+    url: _s(j['url']),
+    source: _s(j['fonte']),
+    license: _s(j['licenca']),
+  );
+
+  final String name;
+  final String summary;
+  final String? url;
+  final String? source;
+  final String? license;
 }

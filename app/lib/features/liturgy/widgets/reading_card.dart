@@ -5,10 +5,12 @@ import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 
+import '../../../app_state.dart';
 import '../../../core/theme.dart';
 import '../../../data/models/liturgy.dart';
 import '../../../services/reading_audio_service.dart';
 import '../../../widgets/common.dart';
+import '../../../widgets/local_note_field.dart';
 import 'psalm_video_player.dart';
 
 /// Cartão de leitura (1ª Leitura, 2ª Leitura, Evangelho).
@@ -19,11 +21,15 @@ class ReadingCard extends StatelessWidget {
     required this.onListenFromHere,
     this.sourceUrl,
     this.onOpenInBible,
+    this.noteRef,
   });
 
   final Reading reading;
   final VoidCallback onListenFromHere;
   final String? sourceUrl;
+
+  /// Chave da anotação pessoal desta leitura (ex.: "2026-11-22#evangelho"); sem ela, sem botão.
+  final String? noteRef;
 
   /// Abre o capítulo completo na aba Bíblia.
   final VoidCallback? onOpenInBible;
@@ -44,6 +50,7 @@ class ReadingCard extends StatelessWidget {
               onListen: onListenFromHere,
               onShare: () => _share(reading),
               onOpenInBible: onOpenInBible,
+              noteRef: noteRef,
             ),
             SelectionArea(
               child: Column(
@@ -97,6 +104,7 @@ class PsalmCard extends StatefulWidget {
     this.sourceUrl,
     this.onOpenInBible,
     this.playerFactory,
+    this.noteRef,
   });
 
   final Reading psalm;
@@ -105,6 +113,9 @@ class PsalmCard extends StatefulWidget {
   final String? sourceUrl;
   final VoidCallback? onOpenInBible;
   final AudioPlayer Function()? playerFactory;
+
+  /// Ver [ReadingCard.noteRef].
+  final String? noteRef;
 
   @override
   State<PsalmCard> createState() => _PsalmCardState();
@@ -222,6 +233,7 @@ class _PsalmCardState extends State<PsalmCard> {
               onListen: widget.onListenFromHere,
               onShare: () => _share(p),
               onOpenInBible: widget.onOpenInBible,
+              noteRef: widget.noteRef,
             ),
             if (p.refrain != null) ...[
               const SizedBox(height: 14),
@@ -325,13 +337,21 @@ class _PsalmCardState extends State<PsalmCard> {
 }
 
 class _CardHeader extends StatelessWidget {
-  const _CardHeader({required this.label, this.reference, required this.onListen, this.onShare, this.onOpenInBible});
+  const _CardHeader({
+    required this.label,
+    this.reference,
+    required this.onListen,
+    this.onShare,
+    this.onOpenInBible,
+    this.noteRef,
+  });
 
   final String label;
   final String? reference;
   final VoidCallback onListen;
   final VoidCallback? onShare;
   final VoidCallback? onOpenInBible;
+  final String? noteRef;
 
   @override
   Widget build(BuildContext context) {
@@ -380,9 +400,68 @@ class _CardHeader extends StatelessWidget {
           ),
         ),
         IconButton(tooltip: 'Ouvir a partir daqui', onPressed: onListen, icon: const Icon(Icons.headphones_outlined)),
+        if (noteRef != null) _NoteButton(noteRef: noteRef!, title: reference == null ? label : '$label · $reference'),
         if (onShare != null)
           IconButton(tooltip: 'Compartilhar', onPressed: onShare, icon: const Icon(Icons.ios_share_outlined)),
       ],
+    );
+  }
+}
+
+/// Anotação pessoal da leitura (só no aparelho, entra no backup), aberta numa folha inferior para
+/// não tirar espaço do texto. O ícone fica preenchido quando já há anotação.
+class _NoteButton extends StatefulWidget {
+  const _NoteButton({required this.noteRef, required this.title});
+
+  final String noteRef;
+  final String title;
+
+  static const kind = 'liturgy';
+
+  @override
+  State<_NoteButton> createState() => _NoteButtonState();
+}
+
+class _NoteButtonState extends State<_NoteButton> {
+  bool get _hasNote => context.read<AppServices>().userData.note(_NoteButton.kind, widget.noteRef) != null;
+
+  Future<void> _open() async {
+    await showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      showDragHandle: true,
+      builder: (ctx) => Padding(
+        padding: EdgeInsets.fromLTRB(VsSpacing.lg, 0, VsSpacing.lg, VsSpacing.lg + MediaQuery.viewInsetsOf(ctx).bottom),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(widget.title, style: Theme.of(ctx).textTheme.titleMedium),
+            const SizedBox(height: VsSpacing.md),
+            LocalNoteField(
+              kind: _NoteButton.kind,
+              noteRef: widget.noteRef,
+              label: 'Minha anotação (somente neste aparelho)',
+              autofocus: true,
+              // Grava também ao fechar a folha (depois da animação): atualiza o ícone em seguida.
+              onSaved: () => Future.microtask(() {
+                if (mounted) setState(() {});
+              }),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final has = _hasNote;
+    return IconButton(
+      tooltip: has ? 'Ver anotação' : 'Anotar',
+      onPressed: _open,
+      // Cor no próprio ícone: o tema dos IconButton sobrepõe o `color` do botão.
+      icon: Icon(Icons.edit_note, color: has ? Theme.of(context).colorScheme.primary : null),
     );
   }
 }

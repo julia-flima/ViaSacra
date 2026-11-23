@@ -43,6 +43,11 @@ class AboutScreen extends StatelessWidget {
             license: 'Textos litúrgicos para uso devocional e não comercial.',
           ),
           const SourceAttribution(
+            source: 'Missal Romano, 3ª edição típica — tradução oficial da CNBB',
+            url: 'https://www.edicoescnbb.com.br',
+            license: '© CNBB. Respostas do povo na tela "Acompanhar a Missa"; uso devocional e não comercial.',
+          ),
+          const SourceAttribution(
             source: 'Vatican News (Português) — Dicastério para a Comunicação',
             url: ExternalLinks.vaticanNews,
             license: '© Libreria Editrice Vaticana. Uso pastoral não comercial, com citação e link.',

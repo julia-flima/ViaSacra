@@ -4,7 +4,7 @@
 Edições CNBB / Setor de Direitos Autorais
 c/c: Comissão Episcopal Pastoral para a Liturgia
 
-**Assunto: Pedido de autorização para uso não comercial dos textos da Liturgia Diária e da tradução oficial da Bíblia da CNBB no aplicativo gratuito "Via Sacra"**
+**Assunto: Pedido de autorização para uso não comercial dos textos da Liturgia Diária, da tradução oficial da Bíblia e do Ordinário da Missa (Missal Romano) no aplicativo gratuito "Via Sacra"**
 
 Excelências e prezados senhores,
 
@@ -17,7 +17,7 @@ O Via Sacra é um projeto pastoral e voluntário, com estas características:
 - tem **código aberto** (licença GPL-3.0), público em [link do repositório];
 - **não tem fins lucrativos**.
 
-Venho respeitosamente solicitar autorização para dois usos:
+Venho respeitosamente solicitar autorização para três usos:
 
 **1. Textos da Liturgia Diária (portal liturgiadiaria.cnbb.org.br)**
 Exibir diariamente, no aplicativo, as leituras do dia (Primeira Leitura, Salmo Responsorial, Segunda Leitura e Evangelho), com:
@@ -30,7 +30,14 @@ Incluir o texto bíblico na seção "Bíblia Sagrada" do aplicativo, para leitur
 - atribuição visível ("Bíblia Sagrada — Tradução oficial da CNBB. © CNBB. Usado com permissão.") e link para as Edições CNBB;
 - texto sem alterações e armazenado apenas dentro do aplicativo, sem oferta para download avulso.
 
-Nos dois casos, nos comprometemos a:
+**3. Ordinário da Missa (Missal Romano, 3ª edição típica, tradução da CNBB)**
+Muitas paróquias projetam as respostas da assembleia em slides, e nem sempre eles acompanham toda a celebração, sobretudo durante a Oração Eucarística. Queremos oferecer uma tela "Acompanhar a Missa", que funciona sem internet, para que o fiel possa responder com a assembleia. Ela traria:
+- as respostas e aclamações do povo (diálogos, ato penitencial, Glória, Credo, Santo, aclamações das Orações Eucarísticas, Pai-Nosso, Cordeiro de Deus e demais partes da assembleia);
+- das partes do sacerdote, apenas o necessário para o fiel saber quando responder;
+- atribuição visível ("Missal Romano — Tradução oficial da CNBB. © CNBB. Usado com permissão.") e link para as Edições CNBB;
+- texto sem alterações e armazenado apenas dentro do aplicativo, sem oferta para download avulso. A tela não substitui o Missal nem se destina ao uso do celebrante.
+
+Em todos os casos, nos comprometemos a:
 - fazer **uso exclusivamente gratuito e não comercial**;
 - **retirar o conteúdo** a qualquer momento, se a CNBB assim decidir;
 - cumprir **quaisquer outras condições** que a Conferência considere adequadas.

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart' show AppLifecycleListener;
 
 import 'app_navigation.dart';
 import 'core/liturgical_calendar.dart';
@@ -41,7 +42,7 @@ class AppServices {
   final UserDataRepository userData;
   final ReadingAudioController audio;
 
-  /// null na Web: lembretes agendados existem só no app nativo.
+  /// null se o aparelho não oferece notificações. Na Web, os lembretes passam pelo `sw.js`.
   final NotificationService? notifications;
   final BibleService bible;
 
@@ -67,17 +68,31 @@ class AppServices {
     if (kIsWeb) unawaited(audio.refreshNeuralTtsStatus());
     final navigation = NavigationController();
     NotificationService? notifications;
-    if (!kIsWeb) {
-      try {
-        notifications = await NotificationService.create(onTap: navigation.openFromNotification);
-        // Não precisa segurar a abertura do app.
-        unawaited(notifications.reschedule(settings, liturgy).catchError((Object e) => debugPrint('Lembretes: $e')));
-        // App aberto a frio pelo toque no lembrete.
-        navigation.openFromNotification(await notifications.launchPayload());
-      } catch (e) {
-        debugPrint('Notificações indisponíveis: $e');
-      }
+    try {
+      notifications = await NotificationService.create(onTap: navigation.openFromNotification);
+      // Não precisa segurar a abertura do app.
+      unawaited(notifications.reschedule(settings, liturgy).catchError((Object e) => debugPrint('Lembretes: $e')));
+      // App aberto a frio pelo toque no lembrete.
+      navigation.openFromNotification(await notifications.launchPayload());
+    } catch (e) {
+      debugPrint('Notificações indisponíveis: $e');
     }
+    // Semana offline automática (issue #51): pouco depois da abertura e ao voltar ao app.
+    DateTime? lastWeek;
+    Future<void> prefetchWeek() async {
+      final now = DateTime.now();
+      if (lastWeek != null && now.difference(lastWeek!) < const Duration(hours: 6)) return;
+      lastWeek = now;
+      if (await liturgy.prefetchWeek(now) > 0) await notifications?.reschedule(settings, liturgy);
+    }
+
+    void prefetchLater() => unawaited(
+      Future<void>.delayed(const Duration(seconds: 5), prefetchWeek).catchError((Object e) {
+        debugPrint('Semana offline: $e');
+      }),
+    );
+    prefetchLater();
+    AppLifecycleListener(onResume: prefetchLater);
     final bible = BibleService(BibleRepository(db));
     if (kIsWeb) {
       // Depois do primeiro quadro, sem disputar a abertura do app.
@@ -116,7 +131,6 @@ class LiturgyController extends ChangeNotifier {
   LiturgyOrigin origin = LiturgyOrigin.calendarOnly;
   bool loading = true;
   String? error;
-  double? downloadProgress;
 
   LiturgicalColor get color => liturgy.day.color;
   LiturgicalDay get day => liturgy.day;
@@ -140,21 +154,6 @@ class LiturgyController extends ChangeNotifier {
     error = result.error;
     loading = false;
     notifyListeners();
-  }
-
-  Future<int> downloadWeek() async {
-    downloadProgress = 0;
-    notifyListeners();
-    final ok = await _repo.downloadWeek(
-      DateTime.now(),
-      onProgress: (done, total) {
-        downloadProgress = done / total;
-        notifyListeners();
-      },
-    );
-    downloadProgress = null;
-    notifyListeners();
-    return ok;
   }
 
   bool isCached(DateTime d) => _repo.isCached(d);

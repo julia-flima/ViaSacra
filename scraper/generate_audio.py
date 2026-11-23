@@ -66,8 +66,76 @@ def download_models(model_dir: Path) -> tuple[Path, Path]:
     return model_dir / MODEL_FILES[0], model_dir / MODEL_FILES[1]
 
 
+CANON_JSON = Path(__file__).resolve().parents[1] / "app" / "assets" / "bible" / "canon.json"
+
+
+def _spoken_books() -> dict[str, str]:
+    """Abreviação e nome do livro → nome falado ("1Cor" → "Primeira Coríntios", "Sl" → "Salmo")."""
+    books: dict[str, str] = {"Salmo": "Salmo"}
+    for b in json.loads(CANON_JSON.read_text(encoding="utf-8")):
+        nome = re.sub(r"\s*\(.*\)", "", b["nome"])
+        falado = nome
+        if m := re.match(r"^([1-3]) (.+)$", nome):
+            # Cartas do Novo Testamento: "Primeira Coríntios"; livros do Antigo: "Primeiro Reis".
+            nt = b["testamento"] == "NT"
+            ordinais = ("Primeira", "Segunda", "Terceira") if nt else ("Primeiro", "Segundo", "Terceiro")
+            falado = f"{ordinais[int(m.group(1)) - 1]} {m.group(2)}"
+        if b["id"] == "sl":
+            falado = "Salmo"
+        books[b["abreviacao"]] = falado
+        books[nome.replace(" ", "")] = falado
+    return books
+
+
+SPOKEN_BOOKS = _spoken_books()
+_V = r"\d{1,3}[a-z]{0,2}"
+_ITEM = rf"{_V}(?:\s?[-–]\s?(?:\d{{1,3}},)?{_V})?"
+RE_REFERENCIA_FALADA = re.compile(
+    r"(?<![\wÀ-ÿ])("
+    + "|".join(re.sub(r"^([1-3])", r"\1 ?", re.escape(k)) for k in sorted(SPOKEN_BOOKS, key=len, reverse=True))
+    + rf")\s?(\d{{1,3}})(?:\(\d{{1,3}}\))?\s?[,:]\s?({_ITEM}(?:(?:\s?\.\s?|\s(?:e|ou)\s){_ITEM})*)"
+)
+
+
+def _versiculos_falados(spec: str) -> str:
+    def n(s: str) -> str:
+        return re.sub(r"[a-z]", "", s).strip()
+
+    itens = [i for i in re.split(r"\s?\.\s?|\s(?:e|ou)\s", spec) if i.strip()]
+    falados = []
+    for item in itens:
+        if m := re.match(r"^(\S+?)\s?[-–]\s?(\d{1,3}),(\S+)$", item.strip()):  # atravessa o capítulo: "13-53,12"
+            falados.append(f"{n(m.group(1))} ao capítulo {m.group(2)}, versículo {n(m.group(3))}")
+            continue
+        partes = re.split(r"\s?[-–]\s?", item)
+        intervalo = len(partes) == 2 and n(partes[0]) != n(partes[1])
+        falados.append(f"{n(partes[0])} a {n(partes[1])}" if intervalo else n(partes[0]))
+    if len(falados) == 1 and (" a " not in falados[0] or " ao " in falados[0]):
+        return f"versículo {falados[0]}"
+    ultimo = falados.pop()
+    return "versículos " + (f"{', '.join(falados)} e {ultimo}" if falados else ultimo)
+
+
+def speakable_text(text: str) -> str:
+    """Mesmas regras de `app/lib/services/speech_text.dart`: sem marcas de leitura e com referências por extenso."""
+    t = re.sub(r"[*†+]", " ", text)
+    t = re.sub(r"^[ \t]*[RV]\.[ \t]*", "", t, flags=re.M)
+    t = re.sub(r"[ \t]+R\.[ \t]*$", "", t, flags=re.M)
+    t = re.sub(r"\bN\.\s?Sra\.", "Nossa Senhora", t)
+    t = re.sub(r"\bN\.\s?S(?:r|enhor)\.", "Nosso Senhor", t)
+    t = re.sub(r"\bSto\.\s?", "Santo ", t)
+    t = re.sub(r"\bSta\.\s?", "Santa ", t)
+    t = re.sub(r"\bS\.\s(?=[A-ZÁÉÍÓÚ])", "São ", t)
+    t = re.sub(r"\bcf\.\s?", "conforme ", t, flags=re.I)
+    t = RE_REFERENCIA_FALADA.sub(
+        lambda m: f"{SPOKEN_BOOKS[m.group(1).replace(' ', '')]} {m.group(2)}, {_versiculos_falados(m.group(3))}", t
+    )
+    t = re.sub(r"[ \t]+(?=\n)", "", t)
+    return re.sub(r"[ \t]{2,}", " ", t).strip()
+
+
 def normalize_text_for_speech(text: str) -> str:
-    t = re.sub(r"[«»“”]", '"', text)
+    t = re.sub(r"[«»“”]", '"', speakable_text(text))
     t = re.sub(r"[‘’]", "'", t)
     t = re.sub(r"[—–]", ", ", t)
     t = re.sub(r"§\s*", "parágrafo ", t)
@@ -450,6 +518,9 @@ def process_day(
             continue
 
         expected_hash = script_hash(script)
+        # "?v=" muda junto com o áudio: o navegador guarda o MP3 (max-age de 7 dias no jsDelivr)
+        # e baixa de novo quando ele é refeito. O jsDelivr ignora a query e serve o arquivo atual.
+        url = f"{url}?v={expected_hash}"
         is_liturgy = url_key == "liturgia_audio_url"
         # MP3 antigos não trazem onde começa cada leitura: são refeitos uma vez para ganhar as marcas.
         missing_marks = is_liturgy and not isinstance(audio.get(MARKS_KEY), dict)
@@ -520,10 +591,10 @@ def _process_voices(
             if force or not mp3_path.exists() or old.get("hash") != expected:
                 print(f"Sintetizando {kind} {iso} ({voice})...", flush=True)
                 starts = synthesize_fn(parts or [script], mp3_path, voice)
-                old = {"url": f"{CDN_BASE}/{name}", "hash": expected}
+                old = {"hash": expected}
                 if kind == "liturgia":
                     old["marcas"] = {k: float(t) for (k, _), t in zip(lit_parts, starts or [], strict=False)}
-            entries[voice] = old
+            entries[voice] = {**old, "url": f"{CDN_BASE}/{name}?v={expected}"}
         if entries != current:
             audio[field] = entries
             changed = True

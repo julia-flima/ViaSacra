@@ -95,7 +95,7 @@ Para permitir testar novas funcionalidades no celular (Android `.apk` e iOS `.ip
 
 ## 7. Estado atual e próximos passos
 
-**Versão em produção: v1.6.0** (`main`): voz neural embutida com modo Automático, MP3 nas vozes Dora e Alex, troca de voz imediata, "Ir ao §" no Catecismo, texto padrão menor e pinturas enquadradas pelos rostos. A `dev` segue a partir dela.
+**Versão em produção: v1.7.0** (`main`): Santo do dia, anotações por leitura, Acompanhar a Missa, semana offline automática, refrão do Salmo completo, voz que lê referências por extenso, redefinir ajustes e lembretes na Web. A `dev` segue a partir dela.
 
 **Fluxo usado até aqui:** uma branch por tarefa a partir da `dev` → PR para a `dev` → CI verde → merge e apagar a branch. Para lançar: subir a versão (seção 5), PR `dev → main`, tag `vX.Y.Z` e conferir Release e site.
 
@@ -111,7 +111,7 @@ Para permitir testar novas funcionalidades no celular (Android `.apk` e iOS `.ip
 | Fila de leitura e divisão do texto | `services/reading_audio_service.dart` (`splitForSpeech`, pré-síntese da leitura seguinte, um só `AudioPlayer`) |
 | MP3 por voz e por leitura | `scraper/generate_audio.py` grava `liturgia_vozes`/`homilia_vozes` (Dora e Alex, com marcas); `buildLiturgyQueue` recorta e o player toca o da voz escolhida |
 | Diagnóstico da voz | builds profile/debug escrevem `VS-TTS …` no `adb logcat` (síntese, áudio, cancelamento, RTF do Kokoro) e `VS-TTS web` no console |
-| Limpeza do texto para a voz | `services/neural_tts_types.dart` (`normalizeTextForKokoro`) |
+| Limpeza do texto para a voz | `services/speech_text.dart` (`speakableText`: marcas, abreviações e referências por extenso; igual a `speakable_text` em `scraper/generate_audio.py`) e `services/neural_tts_types.dart` (`normalizeTextForKokoro`: sinais tipográficos) |
 | MP3 diários da Liturgia | `scraper/generate_audio.py` + `update-liturgy.yml` (branch `data`, via jsDelivr) |
 | Arte sacra | `tool/sacred_art_catalog.json` → `tool/fetch_sacred_art.py` → `assets/data/sacred_art.json`; rodízio em `data/liturgical_art.dart` |
 | Calendário litúrgico | `core/liturgical_calendar.dart` |
@@ -122,7 +122,7 @@ Para permitir testar novas funcionalidades no celular (Android `.apk` e iOS `.ip
 **Pendências conhecidas:**
 
 - **Revisão humana** da tradução do Catecismo de São Pio X (feita pelo projeto; italiano ao lado em `scripts/data/sao_pio_x_1905.json`).
-- **Leitura mais natural:** expandir em `normalizeTextForKokoro` referências bíblicas ("Lc 19,41-44"), ordinais, abreviações ("S.", "N. Sra."), "R./V." e números romanos.
+- **Leitura mais natural:** faltam ordinais ("33ª") e números romanos em `speakableText` (referências, "S.", "N. Sra." e "R./V." já são tratados).
 - **Áudio instantâneo** para conteúdo fixo (orações, Terço, Via Sacra): gerar MP3 no CI, como já é feito com a Liturgia.
 - **Web:** onnxruntime-web e ephone ainda vêm do jsDelivr (hospedar junto do site); a voz roda numa só thread porque o GitHub Pages não envia COOP/COEP (avaliar `coi-serviceworker`).
 - **Telas grandes** a dividir em widgets: `bible_screen.dart`, `catechism_screen.dart`, `settings_screen.dart`.

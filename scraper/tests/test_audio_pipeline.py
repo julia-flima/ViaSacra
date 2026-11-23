@@ -12,8 +12,10 @@ import generate_audio as ga
 import scraper
 from tests.test_generate_audio import _sample_doc
 
-URL_LIT = f"{ga.CDN_BASE}/2026-11-19.mp3"
-URL_HOM = f"{ga.CDN_BASE}/2026-11-19-homilia.mp3"
+_DOC = _sample_doc()
+# URLs como o generate_audio grava: "?v=" com o hash do roteiro (cache do navegador).
+URL_LIT = f"{ga.CDN_BASE}/2026-11-19.mp3?v={ga.script_hash(ga.build_liturgy_script(_DOC))}"
+URL_HOM = f"{ga.CDN_BASE}/2026-11-19-homilia.mp3?v={ga.script_hash(ga.build_homily_script(_DOC))}"
 
 
 def _doc_com_audio_gerado() -> dict:
@@ -35,11 +37,18 @@ def _doc_com_audio_gerado() -> dict:
     marcas = doc["audio"]["liturgia_audio_marcas"]
     doc["audio"]["liturgia_vozes"] = {
         "pf_dora": {"url": URL_LIT, "hash": ga.script_hash(lit), "marcas": marcas},
-        "pm_alex": {"url": "alex.mp3", "hash": ga.script_hash(lit, "pm_alex"), "marcas": marcas},
+        "pm_alex": {
+            "url": f"{ga.CDN_BASE}/2026-11-19-pm_alex.mp3?v={ga.script_hash(lit, 'pm_alex')}",
+            "hash": ga.script_hash(lit, "pm_alex"),
+            "marcas": marcas,
+        },
     }
     doc["audio"]["homilia_vozes"] = {
         "pf_dora": {"url": URL_HOM, "hash": ga.script_hash(hom)},
-        "pm_alex": {"url": "alex-h.mp3", "hash": ga.script_hash(hom, "pm_alex")},
+        "pm_alex": {
+            "url": f"{ga.CDN_BASE}/2026-11-19-homilia-pm_alex.mp3?v={ga.script_hash(hom, 'pm_alex')}",
+            "hash": ga.script_hash(hom, "pm_alex"),
+        },
     }
     return doc
 
