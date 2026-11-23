@@ -137757,7 +137757,7 @@ else{if(a1.m(0,l))h=n
 else h=s.b
 h=s.aP4(h,0)}a6.push(A.fe(B.aa,A.H(""+l,g,g,g,g,h,g,g,g),B.L,g,g,new A.dl(k,g,i,g,g,g,B.eh),g,g,g,g,g,g,g))}return A.aW(g,g,g,new A.fh(!0,A.b3(A.b([a4,B.a3,A.bkc(1,a6,7,6,6,B.RE,!0)],a5),B.U,B.o,B.t,0,B.v),g),!1,g,g,g,!1,g,!1,g,g,g,g,g,g,g,g,g,g,"Calend\xe1rio de const\xe2ncia: "+a2+" dias de ora\xe7\xe3o em "+a3,g,g,g,g,g,g,g,g,g,g,g,g,g,g,g,g,g,g,g,g,g,g,g,g,g,g,g,g,B.u,g)}}
 A.yZ.prototype={
-C(a){var s=null,r=A.u(a).ok,q=A.eR(a),p=A.er(s,s,s,!0,!0,s,s,1,s,s,s,!1,s,!1,s,s,s,s,!0,s,s,s,s,s,B.axO,s,s,s,1,s,!0),o=A.dL(A.H("\u271d",s,s,s,s,A.fm(s,s,A.u(a).ax.y,s,s,s,s,s,s,s,s,40,s,s,s,s,s,!0,s,s,s,s,s,s,s,s),s,s,s),s,s),n=A.dL(A.H("Via Sacra",s,s,s,s,r.c,s,s,s),s,s),m=r.Q,l=A.dL(A.H("Vers\xe3o 1.7.0",s,s,s,s,m,s,s,s),s,s),k=A.H("Idealizado e desenvolvido por J\xfalia Lima.\nRevis\xe3o t\xe9cnica: Eduardo Lima Moraes (DoodlesEpic), que ajudou a encontrar problemas de desempenho e defeitos e a melhorar a infraestrutura e o c\xf3digo do app.\n\nO Via Sacra \xe9 100% gratuito, sem an\xfancios, sem rastreadores e de c\xf3digo aberto. Funciona offline e n\xe3o coleta nenhum dado: favoritos, anota\xe7\xf5es e const\xe2ncia ficam somente no seu aparelho.",s,s,s,s,r.y,s,s,s),j=A.cu(!1,B.H,s,s,!0,s,s,s,!0,s,B.a8A,s,s,s,s,new A.all(a),!1,s,s,s,s,s,B.ax4,s,B.axX,s,s),i=A.cu(!1,B.H,s,s,!0,s,s,s,!0,s,B.a7S,s,s,s,s,new A.alm(a),!1,s,s,s,s,s,s,s,B.axH,s,s),h=A.cu(!1,B.H,s,s,!0,s,s,s,!0,s,B.a8j,s,s,s,s,new A.aln(a),!1,s,s,s,s,s,s,s,B.axg,s,s),g=A.cu(!1,B.H,s,s,!0,s,s,s,!0,s,B.a8o,s,s,s,s,new A.alo(a),!1,s,s,s,s,s,s,s,B.ay0,s,s)
+C(a){var s=null,r=A.u(a).ok,q=A.eR(a),p=A.er(s,s,s,!0,!0,s,s,1,s,s,s,!1,s,!1,s,s,s,s,!0,s,s,s,s,s,B.axO,s,s,s,1,s,!0),o=A.dL(A.H("\u271d",s,s,s,s,A.fm(s,s,A.u(a).ax.y,s,s,s,s,s,s,s,s,40,s,s,s,s,s,!0,s,s,s,s,s,s,s,s),s,s,s),s,s),n=A.dL(A.H("Via Sacra",s,s,s,s,r.c,s,s,s),s,s),m=r.Q,l=A.dL(A.H("Vers\xe3o 1.7.1",s,s,s,s,m,s,s,s),s,s),k=A.H("Idealizado e desenvolvido por J\xfalia Lima.\nRevis\xe3o t\xe9cnica: Eduardo Lima Moraes (DoodlesEpic), que ajudou a encontrar problemas de desempenho e defeitos e a melhorar a infraestrutura e o c\xf3digo do app.\n\nO Via Sacra \xe9 100% gratuito, sem an\xfancios, sem rastreadores e de c\xf3digo aberto. Funciona offline e n\xe3o coleta nenhum dado: favoritos, anota\xe7\xf5es e const\xe2ncia ficam somente no seu aparelho.",s,s,s,s,r.y,s,s,s),j=A.cu(!1,B.H,s,s,!0,s,s,s,!0,s,B.a8A,s,s,s,s,new A.all(a),!1,s,s,s,s,s,B.ax4,s,B.axX,s,s),i=A.cu(!1,B.H,s,s,!0,s,s,s,!0,s,B.a7S,s,s,s,s,new A.alm(a),!1,s,s,s,s,s,s,s,B.axH,s,s),h=A.cu(!1,B.H,s,s,!0,s,s,s,!0,s,B.a8j,s,s,s,s,new A.aln(a),!1,s,s,s,s,s,s,s,B.axg,s,s),g=A.cu(!1,B.H,s,s,!0,s,s,s,!0,s,B.a8o,s,s,s,s,new A.alo(a),!1,s,s,s,s,s,s,s,B.ay0,s,s)
 return A.e3(p,A.hc(A.b([o,B.a3,n,l,B.d0,k,B.bv,B.a6b,B.a3,B.arN,B.arH,B.arL,B.arQ,B.arK,B.arI,B.arM,B.arT,B.arP,B.arG,B.arR,B.arU,B.arO,B.bv,B.a6k,j,i,h,g,B.d0,A.dL(A.H("Ad maiorem Dei gloriam",s,s,s,s,m==null?s:m.ma(B.cC),s,s,s),s,s)],t.p),s,new A.a2(q,24,q,48),s,!1),s,s)}}
 A.all.prototype={
 $0(){return A.lw(this.a,"https://github.com/julia-flima/ViaSacra")},
@@ -137772,7 +137772,7 @@ A.alk.prototype={
 $1(a){return B.aDz},
 $S:888}
 A.alo.prototype={
-$0(){return A.bKE("\xa9 2026 J\xfalia Lima \u2014 GPL-3.0","Via Sacra","1.7.0",this.a)},
+$0(){return A.bKE("\xa9 2026 J\xfalia Lima \u2014 GPL-3.0","Via Sacra","1.7.1",this.a)},
 $S:0}
 A.E6.prototype={
 C(a){var s=null,r=A.eR(a)
