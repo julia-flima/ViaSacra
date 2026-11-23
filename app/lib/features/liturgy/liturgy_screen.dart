@@ -137,6 +137,7 @@ class LiturgyScreen extends StatelessWidget {
                           sourceUrl: l.originalUrl,
                           onListenFromHere: () => playFrom(i),
                           onOpenInBible: () => openInBible(r),
+                          noteRef: '${LiturgyRepository.isoDate(l.date)}#${r.kind.jsonKey}',
                         )
                       else
                         ReadingCard(
@@ -144,6 +145,7 @@ class LiturgyScreen extends StatelessWidget {
                           sourceUrl: l.originalUrl,
                           onListenFromHere: () => playFrom(i),
                           onOpenInBible: () => openInBible(r),
+                          noteRef: '${LiturgyRepository.isoDate(l.date)}#${r.kind.jsonKey}',
                         ),
                     ],
                     const SizedBox(height: VsSpacing.md),
