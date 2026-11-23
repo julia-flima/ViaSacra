@@ -229,6 +229,15 @@ class SettingsScreen extends StatelessWidget {
           const _Section('Backup dos seus dados'),
           const _BackupTiles(),
 
+          // ------------------------------------------------ Redefinir
+          ListTile(
+            contentPadding: EdgeInsets.zero,
+            leading: const Icon(Icons.restart_alt),
+            title: const Text('Redefinir ajustes'),
+            subtitle: const Text('Volta aparência, voz e lembretes ao padrão, sem apagar seus dados'),
+            onTap: () => _confirmReset(context, services),
+          ),
+
           // ------------------------------------------------ Sobre
           const _Section('Sobre'),
           ListTile(
@@ -582,6 +591,37 @@ class _BackupTiles extends StatelessWidget {
       ),
     ],
   );
+}
+
+Future<void> _confirmReset(BuildContext context, AppServices services) async {
+  final messenger = ScaffoldMessenger.of(context);
+  final ok = await showDialog<bool>(
+    context: context,
+    builder: (ctx) => AlertDialog(
+      title: const Text('Redefinir ajustes?'),
+      content: const Text(
+        'Tema, fonte, tamanho do texto, voz da leitura e lembretes voltam ao padrão.\n\n'
+        'Suas Bíblias e catecismos importados, anotações, favoritos, marcações, constância, '
+        'liturgias e vozes baixadas continuam no aparelho.',
+      ),
+      actions: [
+        TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('Cancelar')),
+        FilledButton(onPressed: () => Navigator.pop(ctx, true), child: const Text('Redefinir')),
+      ],
+    ),
+  );
+  if (ok != true) return;
+  final st = services.settings;
+  final audio = services.audio;
+  await st.resetToDefaults();
+  // O player guarda a voz e a velocidade em uso: aplica os padrões, como na abertura do app.
+  await audio.setSpeed(st.ttsSpeed);
+  await audio.setKokoroVoice(st.kokoroVoice);
+  await audio.setPiperVoice(st.piperVoice);
+  await audio.setEngine(st.ttsEngine);
+  await audio.setVoice(null, null);
+  await services.notifications?.reschedule(st, services.liturgyRepository);
+  messenger.showSnackBar(const SnackBar(content: Text('Ajustes redefinidos.')));
 }
 
 class _Section extends StatelessWidget {
