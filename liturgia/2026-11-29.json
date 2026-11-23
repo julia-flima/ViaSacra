@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "data": "2026-11-29",
-  "gerado_em": "2026-11-23T13:17:12-03:00",
+  "gerado_em": "2026-11-23T14:45:52-03:00",
   "calendario": {
     "data": "2026-11-29",
     "dia_semana": "Domingo",
@@ -67,6 +67,8 @@
       "primeira_leitura": 0.0,
       "evangelho": 105.7
     },
+    "homilia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-29-homilia.mp3?v=9124d483df11134b",
+    "homilia_audio_hash": "9124d483df11134b",
     "liturgia_vozes": {
       "pf_dora": {
         "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-29.mp3?v=bafd6f62f045051c",
@@ -85,8 +87,6 @@
         }
       }
     },
-    "homilia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-29-homilia.mp3?v=9124d483df11134b",
-    "homilia_audio_hash": "9124d483df11134b",
     "homilia_vozes": {
       "pf_dora": {
         "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-29-homilia.mp3?v=9124d483df11134b",

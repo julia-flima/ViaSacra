@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "data": "2026-11-25",
-  "gerado_em": "2026-11-23T13:16:56-03:00",
+  "gerado_em": "2026-11-23T14:45:35-03:00",
   "calendario": {
     "data": "2026-11-25",
     "dia_semana": "Quarta-feira",
@@ -75,24 +75,14 @@
       }
     ],
     "fallback": "tts_local_pt_BR",
-    "homilia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-25-homilia.mp3?v=5663ba65c498f047",
-    "homilia_audio_hash": "5663ba65c498f047",
-    "homilia_vozes": {
-      "pf_dora": {
-        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-25-homilia.mp3?v=5663ba65c498f047",
-        "hash": "5663ba65c498f047"
-      },
-      "pm_alex": {
-        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-25-homilia-pm_alex.mp3?v=648a447ada6dd7e2",
-        "hash": "648a447ada6dd7e2"
-      }
-    },
+    "liturgia_audio_hash": "8d3bedc947e1f717",
     "liturgia_audio_marcas": {
       "primeira_leitura": 0.0,
       "salmo": 50.27,
       "evangelho": 110.87
     },
-    "liturgia_audio_hash": "8d3bedc947e1f717",
+    "homilia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-25-homilia.mp3?v=5663ba65c498f047",
+    "homilia_audio_hash": "5663ba65c498f047",
     "liturgia_vozes": {
       "pf_dora": {
         "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-25.mp3?v=8d3bedc947e1f717",
@@ -111,6 +101,16 @@
           "evangelho": 111.21
         },
         "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-25-pm_alex.mp3?v=f8ff81aec084b0e1"
+      }
+    },
+    "homilia_vozes": {
+      "pf_dora": {
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-25-homilia.mp3?v=5663ba65c498f047",
+        "hash": "5663ba65c498f047"
+      },
+      "pm_alex": {
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-25-homilia-pm_alex.mp3?v=648a447ada6dd7e2",
+        "hash": "648a447ada6dd7e2"
       }
     }
   },

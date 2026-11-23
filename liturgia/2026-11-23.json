@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "data": "2026-11-23",
-  "gerado_em": "2026-11-23T13:16:49-03:00",
+  "gerado_em": "2026-11-23T14:45:29-03:00",
   "calendario": {
     "data": "2026-11-23",
     "dia_semana": "Segunda-feira",
@@ -75,24 +75,14 @@
       }
     ],
     "fallback": "tts_local_pt_BR",
-    "homilia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-23-homilia.mp3?v=471f0e47e55f5295",
-    "homilia_audio_hash": "471f0e47e55f5295",
-    "homilia_vozes": {
-      "pf_dora": {
-        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-23-homilia.mp3?v=471f0e47e55f5295",
-        "hash": "471f0e47e55f5295"
-      },
-      "pm_alex": {
-        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-23-homilia-pm_alex.mp3?v=2b97dd3b2041c7c9",
-        "hash": "2b97dd3b2041c7c9"
-      }
-    },
+    "liturgia_audio_hash": "7a60b811d1ec1009",
     "liturgia_audio_marcas": {
       "primeira_leitura": 0.0,
       "salmo": 48.39,
       "evangelho": 102.29
     },
-    "liturgia_audio_hash": "7a60b811d1ec1009",
+    "homilia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-23-homilia.mp3?v=471f0e47e55f5295",
+    "homilia_audio_hash": "471f0e47e55f5295",
     "liturgia_vozes": {
       "pf_dora": {
         "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-23.mp3?v=7a60b811d1ec1009",
@@ -111,6 +101,16 @@
           "evangelho": 102.76
         },
         "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-23-pm_alex.mp3?v=77034b02cdbdbe69"
+      }
+    },
+    "homilia_vozes": {
+      "pf_dora": {
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-23-homilia.mp3?v=471f0e47e55f5295",
+        "hash": "471f0e47e55f5295"
+      },
+      "pm_alex": {
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-23-homilia-pm_alex.mp3?v=2b97dd3b2041c7c9",
+        "hash": "2b97dd3b2041c7c9"
       }
     }
   },

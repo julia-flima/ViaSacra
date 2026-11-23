@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "data": "2026-11-26",
-  "gerado_em": "2026-11-23T13:17:00-03:00",
+  "gerado_em": "2026-11-23T14:45:39-03:00",
   "calendario": {
     "data": "2026-11-26",
     "dia_semana": "Quinta-feira",
@@ -73,24 +73,14 @@
       }
     ],
     "fallback": "tts_local_pt_BR",
-    "homilia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-26-homilia.mp3?v=367e1144fe9ef364",
-    "homilia_audio_hash": "367e1144fe9ef364",
-    "homilia_vozes": {
-      "pf_dora": {
-        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-26-homilia.mp3?v=367e1144fe9ef364",
-        "hash": "367e1144fe9ef364"
-      },
-      "pm_alex": {
-        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-26-homilia-pm_alex.mp3?v=3a2b4b2b1590a4f8",
-        "hash": "3a2b4b2b1590a4f8"
-      }
-    },
+    "liturgia_audio_hash": "7b915cfe648b81bc",
     "liturgia_audio_marcas": {
       "primeira_leitura": 0.0,
       "salmo": 87.74,
       "evangelho": 135.06
     },
-    "liturgia_audio_hash": "7b915cfe648b81bc",
+    "homilia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-26-homilia.mp3?v=367e1144fe9ef364",
+    "homilia_audio_hash": "367e1144fe9ef364",
     "liturgia_vozes": {
       "pf_dora": {
         "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-26.mp3?v=7b915cfe648b81bc",
@@ -109,6 +99,16 @@
           "evangelho": 135.08
         },
         "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-26-pm_alex.mp3?v=35df0b9be1e8fab6"
+      }
+    },
+    "homilia_vozes": {
+      "pf_dora": {
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-26-homilia.mp3?v=367e1144fe9ef364",
+        "hash": "367e1144fe9ef364"
+      },
+      "pm_alex": {
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-26-homilia-pm_alex.mp3?v=3a2b4b2b1590a4f8",
+        "hash": "3a2b4b2b1590a4f8"
       }
     }
   },

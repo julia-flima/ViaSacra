@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "data": "2026-11-27",
-  "gerado_em": "2026-11-23T13:17:04-03:00",
+  "gerado_em": "2026-11-23T14:45:43-03:00",
   "calendario": {
     "data": "2026-11-27",
     "dia_semana": "Sexta-feira",
@@ -73,24 +73,14 @@
       }
     ],
     "fallback": "tts_local_pt_BR",
-    "homilia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-27-homilia.mp3?v=ac87af1ec02b9ea9",
-    "homilia_audio_hash": "ac87af1ec02b9ea9",
-    "homilia_vozes": {
-      "pf_dora": {
-        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-27-homilia.mp3?v=ac87af1ec02b9ea9",
-        "hash": "ac87af1ec02b9ea9"
-      },
-      "pm_alex": {
-        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-27-homilia-pm_alex.mp3?v=edcabbbbcd26d376",
-        "hash": "edcabbbbcd26d376"
-      }
-    },
+    "liturgia_audio_hash": "45f92b40f7583b01",
     "liturgia_audio_marcas": {
       "primeira_leitura": 0.0,
       "salmo": 106.05,
       "evangelho": 144.46
     },
-    "liturgia_audio_hash": "45f92b40f7583b01",
+    "homilia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-27-homilia.mp3?v=ac87af1ec02b9ea9",
+    "homilia_audio_hash": "ac87af1ec02b9ea9",
     "liturgia_vozes": {
       "pf_dora": {
         "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-27.mp3?v=45f92b40f7583b01",
@@ -109,6 +99,16 @@
           "evangelho": 144.11
         },
         "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-27-pm_alex.mp3?v=53af46d7807e9eb7"
+      }
+    },
+    "homilia_vozes": {
+      "pf_dora": {
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-27-homilia.mp3?v=ac87af1ec02b9ea9",
+        "hash": "ac87af1ec02b9ea9"
+      },
+      "pm_alex": {
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-27-homilia-pm_alex.mp3?v=edcabbbbcd26d376",
+        "hash": "edcabbbbcd26d376"
       }
     }
   },

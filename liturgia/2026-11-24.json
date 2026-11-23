@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "data": "2026-11-24",
-  "gerado_em": "2026-11-23T13:16:52-03:00",
+  "gerado_em": "2026-11-23T14:45:32-03:00",
   "calendario": {
     "data": "2026-11-24",
     "dia_semana": "Terça-feira",
@@ -66,24 +66,14 @@
       }
     ],
     "fallback": "tts_local_pt_BR",
-    "homilia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-24-homilia.mp3?v=bfb6bc31f1dce2f2",
-    "homilia_audio_hash": "bfb6bc31f1dce2f2",
-    "homilia_vozes": {
-      "pf_dora": {
-        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-24-homilia.mp3?v=bfb6bc31f1dce2f2",
-        "hash": "bfb6bc31f1dce2f2"
-      },
-      "pm_alex": {
-        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-24-homilia-pm_alex.mp3?v=15769091ceacdf9a",
-        "hash": "15769091ceacdf9a"
-      }
-    },
+    "liturgia_audio_hash": "01c35d537487f3d3",
     "liturgia_audio_marcas": {
       "primeira_leitura": 0.0,
       "salmo": 58.21,
       "evangelho": 91.75
     },
-    "liturgia_audio_hash": "01c35d537487f3d3",
+    "homilia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-24-homilia.mp3?v=bfb6bc31f1dce2f2",
+    "homilia_audio_hash": "bfb6bc31f1dce2f2",
     "liturgia_vozes": {
       "pf_dora": {
         "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-24.mp3?v=01c35d537487f3d3",
@@ -102,6 +92,16 @@
           "evangelho": 91.32
         },
         "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-24-pm_alex.mp3?v=6bace67b81e88b33"
+      }
+    },
+    "homilia_vozes": {
+      "pf_dora": {
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-24-homilia.mp3?v=bfb6bc31f1dce2f2",
+        "hash": "bfb6bc31f1dce2f2"
+      },
+      "pm_alex": {
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-24-homilia-pm_alex.mp3?v=15769091ceacdf9a",
+        "hash": "15769091ceacdf9a"
       }
     }
   },
