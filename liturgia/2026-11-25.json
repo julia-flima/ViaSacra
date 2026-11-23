@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "data": "2026-11-25",
-  "gerado_em": "2026-11-23T09:11:38-03:00",
+  "gerado_em": "2026-11-23T13:16:56-03:00",
   "calendario": {
     "data": "2026-11-25",
     "dia_semana": "Quarta-feira",
@@ -25,20 +25,17 @@
       "fonte": "CNBB"
     },
     "salmo": {
-      "referencia": "Sl 97(98),1.2-3a",
-      "refrao": "Como são grandes e admiráveis vossas obras,",
+      "referencia": "Sl 97(98),1.2-3ab.7-8.9",
+      "refrao": "Como são grandes e admiráveis vossas obras,\nó Senhor e nosso Deus onipotente!",
       "estrofes": [
-        "ó Senhor e nosso Deus onipotente!",
         "Cantai ao Senhor Deus um canto novo, *\nporque ele fez prodígios!\nSua mão e o seu braço forte e santo *\nalcançaram-lhe a vitória.",
         "O Senhor fez conhecer a salvação, *\ne às nações, sua justiça;",
-        "recordou o seu amor sempre fiel *",
-        "b",
-        "pela casa de Israel",
+        "recordou o seu amor sempre fiel *\npela casa de Israel",
         "Aplauda o mar com todo ser que nele vive, *\no mundo inteiro e toda gente!",
         "As montanhas e os rios batam palmas *\ne exultem de alegria.",
         "na presença do Senhor, pois ele vem, *\nvem julgar a terra inteira.\nJulgará o universo com justiça *\ne as nações com equidade."
       ],
-      "texto": "ó Senhor e nosso Deus onipotente!\n\nCantai ao Senhor Deus um canto novo, *\nporque ele fez prodígios!\nSua mão e o seu braço forte e santo *\nalcançaram-lhe a vitória.\n\nO Senhor fez conhecer a salvação, *\ne às nações, sua justiça;\n\nrecordou o seu amor sempre fiel *\n\nb\n\npela casa de Israel\n\nAplauda o mar com todo ser que nele vive, *\no mundo inteiro e toda gente!\n\nAs montanhas e os rios batam palmas *\ne exultem de alegria.\n\nna presença do Senhor, pois ele vem, *\nvem julgar a terra inteira.\nJulgará o universo com justiça *\ne as nações com equidade.",
+      "texto": "Cantai ao Senhor Deus um canto novo, *\nporque ele fez prodígios!\nSua mão e o seu braço forte e santo *\nalcançaram-lhe a vitória.\n\nO Senhor fez conhecer a salvação, *\ne às nações, sua justiça;\n\nrecordou o seu amor sempre fiel *\npela casa de Israel\n\nAplauda o mar com todo ser que nele vive, *\no mundo inteiro e toda gente!\n\nAs montanhas e os rios batam palmas *\ne exultem de alegria.\n\nna presença do Senhor, pois ele vem, *\nvem julgar a terra inteira.\nJulgará o universo com justiça *\ne as nações com equidade.",
       "fonte": "CNBB"
     },
     "segunda_leitura": null,
@@ -55,7 +52,7 @@
     "salmo_cifra_ou_melodia": null,
     "salmo_video_id": "PO_TCgCnBlU",
     "salmo_video_titulo": "Salmo 97 (98) | Como são grandes e admiráveis vossas obras, ó Senhor e nosso Deus onipotente.",
-    "liturgia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-25.mp3",
+    "liturgia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-25.mp3?v=8d3bedc947e1f717",
     "creditos": [
       {
         "campo": "salmo_video_id",
@@ -78,11 +75,11 @@
       }
     ],
     "fallback": "tts_local_pt_BR",
-    "homilia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-25-homilia.mp3",
+    "homilia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-25-homilia.mp3?v=5663ba65c498f047",
     "homilia_audio_hash": "5663ba65c498f047",
     "homilia_vozes": {
       "pf_dora": {
-        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-25-homilia.mp3",
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-25-homilia.mp3?v=5663ba65c498f047",
         "hash": "5663ba65c498f047"
       },
       "pm_alex": {
@@ -92,28 +89,28 @@
     },
     "liturgia_audio_marcas": {
       "primeira_leitura": 0.0,
-      "salmo": 50.1,
-      "evangelho": 111.19
+      "salmo": 50.27,
+      "evangelho": 110.87
     },
-    "liturgia_audio_hash": "08d434f63bd8425e",
+    "liturgia_audio_hash": "8d3bedc947e1f717",
     "liturgia_vozes": {
       "pf_dora": {
-        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-25.mp3",
-        "hash": "08d434f63bd8425e",
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-25.mp3?v=8d3bedc947e1f717",
+        "hash": "8d3bedc947e1f717",
         "marcas": {
           "primeira_leitura": 0.0,
-          "salmo": 50.1,
-          "evangelho": 111.19
+          "salmo": 50.27,
+          "evangelho": 110.87
         }
       },
       "pm_alex": {
-        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-25-pm_alex.mp3",
-        "hash": "57f9bf78e6a40d34",
+        "hash": "f8ff81aec084b0e1",
         "marcas": {
           "primeira_leitura": 0.0,
-          "salmo": 50.18,
-          "evangelho": 111.81
-        }
+          "salmo": 50.27,
+          "evangelho": 111.21
+        },
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-25-pm_alex.mp3?v=f8ff81aec084b0e1"
       }
     }
   },
@@ -149,6 +146,36 @@
       }
     ]
   },
+  "santos": [
+    {
+      "nome": "S. Moisés, mártir em Roma",
+      "resumo": "Moisés era decano do Colégio sacerdotal de Roma, durante a perseguição contra o cristianismo, por parte de Décio, imperador romano, no século III. Distinguiu-se por sua posição indulgente para com aqueles, que haviam renegado à sua fé, para se salvar. Faleceu após uma longa detenção, em 251.",
+      "url": "https://www.vaticannews.va/pt/santo-do-dia/11/25.html",
+      "fonte": "Vatican News (Português) — Dicastério para a Comunicação",
+      "licenca": "© Libreria Editrice Vaticana / Dicastério para a Comunicação. Reprodução para fins pastorais e não comerciais, com citação da fonte e link para o original."
+    },
+    {
+      "nome": "S. Pedro de Alexandria, bispo e mártir",
+      "resumo": "Pedro era Bispo de Alexandria, no Egito, durante a perseguição de Diocleciano. Sendo obrigado a se esconder, na sua ausência, houve um cisma na sua Igreja. Pedro, preso e morto no ano 311, é celebrado junto com outros três santos Bispos egípcios mártires: Hesíquio, Pacômio e Teodoro.",
+      "url": "https://www.vaticannews.va/pt/santo-do-dia/11/25.html",
+      "fonte": "Vatican News (Português) — Dicastério para a Comunicação",
+      "licenca": "© Libreria Editrice Vaticana / Dicastério para a Comunicação. Reprodução para fins pastorais e não comerciais, com citação da fonte e link para o original."
+    },
+    {
+      "nome": "BB. Luís e Maria Beltrame Quattrocchi, cônjuges",
+      "resumo": "O casal tornou-se santo vivendo seu matrimônio como um caminho para Deus. Luís e Maria Beltrame Quattrocchi foram o primeiro casal a ser beatificado por desejo do Papa Wojtyla. Sua memória litúrgica é celebrada em 25 de novembro, dia do aniversário de casamento, em 1905.",
+      "url": "https://www.vaticannews.va/pt/santo-do-dia/11/25/bb--luis-e-maria-beltrame-quattrocchi--conjuges.html",
+      "fonte": "Vatican News (Português) — Dicastério para a Comunicação",
+      "licenca": "© Libreria Editrice Vaticana / Dicastério para a Comunicação. Reprodução para fins pastorais e não comerciais, com citação da fonte e link para o original."
+    },
+    {
+      "nome": "S. Catarina de Alexandria",
+      "resumo": "Diz a lenda que Catarina não abjurou à fé, diante do governador do Egito e Síria, Maximino, mas convenceu os dignitários a se converterem. Maximino mandou matá-los e pediu a jovem em casamento. Ao se recusar, foi assassinada em 305. Seus restos mortais descansam em Gebel Katherin, no Sinai.",
+      "url": "https://www.vaticannews.va/pt/santo-do-dia/11/25.html",
+      "fonte": "Vatican News (Português) — Dicastério para a Comunicação",
+      "licenca": "© Libreria Editrice Vaticana / Dicastério para a Comunicação. Reprodução para fins pastorais e não comerciais, com citação da fonte e link para o original."
+    }
+  ],
   "fontes": [
     {
       "id": "cnbb",
@@ -173,6 +200,7 @@
   "status": {
     "cnbb": "ok",
     "vaticano": "ok",
+    "santo_do_dia": "ok",
     "patristica": "ok"
   }
 }

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "data": "2026-11-28",
-  "gerado_em": "2026-11-23T09:11:44-03:00",
+  "gerado_em": "2026-11-23T13:17:08-03:00",
   "calendario": {
     "data": "2026-11-28",
     "dia_semana": "Sábado",
@@ -28,7 +28,6 @@
       "referencia": "Sl 94(95),1-2.3-5.6-7",
       "refrao": "Amém! Vem, ó Senhor Jesus! Amém!",
       "estrofes": [
-        "Sl 94(95),1-2.3-5.6-7 (R. 1Cor 16,22b e Ap 22,20c)",
         "Vinde, exultemos de alegria no Senhor, *\naclamemos o Rochedo que nos salva!",
         "Ao seu encontro caminhemos com louvores, *\ne com cantos de alegria o celebremos!",
         "Na verdade, o Senhor é o grande Deus, *\no grande Rei, muito maior que os deuses todos.",
@@ -37,7 +36,7 @@
         "Vinde adoremos e prostremo-nos por terra, *\ne ajoelhemos ante o Deus que nos criou!",
         "Porque ele é o nosso Deus, nosso Pastor, †\ne nós somos o seu povo e seu rebanho, *\nas ovelhas que conduz com sua mão."
       ],
-      "texto": "Sl 94(95),1-2.3-5.6-7 (R. 1Cor 16,22b e Ap 22,20c)\n\nVinde, exultemos de alegria no Senhor, *\naclamemos o Rochedo que nos salva!\n\nAo seu encontro caminhemos com louvores, *\ne com cantos de alegria o celebremos!\n\nNa verdade, o Senhor é o grande Deus, *\no grande Rei, muito maior que os deuses todos.\n\nTem nas mãos as profundezas dos abismos, *\ne as alturas das montanhas lhe pertencem;\n\no mar é dele, pois foi ele quem o fez, *\ne a terra firme suas mãos a modelaram.\n\nVinde adoremos e prostremo-nos por terra, *\ne ajoelhemos ante o Deus que nos criou!\n\nPorque ele é o nosso Deus, nosso Pastor, †\ne nós somos o seu povo e seu rebanho, *\nas ovelhas que conduz com sua mão.",
+      "texto": "Vinde, exultemos de alegria no Senhor, *\naclamemos o Rochedo que nos salva!\n\nAo seu encontro caminhemos com louvores, *\ne com cantos de alegria o celebremos!\n\nNa verdade, o Senhor é o grande Deus, *\no grande Rei, muito maior que os deuses todos.\n\nTem nas mãos as profundezas dos abismos, *\ne as alturas das montanhas lhe pertencem;\n\no mar é dele, pois foi ele quem o fez, *\ne a terra firme suas mãos a modelaram.\n\nVinde adoremos e prostremo-nos por terra, *\ne ajoelhemos ante o Deus que nos criou!\n\nPorque ele é o nosso Deus, nosso Pastor, †\ne nós somos o seu povo e seu rebanho, *\nas ovelhas que conduz com sua mão.",
       "fonte": "CNBB"
     },
     "segunda_leitura": null,
@@ -54,7 +53,7 @@
     "salmo_cifra_ou_melodia": null,
     "salmo_video_id": "_KzxjjGl2LA",
     "salmo_video_titulo": "Salmo 94 (95) | Amém! Vem, ó Senhor Jesus! Amém! | Priscila Ocana | Cifra | #salmo94",
-    "liturgia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-28.mp3",
+    "liturgia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-28.mp3?v=a606a06e43a307fc",
     "creditos": [
       {
         "campo": "salmo_video_id",
@@ -79,40 +78,40 @@
     "fallback": "tts_local_pt_BR",
     "liturgia_audio_marcas": {
       "primeira_leitura": 0.0,
-      "salmo": 60.18,
-      "evangelho": 122.26
+      "salmo": 60.15,
+      "evangelho": 107.61
     },
-    "liturgia_audio_hash": "ac661555d83031d1",
-    "homilia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-28-homilia.mp3",
-    "homilia_audio_hash": "706c11161b3ad790",
+    "liturgia_audio_hash": "a606a06e43a307fc",
+    "homilia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-28-homilia.mp3?v=9793c6d635ff263d",
+    "homilia_audio_hash": "9793c6d635ff263d",
     "liturgia_vozes": {
       "pf_dora": {
-        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-28.mp3",
-        "hash": "ac661555d83031d1",
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-28.mp3?v=a606a06e43a307fc",
+        "hash": "a606a06e43a307fc",
         "marcas": {
           "primeira_leitura": 0.0,
-          "salmo": 60.18,
-          "evangelho": 122.26
+          "salmo": 60.15,
+          "evangelho": 107.61
         }
       },
       "pm_alex": {
-        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-28-pm_alex.mp3",
-        "hash": "960727e305eb78f6",
+        "hash": "d4eb21626277e64a",
         "marcas": {
           "primeira_leitura": 0.0,
-          "salmo": 60.18,
-          "evangelho": 122.32
-        }
+          "salmo": 60.2,
+          "evangelho": 107.37
+        },
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-28-pm_alex.mp3?v=d4eb21626277e64a"
       }
     },
     "homilia_vozes": {
       "pf_dora": {
-        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-28-homilia.mp3",
-        "hash": "706c11161b3ad790"
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-28-homilia.mp3?v=9793c6d635ff263d",
+        "hash": "9793c6d635ff263d"
       },
       "pm_alex": {
-        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-28-homilia-pm_alex.mp3",
-        "hash": "c6c1f5a3a2438a97"
+        "hash": "ea5d7663fafa7d27",
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-28-homilia-pm_alex.mp3?v=ea5d7663fafa7d27"
       }
     }
   },
@@ -148,6 +147,15 @@
       }
     ]
   },
+  "santos": [
+    {
+      "nome": "S. Tiago da Marca, sacerdote franciscano",
+      "resumo": "Tiago das Marcas foi um pregador impetuoso, mas a sua severidade era abrandada pela clemência. Tornando-se franciscano, em 1415, foi para a Europa Oriental. Seu modo elegante encantava as pessoas com seus gestos e palavras; combateu a usura inventando o penhor do “Monti di Pietà”.",
+      "url": "https://www.vaticannews.va/pt/santo-do-dia/11/28.html",
+      "fonte": "Vatican News (Português) — Dicastério para a Comunicação",
+      "licenca": "© Libreria Editrice Vaticana / Dicastério para a Comunicação. Reprodução para fins pastorais e não comerciais, com citação da fonte e link para o original."
+    }
+  ],
   "fontes": [
     {
       "id": "cnbb",
@@ -172,6 +180,7 @@
   "status": {
     "cnbb": "ok",
     "vaticano": "ok",
+    "santo_do_dia": "ok",
     "patristica": "ok"
   }
 }
