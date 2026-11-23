@@ -76,6 +76,22 @@ def test_extrair_referencia_com_letras_e_conjuncao():
     assert scraper.extrair_referencia("Sl 149,1-2.3-4.5-6a e 9b") == "Sl 149,1-2.3-4.5-6a e 9b"
 
 
+def test_santo_do_dia_vatican():
+    # Página real do Vatican News de 22/11/2026 (Santa Cecília).
+    html = (FIX / "vatican_santo_sample.html").read_text(encoding="utf-8")
+    santos = scraper.parse_santo_do_dia(html, "https://www.vaticannews.va/pt/santo-do-dia/11/22.html")
+    assert len(santos) == 1
+    s = santos[0]
+    assert s["nome"] == "S. Cecília, virgem e mártir, no cemitério de Calisto"
+    assert s["resumo"].startswith("História e lenda se entrelaçam em torno da figura de Santa Cecília")
+    assert s["resumo"].endswith("A Igreja a recorda no dia 22 de novembro.")
+    assert s["url"] == (
+        "https://www.vaticannews.va/pt/santo-do-dia/11/22/s--cecilia--virgem-e-martir--no-cemiterio-de-calisto.html"
+    )
+    assert "Libreria Editrice Vaticana" in s["licenca"]
+    assert scraper.parse_santo_do_dia("<html><body><p>nada</p></body></html>", "x") == []
+
+
 def test_vatican_evangelho_do_dia():
     html = (FIX / "vatican_gospel_sample.html").read_text(encoding="utf-8")
     h = scraper.parse_vatican_evangelho_do_dia(html, "https://www.vaticannews.va/pt/evangelho-do-dia/2026/11/19.html")

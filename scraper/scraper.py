@@ -102,6 +102,7 @@ CNBB_URLS = [
 ]
 # Página "Palavra do dia": leituras + "As palavras dos Papas" (estrutura verificada em nov/2026)
 VATICAN_GOSPEL_URL = "https://www.vaticannews.va/pt/palavra-do-dia/{ano}/{mes:02d}/{dia:02d}.html"
+VATICAN_SAINT_URL = "https://www.vaticannews.va/pt/santo-do-dia/{mes:02d}/{dia:02d}.html"
 VATICAN_RSS_URLS = [
     "https://www.vaticannews.va/pt.rss.xml",
     "https://www.vaticannews.va/pt/papa.rss.xml",
@@ -867,6 +868,36 @@ def coletar_vaticano_leituras(cliente: ClienteHttp, d: date) -> dict[str, Any]:
     raise FonteIndisponivel("Leituras não encontradas na página do Vatican News")
 
 
+def parse_santo_do_dia(html: str, url: str) -> list[dict[str, Any]]:
+    """Santos do dia do Vatican News: nome, resumo e link para o texto completo ("Leia tudo...").
+
+    Guardamos só o resumo da página do dia, com crédito e link (mesma nota da homilia)."""
+    soup = BeautifulSoup(html, "html.parser")
+    santos: list[dict[str, Any]] = []
+    for secao in soup.select("section.section--isStatic"):
+        titulo, resumo = secao.find("h2"), secao.find("p")
+        if not titulo or not resumo:
+            continue
+        link = secao.find("a", class_="saintReadMore")
+        santos.append({
+            "nome": limpar(titulo.get_text(" ", strip=True)),
+            "resumo": limpar(resumo.get_text(" ", strip=True)),
+            "url": urljoin(url, link["href"]) if link and link.get("href") else url,
+            "fonte": FONTE_VATICANO["nome"],
+            "licenca": FONTE_VATICANO["nota"],
+        })
+    return [s for s in santos if s["nome"] and len(s["resumo"]) >= 40]
+
+
+def coletar_santo_do_dia(cliente: ClienteHttp, d: date) -> list[dict[str, Any]]:
+    if cliente.offline_html and "vatican_santo" not in cliente.offline_html:
+        raise FonteIndisponivel("modo offline sem amostra do Santo do dia")
+    url = VATICAN_SAINT_URL.format(mes=d.month, dia=d.day)
+    if santos := parse_santo_do_dia(cliente.get(url, chave_offline="vatican_santo"), url):
+        return santos
+    raise FonteIndisponivel("Santo do dia: página sem santos reconhecidos")
+
+
 def coletar_vaticano(cliente: ClienteHttp, d: date) -> dict[str, Any]:
     url = VATICAN_GOSPEL_URL.format(ano=d.year, mes=d.month, dia=d.day)
     try:
@@ -1130,6 +1161,9 @@ def montar_dia(d: date, cliente: ClienteHttp, fontes: set[str]) -> dict[str, Any
     if cnbb is None and "vaticano" in fontes:
         leituras_vatican = _executar("leituras_vaticano", status, lambda: coletar_vaticano_leituras(cliente, d))
     leituras_fonte = cnbb or leituras_vatican
+    santos = None
+    if "vaticano" in fontes:
+        santos = _executar("santo_do_dia", status, lambda: coletar_santo_do_dia(cliente, d))
 
     acervo_patristico = carregar_json(BASE_DIR / "patristic.json")
     ref_evangelho = ((leituras_fonte or {}).get("evangelho") or {}).get("referencia")
@@ -1178,6 +1212,7 @@ def montar_dia(d: date, cliente: ClienteHttp, fontes: set[str]) -> dict[str, Any
             "cnbb": (cnbb or {}).get("reflexao"),
             "patristica": patristica,
         },
+        "santos": santos or [],
         "fontes": fontes_usadas,
         "url_original": (leituras_fonte or {}).get("url"),
         "status": status,
