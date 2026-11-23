@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "data": "2026-11-26",
-  "gerado_em": "2026-11-22T23:29:45-03:00",
+  "gerado_em": "2026-11-23T09:11:40-03:00",
   "calendario": {
     "data": "2026-11-26",
     "dia_semana": "Quinta-feira",
@@ -26,14 +26,15 @@
     },
     "salmo": {
       "referencia": "Sl 99(100),2.3.4.5",
-      "refrao": "São bem-aventurados os que foram convidados\npara a Ceia Nupcial das bodas do Cordeiro!",
+      "refrao": "São bem-aventurados os que foram convidados",
       "estrofes": [
+        "para a Ceia Nupcial das bodas do Cordeiro!",
         "Aclamai o Senhor, ó terra inteira, †\nservi ao Senhor com alegria, *\nide a ele cantando jubilosos!",
         "Sabei que o Senhor, só ele, é Deus, †\nEle mesmo nos fez, e somos seus, *\nnós somos seu povo e seu rebanho.",
         "Entrai por suas portas dando graças, †\ne em seus átrios com hinos de louvor; *\ndai-lhe graças, seu nome bendizei!",
         "Sim, é bom o Senhor e nosso Deus, †\nsua bondade perdura para sempre, *\nseu amor é fiel eternamente!"
       ],
-      "texto": "Aclamai o Senhor, ó terra inteira, †\nservi ao Senhor com alegria, *\nide a ele cantando jubilosos!\n\nSabei que o Senhor, só ele, é Deus, †\nEle mesmo nos fez, e somos seus, *\nnós somos seu povo e seu rebanho.\n\nEntrai por suas portas dando graças, †\ne em seus átrios com hinos de louvor; *\ndai-lhe graças, seu nome bendizei!\n\nSim, é bom o Senhor e nosso Deus, †\nsua bondade perdura para sempre, *\nseu amor é fiel eternamente!",
+      "texto": "para a Ceia Nupcial das bodas do Cordeiro!\n\nAclamai o Senhor, ó terra inteira, †\nservi ao Senhor com alegria, *\nide a ele cantando jubilosos!\n\nSabei que o Senhor, só ele, é Deus, †\nEle mesmo nos fez, e somos seus, *\nnós somos seu povo e seu rebanho.\n\nEntrai por suas portas dando graças, †\ne em seus átrios com hinos de louvor; *\ndai-lhe graças, seu nome bendizei!\n\nSim, é bom o Senhor e nosso Deus, †\nsua bondade perdura para sempre, *\nseu amor é fiel eternamente!",
       "fonte": "CNBB"
     },
     "segunda_leitura": null,
@@ -50,7 +51,7 @@
     "salmo_cifra_ou_melodia": null,
     "salmo_video_id": "BFiGaQi_nWE",
     "salmo_video_titulo": "Salmo 99 (100) | São bem-aventurados os que foram convidados à Ceia Nupcial das bodas do Cordeiro",
-    "liturgia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-26.mp3?v=7b915cfe648b81bc",
+    "liturgia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-26.mp3",
     "creditos": [
       {
         "campo": "salmo_video_id",
@@ -73,11 +74,11 @@
       }
     ],
     "fallback": "tts_local_pt_BR",
-    "homilia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-26-homilia.mp3?v=367e1144fe9ef364",
+    "homilia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-26-homilia.mp3",
     "homilia_audio_hash": "367e1144fe9ef364",
     "homilia_vozes": {
       "pf_dora": {
-        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-26-homilia.mp3?v=367e1144fe9ef364",
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-26-homilia.mp3",
         "hash": "367e1144fe9ef364"
       },
       "pm_alex": {
@@ -87,28 +88,28 @@
     },
     "liturgia_audio_marcas": {
       "primeira_leitura": 0.0,
-      "salmo": 87.74,
-      "evangelho": 135.06
+      "salmo": 88.03,
+      "evangelho": 130.9
     },
-    "liturgia_audio_hash": "7b915cfe648b81bc",
+    "liturgia_audio_hash": "39a3a2a075ab8f5d",
     "liturgia_vozes": {
       "pf_dora": {
-        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-26.mp3?v=7b915cfe648b81bc",
-        "hash": "7b915cfe648b81bc",
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-26.mp3",
+        "hash": "39a3a2a075ab8f5d",
         "marcas": {
           "primeira_leitura": 0.0,
-          "salmo": 87.74,
-          "evangelho": 135.06
+          "salmo": 88.03,
+          "evangelho": 130.9
         }
       },
       "pm_alex": {
-        "hash": "35df0b9be1e8fab6",
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-26-pm_alex.mp3",
+        "hash": "088a2789c85504c9",
         "marcas": {
           "primeira_leitura": 0.0,
-          "salmo": 87.89,
-          "evangelho": 135.08
-        },
-        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-26-pm_alex.mp3?v=35df0b9be1e8fab6"
+          "salmo": 88.14,
+          "evangelho": 130.96
+        }
       }
     }
   },
@@ -144,29 +145,6 @@
       }
     ]
   },
-  "santos": [
-    {
-      "nome": "S. Sirício, papa",
-      "resumo": "Sirício tornou-se Papa em 384. Desde o início, estabeleceu boas relações de confiança e colaboração com Santo Ambrósio de Milão. Este pontífice, moderado e equilibrado, segundo os historiadores, foi o primeiro, entre outras coisas, a confirmar a primazia do grande \"Pedro\" e a ser chamado \"Papa\".",
-      "url": "https://www.vaticannews.va/pt/santo-do-dia/11/26.html",
-      "fonte": "Vatican News (Português) — Dicastério para a Comunicação",
-      "licenca": "© Libreria Editrice Vaticana / Dicastério para a Comunicação. Reprodução para fins pastorais e não comerciais, com citação da fonte e link para o original."
-    },
-    {
-      "nome": "S. Leonardo de Porto Maurício, sacerdote franciscano",
-      "resumo": "Leonardo, sacerdote franciscano de “palavra ardente”, percorreu a Itália, “admoestando e convertendo imensas multidões”, e apelando “à penitência e à piedade”. Este era, segundo São João Paulo II, o santo da Ligúria, que criou 14 oratórios, no Coliseu de Roma, para a celebração da Via Sacra.",
-      "url": "https://www.vaticannews.va/pt/santo-do-dia/11/26/s--leonardo-de-porto-mauricio--sacerdote-franciscano.html",
-      "fonte": "Vatican News (Português) — Dicastério para a Comunicação",
-      "licenca": "© Libreria Editrice Vaticana / Dicastério para a Comunicação. Reprodução para fins pastorais e não comerciais, com citação da fonte e link para o original."
-    },
-    {
-      "nome": "S. Silvestre, abade, fundador dos Silvestrinos",
-      "resumo": "Silvestre foi um dos fundadores da vida monacal reformada. Após anos de vida eremítica, nas Marcas, foi circundado por uma comunidade, com a qual viveu a Regra de São Bento. Os novos monges Beneditinos chamaram-se \"Silvestrinos\". O Santo faleceu em 1267 e foi canonizado por Clemente VIII, em 1589.",
-      "url": "https://www.vaticannews.va/pt/santo-do-dia/11/26/s--silvestre--abade--fundador-dos-silvestrinos.html",
-      "fonte": "Vatican News (Português) — Dicastério para a Comunicação",
-      "licenca": "© Libreria Editrice Vaticana / Dicastério para a Comunicação. Reprodução para fins pastorais e não comerciais, com citação da fonte e link para o original."
-    }
-  ],
   "fontes": [
     {
       "id": "cnbb",
@@ -191,7 +169,6 @@
   "status": {
     "cnbb": "ok",
     "vaticano": "ok",
-    "santo_do_dia": "ok",
     "patristica": "ok"
   }
 }

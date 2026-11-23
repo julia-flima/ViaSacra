@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "data": "2026-11-24",
-  "gerado_em": "2026-11-22T23:29:37-03:00",
+  "gerado_em": "2026-11-23T09:11:36-03:00",
   "calendario": {
     "data": "2026-11-24",
     "dia_semana": "Terça-feira",
@@ -50,7 +50,7 @@
     "salmo_cifra_ou_melodia": null,
     "salmo_video_id": null,
     "salmo_video_titulo": null,
-    "liturgia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-24.mp3?v=01c35d537487f3d3",
+    "liturgia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-24.mp3",
     "creditos": [
       {
         "campo": "liturgia_audio_url",
@@ -66,11 +66,11 @@
       }
     ],
     "fallback": "tts_local_pt_BR",
-    "homilia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-24-homilia.mp3?v=bfb6bc31f1dce2f2",
+    "homilia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-24-homilia.mp3",
     "homilia_audio_hash": "bfb6bc31f1dce2f2",
     "homilia_vozes": {
       "pf_dora": {
-        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-24-homilia.mp3?v=bfb6bc31f1dce2f2",
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-24-homilia.mp3",
         "hash": "bfb6bc31f1dce2f2"
       },
       "pm_alex": {
@@ -80,28 +80,28 @@
     },
     "liturgia_audio_marcas": {
       "primeira_leitura": 0.0,
-      "salmo": 58.21,
-      "evangelho": 91.75
+      "salmo": 58.49,
+      "evangelho": 94.33
     },
-    "liturgia_audio_hash": "01c35d537487f3d3",
+    "liturgia_audio_hash": "d3475b4d640cd104",
     "liturgia_vozes": {
       "pf_dora": {
-        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-24.mp3?v=01c35d537487f3d3",
-        "hash": "01c35d537487f3d3",
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-24.mp3",
+        "hash": "d3475b4d640cd104",
         "marcas": {
           "primeira_leitura": 0.0,
-          "salmo": 58.21,
-          "evangelho": 91.75
+          "salmo": 58.49,
+          "evangelho": 94.33
         }
       },
       "pm_alex": {
-        "hash": "6bace67b81e88b33",
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-24-pm_alex.mp3",
+        "hash": "384004552214ed32",
         "marcas": {
           "primeira_leitura": 0.0,
-          "salmo": 58.15,
-          "evangelho": 91.32
-        },
-        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-24-pm_alex.mp3?v=6bace67b81e88b33"
+          "salmo": 58.38,
+          "evangelho": 94.18
+        }
       }
     }
   },
@@ -137,22 +137,6 @@
       }
     ]
   },
-  "santos": [
-    {
-      "nome": "S. Crisógono, mártir de Aquileia",
-      "resumo": "Crisógono era soldado romano, sacerdote e Bispo, mas também mártir da fé cristã, condenado à decapitação na época da perseguição do imperador Diocleciano, em Aquileia, perto de Trieste, em 303. A veneração deste Santo difundiu-se rapidamente, em nível universal, a partir do século IV.",
-      "url": "https://www.vaticannews.va/pt/santo-do-dia/11/24/s--crisogono--martir-de--aquileia.html",
-      "fonte": "Vatican News (Português) — Dicastério para a Comunicação",
-      "licenca": "© Libreria Editrice Vaticana / Dicastério para a Comunicação. Reprodução para fins pastorais e não comerciais, com citação da fonte e link para o original."
-    },
-    {
-      "nome": "SS. André Dũng Lạc, presbítero e Companheiros, mártires",
-      "resumo": "Tran nasceu em uma família muito pobre e foi confiado a um catequista, que o educou à fé cristã e foi batizado com o nome de André. Ao tornar-se sacerdote, obteve muitas conversões. Foi preso três vezes no Vietnã, hostil aos cristãos e, por não renunciar à sua fé, foi martirizado em 1839.",
-      "url": "https://www.vaticannews.va/pt/santo-do-dia/11/24/ss--andre--d_ng-lc--presbitero-e-companheiros--martires.html",
-      "fonte": "Vatican News (Português) — Dicastério para a Comunicação",
-      "licenca": "© Libreria Editrice Vaticana / Dicastério para a Comunicação. Reprodução para fins pastorais e não comerciais, com citação da fonte e link para o original."
-    }
-  ],
   "fontes": [
     {
       "id": "cnbb",
@@ -177,7 +161,6 @@
   "status": {
     "cnbb": "ok",
     "vaticano": "ok",
-    "santo_do_dia": "ok",
     "patristica": "ok"
   }
 }

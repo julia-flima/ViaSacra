@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "data": "2026-11-27",
-  "gerado_em": "2026-11-22T23:29:49-03:00",
+  "gerado_em": "2026-11-23T09:11:42-03:00",
   "calendario": {
     "data": "2026-11-27",
     "dia_semana": "Sexta-feira",
@@ -25,15 +25,16 @@
       "fonte": "CNBB"
     },
     "salmo": {
-      "referencia": "Sl 83(84),3.4.5-6a e 8a",
+      "referencia": "Sl 83(84),3.4.5-6a",
       "refrao": "Eis a tenda de Deus, no meio do povo!",
       "estrofes": [
         "Minha alma desfalece de saudades *\ne anseia pelos átrios do Senhor!\nMeu coração e minha carne rejubilam *\ne exultam de alegria no Deus vivo!",
         "Mesmo o pardal encontra abrigo em vossa casa, †\ne a andorinha ali prepara o seu ninho, *\npara nele seus filhotes colocar:\nvossos altares, ó Senhor Deus do universo! *\nvossos altares, ó meu Rei e meu Senhor!",
         "Felizes os que habitam vossa casa; *\npara sempre haverão de vos louvar!",
-        "Felizes os que em vós têm sua força, *\nCaminharão com um ardor sempre crescente."
+        "Felizes os que em vós têm sua força, *",
+        "Caminharão com um ardor sempre crescente."
       ],
-      "texto": "Minha alma desfalece de saudades *\ne anseia pelos átrios do Senhor!\nMeu coração e minha carne rejubilam *\ne exultam de alegria no Deus vivo!\n\nMesmo o pardal encontra abrigo em vossa casa, †\ne a andorinha ali prepara o seu ninho, *\npara nele seus filhotes colocar:\nvossos altares, ó Senhor Deus do universo! *\nvossos altares, ó meu Rei e meu Senhor!\n\nFelizes os que habitam vossa casa; *\npara sempre haverão de vos louvar!\n\nFelizes os que em vós têm sua força, *\nCaminharão com um ardor sempre crescente.",
+      "texto": "Minha alma desfalece de saudades *\ne anseia pelos átrios do Senhor!\nMeu coração e minha carne rejubilam *\ne exultam de alegria no Deus vivo!\n\nMesmo o pardal encontra abrigo em vossa casa, †\ne a andorinha ali prepara o seu ninho, *\npara nele seus filhotes colocar:\nvossos altares, ó Senhor Deus do universo! *\nvossos altares, ó meu Rei e meu Senhor!\n\nFelizes os que habitam vossa casa; *\npara sempre haverão de vos louvar!\n\nFelizes os que em vós têm sua força, *\n\nCaminharão com um ardor sempre crescente.",
       "fonte": "CNBB"
     },
     "segunda_leitura": null,
@@ -50,7 +51,7 @@
     "salmo_cifra_ou_melodia": null,
     "salmo_video_id": "ydZawpNetDw",
     "salmo_video_titulo": "Salmo 83 (84) | Eis a tenda de Deus, no meio do povo! |  Priscila Ocana | Cifra",
-    "liturgia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-27.mp3?v=45f92b40f7583b01",
+    "liturgia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-27.mp3",
     "creditos": [
       {
         "campo": "salmo_video_id",
@@ -73,11 +74,11 @@
       }
     ],
     "fallback": "tts_local_pt_BR",
-    "homilia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-27-homilia.mp3?v=ac87af1ec02b9ea9",
+    "homilia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-27-homilia.mp3",
     "homilia_audio_hash": "ac87af1ec02b9ea9",
     "homilia_vozes": {
       "pf_dora": {
-        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-27-homilia.mp3?v=ac87af1ec02b9ea9",
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-27-homilia.mp3",
         "hash": "ac87af1ec02b9ea9"
       },
       "pm_alex": {
@@ -87,28 +88,28 @@
     },
     "liturgia_audio_marcas": {
       "primeira_leitura": 0.0,
-      "salmo": 106.05,
-      "evangelho": 144.46
+      "salmo": 105.3,
+      "evangelho": 149.17
     },
-    "liturgia_audio_hash": "45f92b40f7583b01",
+    "liturgia_audio_hash": "f3e50961f9413d06",
     "liturgia_vozes": {
       "pf_dora": {
-        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-27.mp3?v=45f92b40f7583b01",
-        "hash": "45f92b40f7583b01",
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-27.mp3",
+        "hash": "f3e50961f9413d06",
         "marcas": {
           "primeira_leitura": 0.0,
-          "salmo": 106.05,
-          "evangelho": 144.46
+          "salmo": 105.3,
+          "evangelho": 149.17
         }
       },
       "pm_alex": {
-        "hash": "53af46d7807e9eb7",
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-27-pm_alex.mp3",
+        "hash": "0875f0afbf93089e",
         "marcas": {
           "primeira_leitura": 0.0,
-          "salmo": 105.77,
-          "evangelho": 144.11
-        },
-        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-27-pm_alex.mp3?v=53af46d7807e9eb7"
+          "salmo": 105.37,
+          "evangelho": 149.34
+        }
       }
     }
   },
@@ -144,15 +145,6 @@
       }
     ]
   },
-  "santos": [
-    {
-      "nome": "S. Virgílio, bispo de Salzburgo",
-      "resumo": "Virgílio, monge da Irlanda, país onde nasceu, desempenhou grande parte das suas atividades como bispo de Salzburg, a convite de Pepino o Breve. Sua missão foi a de evangelizar e pacificar o recém-conquistado Ducado da Baviera.",
-      "url": "https://www.vaticannews.va/pt/santo-do-dia/11/27/s--virgilio--bispo-de-salzburgo.html",
-      "fonte": "Vatican News (Português) — Dicastério para a Comunicação",
-      "licenca": "© Libreria Editrice Vaticana / Dicastério para a Comunicação. Reprodução para fins pastorais e não comerciais, com citação da fonte e link para o original."
-    }
-  ],
   "fontes": [
     {
       "id": "cnbb",
@@ -177,7 +169,6 @@
   "status": {
     "cnbb": "ok",
     "vaticano": "ok",
-    "santo_do_dia": "ok",
     "patristica": "ok"
   }
 }

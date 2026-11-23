@@ -1,0 +1,154 @@
+{
+  "schema_version": 1,
+  "data": "2026-11-29",
+  "gerado_em": "2026-11-23T09:11:46-03:00",
+  "calendario": {
+    "data": "2026-11-29",
+    "dia_semana": "Domingo",
+    "tempo": "advento",
+    "tempo_nome": "Tempo do Advento",
+    "semana": 1,
+    "cor": "roxo",
+    "celebracao": "1º Domingo do Advento",
+    "grau": "domingo",
+    "ciclo_dominical": "B",
+    "ciclo_ferial": "I",
+    "misterios_do_dia": "gloriosos",
+    "cor_origem": "calculada"
+  },
+  "leituras": {
+    "primeira_leitura": {
+      "referencia": "Is 63,16b-17.19b;64,2b-7",
+      "introducao": "Leitura do Livro do Profeta Isaías",
+      "aclamacao": null,
+      "texto": "Senhor, tu és nosso Pai, nosso redentor; eterno é o teu nome.\nComo nos deixaste andar longe de teus caminhos e endureceste nossos corações para não termos o teu temor? Por amor de teus servos, das tribos de tua herança, volta atrás.\nAh! se rompesses os céus e descesses! As montanhas se desmanchariam diante de ti.\nDesceste, pois, e as montanhas se derreteram\ndiante de ti.\nNunca se ouviu dizer\nnem chegou aos ouvidos de ninguém, jamais olhos viram que um Deus, exceto tu, tenha feito tanto pelos que nele esperam.\nVens ao encontro de quem pratica a justiça com alegria, de quem se lembra de ti em teus caminhos. Tu te irritaste, porque nós pecamos; é nos caminhos de outrora que seremos salvos.\nTodos nós nos tornamos imundície, e todas as nossas boas obras são como um pano sujo; murchamos todos como folhas, e nossas maldades empurram-nos como o vento.\nNão há quem invoque teu nome, quem se levante para encontrar-se contigo; escondeste de nós tua face e nos entregaste à mercê da nossa maldade.\nAssim mesmo, Senhor, tu és nosso pai, nós somos barro; tu, nosso oleiro, e nós todos, obra de tuas mãos.\nSegunda Leitura\nLeitura da Primeira Carta de São Paulo aos Coríntios\n1,3-9\nIrmãos:\nPara vós, graça e paz, da parte de Deus, nosso Pai, e do Senhor Jesus Cristo.\nDou graças a Deus sempre a vosso respeito, por causa da graça que Deus vos concedeu em Cristo Jesus:\nNele fostes enriquecidos em tudo, em toda palavra e em todo conhecimento,\nà medida que o testemunho sobre Cristo se confirmou entre vós.\nAssim, não tendes falta de nenhum dom, vós que\naguardais a revelação do Senhor nosso, Jesus Cristo.\nÉ ele também que vos dará perseverança em vosso procedimento irrepreensível, até ao fim, até ao dia de nosso Senhor, Jesus Cristo.\nDeus é fiel; por ele fostes chamados à comunhão com seu Filho, Jesus Cristo, Senhor nosso.",
+      "fonte": "Vatican News"
+    },
+    "salmo": null,
+    "segunda_leitura": null,
+    "evangelho": {
+      "referencia": "Mc 13,33-37",
+      "introducao": "Proclamação do Evangelho de Jesus Cristo segundo Marcos",
+      "aclamacao": null,
+      "texto": "Naquele tempo, disse Jesus aos seus discípulos:\n\"Cuidado! Ficai atentos, porque não sabeis quando chegará o momento.\nÉ como um homem que, ao partir para o estrangeiro, deixou sua casa sob a responsabilidade de seus empregados,\ndistribuindo a cada um sua tarefa.\nE mandou o porteiro ficar vigiando.\nVigiai, portanto, porque não sabeis quando o dono da casa vem: à tarde, à meia-noite, de madrugada ou ao amanhecer.\nPara que não suceda que, vindo de repente, ele vos encontre dormindo.\nO que vos digo, digo a todos: Vigiai!\"",
+      "fonte": "Vatican News"
+    }
+  },
+  "audio": {
+    "salmo_audio_url": null,
+    "salmo_cifra_ou_melodia": null,
+    "salmo_video_id": "gjIVTaJuNCs",
+    "salmo_video_titulo": "Salmo 79(80) 29/11/2026) Iluminai a vossa face sobre nós,    convertei-nos, para que sejamos salvos!",
+    "liturgia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-29.mp3",
+    "creditos": [
+      {
+        "campo": "salmo_video_id",
+        "interprete": "Edgar Borges (Salmos responsoriais)",
+        "canal": "Edgar Borges (Salmos responsoriais)",
+        "url_fonte": "https://www.youtube.com/watch?v=gjIVTaJuNCs",
+        "licenca": "YouTube Embed Oficial (Termos de Serviço)"
+      },
+      {
+        "campo": "liturgia_audio_url",
+        "interprete": "Voz Dora (pf_dora)",
+        "canal": "Via Sacra — Voz Neural Kokoro-82M (Dora, pt-BR)",
+        "licenca": "Apache-2.0 (Kokoro-82M)"
+      },
+      {
+        "campo": "homilia_audio_url",
+        "interprete": "Voz Dora (pf_dora)",
+        "canal": "Via Sacra — Voz Neural Kokoro-82M (Dora, pt-BR)",
+        "licenca": "Apache-2.0 (Kokoro-82M)"
+      }
+    ],
+    "fallback": "tts_local_pt_BR",
+    "liturgia_audio_marcas": {
+      "primeira_leitura": 0.0,
+      "evangelho": 105.7
+    },
+    "liturgia_audio_hash": "bafd6f62f045051c",
+    "homilia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-29-homilia.mp3",
+    "homilia_audio_hash": "015c5ce36cc77fa8",
+    "liturgia_vozes": {
+      "pf_dora": {
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-29.mp3",
+        "hash": "bafd6f62f045051c",
+        "marcas": {
+          "primeira_leitura": 0.0,
+          "evangelho": 105.7
+        }
+      },
+      "pm_alex": {
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-29-pm_alex.mp3",
+        "hash": "8176bdb26f4b75b8",
+        "marcas": {
+          "primeira_leitura": 0.0,
+          "evangelho": 106.06
+        }
+      }
+    },
+    "homilia_vozes": {
+      "pf_dora": {
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-29-homilia.mp3",
+        "hash": "015c5ce36cc77fa8"
+      },
+      "pm_alex": {
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-29-homilia-pm_alex.mp3",
+        "hash": "e88761257545e62d"
+      }
+    }
+  },
+  "homilias": {
+    "vaticano": {
+      "titulo": "As palavras dos Papas",
+      "autor": "Papa Francisco",
+      "texto": "Hoje o evangelho de Marcos propôs-nos a parte final do último discurso de Jesus, que se condensa numa única palavra: «Vigiai!» O Senhor repete-a quatro vezes, em cinco versículos (cf. 13, 33-35.37). É importante permanecer vigilantes, porque na vida é um erro perder-se em mil coisas e não se dar conta de Deus. Dizia Santo Agostinho: «Timeo Iesum transeuntem… – tenho medo que Jesus passe sem me dar conta» ( Sermones , 88, 14, 13). Arrastados pelos nossos interesses – sentimo-lo todos os dias –, distraídos por tantas vaidades, corremos o risco de perder o essencial. Por isso, hoje, o Senhor repete «a todos: vigiai!» (Mc 13, 37). Vigiai, estai atentos! Mas, se devemos velar, quer dizer que nos encontramos na noite. É verdade! Agora não vivemos no dia, mas à espera do dia por entre obscuridades e fadigas. O dia chegará, quando estivermos com o Senhor. Chegará, não desfaleçamos! A noite passará, surgirá o Senhor e virá julgar-nos, Ele que morreu na cruz por nós. Vigiar é esperar isto, é não se deixar dominar pelo desânimo: a isto chama-se viver na esperança. Como antes de nascer fomos esperados por quem nos amava, assim agora somos esperados pelo Amor em pessoa. E, se somos esperados no Céu, para quê viver de pretensões terrenas?(...) Tudo passa. Vigiai: diz o Senhor.\n\n(Papa Francisco, Homilia na Missa para os novos Cardeais, 29 de novembro de 2020)",
+      "resumo": "Hoje o evangelho de Marcos propôs-nos a parte final do último discurso de Jesus, que se condensa numa única palavra: «Vigiai!» O Senhor repete-a quatro vezes, em cinco versículos (cf. 13, 33-35.37). É importante permanecer vigilantes, porque na vida é um erro perder-se em mil…",
+      "url": "https://www.vaticannews.va/pt/palavra-do-dia/2026/11/29.html",
+      "fonte": "Vatican News (Português) — Dicastério para a Comunicação",
+      "licenca": "© Libreria Editrice Vaticana / Dicastério para a Comunicação. Reprodução para fins pastorais e não comerciais, com citação da fonte e link para o original."
+    },
+    "cnbb": null,
+    "patristica": [
+      {
+        "autor": "São Jerônimo",
+        "obra": "Comentário ao Profeta Isaías, Prólogo",
+        "texto": "Ignorar as Escrituras é ignorar o próprio Cristo. Aproxima-te da Palavra com humildade e oração, para que o mesmo Espírito que a inspirou abra o teu coração para a compreender.",
+        "url": "https://www.newadvent.org/fathers/",
+        "fonte": "Santos Padres e Doutores da Igreja (domínio público)",
+        "licenca": "Domínio público",
+        "nota": "Tradução livre do latim (Commentarii in Isaiam) — domínio público."
+      },
+      {
+        "autor": "Santo Agostinho",
+        "obra": "Sermão 169, 13",
+        "texto": "Aquele que te criou sem ti não te justificará sem ti. Criou-te sem que o soubesses; justifica-te, porém, somente se o quiseres.",
+        "url": "https://www.newadvent.org/fathers/",
+        "fonte": "Santos Padres e Doutores da Igreja (domínio público)",
+        "licenca": "Domínio público",
+        "nota": "Tradução livre do latim (Sermo 169) para fins devocionais."
+      }
+    ]
+  },
+  "fontes": [
+    {
+      "id": "vaticannews",
+      "nome": "Vatican News (Português) — Dicastério para a Comunicação",
+      "url": "https://www.vaticannews.va/pt.html",
+      "nota": "© Libreria Editrice Vaticana / Dicastério para a Comunicação. Reprodução para fins pastorais e não comerciais, com citação da fonte e link para o original."
+    },
+    {
+      "id": "patristica",
+      "nome": "Santos Padres e Doutores da Igreja (domínio público)",
+      "url": "https://www.newadvent.org/fathers/",
+      "nota": "Obras em domínio público; traduções do projeto Via Sacra (GPL-3.0 / CC0 para o texto)."
+    }
+  ],
+  "url_original": "https://www.vaticannews.va/pt/palavra-do-dia/2026/11/29.html",
+  "status": {
+    "cnbb": "erro: AttributeError: 'NoneType' object has no attribute 'get'",
+    "vaticano": "ok",
+    "leituras_vaticano": "ok",
+    "patristica": "ok"
+  }
+}
