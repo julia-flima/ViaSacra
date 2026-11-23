@@ -8,6 +8,7 @@ import 'package:just_audio/just_audio.dart';
 
 import '../data/models/liturgy.dart';
 import 'native_tts.dart';
+import 'speech_text.dart';
 import 'web_tts.dart';
 
 /// Um MP3 pronto (ou um recorte dele) para um item da fila.
@@ -408,9 +409,10 @@ class ReadingAudioHandler extends BaseAudioHandler with QueueHandler {
       await _useLanguage(seg.language);
     }
     if (_chunks.isEmpty || _chunk == 0) {
+      final text = speakableText(seg.text ?? '');
       _chunks = useNeural
-          ? splitForSpeech(seg.text ?? '', maxLen: kNeuralChunkLen, firstLen: kNeuralFirstChunkLen)
-          : splitForSpeech(seg.text ?? '');
+          ? splitForSpeech(text, maxLen: kNeuralChunkLen, firstLen: kNeuralFirstChunkLen)
+          : splitForSpeech(text);
       _broadcast();
     }
     var neuralFailed = false;
@@ -449,7 +451,11 @@ class ReadingAudioHandler extends BaseAudioHandler with QueueHandler {
     if (_index + 1 >= _segments.length) return null;
     final next = _segments[_index + 1];
     if (next.isRecorded || next.language != current.language) return null;
-    final chunks = splitForSpeech(next.text ?? '', maxLen: kNeuralChunkLen, firstLen: kNeuralFirstChunkLen);
+    final chunks = splitForSpeech(
+      speakableText(next.text ?? ''),
+      maxLen: kNeuralChunkLen,
+      firstLen: kNeuralFirstChunkLen,
+    );
     return chunks.isEmpty ? null : chunks.first;
   }
 
