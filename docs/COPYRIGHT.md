@@ -6,6 +6,7 @@ cobertos pela GPL. O projeto não tem fins lucrativos e atribui todas as fontes 
 | Conteúdo | Situação | Como o projeto usa |
 |---|---|---|
 | Leituras (CNBB) | © CNBB / tradução oficial | Coletadas diariamente, sem alteração, com "Fonte: CNBB" e link. Uso devocional não comercial. **Recomenda-se obter autorização formal da CNBB** antes da publicação em lojas. |
+| Ordinário da Missa (Missal Romano, 3ª ed.) | © CNBB / tradução oficial | Só as respostas do povo e deixas curtas do padre, em `app/assets/data/ordinario_missa.json`, com "© CNBB" na tela. Embutido por decisão do projeto enquanto o app não é distribuído; autorização pedida em `docs/autorizacoes/carta-cnbb.md`. Trechos marcados com `conferir` ainda precisam ser checados no Missal impresso. |
 | Homilias do Papa (Vatican News) | © Libreria Editrice Vaticana / Dicastério para a Comunicação | Reprodução pastoral não comercial com citação e link para o original; quando apenas o RSS está disponível, só o resumo é exibido. |
 | Santos Padres | Domínio público | Traduções livres do projeto (`scraper/patristic.json`), revisáveis pela comunidade. |
 | Arte sacra | Domínio público / CC0 | Somente obras de artistas falecidos há mais de 70 anos, com licença verificada automaticamente no Commons (`tool/fetch_sacred_art.py`). |

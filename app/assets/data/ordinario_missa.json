@@ -1,0 +1,253 @@
+{
+  "versao": 1,
+  "fonte": "Missal Romano, 3ª edição típica — tradução oficial da CNBB",
+  "licenca": "© CNBB — Conferência Nacional dos Bispos do Brasil. Uso devocional e não comercial; pedido de autorização enviado.",
+  "url": "https://www.edicoescnbb.com.br",
+  "comuns": {
+    "misterio_da_fe": {
+      "titulo": "Mistério da fé",
+      "deixa": "Mistério da fé!",
+      "nota": "O padre convida e o povo responde com uma destas aclamações:",
+      "opcoes": [
+        "Anunciamos, Senhor, a vossa morte e proclamamos a vossa ressurreição. Vinde, Senhor Jesus!",
+        "Todas as vezes que comemos deste pão e bebemos deste cálice, anunciamos, Senhor, a vossa morte, enquanto esperamos a vossa vinda!",
+        "Salvador do mundo, salvai-nos, vós que nos libertastes pela cruz e ressurreição."
+      ]
+    },
+    "doxologia": {
+      "titulo": "Doxologia final",
+      "deixa": "Por Cristo, com Cristo, e em Cristo… por todos os séculos dos séculos.",
+      "povo": "Amém."
+    }
+  },
+  "partes": [
+    {
+      "id": "ritos_iniciais",
+      "titulo": "Ritos iniciais",
+      "passos": [
+        {
+          "titulo": "Sinal da cruz",
+          "deixa": "Em nome do Pai, e do Filho, e do Espírito Santo.",
+          "povo": "Amém."
+        },
+        {
+          "titulo": "Saudação",
+          "nota": "A resposta depende da saudação que o padre escolher:",
+          "opcoes": [
+            "A graça de nosso Senhor Jesus Cristo… estejam convosco. — Bendito seja Deus, que nos reuniu no amor de Cristo.",
+            "O Senhor esteja convosco. — Ele está no meio de nós."
+          ]
+        },
+        {
+          "titulo": "Ato penitencial",
+          "nota": "O padre escolhe uma das formas. A mais comum é o “Confesso”:",
+          "povo": "Confesso a Deus todo-poderoso e a vós, irmãos e irmãs, que pequei muitas vezes por pensamentos e palavras, atos e omissões, por minha culpa, minha culpa, minha tão grande culpa. E peço à Virgem Maria, aos anjos e santos e a vós, irmãos e irmãs, que rogueis por mim a Deus, nosso Senhor.",
+          "conferir": true
+        },
+        { "deixa": "Deus todo-poderoso tenha compaixão de nós… nos conduza à vida eterna.", "povo": "Amém." },
+        {
+          "titulo": "Senhor, tende piedade",
+          "nota": "Repete-se o que o padre ou o cantor disser.",
+          "povo": "Senhor, tende piedade de nós.\nCristo, tende piedade de nós.\nSenhor, tende piedade de nós."
+        },
+        {
+          "titulo": "Glória",
+          "nota": "Aos domingos (fora do Advento e da Quaresma), nas solenidades e nas festas.",
+          "povo": "Glória a Deus nas alturas,\ne paz na terra aos homens por ele amados.\nSenhor Deus, rei dos céus,\nDeus Pai todo-poderoso:\nnós vos louvamos,\nnós vos bendizemos,\nnós vos adoramos,\nnós vos glorificamos,\nnós vos damos graças por vossa imensa glória.\nSenhor Jesus Cristo, Filho Unigênito,\nSenhor Deus, Cordeiro de Deus, Filho de Deus Pai.\nVós que tirais o pecado do mundo, tende piedade de nós.\nVós que tirais o pecado do mundo, acolhei a nossa súplica.\nVós que estais à direita do Pai, tende piedade de nós.\nSó vós sois o Santo,\nsó vós, o Senhor,\nsó vós, o Altíssimo,\nJesus Cristo,\ncom o Espírito Santo,\nna glória de Deus Pai.\nAmém."
+        },
+        {
+          "titulo": "Oração do dia",
+          "deixa": "Oremos… por todos os séculos dos séculos.",
+          "povo": "Amém."
+        }
+      ]
+    },
+    {
+      "id": "liturgia_palavra",
+      "titulo": "Liturgia da Palavra",
+      "passos": [
+        {
+          "titulo": "Primeira leitura",
+          "deixa": "Palavra do Senhor.",
+          "povo": "Graças a Deus."
+        },
+        {
+          "titulo": "Salmo responsorial",
+          "nota": "O povo repete o refrão depois de cada estrofe.",
+          "do_dia": "refrao"
+        },
+        {
+          "titulo": "Segunda leitura",
+          "nota": "Aos domingos e nas solenidades.",
+          "deixa": "Palavra do Senhor.",
+          "povo": "Graças a Deus."
+        },
+        {
+          "titulo": "Aclamação ao Evangelho",
+          "nota": "Na Quaresma não se canta o Aleluia.",
+          "do_dia": "aclamacao"
+        },
+        {
+          "titulo": "Evangelho",
+          "deixa": "O Senhor esteja convosco.",
+          "povo": "Ele está no meio de nós."
+        },
+        { "deixa": "Proclamação do Evangelho de Jesus Cristo segundo…", "povo": "Glória a vós, Senhor." },
+        { "deixa": "Palavra da Salvação.", "povo": "Glória a vós, Senhor." },
+        {
+          "titulo": "Profissão de fé",
+          "nota": "Aos domingos e nas solenidades. O padre pode usar também o Símbolo dos Apóstolos.",
+          "oracao": "credo_niceno"
+        },
+        {
+          "titulo": "Oração dos fiéis",
+          "nota": "A resposta às preces é anunciada no início. Ao final:",
+          "deixa": "Por Cristo, nosso Senhor.",
+          "povo": "Amém."
+        }
+      ]
+    },
+    {
+      "id": "liturgia_eucaristica",
+      "titulo": "Liturgia Eucarística",
+      "passos": [
+        {
+          "titulo": "Apresentação das oferendas",
+          "nota": "Quando o padre diz as orações em voz alta:",
+          "deixa": "…que se tornará para nós o pão da vida / o vinho da salvação.",
+          "povo": "Bendito seja Deus para sempre!"
+        },
+        { "deixa": "Orai, irmãos e irmãs, para que o meu e o vosso sacrifício seja aceito por Deus Pai todo-poderoso.", "povo": "Receba o Senhor por tuas mãos este sacrifício, para glória do seu nome, para nosso bem e de toda a santa Igreja." },
+        {
+          "titulo": "Oração sobre as oferendas",
+          "deixa": "Por Cristo, nosso Senhor.",
+          "povo": "Amém."
+        },
+        {
+          "titulo": "Prefácio",
+          "deixa": "O Senhor esteja convosco.",
+          "povo": "Ele está no meio de nós."
+        },
+        { "deixa": "Corações ao alto.", "povo": "O nosso coração está em Deus." },
+        { "deixa": "Demos graças ao Senhor, nosso Deus.", "povo": "É nosso dever e nossa salvação." },
+        {
+          "titulo": "Santo",
+          "povo": "Santo, Santo, Santo, Senhor, Deus do universo!\nO céu e a terra proclamam a vossa glória.\nHosana nas alturas!\nBendito o que vem em nome do Senhor!\nHosana nas alturas!"
+        },
+        {
+          "titulo": "Oração Eucarística",
+          "nota": "Escolha a que o padre está rezando. Se não souber, a II é a mais comum nos dias de semana e a III aos domingos.",
+          "variantes": [
+            {
+              "id": "I",
+              "titulo": "I",
+              "passos": [
+                { "deixa": "Depois da prece pela Igreja e pelo Papa:", "povo": "Abençoai nossa oferenda, ó Senhor!", "conferir": true },
+                { "deixa": "Depois da lembrança dos vivos:", "povo": "Lembrai-vos, ó Pai, de vossos filhos!", "conferir": true },
+                { "deixa": "Depois da lembrança de Maria e dos santos:", "povo": "Em comunhão com toda a Igreja aqui estamos!", "conferir": true },
+                { "deixa": "Depois que o padre pede que Deus aceite a oferenda:", "povo": "Santificai nossa oferenda, ó Senhor!", "conferir": true },
+                { "comum": "misterio_da_fe" },
+                { "deixa": "Depois que o padre oferece a hóstia pura, santa e imaculada:", "povo": "Recebei, ó Senhor, a nossa oferta!", "conferir": true },
+                { "deixa": "Depois da prece pelos falecidos:", "povo": "Concedei-lhes, ó Senhor, a luz eterna!", "conferir": true },
+                { "comum": "doxologia" }
+              ]
+            },
+            {
+              "id": "II",
+              "titulo": "II",
+              "passos": [
+                { "deixa": "Depois que o padre pede que o Espírito santifique as oferendas:", "povo": "Enviai o vosso Espírito Santo!", "conferir": true },
+                { "comum": "misterio_da_fe" },
+                { "deixa": "Depois que o padre oferece o pão da vida e o cálice da salvação:", "povo": "Recebei, ó Senhor, a nossa oferta!", "conferir": true },
+                { "deixa": "Depois que o padre pede que sejamos reunidos pelo Espírito num só corpo:", "povo": "Fazei de nós um só corpo e um só espírito!", "conferir": true },
+                { "deixa": "Depois da prece pela Igreja, pelo Papa e pelos bispos:", "povo": "Lembrai-vos, ó Pai, da vossa Igreja!", "conferir": true },
+                { "deixa": "Depois da prece pelos falecidos:", "povo": "Concedei-lhes, ó Senhor, a luz eterna!", "conferir": true },
+                { "comum": "doxologia" }
+              ],
+              "padrao": true
+            },
+            {
+              "id": "III",
+              "titulo": "III",
+              "passos": [
+                { "deixa": "Depois de “…de um extremo ao outro da terra, uma oblação pura”:", "povo": "Santificai e reuni o vosso povo!", "conferir": true },
+                { "deixa": "Depois que o padre pede que o Espírito santifique as oferendas:", "povo": "Enviai o vosso Espírito Santo!", "conferir": true },
+                { "comum": "misterio_da_fe" },
+                { "deixa": "Depois que o padre oferece o sacrifício vivo e santo:", "povo": "Recebei, ó Senhor, a nossa oferta!", "conferir": true },
+                { "deixa": "Depois que o padre pede que formemos um só corpo e um só espírito:", "povo": "Fazei de nós um só corpo e um só espírito!", "conferir": true },
+                { "deixa": "Depois que o padre pede que sejamos uma oferenda perfeita:", "povo": "Fazei de nós uma perfeita oferenda!", "conferir": true },
+                { "deixa": "Depois da prece pela Igreja:", "povo": "Lembrai-vos, ó Pai, da vossa Igreja!", "conferir": true },
+                { "deixa": "Depois da prece pelos falecidos:", "povo": "Concedei-lhes, ó Senhor, a luz eterna!", "conferir": true },
+                { "comum": "doxologia" }
+              ]
+            },
+            {
+              "id": "IV",
+              "titulo": "IV",
+              "passos": [
+                { "deixa": "Depois que o padre louva a Deus pela criação:", "povo": "Glória a vós, Senhor, que nos criastes!", "conferir": true },
+                { "deixa": "Depois que o padre lembra a história da salvação:", "povo": "Socorrei, ó Senhor, o vosso povo!", "conferir": true },
+                { "deixa": "Depois que o padre pede que o Espírito santifique as oferendas:", "povo": "Santificai nossa oferenda, ó Senhor!", "conferir": true },
+                { "comum": "misterio_da_fe" },
+                { "deixa": "Depois que o padre oferece o Corpo e o Sangue de Cristo:", "povo": "Recebei, ó Senhor, a nossa oferta!", "conferir": true },
+                { "deixa": "Depois da prece pela Igreja e pelos falecidos:", "povo": "Lembrai-vos, ó Pai, dos vossos filhos!", "conferir": true },
+                { "comum": "doxologia" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "comunhao",
+      "titulo": "Rito da Comunhão",
+      "passos": [
+        {
+          "titulo": "Pai-Nosso",
+          "nota": "Na Missa não se diz “Amém” no fim: o padre continua a oração.",
+          "povo": "Pai nosso que estais nos céus,\nsantificado seja o vosso nome;\nvenha a nós o vosso reino;\nseja feita a vossa vontade,\nassim na terra como no céu.\nO pão nosso de cada dia nos dai hoje;\nperdoai-nos as nossas ofensas,\nassim como nós perdoamos a quem nos tem ofendido;\ne não nos deixeis cair em tentação,\nmas livrai-nos do mal."
+        },
+        { "deixa": "Livrai-nos de todos os males, ó Pai… a vinda do Cristo Salvador.", "povo": "Vosso é o reino, o poder e a glória para sempre!" },
+        {
+          "titulo": "Rito da paz",
+          "deixa": "Senhor Jesus Cristo, dissestes aos vossos Apóstolos… Vós, que sois Deus, com o Pai e o Espírito Santo.",
+          "povo": "Amém."
+        },
+        { "deixa": "A paz do Senhor esteja sempre convosco.", "povo": "O amor de Cristo nos uniu." },
+        {
+          "titulo": "Cordeiro de Deus",
+          "povo": "Cordeiro de Deus, que tirais o pecado do mundo, tende piedade de nós.\nCordeiro de Deus, que tirais o pecado do mundo, tende piedade de nós.\nCordeiro de Deus, que tirais o pecado do mundo, dai-nos a paz."
+        },
+        {
+          "titulo": "Comunhão",
+          "deixa": "Eis o Cordeiro de Deus, que tira o pecado do mundo. Felizes os convidados para a Ceia do Senhor.",
+          "povo": "Senhor, eu não sou digno(a) de que entreis em minha morada, mas dizei uma palavra e serei salvo(a).",
+          "conferir": true
+        },
+        { "deixa": "O Corpo de Cristo.", "povo": "Amém." },
+        {
+          "titulo": "Oração depois da Comunhão",
+          "deixa": "Oremos… Por Cristo, nosso Senhor.",
+          "povo": "Amém."
+        }
+      ]
+    },
+    {
+      "id": "ritos_finais",
+      "titulo": "Ritos finais",
+      "passos": [
+        {
+          "titulo": "Bênção",
+          "deixa": "O Senhor esteja convosco.",
+          "povo": "Ele está no meio de nós."
+        },
+        { "deixa": "Abençoe-vos Deus todo-poderoso, Pai e Filho e Espírito Santo.", "povo": "Amém." },
+        {
+          "titulo": "Despedida",
+          "deixa": "Ide em paz, e o Senhor vos acompanhe.",
+          "povo": "Graças a Deus."
+        }
+      ]
+    }
+  ]
+}
