@@ -42,7 +42,7 @@ class AppServices {
   final UserDataRepository userData;
   final ReadingAudioController audio;
 
-  /// null na Web: lembretes agendados existem só no app nativo.
+  /// null se o aparelho não oferece notificações. Na Web, os lembretes passam pelo `sw.js`.
   final NotificationService? notifications;
   final BibleService bible;
 
@@ -68,16 +68,14 @@ class AppServices {
     if (kIsWeb) unawaited(audio.refreshNeuralTtsStatus());
     final navigation = NavigationController();
     NotificationService? notifications;
-    if (!kIsWeb) {
-      try {
-        notifications = await NotificationService.create(onTap: navigation.openFromNotification);
-        // Não precisa segurar a abertura do app.
-        unawaited(notifications.reschedule(settings, liturgy).catchError((Object e) => debugPrint('Lembretes: $e')));
-        // App aberto a frio pelo toque no lembrete.
-        navigation.openFromNotification(await notifications.launchPayload());
-      } catch (e) {
-        debugPrint('Notificações indisponíveis: $e');
-      }
+    try {
+      notifications = await NotificationService.create(onTap: navigation.openFromNotification);
+      // Não precisa segurar a abertura do app.
+      unawaited(notifications.reschedule(settings, liturgy).catchError((Object e) => debugPrint('Lembretes: $e')));
+      // App aberto a frio pelo toque no lembrete.
+      navigation.openFromNotification(await notifications.launchPayload());
+    } catch (e) {
+      debugPrint('Notificações indisponíveis: $e');
     }
     // Semana offline automática (issue #51): pouco depois da abertura e ao voltar ao app.
     DateTime? lastWeek;

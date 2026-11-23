@@ -140,4 +140,4 @@ proclamado destacado.
 | Privacidade | `--no-web-resources-cdn` faz o CanvasKit ser servido localmente; todas as fontes são embutidas e o `fontFallbackBaseUrl` aponta para um caminho local. Nenhuma requisição ao Google |
 | Banco | SQLite WASM + IndexedDB (ver `DATABASE.md`). A Bíblia é preparada na primeira visita |
 | Áudio | Voz neural Kokoro-82M no Web Worker (`kokoro_worker.js`) via WebGPU/WASM + Web Audio API, com fallback para Web Speech API; MP3 via `<audio>` |
-| Lembretes | Desativados com `kIsWeb`; a aba Ajustes mostra um aviso indicando o app nativo |
+| Lembretes | `NotificationService` entrega os próximos 14 dias ao `sw.js` (`web_reminders_web.dart`): mostra na hora com o app aberto e, no PWA instalado do Chrome, via Periodic Background Sync (horário aproximado). Sem servidor nem Web Push |

@@ -62,7 +62,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             if (kIsWeb) ...[
               Text(
                 'Dica: adicione o Via Sacra à tela inicial do celular para abri-lo como um app, mesmo sem '
-                'internet. Os lembretes agendados estão disponíveis no app para Android e iOS.',
+                'internet. Os lembretes da Liturgia e do Terço podem ser ativados em Ajustes.',
                 style: t.bodyMedium,
               ),
               const SizedBox(height: VsSpacing.lg),

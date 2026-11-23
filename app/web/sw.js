@@ -142,3 +142,87 @@ self.addEventListener('fetch', (event) => {
     ),
   );
 });
+
+/* Lembretes (issue #59), sem servidor. O app manda a lista dos próximos 14 dias
+ * ({tag, at, title, body, payload}); aqui ela fica guardada e cada lembrete é
+ * mostrado uma única vez quando a hora chega:
+ * • com o app aberto (mesmo em segundo plano), na hora certa: o app pede "verificar";
+ * • com o PWA instalado no Chrome, quando o navegador acorda este service worker
+ *   (Periodic Background Sync: horário aproximado, o navegador decide).
+ * Toque na notificação: abre (ou traz à frente) o app na aba do lembrete.
+ */
+const REMINDERS_CACHE = 'via-sacra-lembretes';
+const REMINDERS_KEY = 'lembretes.json';
+
+async function readReminders() {
+  const resp = await (await caches.open(REMINDERS_CACHE)).match(REMINDERS_KEY);
+  return resp ? resp.json() : { itens: [], mostrados: [] };
+}
+
+async function writeReminders(state) {
+  await (await caches.open(REMINDERS_CACHE)).put(REMINDERS_KEY, new Response(JSON.stringify(state)));
+}
+
+// Mostra os lembretes vencidos há no máximo `atrasoMax` ms e ainda não mostrados.
+async function showDueReminders(atrasoMax) {
+  const state = await readReminders();
+  const agora = Date.now();
+  const vencidos = state.itens.filter(
+    (r) => r.at <= agora && agora - r.at <= atrasoMax && !state.mostrados.includes(r.tag),
+  );
+  for (const r of vencidos) {
+    await self.registration.showNotification(r.title, {
+      body: r.body,
+      tag: r.tag,
+      icon: 'icons/Icon-192.png',
+      badge: 'icons/Icon-192.png',
+      data: { payload: r.payload },
+    });
+    state.mostrados.push(r.tag);
+  }
+  if (vencidos.length) {
+    state.mostrados = state.mostrados.slice(-60);
+    await writeReminders(state);
+  }
+}
+
+self.addEventListener('message', (event) => {
+  const msg = event.data || {};
+  if (msg.tipo === 'lembretes') {
+    event.waitUntil(
+      readReminders().then(async (state) => {
+        await writeReminders({ itens: msg.itens || [], mostrados: state.mostrados });
+        // Só no Chrome com o PWA instalado; nos demais casos a chamada falha e tudo bem.
+        const sync = self.registration.periodicSync;
+        if (!sync) return;
+        if ((msg.itens || []).length) {
+          await sync.register('lembretes', { minInterval: 12 * 60 * 60 * 1000 }).catch(() => {});
+        } else {
+          await sync.unregister('lembretes').catch(() => {});
+        }
+      }),
+    );
+  } else if (msg.tipo === 'verificar') {
+    event.waitUntil(showDueReminders(5 * 60 * 1000));
+  }
+});
+
+// O navegador decide quando acordar: aceita um atraso de até 12 h (melhor tarde que nunca).
+self.addEventListener('periodicsync', (event) => {
+  if (event.tag === 'lembretes') event.waitUntil(showDueReminders(12 * 60 * 60 * 1000));
+});
+
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close();
+  const payload = (event.notification.data && event.notification.data.payload) || 'liturgia';
+  event.waitUntil(
+    self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then((clients) => {
+      const aberto = clients[0];
+      if (aberto) {
+        aberto.postMessage({ tipo: 'abrir', payload });
+        return aberto.focus();
+      }
+      return self.clients.openWindow(`./?abrir=${encodeURIComponent(payload)}`);
+    }),
+  );
+});
