@@ -36,6 +36,7 @@ class _HomilySectionState extends State<HomilySection> with SingleTickerProvider
   Widget build(BuildContext context) {
     final l = widget.liturgy;
     final second = <Homily>[if (l.cnbbReflection != null) l.cnbbReflection!, ...l.patristic];
+    final duration = MediaQuery.disableAnimationsOf(context) ? Duration.zero : const Duration(milliseconds: 250);
     return Card(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -47,27 +48,39 @@ class _HomilySectionState extends State<HomilySection> with SingleTickerProvider
               Tab(text: 'CNBB / Santos Padres'),
             ],
           ),
+          // A barrinha da aba desliza; o texto troca com esmaecimento e a altura se ajusta a partir
+          // do topo, sem a página "pular" (issue #56). Sem animação se o sistema pedir.
           AnimatedSize(
-            duration: const Duration(milliseconds: 250),
-            child: Padding(
-              padding: const EdgeInsets.all(VsSpacing.lg),
-              child: _tabs.index == 0
-                  ? (l.vaticanHomily != null
-                        ? _HomilyView(homily: l.vaticanHomily!, onListen: widget.onListen, date: l.date)
-                        : const _Empty(
-                            'A homilia ou reflexão do Santo Padre para esta data ainda não está disponível.',
-                          ))
-                  : (second.isEmpty
-                        ? const _Empty('Nenhuma reflexão disponível para esta data.')
-                        : Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              for (final (i, h) in second.indexed) ...[
-                                if (i > 0) const CrossDivider(),
-                                _HomilyView(homily: h, onListen: widget.onListen, date: l.date),
+            duration: duration,
+            curve: Curves.easeInOut,
+            alignment: Alignment.topCenter,
+            child: AnimatedSwitcher(
+              duration: duration,
+              switchInCurve: Curves.easeOut,
+              switchOutCurve: Curves.easeIn,
+              layoutBuilder: (current, previous) =>
+                  Stack(alignment: Alignment.topCenter, children: [...previous, ?current]),
+              child: Padding(
+                key: ValueKey(_tabs.index),
+                padding: const EdgeInsets.all(VsSpacing.lg),
+                child: _tabs.index == 0
+                    ? (l.vaticanHomily != null
+                          ? _HomilyView(homily: l.vaticanHomily!, onListen: widget.onListen, date: l.date)
+                          : const _Empty(
+                              'A homilia ou reflexão do Santo Padre para esta data ainda não está disponível.',
+                            ))
+                    : (second.isEmpty
+                          ? const _Empty('Nenhuma reflexão disponível para esta data.')
+                          : Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                for (final (i, h) in second.indexed) ...[
+                                  if (i > 0) const CrossDivider(),
+                                  _HomilyView(homily: h, onListen: widget.onListen, date: l.date),
+                                ],
                               ],
-                            ],
-                          )),
+                            )),
+              ),
             ),
           ),
         ],
