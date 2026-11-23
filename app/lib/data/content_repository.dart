@@ -5,6 +5,7 @@ import 'package:flutter/services.dart' show rootBundle;
 
 import '../core/liturgical_calendar.dart';
 import 'models/imitation.dart';
+import 'models/mass.dart';
 import 'models/mystery.dart';
 import 'models/prayer.dart';
 
@@ -49,6 +50,17 @@ class ContentRepository {
       rethrow;
     }
   }
+
+  Future<OrdinaryOfMass>? _mass;
+
+  /// Ordinário da Missa, carregado sob demanda.
+  Future<OrdinaryOfMass> mass() => _mass ??= rootBundle
+      .loadString('assets/data/ordinario_missa.json')
+      .then((raw) => OrdinaryOfMass.fromJson(jsonDecode(raw) as Map<String, dynamic>))
+      .catchError((Object e) {
+        _mass = null; // permite nova tentativa
+        throw e;
+      });
 
   Prayer? prayer(String id) => prayers.where((p) => p.id == id).firstOrNull;
 

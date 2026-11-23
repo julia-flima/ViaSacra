@@ -6,6 +6,7 @@ import '../../core/theme.dart';
 import '../../widgets/common.dart';
 import '../../widgets/sacred_art_header.dart';
 import '../catechism/catechism_screen.dart';
+import '../mass/mass_screen.dart';
 import '../prayers/imitacao_screen.dart';
 import '../prayers/prayers_screen.dart';
 import '../prayers/via_sacra_screen.dart';
@@ -96,6 +97,14 @@ class _LibraryShowcase extends StatelessWidget {
         icon: Icons.auto_stories_outlined,
         art: art['header-imitacao'],
         onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => const ImitacaoScreen())),
+      ),
+      SacredArtCard(
+        title: 'Acompanhar a Missa',
+        subtitle: 'Respostas do povo parte por parte, com a tela sempre acesa',
+        badge: 'Missal Romano',
+        icon: Icons.groups_outlined,
+        art: art['luminosos-5'],
+        onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => const MassScreen())),
       ),
     ];
 

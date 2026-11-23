@@ -16,6 +16,7 @@ import '../../services/settings_service.dart';
 import '../../widgets/common.dart';
 import '../../widgets/reading_appearance_button.dart';
 import '../../widgets/sacred_art_header.dart';
+import '../mass/mass_screen.dart';
 import 'widgets/audio_player_bar.dart';
 import 'widgets/homily_section.dart';
 import 'widgets/liturgy_header.dart';
@@ -104,6 +105,12 @@ class LiturgyScreen extends StatelessWidget {
                     expectedKey: key,
                     onPlayAll: () => playFrom(0),
                     recorded: l.audio.liturgyByVoice.isNotEmpty,
+                  ),
+                  const SizedBox(height: VsSpacing.sm),
+                  OutlinedButton.icon(
+                    onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => const MassScreen())),
+                    icon: const Icon(Icons.groups_outlined),
+                    label: const Text('Acompanhar a Missa: respostas do povo'),
                   ),
                   if (c.loading && !l.hasReadings)
                     const Padding(

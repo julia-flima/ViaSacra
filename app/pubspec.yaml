@@ -61,6 +61,7 @@ dependencies:
   file_picker: ^13.4.0 # MIT
   webview_flutter: ^4.14.1 # BSD-3-Clause
   web: ^1.1.1 # BSD-3-Clause — iframe youtube-nocookie na Web
+  wakelock_plus: ^1.8.2 # BSD-3-Clause — tela acesa durante a Missa
 
 dev_dependencies:
   flutter_test:
