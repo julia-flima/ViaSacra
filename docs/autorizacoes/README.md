@@ -14,7 +14,7 @@ traduções no Via Sacra. Antes de enviar:
 |---|---|---|
 | [carta-editora-ave-maria.md](carta-editora-ave-maria.md) | Editora Ave-Maria | Bíblia Sagrada Ave-Maria |
 | [carta-paulus.md](carta-paulus.md) | Paulus Editora | Bíblia Pastoral e Bíblia de Jerusalém |
-| [carta-cnbb.md](carta-cnbb.md) | CNBB / Edições CNBB | Tradução oficial da CNBB e textos da Liturgia Diária |
+| [carta-cnbb.md](carta-cnbb.md) | CNBB / Edições CNBB | Tradução oficial da CNBB, textos da Liturgia Diária e Ordinário da Missa |
 
 **Dica:** peça a autorização em termos claros (uso gratuito, sem anúncios, código aberto, com
 atribuição) e ofereça cumprir condições da editora — aviso de copyright em cada tela, link para a
