@@ -89,6 +89,8 @@ FONTE_PATRISTICA = {
 
 CNBB_SITE_ORIGIN = "https://liturgiadiaria.edicoescnbb.com.br"
 CNBB_API_URL = "https://api-liturgia.edicoescnbb.com.br/contents/in/date/{iso}"
+RE_CELEBRACAO_PROPRIA = re.compile(r"\b(Memória|Festa|Solenidade)\b", re.I)
+
 CNBB_API_HEADERS = {
     "Accept": "application/json",
     "Origin": CNBB_SITE_ORIGIN,
@@ -538,6 +540,14 @@ def _limpar_aclamacao(texto: str) -> str | None:
         linhas.pop(0)
     limpo = limpar("\n".join(linhas))
     return limpo or None
+
+
+def cor_cnbb(cnbb: dict[str, Any] | None) -> str | None:
+    """Cor da CNBB, só em memória, festa ou solenidade. Nas férias ela traz a cor da
+    memória facultativa (ex.: vermelho em São Clemente), mas a cor do dia é a do tempo."""
+    if cnbb and cnbb.get("cor") and RE_CELEBRACAO_PROPRIA.search(cnbb.get("celebracao") or ""):
+        return cnbb["cor"]
+    return None
 
 
 def parse_cnbb_api(payload: str, url: str) -> dict[str, Any]:
@@ -1182,8 +1192,8 @@ def montar_dia(d: date, cliente: ClienteHttp, fontes: set[str]) -> dict[str, Any
     )
 
     calendario_dict = cal.to_dict()
-    if cnbb and cnbb.get("cor"):
-        calendario_dict["cor"] = cnbb["cor"]
+    if cor := cor_cnbb(cnbb):
+        calendario_dict["cor"] = cor
         calendario_dict["cor_origem"] = "cnbb"
     else:
         calendario_dict["cor_origem"] = "calculada"

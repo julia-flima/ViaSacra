@@ -268,6 +268,16 @@ class DailyLiturgy {
     fromNetwork: false,
   );
 
+  /// A cor do JSON só vale em memória, festa ou solenidade: nas férias a CNBB manda
+  /// a cor da memória facultativa (ex.: vermelho em São Clemente), mas a do dia é a do tempo.
+  static LiturgicalColor _colorFromJson(Map<String, dynamic> cal, LiturgicalDay computed) {
+    final cor = cal['cor'], celebracao = _s(cal['celebracao']) ?? '';
+    if (cor is! String || !RegExp(r'\b(Memória|Festa|Solenidade)\b', caseSensitive: false).hasMatch(celebracao)) {
+      return computed.color;
+    }
+    return LiturgicalColor.fromName(cor);
+  }
+
   factory DailyLiturgy.fromJson(Map<String, dynamic> j) {
     final date = DateTime.parse(j['data'] as String);
     final computed = LiturgicalCalendar.compute(date);
@@ -277,7 +287,7 @@ class DailyLiturgy {
       weekdayName: _s(cal['dia_semana']) ?? computed.weekdayName,
       season: cal['tempo'] != null ? LiturgicalSeason.fromName(cal['tempo'] as String) : computed.season,
       week: (cal['semana'] as num?)?.toInt() ?? computed.week,
-      color: cal['cor'] != null ? LiturgicalColor.fromName(cal['cor'] as String) : computed.color,
+      color: _colorFromJson(cal, computed),
       celebration: _s(cal['celebracao']) ?? computed.celebration,
       rank: _s(cal['grau']) ?? computed.rank,
       sundayCycle: _s(cal['ciclo_dominical']) ?? computed.sundayCycle,
