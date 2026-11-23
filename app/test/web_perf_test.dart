@@ -50,6 +50,16 @@ void main() {
       font: ReadingFont.sans,
     );
     expect(sans.textTheme.bodyLarge?.fontFamily, 'Roboto');
+    // "Sem serifa" vale também para os títulos e a AppBar (issue #54).
+    for (final s in [
+      sans.textTheme.displaySmall,
+      sans.textTheme.headlineMedium,
+      sans.textTheme.headlineSmall,
+      sans.textTheme.titleLarge,
+      sans.appBarTheme.titleTextStyle,
+    ]) {
+      expect(s?.fontFamily, 'Roboto');
+    }
   });
 
   testWidgets('ReadingCard e PsalmCard usam um SelectionArea único (zero SelectableText)', (tester) async {
