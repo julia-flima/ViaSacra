@@ -25,12 +25,15 @@ void main() {
     late int requests;
     late bool online;
     late LiturgyRepository repo;
+    late List<Uri> uris;
 
     setUp(() async {
       requests = 0;
       online = true;
-      final client = MockClient((_) async {
+      uris = [];
+      final client = MockClient((req) async {
         requests++;
+        uris.add(req.url);
         if (!online) throw const SocketException('sem rede');
         return http.Response.bytes(fixture, 200);
       });
@@ -92,6 +95,12 @@ void main() {
       expect(await repo.prefetchWeek(DateTime(2026, 12, 1)), 0);
       expect(repo.isCached(DateTime(2026, 12, 2)), isFalse);
       expect(requests - before, lessThanOrEqualTo(3));
+    });
+
+    test('pedido com "t" para fugir do cache de 7 dias do navegador (Web)', () async {
+      await repo.load(day, now: DateTime(2026, 11, 20));
+      expect(uris.single.path, endsWith('/liturgia/2026-11-19.json'));
+      expect(uris.single.queryParameters['t'], isNotEmpty);
     });
 
     test('sem cache e sem rede: só o calendário, com erro', () async {

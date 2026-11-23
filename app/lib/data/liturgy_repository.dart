@@ -86,7 +86,11 @@ class LiturgyRepository {
   Future<DailyLiturgy> _fetch(DateTime date) async {
     final iso = isoDate(date);
     Object? lastError;
-    for (final uri in DataEndpoints.liturgy(iso)) {
+    // O jsDelivr manda "max-age" de 7 dias: na Web o navegador guardaria o JSON e as correções
+    // não chegariam. O "t" muda a cada _refreshAfter e só o navegador o vê (as CDNs ignoram).
+    final t = '${DateTime.now().millisecondsSinceEpoch ~/ _refreshAfter.inMilliseconds}';
+    for (final base in DataEndpoints.liturgy(iso)) {
+      final uri = base.replace(queryParameters: {'t': t});
       try {
         final resp = await _client.get(uri, headers: {'Accept': 'application/json'}).timeout(_timeout);
         if (resp.statusCode != 200) {
@@ -98,7 +102,7 @@ class LiturgyRepository {
         final liturgy = DailyLiturgy.fromJson(json);
         _db.db.execute(
           'INSERT OR REPLACE INTO liturgy_cache(date, json, schema_version, source_url, fetched_at) VALUES (?,?,?,?,?)',
-          [iso, body, json['schema_version'] ?? 1, uri.toString(), DateTime.now().millisecondsSinceEpoch],
+          [iso, body, json['schema_version'] ?? 1, base.toString(), DateTime.now().millisecondsSinceEpoch],
         );
         unawaited(_db.flush());
         return liturgy;

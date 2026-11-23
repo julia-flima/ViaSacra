@@ -117,7 +117,8 @@ def test_process_day_hash_regera_e_creditos(tmp_path: Path):
     vozes = saved["audio"]["liturgia_vozes"]
     assert set(vozes) == {"pf_dora", "pm_alex"}
     assert vozes["pf_dora"]["url"] == saved["audio"]["liturgia_audio_url"]
-    assert vozes["pm_alex"]["url"].endswith("2026-11-19-pm_alex.mp3")
+    assert vozes["pm_alex"]["url"].endswith(f"2026-11-19-pm_alex.mp3?v={vozes['pm_alex']['hash']}")
+    assert saved["audio"]["liturgia_audio_url"].endswith(f".mp3?v={saved['audio']['liturgia_audio_hash']}")
     assert vozes["pm_alex"]["hash"] == ga.script_hash(ga.build_liturgy_script(saved), "pm_alex")
     assert set(saved["audio"]["homilia_vozes"]) == {"pf_dora", "pm_alex"}
     credit = next(c for c in saved["audio"]["creditos"] if c["campo"] == "liturgia_audio_url")
