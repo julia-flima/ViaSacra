@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "data": "2026-11-23",
-  "gerado_em": "2026-11-22T20:35:39-03:00",
+  "gerado_em": "2026-11-22T23:29:34-03:00",
   "calendario": {
     "data": "2026-11-23",
     "dia_semana": "Segunda-feira",
@@ -52,7 +52,7 @@
     "salmo_cifra_ou_melodia": null,
     "salmo_video_id": "RHjp1z7u6AU",
     "salmo_video_titulo": "Salmo 23(24) É assim a geração dos que buscam vossa face,ó Senhor, Deus de Israel.",
-    "liturgia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-23.mp3",
+    "liturgia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-23.mp3?v=7a60b811d1ec1009",
     "creditos": [
       {
         "campo": "salmo_video_id",
@@ -62,55 +62,55 @@
         "licenca": "YouTube Embed Oficial (Termos de Serviço)"
       },
       {
-        "campo": "homilia_audio_url",
+        "campo": "liturgia_audio_url",
         "interprete": "Voz Dora (pf_dora)",
         "canal": "Via Sacra — Voz Neural Kokoro-82M (Dora, pt-BR)",
         "licenca": "Apache-2.0 (Kokoro-82M)"
       },
       {
-        "campo": "liturgia_audio_url",
+        "campo": "homilia_audio_url",
         "interprete": "Voz Dora (pf_dora)",
         "canal": "Via Sacra — Voz Neural Kokoro-82M (Dora, pt-BR)",
         "licenca": "Apache-2.0 (Kokoro-82M)"
       }
     ],
     "fallback": "tts_local_pt_BR",
-    "homilia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-23-homilia.mp3",
+    "homilia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-23-homilia.mp3?v=471f0e47e55f5295",
     "homilia_audio_hash": "471f0e47e55f5295",
     "homilia_vozes": {
       "pf_dora": {
-        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-23-homilia.mp3",
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-23-homilia.mp3?v=471f0e47e55f5295",
         "hash": "471f0e47e55f5295"
       },
       "pm_alex": {
-        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-23-homilia-pm_alex.mp3",
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-23-homilia-pm_alex.mp3?v=2b97dd3b2041c7c9",
         "hash": "2b97dd3b2041c7c9"
       }
     },
     "liturgia_audio_marcas": {
       "primeira_leitura": 0.0,
-      "salmo": 48.5,
-      "evangelho": 105.52
+      "salmo": 48.39,
+      "evangelho": 102.29
     },
-    "liturgia_audio_hash": "b901d50222b78678",
+    "liturgia_audio_hash": "7a60b811d1ec1009",
     "liturgia_vozes": {
       "pf_dora": {
-        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-23.mp3",
-        "hash": "b901d50222b78678",
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-23.mp3?v=7a60b811d1ec1009",
+        "hash": "7a60b811d1ec1009",
         "marcas": {
           "primeira_leitura": 0.0,
-          "salmo": 48.5,
-          "evangelho": 105.52
+          "salmo": 48.39,
+          "evangelho": 102.29
         }
       },
       "pm_alex": {
-        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-23-pm_alex.mp3",
-        "hash": "91cde5128d7f930b",
+        "hash": "77034b02cdbdbe69",
         "marcas": {
           "primeira_leitura": 0.0,
-          "salmo": 48.58,
-          "evangelho": 105.67
-        }
+          "salmo": 48.65,
+          "evangelho": 102.76
+        },
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-23-pm_alex.mp3?v=77034b02cdbdbe69"
       }
     }
   },
@@ -146,6 +146,29 @@
       }
     ]
   },
+  "santos": [
+    {
+      "nome": "S. Clemente I, papa e mártir: suas relíquias são veneradas na igreja com seu nome",
+      "resumo": "Conhecido como Clemente Romano, foi o quarto Papa, do ano 88 a 97. É chamado \"Padre Apostólico\", por sua Carta aos Coríntios, para restabelecer a paz, considerada um dos documentos mais antigos sobre o exercício da primazia do Papa. Segundo uma tradição do século IV, Constantino foi martirizado.",
+      "url": "https://www.vaticannews.va/pt/santo-do-dia/11/23.html",
+      "fonte": "Vatican News (Português) — Dicastério para a Comunicação",
+      "licenca": "© Libreria Editrice Vaticana / Dicastério para a Comunicação. Reprodução para fins pastorais e não comerciais, com citação da fonte e link para o original."
+    },
+    {
+      "nome": "S. Columbano, abade",
+      "resumo": "Uma das celebridades que mais se destacaram na história da Irlanda foi Columbano. Aos 20 anos, tornou-se monge rigoroso e ascético e, aos 50, foi missionário, com 12 companheiros, na França, Suíça e norte da Itália. Fundou comunidades e reorganizou a vida eclesial, com sua Regra monacal exemplar.",
+      "url": "https://www.vaticannews.va/pt/santo-do-dia/11/23.html",
+      "fonte": "Vatican News (Português) — Dicastério para a Comunicação",
+      "licenca": "© Libreria Editrice Vaticana / Dicastério para a Comunicação. Reprodução para fins pastorais e não comerciais, com citação da fonte e link para o original."
+    },
+    {
+      "nome": "Santa Felicidade, mártir",
+      "resumo": "Segundo a tradição, Felicidade era uma viúva rica e cristã. Por isso, foi perseguida na época do imperador Antonino. Mãe de sete filhos, animou-os espiritualmente durante o martírio, que compartilhou por volta do ano 165. Felicidade foi sepultada na catacumba de Máximo, na Via Salária, em Roma.",
+      "url": "https://www.vaticannews.va/pt/santo-do-dia/11/23.html",
+      "fonte": "Vatican News (Português) — Dicastério para a Comunicação",
+      "licenca": "© Libreria Editrice Vaticana / Dicastério para a Comunicação. Reprodução para fins pastorais e não comerciais, com citação da fonte e link para o original."
+    }
+  ],
   "fontes": [
     {
       "id": "cnbb",
@@ -170,6 +193,7 @@
   "status": {
     "cnbb": "ok",
     "vaticano": "ok",
+    "santo_do_dia": "ok",
     "patristica": "ok"
   }
 }

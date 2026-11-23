@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "data": "2026-11-28",
-  "gerado_em": "2026-11-22T20:35:48-03:00",
+  "gerado_em": "2026-11-22T23:29:53-03:00",
   "calendario": {
     "data": "2026-11-28",
     "dia_semana": "Sábado",
@@ -53,7 +53,7 @@
     "salmo_cifra_ou_melodia": null,
     "salmo_video_id": "_KzxjjGl2LA",
     "salmo_video_titulo": "Salmo 94 (95) | Amém! Vem, ó Senhor Jesus! Amém! | Priscila Ocana | Cifra | #salmo94",
-    "liturgia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-28.mp3",
+    "liturgia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-28.mp3?v=a606a06e43a307fc",
     "creditos": [
       {
         "campo": "salmo_video_id",
@@ -63,55 +63,55 @@
         "licenca": "YouTube Embed Oficial (Termos de Serviço)"
       },
       {
-        "campo": "homilia_audio_url",
+        "campo": "liturgia_audio_url",
         "interprete": "Voz Dora (pf_dora)",
         "canal": "Via Sacra — Voz Neural Kokoro-82M (Dora, pt-BR)",
         "licenca": "Apache-2.0 (Kokoro-82M)"
       },
       {
-        "campo": "liturgia_audio_url",
+        "campo": "homilia_audio_url",
         "interprete": "Voz Dora (pf_dora)",
         "canal": "Via Sacra — Voz Neural Kokoro-82M (Dora, pt-BR)",
         "licenca": "Apache-2.0 (Kokoro-82M)"
       }
     ],
     "fallback": "tts_local_pt_BR",
-    "homilia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-28-homilia.mp3",
-    "homilia_audio_hash": "706c11161b3ad790",
-    "homilia_vozes": {
-      "pf_dora": {
-        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-28-homilia.mp3",
-        "hash": "706c11161b3ad790"
-      },
-      "pm_alex": {
-        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-28-homilia-pm_alex.mp3",
-        "hash": "c6c1f5a3a2438a97"
-      }
-    },
     "liturgia_audio_marcas": {
       "primeira_leitura": 0.0,
-      "salmo": 60.18,
-      "evangelho": 110.66
+      "salmo": 60.15,
+      "evangelho": 107.61
     },
-    "liturgia_audio_hash": "62c667947aa675c4",
+    "liturgia_audio_hash": "a606a06e43a307fc",
+    "homilia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-28-homilia.mp3?v=9793c6d635ff263d",
+    "homilia_audio_hash": "9793c6d635ff263d",
     "liturgia_vozes": {
       "pf_dora": {
-        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-28.mp3",
-        "hash": "62c667947aa675c4",
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-28.mp3?v=a606a06e43a307fc",
+        "hash": "a606a06e43a307fc",
         "marcas": {
           "primeira_leitura": 0.0,
-          "salmo": 60.18,
-          "evangelho": 110.66
+          "salmo": 60.15,
+          "evangelho": 107.61
         }
       },
       "pm_alex": {
-        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-28-pm_alex.mp3",
-        "hash": "6f1efd881a568ac3",
+        "hash": "d4eb21626277e64a",
         "marcas": {
           "primeira_leitura": 0.0,
-          "salmo": 60.18,
-          "evangelho": 110.55
-        }
+          "salmo": 60.2,
+          "evangelho": 107.37
+        },
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-28-pm_alex.mp3?v=d4eb21626277e64a"
+      }
+    },
+    "homilia_vozes": {
+      "pf_dora": {
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-28-homilia.mp3?v=9793c6d635ff263d",
+        "hash": "9793c6d635ff263d"
+      },
+      "pm_alex": {
+        "hash": "ea5d7663fafa7d27",
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-28-homilia-pm_alex.mp3?v=ea5d7663fafa7d27"
       }
     }
   },
@@ -147,6 +147,15 @@
       }
     ]
   },
+  "santos": [
+    {
+      "nome": "S. Tiago da Marca, sacerdote franciscano",
+      "resumo": "Tiago das Marcas foi um pregador impetuoso, mas a sua severidade era abrandada pela clemência. Tornando-se franciscano, em 1415, foi para a Europa Oriental. Seu modo elegante encantava as pessoas com seus gestos e palavras; combateu a usura inventando o penhor do “Monti di Pietà”.",
+      "url": "https://www.vaticannews.va/pt/santo-do-dia/11/28.html",
+      "fonte": "Vatican News (Português) — Dicastério para a Comunicação",
+      "licenca": "© Libreria Editrice Vaticana / Dicastério para a Comunicação. Reprodução para fins pastorais e não comerciais, com citação da fonte e link para o original."
+    }
+  ],
   "fontes": [
     {
       "id": "cnbb",
@@ -171,6 +180,7 @@
   "status": {
     "cnbb": "ok",
     "vaticano": "ok",
+    "santo_do_dia": "ok",
     "patristica": "ok"
   }
 }

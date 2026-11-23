@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "data": "2026-11-27",
-  "gerado_em": "2026-11-22T20:35:46-03:00",
+  "gerado_em": "2026-11-22T23:29:49-03:00",
   "calendario": {
     "data": "2026-11-27",
     "dia_semana": "Sexta-feira",
@@ -50,7 +50,7 @@
     "salmo_cifra_ou_melodia": null,
     "salmo_video_id": "ydZawpNetDw",
     "salmo_video_titulo": "Salmo 83 (84) | Eis a tenda de Deus, no meio do povo! |  Priscila Ocana | Cifra",
-    "liturgia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-27.mp3",
+    "liturgia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-27.mp3?v=45f92b40f7583b01",
     "creditos": [
       {
         "campo": "salmo_video_id",
@@ -60,55 +60,55 @@
         "licenca": "YouTube Embed Oficial (Termos de Serviço)"
       },
       {
-        "campo": "homilia_audio_url",
+        "campo": "liturgia_audio_url",
         "interprete": "Voz Dora (pf_dora)",
         "canal": "Via Sacra — Voz Neural Kokoro-82M (Dora, pt-BR)",
         "licenca": "Apache-2.0 (Kokoro-82M)"
       },
       {
-        "campo": "liturgia_audio_url",
+        "campo": "homilia_audio_url",
         "interprete": "Voz Dora (pf_dora)",
         "canal": "Via Sacra — Voz Neural Kokoro-82M (Dora, pt-BR)",
         "licenca": "Apache-2.0 (Kokoro-82M)"
       }
     ],
     "fallback": "tts_local_pt_BR",
-    "homilia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-27-homilia.mp3",
+    "homilia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-27-homilia.mp3?v=ac87af1ec02b9ea9",
     "homilia_audio_hash": "ac87af1ec02b9ea9",
     "homilia_vozes": {
       "pf_dora": {
-        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-27-homilia.mp3",
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-27-homilia.mp3?v=ac87af1ec02b9ea9",
         "hash": "ac87af1ec02b9ea9"
       },
       "pm_alex": {
-        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-27-homilia-pm_alex.mp3",
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-27-homilia-pm_alex.mp3?v=edcabbbbcd26d376",
         "hash": "edcabbbbcd26d376"
       }
     },
     "liturgia_audio_marcas": {
       "primeira_leitura": 0.0,
-      "salmo": 105.3,
-      "evangelho": 147.1
+      "salmo": 106.05,
+      "evangelho": 144.46
     },
-    "liturgia_audio_hash": "2630aded6ebfee00",
+    "liturgia_audio_hash": "45f92b40f7583b01",
     "liturgia_vozes": {
       "pf_dora": {
-        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-27.mp3",
-        "hash": "2630aded6ebfee00",
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-27.mp3?v=45f92b40f7583b01",
+        "hash": "45f92b40f7583b01",
         "marcas": {
           "primeira_leitura": 0.0,
-          "salmo": 105.3,
-          "evangelho": 147.1
+          "salmo": 106.05,
+          "evangelho": 144.46
         }
       },
       "pm_alex": {
-        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-27-pm_alex.mp3",
-        "hash": "34b40f18f65ef960",
+        "hash": "53af46d7807e9eb7",
         "marcas": {
           "primeira_leitura": 0.0,
-          "salmo": 105.37,
-          "evangelho": 147.29
-        }
+          "salmo": 105.77,
+          "evangelho": 144.11
+        },
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-27-pm_alex.mp3?v=53af46d7807e9eb7"
       }
     }
   },
@@ -144,6 +144,15 @@
       }
     ]
   },
+  "santos": [
+    {
+      "nome": "S. Virgílio, bispo de Salzburgo",
+      "resumo": "Virgílio, monge da Irlanda, país onde nasceu, desempenhou grande parte das suas atividades como bispo de Salzburg, a convite de Pepino o Breve. Sua missão foi a de evangelizar e pacificar o recém-conquistado Ducado da Baviera.",
+      "url": "https://www.vaticannews.va/pt/santo-do-dia/11/27/s--virgilio--bispo-de-salzburgo.html",
+      "fonte": "Vatican News (Português) — Dicastério para a Comunicação",
+      "licenca": "© Libreria Editrice Vaticana / Dicastério para a Comunicação. Reprodução para fins pastorais e não comerciais, com citação da fonte e link para o original."
+    }
+  ],
   "fontes": [
     {
       "id": "cnbb",
@@ -168,6 +177,7 @@
   "status": {
     "cnbb": "ok",
     "vaticano": "ok",
+    "santo_do_dia": "ok",
     "patristica": "ok"
   }
 }

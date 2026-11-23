@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "data": "2026-11-22",
-  "gerado_em": "2026-11-22T20:35:35-03:00",
+  "gerado_em": "2026-11-22T23:29:28-03:00",
   "calendario": {
     "data": "2026-11-22",
     "dia_semana": "Domingo",
@@ -55,7 +55,7 @@
     "salmo_cifra_ou_melodia": null,
     "salmo_video_id": "hgR_xcmyWqI",
     "salmo_video_titulo": "Salmo 22(23) - 22/11/2026: O Senhor é o pastor que me conduz; não me falta coisa alguma.",
-    "liturgia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-22.mp3",
+    "liturgia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-22.mp3?v=1ff6fdcfd2ab10c9",
     "creditos": [
       {
         "campo": "salmo_video_id",
@@ -65,58 +65,58 @@
         "licenca": "YouTube Embed Oficial (Termos de Serviço)"
       },
       {
-        "campo": "homilia_audio_url",
+        "campo": "liturgia_audio_url",
         "interprete": "Voz Dora (pf_dora)",
         "canal": "Via Sacra — Voz Neural Kokoro-82M (Dora, pt-BR)",
         "licenca": "Apache-2.0 (Kokoro-82M)"
       },
       {
-        "campo": "liturgia_audio_url",
+        "campo": "homilia_audio_url",
         "interprete": "Voz Dora (pf_dora)",
         "canal": "Via Sacra — Voz Neural Kokoro-82M (Dora, pt-BR)",
         "licenca": "Apache-2.0 (Kokoro-82M)"
       }
     ],
     "fallback": "tts_local_pt_BR",
-    "homilia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-22-homilia.mp3",
+    "homilia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-22-homilia.mp3?v=e167b1fc81588b8f",
     "homilia_audio_hash": "e167b1fc81588b8f",
     "homilia_vozes": {
       "pf_dora": {
-        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-22-homilia.mp3",
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-22-homilia.mp3?v=e167b1fc81588b8f",
         "hash": "e167b1fc81588b8f"
       },
       "pm_alex": {
-        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-22-homilia-pm_alex.mp3",
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-22-homilia-pm_alex.mp3?v=0c640cc8021745d6",
         "hash": "0c640cc8021745d6"
       }
     },
     "liturgia_audio_marcas": {
       "primeira_leitura": 0.0,
-      "salmo": 49.76,
-      "segunda_leitura": 88.55,
-      "evangelho": 140.37
+      "salmo": 49.41,
+      "segunda_leitura": 85.3,
+      "evangelho": 137.13
     },
-    "liturgia_audio_hash": "06982e93e500d222",
+    "liturgia_audio_hash": "1ff6fdcfd2ab10c9",
     "liturgia_vozes": {
       "pf_dora": {
-        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-22.mp3",
-        "hash": "06982e93e500d222",
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-22.mp3?v=1ff6fdcfd2ab10c9",
+        "hash": "1ff6fdcfd2ab10c9",
         "marcas": {
           "primeira_leitura": 0.0,
-          "salmo": 49.76,
-          "segunda_leitura": 88.55,
-          "evangelho": 140.37
+          "salmo": 49.41,
+          "segunda_leitura": 85.3,
+          "evangelho": 137.13
         }
       },
       "pm_alex": {
-        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-22-pm_alex.mp3",
-        "hash": "c967621c9f8d49a5",
+        "hash": "268dd43add450ab4",
         "marcas": {
           "primeira_leitura": 0.0,
-          "salmo": 49.84,
-          "segunda_leitura": 88.53,
-          "evangelho": 140.44
-        }
+          "salmo": 49.56,
+          "segunda_leitura": 85.18,
+          "evangelho": 137.09
+        },
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-22-pm_alex.mp3?v=268dd43add450ab4"
       }
     }
   },
@@ -152,6 +152,15 @@
       }
     ]
   },
+  "santos": [
+    {
+      "nome": "S. Cecília, virgem e mártir, no cemitério de Calisto",
+      "resumo": "História e lenda se entrelaçam em torno da figura de Santa Cecília, virgem e mártir, que viveu em Roma entre os séculos II e III. Sua festa é celebrada em todo o mundo como Padroeira da música, dos músicos e dos cantores. A Igreja a recorda no dia 22 de novembro.",
+      "url": "https://www.vaticannews.va/pt/santo-do-dia/11/22/s--cecilia--virgem-e-martir--no-cemiterio-de-calisto.html",
+      "fonte": "Vatican News (Português) — Dicastério para a Comunicação",
+      "licenca": "© Libreria Editrice Vaticana / Dicastério para a Comunicação. Reprodução para fins pastorais e não comerciais, com citação da fonte e link para o original."
+    }
+  ],
   "fontes": [
     {
       "id": "cnbb",
@@ -176,6 +185,7 @@
   "status": {
     "cnbb": "ok",
     "vaticano": "ok",
+    "santo_do_dia": "ok",
     "patristica": "ok"
   }
 }
