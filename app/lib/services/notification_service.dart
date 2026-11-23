@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:material_ui/material_ui.dart' show TimeOfDay;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -9,16 +11,22 @@ import 'package:timezone/timezone.dart' as tz;
 import '../core/liturgical_calendar.dart';
 import '../data/liturgy_repository.dart';
 import 'settings_service.dart';
+import 'web_reminders.dart';
 
 /// Lembretes 100% locais (sem Firebase Cloud Messaging, sem servidor).
 ///
 /// Como o conteúdo muda a cada dia (Evangelho, mistérios), agendamos
 /// notificações individuais para os próximos [daysAhead] dias, e
 /// reagendamos sempre que o app abre ou baixa a semana offline.
+///
+/// Na Web não há agendamento do sistema: a lista vai para o `sw.js` (ver `web_reminders_web.dart`),
+/// que mostra cada lembrete com o app aberto ou quando o navegador acorda o PWA instalado.
 class NotificationService {
   NotificationService(this._plugin);
 
-  final FlutterLocalNotificationsPlugin _plugin;
+  /// null na Web.
+  final FlutterLocalNotificationsPlugin? _plugin;
+  Timer? _webTimer;
   static const daysAhead = 14; // iOS permite até 64 pendentes
   static const _liturgyBaseId = 1000;
   static const _rosaryBaseId = 2000;
@@ -43,6 +51,10 @@ class NotificationService {
   static const _darwin = DarwinNotificationDetails(presentAlert: true, presentSound: true, presentBadge: false);
 
   static Future<NotificationService> create({void Function(String? payload)? onTap}) async {
+    if (kIsWeb) {
+      webListenReminderTaps((p) => onTap?.call(p));
+      return NotificationService(null);
+    }
     final plugin = FlutterLocalNotificationsPlugin();
     tzdata.initializeTimeZones();
     try {
@@ -68,51 +80,103 @@ class NotificationService {
 
   /// Payload do lembrete que abriu o app (null se aberto normalmente).
   Future<String?> launchPayload() async {
-    final details = await _plugin.getNotificationAppLaunchDetails();
+    if (kIsWeb) return webLaunchPayload();
+    final details = await _plugin!.getNotificationAppLaunchDetails();
     return details?.didNotificationLaunchApp == true ? details?.notificationResponse?.payload : null;
   }
 
   /// Pede permissão ao sistema (Android 13+ / iOS). Retorna se foi concedida.
   Future<bool> requestPermission() async {
+    if (kIsWeb) return webRequestNotificationPermission();
     if (defaultTargetPlatform == TargetPlatform.android) {
-      final android = _plugin.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>();
+      final android = _plugin!.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>();
       return await android?.requestNotificationsPermission() ?? true;
     }
     if (defaultTargetPlatform == TargetPlatform.iOS) {
-      final ios = _plugin.resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>();
+      final ios = _plugin!.resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>();
       return await ios?.requestPermissions(alert: true, sound: true) ?? false;
     }
     return false;
   }
 
-  Future<void> cancelAll() => _plugin.cancelAll();
+  Future<void> cancelAll() async {
+    if (kIsWeb) return _sendToWeb(const []);
+    await _plugin!.cancelAll();
+  }
 
   /// Reagenda tudo de acordo com as preferências atuais.
   Future<void> reschedule(SettingsService settings, LiturgyRepository liturgy) async {
-    await _plugin.cancelAll();
-    if (!settings.notificationsEnabled) return;
-    final now = tz.TZDateTime.now(tz.local);
+    final items = upcoming(settings, liturgy, DateTime.now());
+    if (kIsWeb) return _sendToWeb(items);
+    await _plugin!.cancelAll();
+    for (final r in items) {
+      final liturgia = r.payload == 'liturgia';
+      await _schedule(
+        (liturgia ? _liturgyBaseId : _rosaryBaseId) + r.day,
+        tz.TZDateTime.from(r.when, tz.local),
+        r.title,
+        r.body,
+        liturgia ? _liturgyChannel : _rosaryChannel,
+        r.payload,
+      );
+    }
+  }
+
+  /// Lembretes dos próximos [daysAhead] dias ainda por vir, na hora local escolhida.
+  @visibleForTesting
+  static List<({int day, DateTime when, String title, String body, String payload})> upcoming(
+    SettingsService settings,
+    LiturgyRepository? liturgy,
+    DateTime now,
+  ) {
+    final items = <({int day, DateTime when, String title, String body, String payload})>[];
+    if (!settings.notificationsEnabled) return items;
     for (var i = 0; i < daysAhead; i++) {
       final day = DateTime(now.year, now.month, now.day + i);
       if (settings.liturgyReminder) {
         final when = _at(day, settings.liturgyReminderTime);
         if (when.isAfter(now)) {
           final (title, body) = liturgyMessage(day, liturgy);
-          await _schedule(_liturgyBaseId + i, when, title, body, _liturgyChannel, 'liturgia');
+          items.add((day: i, when: when, title: title, body: body, payload: 'liturgia'));
         }
       }
       if (settings.rosaryReminder) {
         final when = _at(day, settings.rosaryReminderTime);
         if (when.isAfter(now)) {
           final (title, body) = rosaryMessage(day);
-          await _schedule(_rosaryBaseId + i, when, title, body, _rosaryChannel, 'terco');
+          items.add((day: i, when: when, title: title, body: body, payload: 'terco'));
         }
       }
     }
+    return items..sort((a, b) => a.when.compareTo(b.when));
   }
 
-  tz.TZDateTime _at(DateTime day, TimeOfDay t) =>
-      tz.TZDateTime(tz.local, day.year, day.month, day.day, t.hour, t.minute);
+  static DateTime _at(DateTime day, TimeOfDay t) => DateTime(day.year, day.month, day.day, t.hour, t.minute);
+
+  /// Web: entrega a lista ao service worker e, com o app aberto, acorda-o na hora do próximo.
+  void _sendToWeb(List<({int day, DateTime when, String title, String body, String payload})> items) {
+    webSendReminders([
+      for (final r in items)
+        {
+          'tag': '${r.payload}-${DateFormat('yyyy-MM-dd').format(r.when)}',
+          'at': r.when.millisecondsSinceEpoch,
+          'title': r.title,
+          'body': r.body,
+          'payload': r.payload,
+        },
+    ]);
+    _armWebTimer(items.map((r) => r.when).toList());
+  }
+
+  void _armWebTimer(List<DateTime> times) {
+    _webTimer?.cancel();
+    if (times.isEmpty) return;
+    final wait = times.first.difference(DateTime.now());
+    _webTimer = Timer(wait.isNegative ? Duration.zero : wait, () {
+      webCheckReminders();
+      _armWebTimer(times.sublist(1));
+    });
+  }
 
   Future<void> _schedule(
     int id,
@@ -123,7 +187,7 @@ class NotificationService {
     String payload,
   ) async {
     try {
-      await _plugin.zonedSchedule(
+      await _plugin!.zonedSchedule(
         id: id,
         scheduledDate: when,
         title: title,

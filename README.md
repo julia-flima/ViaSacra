@@ -78,8 +78,9 @@ tela inicial, ele abre em tela cheia, como um app, e **funciona mesmo sem intern
 1. Abra o link acima no **Chrome**.
 2. Toque em **Instalar aplicativo** (ou no menu **⋮** → **Adicionar à tela inicial**).
 
-> A versão web tem Liturgia, Bíblia, Terço, Catecismo, Orações e leitura em voz alta. Os **lembretes
-> agendados** (notificações) ficam disponíveis apenas no app nativo para Android e iOS, abaixo.
+> A versão web tem Liturgia, Bíblia, Terço, Catecismo, Orações e leitura em voz alta. Os **lembretes**
+> chegam na hora com o site aberto; fechado, só no Chrome com o app instalado e em horário aproximado.
+> Para lembretes pontuais, use o app nativo para Android e iOS, abaixo.
 
 ### Android
 
