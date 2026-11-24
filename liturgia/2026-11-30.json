@@ -1,0 +1,183 @@
+{
+  "schema_version": 1,
+  "data": "2026-11-30",
+  "gerado_em": "2026-11-24T10:32:20-03:00",
+  "calendario": {
+    "data": "2026-11-30",
+    "dia_semana": "Segunda-feira",
+    "tempo": "advento",
+    "tempo_nome": "Tempo do Advento",
+    "semana": 1,
+    "cor": "vermelho",
+    "celebracao": "Santo André, Apóstolo, Festa",
+    "grau": "feria",
+    "ciclo_dominical": "B",
+    "ciclo_ferial": "I",
+    "misterios_do_dia": "gozosos",
+    "cor_origem": "cnbb"
+  },
+  "leituras": {
+    "primeira_leitura": {
+      "referencia": "Rm 10,9-18",
+      "introducao": "Leitura da Carta de São Paulo aos Romanos 10,9-18",
+      "aclamacao": null,
+      "texto": "Irmãos,\n\nse, com tua boca, confessares Jesus como Senhor\ne, no teu coração,\ncreres que Deus o ressuscitou dos mortos,\nserás salvo.\n\nÉ crendo no coração que se alcança a justiça\ne é confessando a fé com a boca\nque se consegue a salvação.\n\nPois a Escritura diz:\n\"Todo aquele que nele crer não ficará confundido\".\n\nPortanto,\nnão importa a diferença entre judeu e grego;\ntodos têm o mesmo Senhor,\nque é generoso para com todos os que o invocam.\n\nDe fato, todo aquele que invocar o Nome do Senhor\nserá salvo.\n\nMas, como invocá-lo, sem antes crer nele?\nE como crer, sem antes ter ouvido falar dele?\nE como ouvir, sem alguém que pregue?\n\nE como pregar, sem ser enviado para isso?\nAssim é que está escrito:\n\"Quão belos são os pés dos que anunciam o bem\".\n\nMas nem todos obedeceram à Boa-nova.\nPois Isaías diz:\n\"Senhor, quem acreditou em nossa pregação?\"\n\nLogo, a fé vem da pregação\ne a pregação se faz pela palavra de Cristo.\n\nEntão, eu pergunto:\nSerá que eles não ouviram?\nCertamente que ouviram,\npois \"a voz deles se espalhou por toda a terra,\ne as suas palavras chegaram aos confins do mundo\".\nPalavra do Senhor.</div",
+      "fonte": "CNBB"
+    },
+    "salmo": {
+      "referencia": "Sl 18",
+      "refrao": "Seu som ressoa e se espalha em toda terra.",
+      "estrofes": [
+        "Os céus proclamam a glória do Senhor, *\ne o firmamento, a obra de suas mãos;",
+        "o dia ao dia transmite esta mensagem, *\na noite à noite publica esta notícia.",
+        "Não são discursos nem frases ou palavras, *\nnem são vozes que possam ser ouvidas;",
+        "seu som ressoa e se espalha em toda a terra, *\nchega aos confins do universo a sua voz."
+      ],
+      "texto": "Os céus proclamam a glória do Senhor, *\ne o firmamento, a obra de suas mãos;\n\no dia ao dia transmite esta mensagem, *\na noite à noite publica esta notícia.\n\nNão são discursos nem frases ou palavras, *\nnem são vozes que possam ser ouvidas;\n\nseu som ressoa e se espalha em toda a terra, *\nchega aos confins do universo a sua voz.",
+      "fonte": "CNBB"
+    },
+    "segunda_leitura": null,
+    "evangelho": {
+      "referencia": "Mt 4,18-22",
+      "introducao": "Proclamação do Evangelho de Jesus Cristo segundo Mateus 4,18-22",
+      "aclamacao": "R. Aleluia, Aleluia, Aleluia.\nV. Vinde após mim, disse o Senhor,\ne eu ensinarei a pescar gente.",
+      "texto": "Naquele tempo,\n\nquando Jesus andava à beira do mar da Galileia,\nviu dois irmãos:\nSimão, chamado Pedro, e seu irmão André.\nEstavam lançando a rede ao mar,\npois eram pescadores.\n\nJesus disse a eles:\n\"Segui-me,\ne eu farei de vós pescadores de homens\".\n\nEles, imediatamente deixaram as redes\ne o seguiram.\n\nCaminhando um pouco mais,\nJesus viu outros dois irmãos:\nTiago, filho de Zebedeu, e seu irmão João.\nEstavam na barca com seu pai Zebedeu\nconsertando as redes.\nJesus os chamou.\n\nEles, imediatamente deixaram a barca e o pai,\ne o seguiram.",
+      "fonte": "CNBB"
+    }
+  },
+  "audio": {
+    "salmo_audio_url": null,
+    "salmo_cifra_ou_melodia": null,
+    "salmo_video_id": "taUjFcrjbqc",
+    "salmo_video_titulo": "Salmo 18(19A)  (30/11/2026)Seu som ressoa e se espalha em toda terra.",
+    "liturgia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-30.mp3?v=017682a8dba6bf73",
+    "creditos": [
+      {
+        "campo": "salmo_video_id",
+        "interprete": "Edgar Borges (Salmos responsoriais)",
+        "canal": "Edgar Borges (Salmos responsoriais)",
+        "url_fonte": "https://www.youtube.com/watch?v=taUjFcrjbqc",
+        "licenca": "YouTube Embed Oficial (Termos de Serviço)"
+      },
+      {
+        "campo": "liturgia_audio_url",
+        "interprete": "Voz Dora (pf_dora)",
+        "canal": "Via Sacra — Voz Neural Kokoro-82M (Dora, pt-BR)",
+        "licenca": "Apache-2.0 (Kokoro-82M)"
+      },
+      {
+        "campo": "homilia_audio_url",
+        "interprete": "Voz Dora (pf_dora)",
+        "canal": "Via Sacra — Voz Neural Kokoro-82M (Dora, pt-BR)",
+        "licenca": "Apache-2.0 (Kokoro-82M)"
+      }
+    ],
+    "fallback": "tts_local_pt_BR",
+    "liturgia_audio_marcas": {
+      "primeira_leitura": 0.0,
+      "salmo": 66.9,
+      "evangelho": 97.95
+    },
+    "liturgia_audio_hash": "017682a8dba6bf73",
+    "homilia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-30-homilia.mp3?v=cb3bbab653555b2a",
+    "homilia_audio_hash": "cb3bbab653555b2a",
+    "liturgia_vozes": {
+      "pf_dora": {
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-30.mp3?v=017682a8dba6bf73",
+        "hash": "017682a8dba6bf73",
+        "marcas": {
+          "primeira_leitura": 0.0,
+          "salmo": 66.9,
+          "evangelho": 97.95
+        }
+      },
+      "pm_alex": {
+        "hash": "8999c7be3365df53",
+        "marcas": {
+          "primeira_leitura": 0.0,
+          "salmo": 66.92,
+          "evangelho": 97.93
+        },
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-30-pm_alex.mp3?v=8999c7be3365df53"
+      }
+    },
+    "homilia_vozes": {
+      "pf_dora": {
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-30-homilia.mp3?v=cb3bbab653555b2a",
+        "hash": "cb3bbab653555b2a"
+      },
+      "pm_alex": {
+        "hash": "0c085df014dc2e7a",
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-30-homilia-pm_alex.mp3?v=0c085df014dc2e7a"
+      }
+    }
+  },
+  "homilias": {
+    "vaticano": {
+      "titulo": "As palavras dos Papas",
+      "autor": "Papa Francisco",
+      "texto": "A quem começou Jesus a falar? Narra o Evangelho que Ele, «caminhando ao longo do mar da Galileia, viu dois irmãos (…) que lançavam as redes ao mar, pois eram pescadores. Disse-lhes: “Vinde comigo e Eu farei de vós pescadores de homens”» (Mt 4, 18-19). Os primeiros destinatários da chamada foram pescadores: não pessoas atentamente selecionadas com base nas suas capacidades, nem homens piedosos que estavam no templo a rezar, mas gente comum que trabalhava.\n\nNotemos o que lhes diz Jesus: farei de vós pescadores de homens. Fala a pescadores e usa uma linguagem que eles compreendem. Atrai-os a partir da sua vida: chama-os onde estão e como são, para os envolver na própria missão d’Ele. «E eles deixaram as redes imediatamente e seguiram-No» (4, 20). Porquê imediatamente? Simplesmente porque se sentiram atraídos. Não aparecem despachados e prontos por ter recebido uma ordem, mas porque foram atraídos pelo amor. Para seguir a Jesus, não bastam os bons propósitos; é preciso ouvir dia a dia a sua chamada. Só Ele, que nos conhece e ama profundamente, leva a fazer-nos ao largo no mar da vida, como fez com os discípulos que O escutaram. Por isso, precisamos da sua Palavra: precisamos de escutar, no meio das infindas palavras de cada dia, a única Palavra que não nos fala de coisas, mas fala-nos de vida.\n\n(Papa Francisco, Homilia no Domingo da Palavra de Deus de 26 de janeiro de 2020)",
+      "resumo": "A quem começou Jesus a falar? Narra o Evangelho que Ele, «caminhando ao longo do mar da Galileia, viu dois irmãos (…) que lançavam as redes ao mar, pois eram pescadores. Disse-lhes: “Vinde comigo e Eu farei de vós pescadores de homens”» (Mt 4, 18-19). Os primeiros destinatários…",
+      "url": "https://www.vaticannews.va/pt/palavra-do-dia/2026/11/30.html",
+      "fonte": "Vatican News (Português) — Dicastério para a Comunicação",
+      "licenca": "© Libreria Editrice Vaticana / Dicastério para a Comunicação. Reprodução para fins pastorais e não comerciais, com citação da fonte e link para o original."
+    },
+    "cnbb": null,
+    "patristica": [
+      {
+        "autor": "São Jerônimo",
+        "obra": "Comentário ao Profeta Isaías, Prólogo",
+        "texto": "Ignorar as Escrituras é ignorar o próprio Cristo. Aproxima-te da Palavra com humildade e oração, para que o mesmo Espírito que a inspirou abra o teu coração para a compreender.",
+        "url": "https://www.newadvent.org/fathers/",
+        "fonte": "Santos Padres e Doutores da Igreja (domínio público)",
+        "licenca": "Domínio público",
+        "nota": "Tradução livre do latim (Commentarii in Isaiam) — domínio público."
+      },
+      {
+        "autor": "Santo Agostinho",
+        "obra": "Sermão 185 (no Natal do Senhor), 1",
+        "texto": "Desperta, ó homem: por ti Deus se fez homem. Estarias morto para sempre se Ele não tivesse nascido no tempo. Jamais serias libertado da carne do pecado se Ele não tivesse assumido a semelhança da carne do pecado.",
+        "url": "https://www.newadvent.org/fathers/",
+        "fonte": "Santos Padres e Doutores da Igreja (domínio público)",
+        "licenca": "Domínio público",
+        "nota": "Tradução livre do latim (Sermo 185) para fins devocionais."
+      }
+    ]
+  },
+  "santos": [
+    {
+      "nome": "S. André, apóstolo",
+      "resumo": "Santo André, irmão de São Pedro, é Padroeiro da Igreja Ortodoxa de Constantinopla e protetor dos pescadores. Entre todos os Santos, distingue-se por ser o primeiro a seguir Jesus e por ter sido martirizado sobre uma cruz decussada. A sua festa litúrgica é celebrada pela Igreja no dia 30 de novembro.",
+      "url": "https://www.vaticannews.va/pt/santo-do-dia/11/30/s--andre--apostolo.html",
+      "fonte": "Vatican News (Português) — Dicastério para a Comunicação",
+      "licenca": "© Libreria Editrice Vaticana / Dicastério para a Comunicação. Reprodução para fins pastorais e não comerciais, com citação da fonte e link para o original."
+    }
+  ],
+  "fontes": [
+    {
+      "id": "cnbb",
+      "nome": "CNBB — Conferência Nacional dos Bispos do Brasil",
+      "url": "https://liturgiadiaria.edicoescnbb.com.br",
+      "nota": "Textos litúrgicos reproduzidos para uso devocional e não comercial. Fonte: CNBB / Edições CNBB."
+    },
+    {
+      "id": "vaticannews",
+      "nome": "Vatican News (Português) — Dicastério para a Comunicação",
+      "url": "https://www.vaticannews.va/pt.html",
+      "nota": "© Libreria Editrice Vaticana / Dicastério para a Comunicação. Reprodução para fins pastorais e não comerciais, com citação da fonte e link para o original."
+    },
+    {
+      "id": "patristica",
+      "nome": "Santos Padres e Doutores da Igreja (domínio público)",
+      "url": "https://www.newadvent.org/fathers/",
+      "nota": "Obras em domínio público; traduções do projeto Via Sacra (GPL-3.0 / CC0 para o texto)."
+    }
+  ],
+  "url_original": "https://liturgiadiaria.edicoescnbb.com.br",
+  "status": {
+    "cnbb": "ok",
+    "vaticano": "ok",
+    "santo_do_dia": "ok",
+    "patristica": "ok"
+  }
+}
