@@ -1,0 +1,200 @@
+{
+  "schema_version": 1,
+  "data": "2026-12-01",
+  "gerado_em": "2026-11-25T09:34:21-03:00",
+  "calendario": {
+    "data": "2026-12-01",
+    "dia_semana": "Terça-feira",
+    "tempo": "advento",
+    "tempo_nome": "Tempo do Advento",
+    "semana": 1,
+    "cor": "roxo",
+    "celebracao": "1ª Semana do Advento",
+    "grau": "feria",
+    "ciclo_dominical": "B",
+    "ciclo_ferial": "I",
+    "misterios_do_dia": "dolorosos",
+    "cor_origem": "calculada"
+  },
+  "leituras": {
+    "primeira_leitura": {
+      "referencia": "Is 11,1-10",
+      "introducao": "Leitura do Livro do Profeta Isaías11,1-10",
+      "aclamacao": null,
+      "texto": "Naqueles dias,\n\nnascerá uma haste do tronco de Jessé\ne, a partir da raiz, surgirá o rebento de uma flor;\n\nsobre ele repousará o espírito do Senhor:\nespírito de sabedoria e discernimento,\nespírito de conselho e fortaleza,\nespírito de ciência e temor de Deus;\n\nno temor do Senhor encontra ele seu prazer.Ele não julgará pelas aparências que vê\nnem decidirá somente por ouvir dizer;\n\nmas trará justiça para os humildes\ne uma ordem justa para os homens pacíficos;\nfustigará a terra com a força da sua palavra\ne destruirá o mau com o sopro dos lábios.\n\nCingirá a cintura com a correia da justiça\ne as costas com a faixa da fidelidade.\n\nO lobo e o cordeiro viverão juntos\ne o leopardo deitar-se-á ao lado do cabrito;\no bezerro e o leão comerão juntos\ne até mesmo uma criança poderá tangê-los.\n\nA vaca e o urso pastarão lado a lado,\nenquanto suas crias descansam juntas;\no leão comerá palha como o boi;\n\na criança de peito vai brincar\nem cima do buraco da cobra venenosa;\ne o menino desmamado\nnão temerá pôr a mão na toca da serpente.\n\nNão haverá danos nem mortes\npor todo o meu santo monte:\na terra estará tão repleta do saber do Senhor\nquanto as águas que cobrem o mar.\n\nNaquele dia, a raiz de Jessé\nse erguerá como um sinal entre os povos;\nhão de buscá-la as nações,\ne gloriosa será a sua morada.",
+      "fonte": "CNBB"
+    },
+    "salmo": {
+      "referencia": "Sl 71(72),1-2.7-8.12-13.17",
+      "refrao": "Nos seus dias a justiça florirá\ne paz em abundância, para sempre.",
+      "estrofes": [
+        "Dai ao Rei vossos poderes, Senhor Deus,*\nvossa justiça ao descendente da realeza!",
+        "Com justiça ele governe o vosso povo,*\ncom equidade ele julgue os vossos pobres.",
+        "Nos seus dias a justiça florirá*\ne grande paz, até que a lua perca o brilho!",
+        "De mar a mar estenderá o seu domínio,*\ne desde o rio até os confins de toda a terra!",
+        "Libertará o indigente que suplica,*\ne o pobre ao qual ninguém quer ajudar.",
+        "Terá pena do indigente e do infeliz,*\ne a vida dos humildes salvará.",
+        "Seja bendito o seu nome para sempre!*\nE que dure como o sol sua memória!\nTodos os povos serão nele abençoados,*\ntodas as gentes cantarão o seu louvor!"
+      ],
+      "texto": "Dai ao Rei vossos poderes, Senhor Deus,*\nvossa justiça ao descendente da realeza!\n\nCom justiça ele governe o vosso povo,*\ncom equidade ele julgue os vossos pobres.\n\nNos seus dias a justiça florirá*\ne grande paz, até que a lua perca o brilho!\n\nDe mar a mar estenderá o seu domínio,*\ne desde o rio até os confins de toda a terra!\n\nLibertará o indigente que suplica,*\ne o pobre ao qual ninguém quer ajudar.\n\nTerá pena do indigente e do infeliz,*\ne a vida dos humildes salvará.\n\nSeja bendito o seu nome para sempre!*\nE que dure como o sol sua memória!\nTodos os povos serão nele abençoados,*\ntodas as gentes cantarão o seu louvor!",
+      "fonte": "CNBB"
+    },
+    "segunda_leitura": null,
+    "evangelho": {
+      "referencia": "Lc 10,21-24",
+      "introducao": "Proclamação do Evangelho de Jesus Cristo segundo Lucas 10,21-24",
+      "aclamacao": "R. Aleluia, Aleluia, Aleluia.\nV. Eis que virá o nosso Deus com poder e majestade. E ele há de iluminar os olhos dos seus servos.",
+      "texto": "Naquele momento, Jesus exultou no Espírito Santo e disse:\n\"Eu te louvo, Pai, Senhor do céu e da terra,\nporque escondeste essas coisas aos sábios e inteligentes,\ne as revelaste aos pequeninos.\nSim, Pai, porque assim foi do teu agrado.\n\nTudo me foi entregue pelo meu Pai.\nNinguém conhece quem é o Filho, a não ser o Pai;\ne ninguém conhece quem é o Pai, a não ser o Filho\ne aquele a quem o Filho o quiser revelar\".\n\nJesus voltou-se para os discípulos\ne disse-lhes em particular:\n\"Felizes os olhos que veem o que vós vedes!\n\nPois eu vos digo que muitos profetas e reis quiseram ver\no que estais vendo, e não puderam ver;\nquiseram ouvir o que estais ouvindo,\ne não puderam ouvir\".",
+      "fonte": "CNBB"
+    }
+  },
+  "audio": {
+    "salmo_audio_url": null,
+    "salmo_cifra_ou_melodia": null,
+    "salmo_video_id": "t-cdC4nHXW0",
+    "salmo_video_titulo": "Salmo 71(72) (01/12/2026) Nos seus dias a justiça florirá    e paz em abundância, para sempre.",
+    "liturgia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-12-01.mp3?v=e3a2bb0d3461c511",
+    "creditos": [
+      {
+        "campo": "salmo_video_id",
+        "interprete": "Edgar Borges (Salmos responsoriais)",
+        "canal": "Edgar Borges (Salmos responsoriais)",
+        "url_fonte": "https://www.youtube.com/watch?v=t-cdC4nHXW0",
+        "licenca": "YouTube Embed Oficial (Termos de Serviço)"
+      },
+      {
+        "campo": "liturgia_audio_url",
+        "interprete": "Voz Dora (pf_dora)",
+        "canal": "Via Sacra — Voz Neural Kokoro-82M (Dora, pt-BR)",
+        "licenca": "Apache-2.0 (Kokoro-82M)"
+      },
+      {
+        "campo": "homilia_audio_url",
+        "interprete": "Voz Dora (pf_dora)",
+        "canal": "Via Sacra — Voz Neural Kokoro-82M (Dora, pt-BR)",
+        "licenca": "Apache-2.0 (Kokoro-82M)"
+      }
+    ],
+    "fallback": "tts_local_pt_BR",
+    "liturgia_audio_marcas": {
+      "primeira_leitura": 0.0,
+      "salmo": 79.24,
+      "evangelho": 144.02
+    },
+    "liturgia_audio_hash": "e3a2bb0d3461c511",
+    "homilia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-12-01-homilia.mp3?v=727d179d6158db45",
+    "homilia_audio_hash": "727d179d6158db45",
+    "liturgia_vozes": {
+      "pf_dora": {
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-12-01.mp3?v=e3a2bb0d3461c511",
+        "hash": "e3a2bb0d3461c511",
+        "marcas": {
+          "primeira_leitura": 0.0,
+          "salmo": 79.24,
+          "evangelho": 144.02
+        }
+      },
+      "pm_alex": {
+        "hash": "783dfb433c59b114",
+        "marcas": {
+          "primeira_leitura": 0.0,
+          "salmo": 79.51,
+          "evangelho": 144.96
+        },
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-12-01-pm_alex.mp3?v=783dfb433c59b114"
+      }
+    },
+    "homilia_vozes": {
+      "pf_dora": {
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-12-01-homilia.mp3?v=727d179d6158db45",
+        "hash": "727d179d6158db45"
+      },
+      "pm_alex": {
+        "hash": "a57c53bf8895cadf",
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-12-01-homilia-pm_alex.mp3?v=a57c53bf8895cadf"
+      }
+    }
+  },
+  "homilias": {
+    "vaticano": {
+      "titulo": "As palavras dos Papas",
+      "autor": "Papa Leão XIV",
+      "texto": "A revelação divina não se realiza em conformidade com a lógica terrena, para a qual são os homens cultos e poderosos que possuem os conhecimentos importantes e que depois os transmitem às pessoas mais simples, aos pequeninos. Deus recorreu a um outro estilo: os destinatários da sua comunicação foram precisamente os «pequeninos». Esta é a vontade do Pai, e o Filho compartilha-a com alegria. (...)\n\nMas o que significa «ser pequenino», simples? Qual é «a pequenez» que abre o homem à intimidade filial com Deus e ao acolhimento da sua vontade? Qual deve ser a atitude de fundo da nossa oração? Meditemos sobre o «Sermão da montanha», onde Jesus afirma: «Bem-aventurados os puros de coração, porque verão a Deus» (Mt 5, 8). É a pureza do coração, aquela que permite reconhecer o rosto de Deus em Jesus Cristo; é ter um coração simples, como o das crianças, sem a presunção daqueles que se fecham em si mesmos, pensando que não têm necessidade de ninguém, nem sequer de Deus. (...)\n\nTambém nós, com o dom do seu Espírito, podemos dirigir-nos a Deus, mediante a oração, com a confiança de filhos, invocando-o com o nome de Pai, «Abá». Mas devemos ter o coração dos pequeninos, dos «pobres de espírito» (Mt 5, 3), para reconhecer que não somos auto-suficientes, que não podemos construir a nossa vida sozinhos, mas precisamos de Deus, temos necessidade de O encontrar e escutar, de lhe falar. A oração abre-nos à recepção do dom de Deus, à sua sabedoria, que é o próprio Jesus, para cumprir a vontade do Pai sobre a nossa vida e encontrar assim alívio nas dificuldades do nosso caminho.\n\n( Papa Bento XVI, Catequese de 7 de dezembro de 2011 )",
+      "resumo": "A revelação divina não se realiza em conformidade com a lógica terrena, para a qual são os homens cultos e poderosos que possuem os conhecimentos importantes e que depois os transmitem às pessoas mais simples, aos pequeninos. Deus recorreu a um outro estilo: os destinatários da…",
+      "url": "https://www.vaticannews.va/pt/palavra-do-dia/2026/12/01.html",
+      "fonte": "Vatican News (Português) — Dicastério para a Comunicação",
+      "licenca": "© Libreria Editrice Vaticana / Dicastério para a Comunicação. Reprodução para fins pastorais e não comerciais, com citação da fonte e link para o original."
+    },
+    "cnbb": null,
+    "patristica": [
+      {
+        "autor": "Santo Agostinho",
+        "obra": "Comentário à Primeira Carta de São João, 7, 8",
+        "texto": "Ama, e faze o que quiseres. Se calas, cala por amor; se falas, fala por amor; se corriges, corrige por amor; se perdoas, perdoa por amor. Esteja em ti a raiz do amor: dessa raiz não pode brotar senão o bem.",
+        "url": "https://www.newadvent.org/fathers/170207.htm",
+        "fonte": "Santos Padres e Doutores da Igreja (domínio público)",
+        "licenca": "Domínio público",
+        "nota": "Tradução livre do latim (In Epistolam Ioannis ad Parthos) para fins devocionais."
+      },
+      {
+        "autor": "Santo Agostinho",
+        "obra": "Sermão 103 (sobre Marta e Maria)",
+        "texto": "Marta estava ocupada em como alimentar o Senhor; Maria, em como ser alimentada pelo Senhor. O trabalho de Marta é bom, mas passa; a parte de Maria é melhor, porque não lhe será tirada. Na terra servimos como Marta; no céu, como Maria, apenas contemplaremos e amaremos.",
+        "url": "https://www.newadvent.org/fathers/160303.htm",
+        "fonte": "Santos Padres e Doutores da Igreja (domínio público)",
+        "licenca": "Domínio público",
+        "nota": "Tradução livre e condensada do latim (Sermo 103) para fins devocionais."
+      }
+    ]
+  },
+  "santos": [
+    {
+      "nome": "São Charles de Foucauld",
+      "resumo": "Jovem francês, rico e aristocrata, abandonou tudo para viver no deserto argelino, testemunha silenciosa de Cristo por meio da presença do sacramento da Eucaristia e pela proximidade com os irmãos mais abandonados. Ele foi assassinado em 1916.",
+      "url": "https://www.vaticannews.va/pt/santo-do-dia/12/01/sao-charles-de-foucauld.html",
+      "fonte": "Vatican News (Português) — Dicastério para a Comunicação",
+      "licenca": "© Libreria Editrice Vaticana / Dicastério para a Comunicação. Reprodução para fins pastorais e não comerciais, com citação da fonte e link para o original."
+    },
+    {
+      "nome": "S. Elói, bispo de Noyon",
+      "resumo": "Santo Elígio, também conhecido como Santo Elói, cuja festa se celebra em 1° de dezembro, é Padroeiro dos ourives, como também, dos serralheiros, metalúrgicos, ferreiros, ferramenteiros, cavaleiros e, enfim, dos agricultores, carreteiros, mecânicos e garagistas.",
+      "url": "https://www.vaticannews.va/pt/santo-do-dia/12/01/s--eloi--bispo-de-noyon.html",
+      "fonte": "Vatican News (Português) — Dicastério para a Comunicação",
+      "licenca": "© Libreria Editrice Vaticana / Dicastério para a Comunicação. Reprodução para fins pastorais e não comerciais, com citação da fonte e link para o original."
+    },
+    {
+      "nome": "S. Naum, profeta",
+      "resumo": "Naum, sétimo dos profetas Menores, nasceu em Elcos, Galileia, no século VII. É autor do 41° livro do Antigo Testamento, no qual narra a queda de Nínive, principal inimiga de Israel, como uma vitória de Deus sobre o mal. Como Nínive havia destruído Tebas, também foi destruída.",
+      "url": "https://www.vaticannews.va/pt/santo-do-dia/12/01.html",
+      "fonte": "Vatican News (Português) — Dicastério para a Comunicação",
+      "licenca": "© Libreria Editrice Vaticana / Dicastério para a Comunicação. Reprodução para fins pastorais e não comerciais, com citação da fonte e link para o original."
+    }
+  ],
+  "fontes": [
+    {
+      "id": "cnbb",
+      "nome": "CNBB — Conferência Nacional dos Bispos do Brasil",
+      "url": "https://liturgiadiaria.edicoescnbb.com.br",
+      "nota": "Textos litúrgicos reproduzidos para uso devocional e não comercial. Fonte: CNBB / Edições CNBB."
+    },
+    {
+      "id": "vaticannews",
+      "nome": "Vatican News (Português) — Dicastério para a Comunicação",
+      "url": "https://www.vaticannews.va/pt.html",
+      "nota": "© Libreria Editrice Vaticana / Dicastério para a Comunicação. Reprodução para fins pastorais e não comerciais, com citação da fonte e link para o original."
+    },
+    {
+      "id": "patristica",
+      "nome": "Santos Padres e Doutores da Igreja (domínio público)",
+      "url": "https://www.newadvent.org/fathers/",
+      "nota": "Obras em domínio público; traduções do projeto Via Sacra (GPL-3.0 / CC0 para o texto)."
+    }
+  ],
+  "url_original": "https://liturgiadiaria.edicoescnbb.com.br",
+  "status": {
+    "cnbb": "ok",
+    "vaticano": "ok",
+    "santo_do_dia": "ok",
+    "patristica": "ok"
+  }
+}
