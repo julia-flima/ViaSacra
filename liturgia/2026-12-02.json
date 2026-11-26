@@ -1,0 +1,199 @@
+{
+  "schema_version": 1,
+  "data": "2026-12-02",
+  "gerado_em": "2026-11-26T09:13:21-03:00",
+  "calendario": {
+    "data": "2026-12-02",
+    "dia_semana": "Quarta-feira",
+    "tempo": "advento",
+    "tempo_nome": "Tempo do Advento",
+    "semana": 1,
+    "cor": "roxo",
+    "celebracao": "1ª Semana do Advento",
+    "grau": "feria",
+    "ciclo_dominical": "B",
+    "ciclo_ferial": "I",
+    "misterios_do_dia": "gloriosos",
+    "cor_origem": "calculada"
+  },
+  "leituras": {
+    "primeira_leitura": {
+      "referencia": "Is 25,6-10a",
+      "introducao": "Leitura do Livro do Profeta Isaías 25,6-10a",
+      "aclamacao": null,
+      "texto": "Naquele dia,\n\no Senhor dos exércitos dará\nneste monte, para todos os povos,\num banquete de ricas iguarias,\nregado com vinho puro,\nservido de pratos deliciosos\ne dos mais finos vinhos.\n\nEle removerá, neste monte,\na ponta da cadeia que ligava todos os povos,\na teia em que tinha envolvido todas as nações.\n\nO Senhor Deus\neliminará para sempre a morte\ne enxugará as lágrimas de todas as faces\ne acabará com a desonra do seu povo em toda a terra;\no Senhor o disse.\n\nNaquele dia, se dirá: \"Este é o nosso Deus,\nesperamos nele, até que nos salvou;\neste é o Senhor, nele temos confiado:\nvamos alegrar-nos e exultar por nos ter salvo\".\n\nE a mão do Senhor repousará sobre este monte.",
+      "fonte": "CNBB"
+    },
+    "salmo": {
+      "referencia": "Sl 22(23),1-3a.3b-4.5.6",
+      "refrao": "Na casa do Senhor habitarei pelos tempos infinitos.",
+      "estrofes": [
+        "O Senhor é o pastor que me conduz; *\nnão me falta coisa alguma.",
+        "Pelos prados e campinas verdejantes *\nele me leva a descansar.",
+        "Para as águas repousantes me encaminha, *\ne restaura as minhas forças.",
+        "Ele me guia no caminho mais seguro, *\npela honra do seu nome.\nMesmo que eu passe pelo vale tenebroso, *\nnenhum mal eu temerei.\nEstais comigo com bastão e com cajado, *\neles me dão a segurança!",
+        "Preparais à minha frente uma mesa, *\nbem à vista do inimigo;\ncom óleo vós ungis minha cabeça, *\ne o meu cálice transborda.",
+        "Felicidade e todo bem hão de seguir-me, *\npor toda a minha vida;\ne, na casa do Senhor, habitarei *\npelos tempos infinitos."
+      ],
+      "texto": "O Senhor é o pastor que me conduz; *\nnão me falta coisa alguma.\n\nPelos prados e campinas verdejantes *\nele me leva a descansar.\n\nPara as águas repousantes me encaminha, *\ne restaura as minhas forças.\n\nEle me guia no caminho mais seguro, *\npela honra do seu nome.\nMesmo que eu passe pelo vale tenebroso, *\nnenhum mal eu temerei.\nEstais comigo com bastão e com cajado, *\neles me dão a segurança!\n\nPreparais à minha frente uma mesa, *\nbem à vista do inimigo;\ncom óleo vós ungis minha cabeça, *\ne o meu cálice transborda.\n\nFelicidade e todo bem hão de seguir-me, *\npor toda a minha vida;\ne, na casa do Senhor, habitarei *\npelos tempos infinitos.",
+      "fonte": "CNBB"
+    },
+    "segunda_leitura": null,
+    "evangelho": {
+      "referencia": "Mt 15,29-37",
+      "introducao": "Proclamação do Evangelho de Jesus Cristo segundo Mateus 15,29-37",
+      "aclamacao": "R. Aleluia, Aleluia, Aleluia.\nV. Eis que o Senhor há de vir\na fim de salvar o seu povo;\nFelizes são todos aqueles que estão prontos para ir-lhe ao encontro.",
+      "texto": "Naquele tempo,\n\nJesus foi para as margens do mar da Galileia,\nsubiu a montanha, e sentou-se.\n\nNumerosas multidões aproximaram-se dele,\nlevando consigo coxos, aleijados, cegos, mudos,\ne muitos outros doentes.\nEntão os colocaram aos pés de Jesus.\nE ele os curou.\n\nO povo ficou admirado, quando viu os mudos falando,\nos aleijados sendo curados,\nos coxos andando e os cegos enxergando.\nE glorificaram o Deus de Israel.\n\nJesus chamou seus discípulos e disse:\n\"Tenho compaixão da multidão,\nporque já faz três dias que está comigo,\ne nada tem para comer.\nNão quero mandá-los embora com fome,\npara que não desmaiem pelo caminho\".\n\nOs discípulos disseram:\n\"Onde vamos buscar, neste deserto,\ntantos pães para saciar tão grande multidão?\"\n\nJesus perguntou: \"Quantos pães tendes?\"\nEles responderam: \"Sete, e alguns peixinhos\".\n\nE Jesus mandou que a multidão se sentasse pelo chão.\n\nDepois pegou os sete pães e os peixes,\ndeu graças, partiu-os, e os dava aos discípulos,\ne os discípulos, às multidões.\n\nTodos comeram, e ficaram satisfeitos;\ne encheram sete cestos com os pedaços que sobraram.",
+      "fonte": "CNBB"
+    }
+  },
+  "audio": {
+    "salmo_audio_url": null,
+    "salmo_cifra_ou_melodia": null,
+    "salmo_video_id": "olhy1iKqEAI",
+    "salmo_video_titulo": "Salmo  22(23)  (02/12/2026) Na casa do Senhor habitarei pelos tempos infinitos.",
+    "liturgia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-12-02.mp3?v=5e11ed6dd7706605",
+    "creditos": [
+      {
+        "campo": "salmo_video_id",
+        "interprete": "Edgar Borges (Salmos responsoriais)",
+        "canal": "Edgar Borges (Salmos responsoriais)",
+        "url_fonte": "https://www.youtube.com/watch?v=olhy1iKqEAI",
+        "licenca": "YouTube Embed Oficial (Termos de Serviço)"
+      },
+      {
+        "campo": "liturgia_audio_url",
+        "interprete": "Voz Dora (pf_dora)",
+        "canal": "Via Sacra — Voz Neural Kokoro-82M (Dora, pt-BR)",
+        "licenca": "Apache-2.0 (Kokoro-82M)"
+      },
+      {
+        "campo": "homilia_audio_url",
+        "interprete": "Voz Dora (pf_dora)",
+        "canal": "Via Sacra — Voz Neural Kokoro-82M (Dora, pt-BR)",
+        "licenca": "Apache-2.0 (Kokoro-82M)"
+      }
+    ],
+    "fallback": "tts_local_pt_BR",
+    "liturgia_audio_marcas": {
+      "primeira_leitura": 0.0,
+      "salmo": 44.79,
+      "evangelho": 101.4
+    },
+    "liturgia_audio_hash": "5e11ed6dd7706605",
+    "homilia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-12-02-homilia.mp3?v=7ccb04a5904e4e5c",
+    "homilia_audio_hash": "7ccb04a5904e4e5c",
+    "liturgia_vozes": {
+      "pf_dora": {
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-12-02.mp3?v=5e11ed6dd7706605",
+        "hash": "5e11ed6dd7706605",
+        "marcas": {
+          "primeira_leitura": 0.0,
+          "salmo": 44.79,
+          "evangelho": 101.4
+        }
+      },
+      "pm_alex": {
+        "hash": "c41c866da1b18166",
+        "marcas": {
+          "primeira_leitura": 0.0,
+          "salmo": 44.98,
+          "evangelho": 101.38
+        },
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-12-02-pm_alex.mp3?v=c41c866da1b18166"
+      }
+    },
+    "homilia_vozes": {
+      "pf_dora": {
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-12-02-homilia.mp3?v=7ccb04a5904e4e5c",
+        "hash": "7ccb04a5904e4e5c"
+      },
+      "pm_alex": {
+        "hash": "7341ac77db763bd5",
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-12-02-homilia-pm_alex.mp3?v=7341ac77db763bd5"
+      }
+    }
+  },
+  "homilias": {
+    "vaticano": {
+      "titulo": "As palavras dos Papas",
+      "autor": "Papa Leão XIV",
+      "texto": "Ao dar a visão aos cegos e a audição aos surdos, Cristo não se limita a realizar milagres, mas anuncia a todos que o Reino de Deus está próximo. Por isso, o Evangelho de hoje (...) testemunha que Jesus não se limita a restaurar os sentidos a quem deles carece, mas também dá sabor aos nossos sentidos. A quem era surdo e passa a ouvir, o Senhor dirige a Boa Nova para ser ouvida; a quem era cego e passa a ver, mostra a esplêndida obra da redenção que é realizada por Ele. Da mesma forma, Jesus dá aos que têm fome o alimento para comer: o episódio da multiplicação dos pães significa que o encontro com o Senhor é uma experiência nutritiva. (...)\n\nCristo é o pão da vida. Com Ele, o essencial é abundante: «Todos comeram e ficaram saciados» (...) Cristo sacia verdadeiramente a fome da humanidade, a nossa fome de verdade e de vida. Ao mesmo tempo, o seu gesto ensina que nada se desperdiça quando é partilhado. A acumulação e o desperdício, por outro lado, são duas faces do mesmo mal: a ganância. Esta doença da alma faz perder o juízo, porque embriaga de riquezas, ao ponto de ignorar aqueles que choram de fome e clamam de sede. E assim, perante a opulência das coisas que perecem, estão as mãos estendidas de quem não tem o que comer, as casas incendiadas de quem não tem paz. (...)\n\nNeste milagre da caridade, reconhecemos os gestos característicos de Jesus, que encontram na Última Ceia o seu ápice. Com efeito, nessa ocasião o Filho de Deus entrega-nos a sua própria vida, como nosso irmão na humanidade. Enquanto saboreamos a graça da Eucaristia, comprometamo-nos a testemunhar a sua beleza nos nossos gestos quotidianos, a começar pela bênção da mesa, quando partilhamos o pão em família e entre amigos (...), envolvendo aqueles que, ao nosso lado, se encontram em necessidade.\n\n( Papa Leão XIV, Angelus de 2 de agosto de 2026 )",
+      "resumo": "Ao dar a visão aos cegos e a audição aos surdos, Cristo não se limita a realizar milagres, mas anuncia a todos que o Reino de Deus está próximo. Por isso, o Evangelho de hoje (...) testemunha que Jesus não se limita a restaurar os sentidos a quem deles carece, mas também dá…",
+      "url": "https://www.vaticannews.va/pt/palavra-do-dia/2026/12/02.html",
+      "fonte": "Vatican News (Português) — Dicastério para a Comunicação",
+      "licenca": "© Libreria Editrice Vaticana / Dicastério para a Comunicação. Reprodução para fins pastorais e não comerciais, com citação da fonte e link para o original."
+    },
+    "cnbb": null,
+    "patristica": [
+      {
+        "autor": "Santo Agostinho",
+        "obra": "Sermão 169, 13",
+        "texto": "Aquele que te criou sem ti não te justificará sem ti. Criou-te sem que o soubesses; justifica-te, porém, somente se o quiseres.",
+        "url": "https://www.newadvent.org/fathers/",
+        "fonte": "Santos Padres e Doutores da Igreja (domínio público)",
+        "licenca": "Domínio público",
+        "nota": "Tradução livre do latim (Sermo 169) para fins devocionais."
+      },
+      {
+        "autor": "São Gregório Magno",
+        "obra": "Homilias sobre os Evangelhos, 34 (a ovelha perdida)",
+        "texto": "O Bom Pastor colocou a ovelha perdida sobre os próprios ombros: ao assumir a natureza humana, carregou sobre si os nossos pecados para nos reconduzir à casa do Pai.",
+        "url": "https://www.newadvent.org/fathers/",
+        "fonte": "Santos Padres e Doutores da Igreja (domínio público)",
+        "licenca": "Domínio público",
+        "nota": "Tradução livre do latim (Homiliae in Evangelia) para fins devocionais — domínio público."
+      }
+    ]
+  },
+  "santos": [
+    {
+      "nome": "S. Bibiana, matrona romana, a quem foi dedicada uma igreja no Esquilino",
+      "resumo": "A vida de Bibiana ou Viviana não tem confirmação histórica, mas uma lenda narrou o valor da sua fé. Foi perseguida no IV século e acabou na prisão com seus pais, por não renunciar à sua fé. As violências e o patíbulo não mudaram a sua ideia. Foi-lhe dedicada uma igreja no monte Esquilino, em Roma.",
+      "url": "https://www.vaticannews.va/pt/santo-do-dia/12/02.html",
+      "fonte": "Vatican News (Português) — Dicastério para a Comunicação",
+      "licenca": "© Libreria Editrice Vaticana / Dicastério para a Comunicação. Reprodução para fins pastorais e não comerciais, com citação da fonte e link para o original."
+    },
+    {
+      "nome": "S. Pimênio, mártir, na via Portuense",
+      "resumo": "Pimênio viveu entre os séculos III e IV. Era sacerdote e, na sua escola, contou com estudantes como Donato, futuro Bispo de Arezzo, e Crescêncio, futuro mártir. Ele também sofreu o martírio por enterrar os mártires. São Pimênio foi sepultado no cemitério de Ponciano, na Via Portuense, em Roma.",
+      "url": "https://www.vaticannews.va/pt/santo-do-dia/12/02.html",
+      "fonte": "Vatican News (Português) — Dicastério para a Comunicação",
+      "licenca": "© Libreria Editrice Vaticana / Dicastério para a Comunicação. Reprodução para fins pastorais e não comerciais, com citação da fonte e link para o original."
+    },
+    {
+      "nome": "S. Silvério, papa",
+      "resumo": "Natural da província da atual Ciociaria, Silvério foi o 58º Papa da Igreja de Roma. Em 537, foi exonerado e obrigado a abdicar pelos prosélitos da heresia monofisita de Constantinopla. Morreu no exílio, em Palmarola, pequena ilha do arquipélago das Pontinas, do qual se tornou Padroeiro.",
+      "url": "https://www.vaticannews.va/pt/santo-do-dia/12/02/s--silverio--papa.html",
+      "fonte": "Vatican News (Português) — Dicastério para a Comunicação",
+      "licenca": "© Libreria Editrice Vaticana / Dicastério para a Comunicação. Reprodução para fins pastorais e não comerciais, com citação da fonte e link para o original."
+    }
+  ],
+  "fontes": [
+    {
+      "id": "cnbb",
+      "nome": "CNBB — Conferência Nacional dos Bispos do Brasil",
+      "url": "https://liturgiadiaria.edicoescnbb.com.br",
+      "nota": "Textos litúrgicos reproduzidos para uso devocional e não comercial. Fonte: CNBB / Edições CNBB."
+    },
+    {
+      "id": "vaticannews",
+      "nome": "Vatican News (Português) — Dicastério para a Comunicação",
+      "url": "https://www.vaticannews.va/pt.html",
+      "nota": "© Libreria Editrice Vaticana / Dicastério para a Comunicação. Reprodução para fins pastorais e não comerciais, com citação da fonte e link para o original."
+    },
+    {
+      "id": "patristica",
+      "nome": "Santos Padres e Doutores da Igreja (domínio público)",
+      "url": "https://www.newadvent.org/fathers/",
+      "nota": "Obras em domínio público; traduções do projeto Via Sacra (GPL-3.0 / CC0 para o texto)."
+    }
+  ],
+  "url_original": "https://liturgiadiaria.edicoescnbb.com.br",
+  "status": {
+    "cnbb": "ok",
+    "vaticano": "ok",
+    "santo_do_dia": "ok",
+    "patristica": "ok"
+  }
+}
