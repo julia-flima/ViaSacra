@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "data": "2026-11-30",
-  "gerado_em": "2026-11-26T09:13:14-03:00",
+  "gerado_em": "2026-11-27T08:59:46-03:00",
   "calendario": {
     "data": "2026-11-30",
     "dia_semana": "Segunda-feira",
@@ -48,17 +48,10 @@
   "audio": {
     "salmo_audio_url": null,
     "salmo_cifra_ou_melodia": null,
-    "salmo_video_id": "taUjFcrjbqc",
-    "salmo_video_titulo": "Salmo 18(19A)  (30/11/2026)Seu som ressoa e se espalha em toda terra.",
+    "salmo_video_id": null,
+    "salmo_video_titulo": null,
     "liturgia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-11-30.mp3?v=017682a8dba6bf73",
     "creditos": [
-      {
-        "campo": "salmo_video_id",
-        "interprete": "Edgar Borges (Salmos responsoriais)",
-        "canal": "Edgar Borges (Salmos responsoriais)",
-        "url_fonte": "https://www.youtube.com/watch?v=taUjFcrjbqc",
-        "licenca": "YouTube Embed Oficial (Termos de Serviço)"
-      },
       {
         "campo": "liturgia_audio_url",
         "interprete": "Voz Dora (pf_dora)",

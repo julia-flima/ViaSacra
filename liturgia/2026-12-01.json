@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "data": "2026-12-01",
-  "gerado_em": "2026-11-26T09:13:17-03:00",
+  "gerado_em": "2026-11-27T08:59:49-03:00",
   "calendario": {
     "data": "2026-12-01",
     "dia_semana": "Terça-feira",
@@ -51,17 +51,10 @@
   "audio": {
     "salmo_audio_url": null,
     "salmo_cifra_ou_melodia": null,
-    "salmo_video_id": "t-cdC4nHXW0",
-    "salmo_video_titulo": "Salmo 71(72) (01/12/2026) Nos seus dias a justiça florirá    e paz em abundância, para sempre.",
+    "salmo_video_id": null,
+    "salmo_video_titulo": null,
     "liturgia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-12-01.mp3?v=e3a2bb0d3461c511",
     "creditos": [
-      {
-        "campo": "salmo_video_id",
-        "interprete": "Edgar Borges (Salmos responsoriais)",
-        "canal": "Edgar Borges (Salmos responsoriais)",
-        "url_fonte": "https://www.youtube.com/watch?v=t-cdC4nHXW0",
-        "licenca": "YouTube Embed Oficial (Termos de Serviço)"
-      },
       {
         "campo": "liturgia_audio_url",
         "interprete": "Voz Dora (pf_dora)",

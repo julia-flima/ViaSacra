@@ -1,0 +1,187 @@
+{
+  "schema_version": 1,
+  "data": "2026-12-03",
+  "gerado_em": "2026-11-27T08:59:57-03:00",
+  "calendario": {
+    "data": "2026-12-03",
+    "dia_semana": "Quinta-feira",
+    "tempo": "advento",
+    "tempo_nome": "Tempo do Advento",
+    "semana": 1,
+    "cor": "branco",
+    "celebracao": "São Francisco Xavier, presbítero, Memória",
+    "grau": "feria",
+    "ciclo_dominical": "B",
+    "ciclo_ferial": "I",
+    "misterios_do_dia": "luminosos",
+    "cor_origem": "cnbb"
+  },
+  "leituras": {
+    "primeira_leitura": {
+      "referencia": "Is 26,1-6",
+      "introducao": "Leitura do Livro do Profeta Isaías 26,1-6",
+      "aclamacao": null,
+      "texto": "Naquele dia, cantarão este canto em Judá:\n\"Uma cidade fortificada é a nossa segurança;\no Senhor cercou-a de muros e antemuro.\n\nAbri as suas portas, para que entre um povo justo,\ncumpridor da palavra,\n\nfirme em seu propósito;\ne tu lhe conservarás a paz,\nporque confia em ti.\n\nEsperai no Senhor por todos os tempos,\no Senhor é a rocha eterna.\n\nEle derrubou os que habitam no alto,\nhá de humilhar a cidade orgulhosa,\ndeitando-a por terra,\naté fazê-la beijar o chão.\n\nHão de pisá-la os pés, os pés dos pobres,\nas passadas dos humildes\".",
+      "fonte": "CNBB"
+    },
+    "salmo": {
+      "referencia": "Sl 117(118),1.8-9.19-21.25-27a",
+      "refrao": "Bendito é aquele que vem vindo em nome do Senhor!",
+      "estrofes": [
+        "Dai graças ao Senhor, porque ele é bom! *\n\"Eterna é a sua misericórdia!\"",
+        "É melhor buscar refúgio no Senhor, *\ndo que pôr no ser humano a esperança;",
+        "é melhor buscar refúgio no Senhor, *\ndo que contar com os poderosos deste mundo!\"",
+        "Abri-me vós, abri-me as portas da justiça; *\nquero entrar para dar graças ao Senhor!",
+        "\"Sim, esta é a porta do Senhor, *\npor ela só os justos entrarão!\"",
+        "Dou-vos graças, ó Senhor, porque me ouvistes *\ne vos tornastes para mim o Salvador!",
+        "Ó Senhor, dai-nos a vossa salvação, *\nó Senhor, dai-nos também prosperidade!\"",
+        "Bendito seja, em nome do Senhor, *\naquele que em seus átrios vai entrando!\nDesta casa do Senhor vos bendizemos. *\nQue o Senhor e nosso Deus nos ilumine!"
+      ],
+      "texto": "Dai graças ao Senhor, porque ele é bom! *\n\"Eterna é a sua misericórdia!\"\n\nÉ melhor buscar refúgio no Senhor, *\ndo que pôr no ser humano a esperança;\n\né melhor buscar refúgio no Senhor, *\ndo que contar com os poderosos deste mundo!\"\n\nAbri-me vós, abri-me as portas da justiça; *\nquero entrar para dar graças ao Senhor!\n\n\"Sim, esta é a porta do Senhor, *\npor ela só os justos entrarão!\"\n\nDou-vos graças, ó Senhor, porque me ouvistes *\ne vos tornastes para mim o Salvador!\n\nÓ Senhor, dai-nos a vossa salvação, *\nó Senhor, dai-nos também prosperidade!\"\n\nBendito seja, em nome do Senhor, *\naquele que em seus átrios vai entrando!\nDesta casa do Senhor vos bendizemos. *\nQue o Senhor e nosso Deus nos ilumine!",
+      "fonte": "CNBB"
+    },
+    "segunda_leitura": null,
+    "evangelho": {
+      "referencia": "Mt 7,21.24-27",
+      "introducao": "Proclamação do Evangelho de Jesus Cristo segundo Mateus 7,21.24-27",
+      "aclamacao": "R. Aleluia, Aleluia, Aleluia.\nV. Buscai o Senhor, vosso Deus, invocai-o enquanto está perto!",
+      "texto": "Naquele tempo, disse Jesus aos seus discípulos:\n\n\"Nem todo aquele que me diz: 'Senhor, Senhor',\nentrará no Reino dos Céus, mas o que põe em prática\na vontade de meu Pai que está nos céus.\n\nPortanto, quem ouve estas minhas palavras\ne as põe em prática,\né como um homem prudente,\nque construiu sua casa sobre a rocha.\n\nCaiu a chuva, vieram as enchentes,\nos ventos deram contra a casa,\nmas a casa não caiu,\nporque estava construída sobre a rocha.\n\nPor outro lado,\nquem ouve estas minhas palavras e não as põe em prática,\né como um homem sem juízo,\nque construiu sua casa sobre a areia.\n\nCaiu a chuva, vieram as enchentes,\nos ventos sopraram e deram contra a casa,\ne a casa caiu, e sua ruína foi completa!\"",
+      "fonte": "CNBB"
+    }
+  },
+  "audio": {
+    "salmo_audio_url": null,
+    "salmo_cifra_ou_melodia": null,
+    "salmo_video_id": "QG6H_ImQ3DI",
+    "salmo_video_titulo": "Salmo 117(118) (03/12/2026) Bendito é aquele que vem vindo em nome do Senhor!",
+    "liturgia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-12-03.mp3?v=7132eefec1aa8bfa",
+    "creditos": [
+      {
+        "campo": "salmo_video_id",
+        "interprete": "Edgar Borges (Salmos responsoriais)",
+        "canal": "Edgar Borges (Salmos responsoriais)",
+        "url_fonte": "https://www.youtube.com/watch?v=QG6H_ImQ3DI",
+        "licenca": "YouTube Embed Oficial (Termos de Serviço)"
+      },
+      {
+        "campo": "liturgia_audio_url",
+        "interprete": "Voz Dora (pf_dora)",
+        "canal": "Via Sacra — Voz Neural Kokoro-82M (Dora, pt-BR)",
+        "licenca": "Apache-2.0 (Kokoro-82M)"
+      },
+      {
+        "campo": "homilia_audio_url",
+        "interprete": "Voz Dora (pf_dora)",
+        "canal": "Via Sacra — Voz Neural Kokoro-82M (Dora, pt-BR)",
+        "licenca": "Apache-2.0 (Kokoro-82M)"
+      }
+    ],
+    "fallback": "tts_local_pt_BR",
+    "liturgia_audio_marcas": {
+      "primeira_leitura": 0.0,
+      "salmo": 36.41,
+      "evangelho": 97.27
+    },
+    "liturgia_audio_hash": "7132eefec1aa8bfa",
+    "homilia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-12-03-homilia.mp3?v=6f6328e37e93eb82",
+    "homilia_audio_hash": "6f6328e37e93eb82",
+    "liturgia_vozes": {
+      "pf_dora": {
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-12-03.mp3?v=7132eefec1aa8bfa",
+        "hash": "7132eefec1aa8bfa",
+        "marcas": {
+          "primeira_leitura": 0.0,
+          "salmo": 36.41,
+          "evangelho": 97.27
+        }
+      },
+      "pm_alex": {
+        "hash": "db30cb2141ca814f",
+        "marcas": {
+          "primeira_leitura": 0.0,
+          "salmo": 36.5,
+          "evangelho": 97.02
+        },
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-12-03-pm_alex.mp3?v=db30cb2141ca814f"
+      }
+    },
+    "homilia_vozes": {
+      "pf_dora": {
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-12-03-homilia.mp3?v=6f6328e37e93eb82",
+        "hash": "6f6328e37e93eb82"
+      },
+      "pm_alex": {
+        "hash": "fd5064f8d6463b5b",
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-12-03-homilia-pm_alex.mp3?v=fd5064f8d6463b5b"
+      }
+    }
+  },
+  "homilias": {
+    "vaticano": {
+      "titulo": "As palavras dos Papas",
+      "autor": "Papa Leão XIV",
+      "texto": "Quando se constrói uma casa, escava-se em profundidade e lançam-se sólidos fundamentos. Só um estulto diria que é dinheiro desperdiçado em algo que não pode ser visto. O discípulo fiel, para Jesus, é aquele que funda a sua vida na rocha, que é a sua Palavra que não passa (cf. Mt 7, 24-27), sobre a firmeza da palavra de Jesus: este é o fundamento da vida que Jesus quer de nós, e que não passará. E agora a pergunta – sempre, quando se lê a Palavra de Deus, formulam-se perguntas (...) qual é o centro, qual é o coração pulsante da Palavra de Deus? O que, em suma, dá solidez à vida e nunca acabará? (...)\n\nO centro, precisamente, o coração palpitante, o que dá solidez, é a caridade: «A caridade nunca acabará» (1 Cor 13, 8) (...) isto é, o amor. Quem faz o bem, investe para a eternidade. (...) Basear a própria vida na Palavra de Deus, portanto, não é fugir da história, é imergir-se nas realidades terrenas para as tornar sólidas, para as transformar com amor, imprimindo-lhes o sinal da eternidade, o sinal de Deus. Eis, então, um conselho para fazer as escolhas importantes.\n\nQuando não sei o que fazer, como fazer uma escolha definitiva, uma escolha importante, uma escolha que envolve o amor de Jesus, o que devo fazer? Antes de decidirmos, imaginemos que estamos perante Jesus, como no final da vida, perante Aquele que é amor. E pensando em nós mesmos ali, na sua presença, no limiar da eternidade, tomamos a decisão para o hoje. É assim que devemos decidir: olhando sempre para a eternidade, olhando para Jesus. Pode não ser o mais fácil, o mais imediato, mas será aquela boa, sem dúvida\n\n( Papa Francisco, Angelus de 14 de novembro de 2021 )",
+      "resumo": "Quando se constrói uma casa, escava-se em profundidade e lançam-se sólidos fundamentos. Só um estulto diria que é dinheiro desperdiçado em algo que não pode ser visto. O discípulo fiel, para Jesus, é aquele que funda a sua vida na rocha, que é a sua Palavra que não passa (cf. Mt…",
+      "url": "https://www.vaticannews.va/pt/palavra-do-dia/2026/12/03.html",
+      "fonte": "Vatican News (Português) — Dicastério para a Comunicação",
+      "licenca": "© Libreria Editrice Vaticana / Dicastério para a Comunicação. Reprodução para fins pastorais e não comerciais, com citação da fonte e link para o original."
+    },
+    "cnbb": null,
+    "patristica": [
+      {
+        "autor": "São João Crisóstomo",
+        "obra": "Homilias sobre o Evangelho de São Mateus, 19, 4 (o Pai-Nosso)",
+        "texto": "Ele nos ensina a fazer a oração em comum, também em favor dos irmãos. Pois não disse «Pai meu, que estás nos céus», mas «Pai nosso», para que a nossa súplica se estenda a todo o corpo e jamais busquemos apenas o nosso próprio interesse, mas o do próximo.",
+        "url": "https://www.newadvent.org/fathers/200119.htm",
+        "fonte": "Santos Padres e Doutores da Igreja (domínio público)",
+        "licenca": "Domínio público",
+        "nota": "Tradução livre do grego, a partir da edição de domínio público, para fins devocionais."
+      },
+      {
+        "autor": "Santo Agostinho",
+        "obra": "O Sermão do Senhor na Montanha, I, 1, 1",
+        "texto": "Quem meditar com piedade e sobriedade o sermão que Nosso Senhor Jesus Cristo pronunciou no monte, tal como o lemos no Evangelho segundo Mateus, encontrará nele, quanto aos bons costumes, a norma perfeita da vida cristã.",
+        "url": "https://www.newadvent.org/fathers/16011.htm",
+        "fonte": "Santos Padres e Doutores da Igreja (domínio público)",
+        "licenca": "Domínio público",
+        "nota": "Tradução livre do latim (De Sermone Domini in Monte). Este trecho abre também a Catena Aurea de São Tomás de Aquino sobre Mt 5 em várias edições; curadoria aberta à comunidade."
+      }
+    ]
+  },
+  "santos": [
+    {
+      "nome": "S. Francisco Xavier, presbítero jesuíta, evangelizador das Índias, padroeiro das Missões",
+      "resumo": "São Francisco Xavier, Padroeiro do Oriente, da Obra de propagação da fé e das Missões, é considerado um verdadeiro \"gigante da evangelização\". Viveu no século XVI e levou o Evangelho à Índia, Japão e China. Fundou a Companhia de Jesus junto com os Santos Inácio de Loyola e Pedro Fabro.",
+      "url": "https://www.vaticannews.va/pt/santo-do-dia/12/03/s--francisco-xavier--presbitero-jesuita--evangelizador-das-india.html",
+      "fonte": "Vatican News (Português) — Dicastério para a Comunicação",
+      "licenca": "© Libreria Editrice Vaticana / Dicastério para a Comunicação. Reprodução para fins pastorais e não comerciais, com citação da fonte e link para o original."
+    }
+  ],
+  "fontes": [
+    {
+      "id": "cnbb",
+      "nome": "CNBB — Conferência Nacional dos Bispos do Brasil",
+      "url": "https://liturgiadiaria.edicoescnbb.com.br",
+      "nota": "Textos litúrgicos reproduzidos para uso devocional e não comercial. Fonte: CNBB / Edições CNBB."
+    },
+    {
+      "id": "vaticannews",
+      "nome": "Vatican News (Português) — Dicastério para a Comunicação",
+      "url": "https://www.vaticannews.va/pt.html",
+      "nota": "© Libreria Editrice Vaticana / Dicastério para a Comunicação. Reprodução para fins pastorais e não comerciais, com citação da fonte e link para o original."
+    },
+    {
+      "id": "patristica",
+      "nome": "Santos Padres e Doutores da Igreja (domínio público)",
+      "url": "https://www.newadvent.org/fathers/",
+      "nota": "Obras em domínio público; traduções do projeto Via Sacra (GPL-3.0 / CC0 para o texto)."
+    }
+  ],
+  "url_original": "https://liturgiadiaria.edicoescnbb.com.br",
+  "status": {
+    "cnbb": "ok",
+    "vaticano": "ok",
+    "santo_do_dia": "ok",
+    "patristica": "ok"
+  }
+}
