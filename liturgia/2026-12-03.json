@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "data": "2026-12-03",
-  "gerado_em": "2026-11-27T08:59:57-03:00",
+  "gerado_em": "2026-11-28T08:37:34-03:00",
   "calendario": {
     "data": "2026-12-03",
     "dia_semana": "Quinta-feira",
@@ -77,12 +77,12 @@
       }
     ],
     "fallback": "tts_local_pt_BR",
+    "liturgia_audio_hash": "7132eefec1aa8bfa",
     "liturgia_audio_marcas": {
       "primeira_leitura": 0.0,
       "salmo": 36.41,
       "evangelho": 97.27
     },
-    "liturgia_audio_hash": "7132eefec1aa8bfa",
     "homilia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-12-03-homilia.mp3?v=6f6328e37e93eb82",
     "homilia_audio_hash": "6f6328e37e93eb82",
     "liturgia_vozes": {

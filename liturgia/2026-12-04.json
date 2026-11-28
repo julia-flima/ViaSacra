@@ -1,0 +1,190 @@
+{
+  "schema_version": 1,
+  "data": "2026-12-04",
+  "gerado_em": "2026-11-28T08:37:38-03:00",
+  "calendario": {
+    "data": "2026-12-04",
+    "dia_semana": "Sexta-feira",
+    "tempo": "advento",
+    "tempo_nome": "Tempo do Advento",
+    "semana": 1,
+    "cor": "roxo",
+    "celebracao": "1ª Semana do Advento",
+    "grau": "feria",
+    "ciclo_dominical": "B",
+    "ciclo_ferial": "I",
+    "misterios_do_dia": "dolorosos",
+    "cor_origem": "calculada"
+  },
+  "leituras": {
+    "primeira_leitura": {
+      "referencia": "Is 29,17-24",
+      "introducao": "Leitura do Livro do Profeta Isaías 29,17-24",
+      "aclamacao": null,
+      "texto": "Assim fala o Senhor Deus:\n\nDentro de pouco tempo,\nnão se transformará o Líbano em jardim?\nE não poderá o jardim tornar-se floresta?\n\nNaquele dia, os surdos ouvirão as palavras do livro\ne os olhos dos cegos verão,\nno meio das trevas e das sombras.\n\nOs humildes aumentarão sua alegria no Senhor,\ne os mais pobres dos homens\nse rejubilarão no Santo de Israel;\n\nfracassou o prepotente, desapareceu o trapaceiro,\ne sucumbiram todos os malfeitores precoces,\n\nos que faziam os outros pecar por palavras,\ne armavam ciladas ao juiz à porta da cidade\ne atacavam o justo com palavras falsas.\n\nIsto diz o Senhor\nà casa de Jacó, ele que libertou Abraão:\n\"Agora, Jacó não mais terá que envergonhar-se\nnem seu rosto terá que enrubescer;\n\nquando contemplarem as obras de minhas mãos,\nhão de honrar meu nome no meio do povo,\nhonrarão o Santo de Jacó,\ne temerão o Deus de Israel;\n\nos homens de espírito inconstante conseguirão sabedoria\ne os maldizentes concordarão em aprender\".\nPalavra do Senhor. </div",
+      "fonte": "CNBB"
+    },
+    "salmo": {
+      "referencia": "Sl 26(27),1.4.13-14",
+      "refrao": "O Senhor é minha luz e salvação.",
+      "estrofes": [
+        "O Senhor é minha luz e salvação;*\nde quem eu terei medo?\nO Senhor é a proteção da minha vida;\nperante quem eu tremerei?",
+        "Ao Senhor eu peço apenas uma coisa,*\ne é só isto que eu desejo:\nhabitar no santuário do Senhor*\npor toda a minha vida;\nsaborear a suavidade do Senhor*\ne contemplá-lo no seu templo.",
+        "Sei que a bondade do Senhor eu hei de ver*\nna terra dos viventes.",
+        "Espera no Senhor e tem coragem,*\nespera no Senhor!"
+      ],
+      "texto": "O Senhor é minha luz e salvação;*\nde quem eu terei medo?\nO Senhor é a proteção da minha vida;\nperante quem eu tremerei?\n\nAo Senhor eu peço apenas uma coisa,*\ne é só isto que eu desejo:\nhabitar no santuário do Senhor*\npor toda a minha vida;\nsaborear a suavidade do Senhor*\ne contemplá-lo no seu templo.\n\nSei que a bondade do Senhor eu hei de ver*\nna terra dos viventes.\n\nEspera no Senhor e tem coragem,*\nespera no Senhor!",
+      "fonte": "CNBB"
+    },
+    "segunda_leitura": null,
+    "evangelho": {
+      "referencia": "Mt 9,27-31",
+      "introducao": "Proclamação do Evangelho de Jesus Cristo segundo Mateus 9,27-31",
+      "aclamacao": "R. Aleluia, Aleluia, Aleluia.\nV. Eis que virá o nosso Deus com poder e majestade,\nE ele há de iluminar os olhos dos seus servos!",
+      "texto": "Naquele tempo,\n\npartindo Jesus, dois cegos o seguiram, gritando:\n\"Tem piedade de nós, filho de Davi!\"\n\nQuando Jesus entrou em casa,\nos cegos se aproximaram dele.\nEntão Jesus perguntou-lhes:\n\"Vós acreditais que eu posso fazer isso?\"\nEles responderam: \"Sim, Senhor\".\n\nEntão Jesus tocou nos olhos deles, dizendo:\n\"Faça-se conforme a vossa fé\".\n\nE os olhos deles se abriram.\nJesus os advertiu severamente:\n\"Tomai cuidado para que ninguém fique sabendo\".\n\nMas eles saíram,\ne espalharam sua fama por toda aquela região.",
+      "fonte": "CNBB"
+    }
+  },
+  "audio": {
+    "salmo_audio_url": null,
+    "salmo_cifra_ou_melodia": null,
+    "salmo_video_id": "6_2s-ouDXyY",
+    "salmo_video_titulo": "Salmo 26(27)  (04/12/2026) O Senhor é minha luz e salvação.",
+    "liturgia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-12-04.mp3?v=5d9f5107f4f69470",
+    "creditos": [
+      {
+        "campo": "salmo_video_id",
+        "interprete": "Edgar Borges (Salmos responsoriais)",
+        "canal": "Edgar Borges (Salmos responsoriais)",
+        "url_fonte": "https://www.youtube.com/watch?v=6_2s-ouDXyY",
+        "licenca": "YouTube Embed Oficial (Termos de Serviço)"
+      },
+      {
+        "campo": "liturgia_audio_url",
+        "interprete": "Voz Dora (pf_dora)",
+        "canal": "Via Sacra — Voz Neural Kokoro-82M (Dora, pt-BR)",
+        "licenca": "Apache-2.0 (Kokoro-82M)"
+      },
+      {
+        "campo": "homilia_audio_url",
+        "interprete": "Voz Dora (pf_dora)",
+        "canal": "Via Sacra — Voz Neural Kokoro-82M (Dora, pt-BR)",
+        "licenca": "Apache-2.0 (Kokoro-82M)"
+      }
+    ],
+    "fallback": "tts_local_pt_BR",
+    "liturgia_audio_marcas": {
+      "primeira_leitura": 0.0,
+      "salmo": 61.39,
+      "evangelho": 94.35
+    },
+    "liturgia_audio_hash": "5d9f5107f4f69470",
+    "homilia_audio_url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-12-04-homilia.mp3?v=f54eb7fc3a3d5351",
+    "homilia_audio_hash": "f54eb7fc3a3d5351",
+    "liturgia_vozes": {
+      "pf_dora": {
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-12-04.mp3?v=5d9f5107f4f69470",
+        "hash": "5d9f5107f4f69470",
+        "marcas": {
+          "primeira_leitura": 0.0,
+          "salmo": 61.39,
+          "evangelho": 94.35
+        }
+      },
+      "pm_alex": {
+        "hash": "2e2bb1cfda4d4459",
+        "marcas": {
+          "primeira_leitura": 0.0,
+          "salmo": 62.01,
+          "evangelho": 95.1
+        },
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-12-04-pm_alex.mp3?v=2e2bb1cfda4d4459"
+      }
+    },
+    "homilia_vozes": {
+      "pf_dora": {
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-12-04-homilia.mp3?v=f54eb7fc3a3d5351",
+        "hash": "f54eb7fc3a3d5351"
+      },
+      "pm_alex": {
+        "hash": "bea4fb7aea5a63f2",
+        "url": "https://cdn.jsdelivr.net/gh/julia-flima/ViaSacra@data/audio/2026-12-04-homilia-pm_alex.mp3?v=bea4fb7aea5a63f2"
+      }
+    }
+  },
+  "homilias": {
+    "vaticano": {
+      "titulo": "As palavras dos Papas",
+      "autor": "Papa Leão XIV",
+      "texto": "(...) Rezar é, de certa forma, dar trabalho a Deus, para que nos escute. Mas o próprio Senhor o diz: como o amigo à meia-noite, como a viúva ao juiz… É atrair os olhos, atrair o coração de Deus para nós… E foi isso que fizeram também aqueles leprosos que se aproximaram dele: ‘Se queres, podes curar-nos!’. Fizeram-no com uma certa confiança. É assim que Jesus nos ensina a rezar. Quando rezamos, às vezes pensamos: ‘Ah, sim, eu digo esta necessidade, digo-a ao Senhor uma, duas, três vezes, mas sem tanta força. Depois canso-me de pedir e esqueço-me de pedir’. Aqueles homens gritavam e não se cansavam de gritar. Jesus diz-nos: ‘Pedi’, mas também nos diz: ‘Batei à porta’, e quem bate à porta faz barulho, incomoda, dá trabalho.\n\n(...) Com essa confiança, dizemos ao Senhor as nossas necessidades, mas com a certeza de que Ele pode fazê-lo. Rezar é sentir que Jesus nos faz a pergunta dita aos dois cegos: “Acreditas que eu possa fazer isto?”. Ele pode fazê-lo. Quando o fará e como o fará, não sabemos. Esta é a certeza da oração. A necessidade de o dizer com verdade ao Senhor: ‘Sou cego, Senhor. Tenho esta necessidade. Tenho esta doença. Tenho este pecado. Tenho esta dor…’, mas sempre com a verdade, exatamente como as coisas são. E Ele sente a nossa necessidade, mas sente também que pedimos a sua intervenção com confiança. Pensemos se a nossa oração é necessitada e se é confiante: necessitada, porque dizemos a verdade a nós mesmos, e confiante, porque acreditamos que o Senhor pode fazer aquilo que pedimos.\n\n( Papa Francisco, Homilia na Capela da Casa Santa Marta de 6 de dezembro de 2013 )",
+      "resumo": "(...) Rezar é, de certa forma, dar trabalho a Deus, para que nos escute. Mas o próprio Senhor o diz: como o amigo à meia-noite, como a viúva ao juiz… É atrair os olhos, atrair o coração de Deus para nós… E foi isso que fizeram também aqueles leprosos que se aproximaram dele: ‘Se…",
+      "url": "https://www.vaticannews.va/pt/palavra-do-dia/2026/12/04.html",
+      "fonte": "Vatican News (Português) — Dicastério para a Comunicação",
+      "licenca": "© Libreria Editrice Vaticana / Dicastério para a Comunicação. Reprodução para fins pastorais e não comerciais, com citação da fonte e link para o original."
+    },
+    "cnbb": null,
+    "patristica": [
+      {
+        "autor": "Santo Agostinho",
+        "obra": "Sermão 185 (no Natal do Senhor), 1",
+        "texto": "Desperta, ó homem: por ti Deus se fez homem. Estarias morto para sempre se Ele não tivesse nascido no tempo. Jamais serias libertado da carne do pecado se Ele não tivesse assumido a semelhança da carne do pecado.",
+        "url": "https://www.newadvent.org/fathers/",
+        "fonte": "Santos Padres e Doutores da Igreja (domínio público)",
+        "licenca": "Domínio público",
+        "nota": "Tradução livre do latim (Sermo 185) para fins devocionais."
+      },
+      {
+        "autor": "Santo Agostinho",
+        "obra": "Confissões, I, 1",
+        "texto": "Tu és grande, Senhor, e muito digno de louvor. Tu mesmo nos incitas a louvar-te com prazer, porque nos fizeste para ti, e o nosso coração está inquieto enquanto não repousar em ti.",
+        "url": "https://www.newadvent.org/fathers/110101.htm",
+        "fonte": "Santos Padres e Doutores da Igreja (domínio público)",
+        "licenca": "Domínio público",
+        "nota": "Tradução livre do latim (Confessiones) para fins devocionais."
+      }
+    ]
+  },
+  "santos": [
+    {
+      "nome": "S. João Damasceno, presbítero e doutor da Igreja",
+      "resumo": "João era natural de Damasco, daí a origem do seu nome Damasceno. Nasceu em uma família cristã e seguiu a vida ascética, graças aos ensinamentos do monge Cosme. Grande opositor da iconoclastia, escreveu muitas obras importantes, a ponto de ser proclamado Doutor da Igreja por Leão XIII, em 1890.",
+      "url": "https://www.vaticannews.va/pt/santo-do-dia/12/04/s--joao-damasceno--presbitero-e-doutor-da-igreja.html",
+      "fonte": "Vatican News (Português) — Dicastério para a Comunicação",
+      "licenca": "© Libreria Editrice Vaticana / Dicastério para a Comunicação. Reprodução para fins pastorais e não comerciais, com citação da fonte e link para o original."
+    },
+    {
+      "nome": "S. Bárbara, mártir",
+      "resumo": "Nasceu em Nicomédia no ano 273. Filha de Dióscoro, converteu-se ao cristianismo, o que despertou a ira do seu pai, que tentou dissuadi-la, mas em vão. Condenada, resistiu, milagrosamente, a muitas torturas, até que o próprio pai a decapitou. Santa Bárbara é padroeira dos bombeiros e pirotécnicos.",
+      "url": "https://www.vaticannews.va/pt/santo-do-dia/12/04.html",
+      "fonte": "Vatican News (Português) — Dicastério para a Comunicação",
+      "licenca": "© Libreria Editrice Vaticana / Dicastério para a Comunicação. Reprodução para fins pastorais e não comerciais, com citação da fonte e link para o original."
+    }
+  ],
+  "fontes": [
+    {
+      "id": "cnbb",
+      "nome": "CNBB — Conferência Nacional dos Bispos do Brasil",
+      "url": "https://liturgiadiaria.edicoescnbb.com.br",
+      "nota": "Textos litúrgicos reproduzidos para uso devocional e não comercial. Fonte: CNBB / Edições CNBB."
+    },
+    {
+      "id": "vaticannews",
+      "nome": "Vatican News (Português) — Dicastério para a Comunicação",
+      "url": "https://www.vaticannews.va/pt.html",
+      "nota": "© Libreria Editrice Vaticana / Dicastério para a Comunicação. Reprodução para fins pastorais e não comerciais, com citação da fonte e link para o original."
+    },
+    {
+      "id": "patristica",
+      "nome": "Santos Padres e Doutores da Igreja (domínio público)",
+      "url": "https://www.newadvent.org/fathers/",
+      "nota": "Obras em domínio público; traduções do projeto Via Sacra (GPL-3.0 / CC0 para o texto)."
+    }
+  ],
+  "url_original": "https://liturgiadiaria.edicoescnbb.com.br",
+  "status": {
+    "cnbb": "ok",
+    "vaticano": "ok",
+    "santo_do_dia": "ok",
+    "patristica": "ok"
+  }
+}
